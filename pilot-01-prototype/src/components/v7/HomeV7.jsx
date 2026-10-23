@@ -315,7 +315,7 @@ function HeroRebate({ locale, venue, amount, quickRef }) {
 
 // Rebate globe (owner 2026-10-22): the partners around a turning dotted globe, each chip with what the visitor's own volume
 // gets back there (same numbers as the figure), arcs and pulses from every partner to "you". The server renders a still
-// SVG globe and the chips in a box whose size comes from CSS only; the canvas animation (home7-globe.js, its own chunk)
+// SVG globe and the chips in a box whose size comes from CSS only; the CSS texture renderer (home7-globe.js, its own chunk)
 // loads after the page has loaded and lays itself over the same circle, so first paint and CLS do not depend on it.
 // Owner 2026-10-22: the figure shows Bitget, OKX, Binance, Hyperliquid and Backpack (not HTX / Gate.io; those stay
 // selectable under the tabs' "更多"). A venue picked in the tabs that is not in this list takes the last slot.

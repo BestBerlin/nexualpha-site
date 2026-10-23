@@ -1,5 +1,5 @@
 import { partnerRegistry } from "./partner-registry.js";
-import { isPartnerPromotableIn, isTurkeyUnlistedVenue, partnerPromotionGate } from "./partner-geo-policy.js";
+import { isPartnerPromotableIn, isTurkeyUnlistedVenue, partnerPromotionGate, turkeyListingAllowed } from "./partner-geo-policy.js";
 import { neutralArticleView } from "./neutral-article.js";
 
 // A locale restriction remains binding even when a permissive market is supplied.
@@ -38,6 +38,7 @@ function patternsFor(context) {
 // Neutral editions keep informational research sources; neutralArticleView removes their CTAs.
 // Territorial venue bans remove shared metadata and links that could reintroduce a restricted venue.
 export function newsMetadataAllowed(value, context = {}) {
+  if (!turkeyListingAllowed(value, context)) return false;
   const patterns = patternsFor(context);
   if (!patterns.length) return true;
   const text = typeof value === "string" ? value : JSON.stringify(value || "");
@@ -47,7 +48,7 @@ export function newsMetadataAllowed(value, context = {}) {
 function filterMetadata(value, context) {
   if (Array.isArray(value)) return value.filter(item => newsMetadataAllowed(item, context)).map(item => filterMetadata(item, context));
   if (value && typeof value === "object") return Object.fromEntries(Object.entries(value)
-    .filter(([, item]) => typeof item !== "string" || newsMetadataAllowed(item, context))
+    .filter(([key, item]) => newsMetadataAllowed(key, context) && (typeof item !== "string" || newsMetadataAllowed(item, context)))
     .map(([key, item]) => [key, filterMetadata(item, context)]));
   return value;
 }
@@ -55,9 +56,6 @@ function filterMetadata(value, context) {
 export function newsArticleGeoView(article, context = {}) {
   if (!article) return article;
   const view = { ...neutralArticleView(article, context.locale) };
-  for (const key of ["sources", "seo", "aeo", "geo", "internalLinks", "relatedLinks", "relatedVenues", "tags", "topicTags", "cta"]) {
-    if (key in view) view[key] = filterMetadata(view[key], context);
-  }
   if (article.cta?.venue && !newsVenueAllowed(article.cta.venue, context)) delete view.cta;
   // A request market can restrict the requested edition too. Retain only safe text;
   // existing source-language fallback chooses a remaining verified edition.
@@ -76,12 +74,16 @@ export function newsArticleGeoView(article, context = {}) {
       availableLocales: safeLocales,
     };
   }
-  return view;
+  // Project the whole record, including researchClaims, marketFacts, entity maps and
+  // future feed fields. Drop a restricted array record atomically so its ticker or
+  // source IDs cannot survive after its venue text is removed. Never mutate the feed.
+  return filterMetadata(view, context);
 }
 
 export function newsArticleGeoPool(articles, context = {}, keepSlug) {
-  return (articles || []).filter(article => article.slug === keepSlug || newsMetadataAllowed([
+  return (articles || []).filter(article => newsMetadataAllowed([
     article.slug, article.title?.[context.locale] || article.title?.en,
-    article.summary?.[context.locale] || article.summary?.en,
-  ], context)).map(article => newsArticleGeoView(article, context));
+  ], context) && (article.slug === keepSlug || newsMetadataAllowed(
+    article.summary?.[context.locale] || article.summary?.en, context,
+  ))).map(article => newsArticleGeoView(article, context));
 }

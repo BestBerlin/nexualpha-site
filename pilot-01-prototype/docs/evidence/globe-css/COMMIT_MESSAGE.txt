@@ -1,0 +1,11 @@
+Keep the hero Earth alive without idle JavaScript
+
+Replace the frame loop with a one-time land texture and CSS-owned motion while preserving the SSR stage and chip data.
+
+Constraint: Globe remains lazy and below 8 KB gzip including its land mask.
+Rejected: Retire animation after eight seconds | The owner requires continuous rotation.
+Confidence: medium
+Scope-risk: narrow
+Tested: Full build, strict budget, typecheck, targeted home/globe tests, deterministic before/after SVG renders.
+Not-tested: Real browser compositor, responsive appearance, idle-JS measurement and CLS are blocked by browser policy.
+Co-Authored-By: Codex <noreply@openai.com>

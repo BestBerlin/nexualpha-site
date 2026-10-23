@@ -1,0 +1,9 @@
+Make shared links reveal each page's own identity and checked facts
+
+Constraint: Preserve /og endpoints, public CTA projection, cache behavior, and the home bundle budget.
+Rejected: Request-time WebP conversion | resvg 2.6.2 cannot decode the existing tiles; ship PNG exports instead.
+Confidence: high
+Scope-risk: narrow
+Tested: 45 targeted tests passed; one loopback HTTP test skipped; typecheck, syntax, and emitted-client budget passed.
+Not-tested: Full prerender blocked by unavailable Inlang CDN plugins; Linux font-mount and production browser review remain for integration.
+Co-Authored-By: Codex <noreply@openai.com>

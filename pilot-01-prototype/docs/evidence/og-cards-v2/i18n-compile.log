@@ -1,0 +1,20 @@
+
+> pilot-01-prototype@3.0.0 i18n:compile
+> paraglide-js compile --project ./project.inlang --outdir ./src/paraglide
+
+ℹ [paraglide-js] Compiling inlang project ...
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+TypeError: fetch failed
+
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+TypeError: fetch failed
+
+✔ [paraglide-js] Successfully compiled inlang project.

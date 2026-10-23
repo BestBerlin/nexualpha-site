@@ -1279,7 +1279,7 @@
 @media(min-width:1024px){@ .h7-hero:has(>.h7-trust-line):not([data-neutral]){grid-template-areas:"head device" "panel device" "trust trust"}@ .h7-hero:not([data-neutral]) .hx-hero-panel.h7-lg{align-self:stretch}}
 
 /* Rebate globe (owner 2026-10-22): a still SVG globe and the partner chips are server-rendered in a box whose size
-   comes from CSS only; the canvas (home7-globe.js) arrives after load and lays itself over the same circle. */
+   comes from CSS only; the lazy texture renderer arrives after load and lays itself over the same circle. */
 @ .hx-stage{grid-area:device;position:relative;min-inline-size:0;inline-size:100%;margin:0;display:flex;flex-direction:column;font-family:var(--hx-font)}
 @ .hx-stage-art{position:relative;inline-size:100%;flex:1;block-size:300px;min-block-size:300px;contain:layout paint}
 @ .hx-stage-art::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(closest-side circle at 50% 50%,rgb(31 224 192/.16),rgb(49 92 255/.05) 70%,transparent)}
@@ -1290,6 +1290,31 @@
 @ .hx-globe-hub{fill:#EFFFFC;transition:opacity .6s var(--ease-out)}
 @ .hx-stage[data-live] :is(.hx-globe-grid,.hx-globe-hub){opacity:0}
 @ .hx-globe{position:absolute;inset:0;pointer-events:none}
+/* The two-period texture is rasterized once; translation is the only work needed to turn the Earth.
+   Lighting/grid/routes stay fixed. No animated gradient, filter, or canvas paint. */
+@ .hx-earth{position:absolute;inset:0;opacity:0;transition:opacity .6s var(--ease-out)}
+@ .hx-stage[data-live] .hx-earth{opacity:1}
+@ .hx-stage[data-live] .hx-globe-svg{opacity:0}
+@ .hx-earth-disc{position:absolute;border-radius:50%;overflow:hidden;isolation:isolate;direction:ltr;background:radial-gradient(circle at 30% 28%,#12323a,#091c26 50%,#05090f);box-shadow:0 0 24px rgb(31 224 192/.14),0 0 2px 1px rgb(127 231 255/.4)}
+@ .hx-earth-map{position:absolute;left:0;top:0;width:400%;max-width:none;height:100%;animation:hx-earth-turn 72s linear infinite;will-change:transform}
+@ .hx-earth-disc::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at 28% 25%,rgb(190 250 255/.15),transparent 35%),radial-gradient(circle at 90% 70%,rgb(2 4 6/.88),rgb(2 4 6/.6) 36%,transparent 70%),radial-gradient(circle,transparent 55%,rgb(2 6 10/.66) 100%);box-shadow:inset 0 0 12px rgb(127 231 255/.26)}
+@ .hx-earth-grid{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:rgb(31 224 192/.09);stroke-width:.25}
+@ .hx-earth-routes{position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:none;stroke:#1fe0c0;stroke-width:1}
+@ .hx-earth-leader{stroke-opacity:.22;stroke-dasharray:2 4}
+@ .hx-earth-arc{stroke-opacity:.42}
+@ .hx-earth-node{fill:#1fe0c0;stroke:none}
+@ .hx-earth-routes [data-on="true"]{stroke:#7fe7ff}
+@ .hx-earth-routes [data-on="true"] .hx-earth-arc{stroke-width:1.6;stroke-opacity:.85}
+@ .hx-earth-routes [data-on="true"] .hx-earth-node{fill:#7fe7ff}
+@ .hx-earth-pulse{fill:#effffc;stroke:rgb(127 231 255/.24);stroke-width:5;offset-rotate:0deg;animation:hx-earth-flow 2.6s linear infinite}
+@ .hx-earth-routes [data-on="true"] .hx-earth-pulse{animation-duration:1.9s}
+@ .hx-earth-hub{fill:#effffc;stroke:none}
+@ .hx-earth-beat{stroke:#7fe7ff;transform-box:fill-box;transform-origin:center;animation:hx-earth-beat 2.4s ease-out infinite}
+@ .hx-stage[data-paused="true"] .hx-earth *{animation-play-state:paused!important}
+@keyframes hx-earth-turn{to{transform:translateX(-50%)}}
+@keyframes hx-earth-flow{to{offset-distance:100%}}
+@keyframes hx-earth-beat{from{transform:scale(.5);opacity:.6}to{transform:scale(2.2);opacity:0}}
+@media(prefers-reduced-motion:reduce){@ .hx-earth{transition:none}@ .hx-earth *{animation:none!important}@ .hx-earth-pulse{display:none}}
 @ .hx-stage-node{position:absolute;z-index:1;display:grid;grid-template-columns:auto auto;grid-template-areas:"i l" "i v";align-items:center;column-gap:8px;padding:7px 12px 7px 8px;border:1px solid var(--hx-line-2);border-radius:12px;background:rgb(9 12 15/.88);box-shadow:0 12px 28px -16px rgb(0 0 0/.9);pointer-events:none;transition:border-color 240ms var(--ease-out),box-shadow 240ms var(--ease-out)}
 @ .hx-stage-node>:first-child{grid-area:i;inline-size:24px;block-size:24px;border-radius:6px}
 @ .hx-stage-label{grid-area:l;font:500 12px/1.3 var(--hx-font);color:var(--hx-ink-3);white-space:nowrap}

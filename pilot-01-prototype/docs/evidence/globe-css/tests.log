@@ -1,0 +1,41 @@
+✔ stage shares actual hero state without a separate volume demo (0.981333ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ localized SSR retains accessible rows and immediate values (4292.47975ms)
+✔ built globe includes its mask within 8 KB gzip and stays outside the home static closure (64.347ms)
+ℹ home-globe-CZwZX7Dc.js: 5140 bytes gzip; home static closure 319124/350000 bytes
+✔ globe has no animation frame loop or timers; CSS owns the continuous 72-second rotation (0.527ms)
+✔ one texture covers two periods, waits for readiness, and survives selection/resize without rebuilding (70.477292ms)
+✔ hidden/offscreen globes pause CSS and resume without requiring interaction (8.588459ms)
+✔ reduced motion remains static on selection and responds to preference changes (7.323667ms)
+✔ missing optional observer/media APIs preserve a static reduced-motion fallback (7.269292ms)
+✔ destroy removes the renderer, listeners and observers; late callbacks are harmless (8.485583ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ the sum is volume × perpetual taker × partner share, read from the sources (4099.287292ms)
+✔ HTX fee comes from the official page (2026-10-14) and HTX is not auto-settled (1.133292ms)
+✔ money format: full figure below 10,000, then the locale's unit (0.200958ms)
+✔ dial: 21 log stops from 1万U to 10 亿 U, default 1000 万 U, ticks on the snap points (0.133375ms)
+✔ sentence: 17 locales, both placeholders, no time unit, no commission or fine print (0.867666ms)
+✔ SSR /zh-hans: live sentence, $3,600, dial at 1000 万 U, code and /go CTA, desktop device screen (143.545292ms)
+✔ SSR Türkiye: OKX first, no Bitget anywhere in the hero (63.647625ms)
+✔ SSR neutral locales: information headline only, no figure, dial, code or /go link (276.011375ms)
+✔ calculator: same volume framing in 17 locales, 1万U → 10 亿 U range, no time words (0.569834ms)
+✔ Gate.io: owner-confirmed 40% (2026-10-15) on the official perpetual fee, so it has a hero amount (0.140375ms)
+✔ stage has no independent volume demo and pauses decorative motion (3.164709ms)
+✔ SSR: the brand mark sits inside the figure's line box (45.635583ms)
+✔ phone header: a compact 美股 pill beside 活动 links to the tokenized-stocks hub (tr too) (121.835417ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ home CSS: only approved state and control loops repeat (4096.833042ms)
+✔ campaign chip repeats a restrained sweep; reduced motion makes the whole home static (0.955291ms)
+✔ ar / ur home: every CTA arrow sits in a span that flips in RTL (95.2535ms)
+✔ ticker: symbols and prices carry no link underline; focus outline kept (0.855ms)
+✔ Brazil page path list matches BRAZIL_PAGES (0.654ms)
+✔ news-library re-exports the listing path helpers unchanged (0.1985ms)
+✔ the router does not import the Brazil content or the news library (1.999917ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14586.972667

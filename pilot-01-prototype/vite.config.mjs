@@ -2,6 +2,9 @@ import { readFile } from "node:fs/promises";
 import { createFundingMatrixReader } from "./server/funding-matrix.mjs";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import cssChunks from "./scripts/route-css-chunks.json" with { type: "json" };
+import { createRouteJsChunks } from "./scripts/route-js-chunks.mjs";
+import localeCopyPlugin from "./scripts/locale-copy-plugin.mjs";
 import { paraglideVitePlugin } from "@inlang/paraglide-js";
 
 const generatedBuildId = `3.0-${new Date().toISOString().replace(/[-:]/g, '').slice(0, 15)}`;
@@ -10,6 +13,8 @@ if (requestedBuildId && !/^3\.0-[0-9A-Za-z._-]{6,64}$/.test(requestedBuildId)) {
   throw new Error("BUILD_ID must use the 3.0- prefix and contain only letters, numbers, dots, underscores or hyphens");
 }
 const buildId = requestedBuildId || generatedBuildId;
+const routeJsChunks = createRouteJsChunks();
+const stylesheetChunkNames = new Set(Object.values(cssChunks));
 const ssrLazyChunkWarningModules = [
   "/src/components/finder/CommandFinder.jsx",
   "/src/components/finder/SearchDialog.jsx",
@@ -131,10 +136,20 @@ export default defineConfig(({ isSsrBuild = false }) => ({
         warn(warning);
       },
       output: {
+        onlyExplicitManualChunks: !isSsrBuild,
         // Keep the large route/editorial surface cacheable independently from
         // the app shell. This reduces repeat navigation cost without changing
         // SSR output or hiding indexable content behind a client-only loader.
-        manualChunks(id, { getModuleInfo }) {
+        manualChunks(id, api) {
+          const { getModuleInfo } = api;
+          if (!isSsrBuild && id.includes("/src/data/seo-injection.js")) throw new Error("seo-injection.js reached the client bundle: " + id);
+          if (!isSsrBuild) {
+            const cssPath = id.slice(id.indexOf("/src/") + 1);
+            if (id.includes("/src/") && cssChunks[cssPath]) return cssChunks[cssPath];
+            const owner = routeJsChunks.chunk(id, api);
+            if (owner) return owner;
+          }
+          const legacyChunk = () => {
           if (isSsrBuild && id.endsWith("/src/data/coins-data.generated.js")) return "shared-coin-rows";
           if (isSsrBuild && id.endsWith("/src/data/exchange-facts.js")) return "shared-exchange-facts";
           if (id.endsWith("/src/data/brazil-vasp-deadline-slugs.js")) return "shared-brazil-paths";
@@ -199,7 +214,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.endsWith("/src/styles/v6/pages-factbook.css")) return "page-factbook-late";
           if (id.endsWith("/src/styles/v6/pages-telegram.css")) return "page-telegram-late";
           if (id.endsWith("/src/components/v3/decision-return-link.css")) return "shared-decision-return";
-          if (id.includes("/node_modules/react/") || id.includes("/node_modules/react-dom/")) return "vendor-react";
+          if (id.includes("/node_modules/react/") || id.includes("/node_modules/react-dom/") || id.includes("/node_modules/scheduler/")) return "vendor-react";
           if (id.includes("/node_modules/@inlang/") || id.includes("/node_modules/@paraglide/")) return "vendor-i18n";
           // Rollup folds the unassigned static dependencies of a manual chunk into that chunk. Before 2026-10-11 that
           // dragged data every page needs (locale routing, CTA copy, exchange facts...) into route chunks, so the
@@ -276,7 +291,10 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/data/")) return "route-data";
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";
           // Academy hub and lesson pages (2026-10-12); each locale's lessons stay a separate lazy chunk.
-          if (id.includes("/src/components/apps/") || id.includes("/src/data/app-download-copy.js")) return "route-apps";
+          // Both the app page and exchange facts use this data. Keep it out of
+          // the page chunk so explicit dependency ownership cannot create a cycle.
+          if (id.endsWith("/src/data/app-download-copy.js") || id.endsWith("/src/data/app-downloads.js")) return "shared-app-downloads";
+          if (id.includes("/src/components/apps/")) return "route-apps";
           if (id.includes("/src/components/academy/") || id.includes("/src/data/academy-copy.js")) return "route-academy";
           // Where to buy <coin> (2026-10-12): pages, model, copy and the coin table; each locale's descriptions stay lazy.
           if (id.includes("/src/components/beginner/") || id.endsWith("/src/data/beginner.js")) return "route-beginner";
@@ -442,6 +460,12 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/v3/VenueYellowPages")) return "route-v3-directory";
           if (id.includes("/src/components/v3/V3Pages")) return "route-v3-pages";
           return undefined;
+          };
+          const name = legacyChunk();
+          // CSS-only chunks retain their SSR names. Unmodeled JS routes must
+          // not turn a shared stylesheet import into a whole-page dependency.
+          return !isSsrBuild && api.getModuleIds && !/\.css(?:\?|$)/.test(id) && stylesheetChunkNames.has(name)
+            ? `${name}-js` : name;
         },
       },
     },
@@ -467,6 +491,25 @@ export default defineConfig(({ isSsrBuild = false }) => ({
     },
   },
   plugins: [
+    localeCopyPlugin(),
+    {
+      name: "nexualpha-stable-deferred-css-order",
+      enforce: "pre",
+      transform(code, id, options) {
+        if (options?.ssr || !id.endsWith(CLIENT_ENTRY_SUFFIX)) return null;
+        // These groups used to be visited through the V3/venue static imports.
+        // Visit their CSS in that same order before the now-deferred modules.
+        const styles = [
+          "components/v3/profile-density.css", "components/v3/referral-native-answers.css",
+          "components/v3/venue-page-slimming.css", "components/v3/HyperliquidFeeScenario.css",
+          "components/v3/activity/campaign-join.css", "components/v3/activity/ActivityCenterV3.css",
+          "styles/v9/activities9.css", "components/v3/activity/live-campaigns.css",
+          "components/v3/activity/OfficialResearch.css", "components/v3/activity/activity-update.css",
+        ];
+        return { code: styles.map((style) => `import "./${style}";`).join("\n") + "\n" + code, map: null };
+      },
+    },
+    { name: "nexualpha-route-js-owners", buildStart() { routeJsChunks.reset(); reachabilityCache.clear(); } },
     // Module ownership survives manual chunk aliases, whose manifest keys no
     // longer contain the original component path. Build-only; no entry JS.
     ...(!isSsrBuild ? [{ name: "nexualpha-style-module-manifest", generateBundle(_options, bundle) {

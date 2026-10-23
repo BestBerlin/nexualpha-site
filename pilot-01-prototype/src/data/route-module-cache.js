@@ -14,11 +14,13 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   finder: "./components/finder/CommandFinder.jsx",
   searchDialog: "./components/finder/SearchDialog.jsx",
   v3Pages: "./components/v3/V3Pages.jsx",
+  activityPages: "./components/v3/activity/ActivityPages.jsx",
   // venue-graph perf lane 2026-10-11: the venue detail route left V3Pages.jsx so /exchanges/<slug> stops loading the
   // compare, activity and topic-guide graphs (39 chunks, 1.3 MB) after hydration.
   venueDetail: "./components/v3/VenueDetailPage.jsx",
   // Its collapsed "Sources" hub: not preloaded for the route; App.jsx loads it when the disclosure opens.
   venueResearch: "./components/v3/VenueDetailResearch.jsx",
+  venueFeeScenario: "./components/v3/HyperliquidFeeScenario.jsx",
   activityUpdate: "./components/v3/activity/ActivityUpdatePage.jsx",
   officialResearch: "./components/v3/activity/OfficialResearch.jsx",
   newsDetail: "./components/v3/news/NewsDetailPage.jsx",
@@ -215,7 +217,8 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "autodraftCampaign") return [ROUTE_MODULE_PATHS.autodraftCampaign];
   if (name === "krakenUsdg") return [ROUTE_MODULE_PATHS.krakenUsdg];
   if (name === "venue") return [ROUTE_MODULE_PATHS.venueDetail];
-  if (["activity", "activities", "compare", "compareHub", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
+  if (["activity", "activities"].includes(name)) return [ROUTE_MODULE_PATHS.activityPages];
+  if (["compare", "compareHub", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
   if (name === "activityUpdate") return [ROUTE_MODULE_PATHS.activityUpdate];
   if (name === "research") return [ROUTE_MODULE_PATHS.officialResearch];
   if (name === "newsDetail") return [ROUTE_MODULE_PATHS.newsDetail, ...glossaryLinkPaths(sourceUrl)];

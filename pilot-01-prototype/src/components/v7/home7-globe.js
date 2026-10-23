@@ -1,21 +1,6 @@
-// Hero globe (owner 2026-10-22, Earth pass 2026-10-23): a slowly turning Earth drawn as dotted continents — a fixed sun
-// gives it a day side, a soft terminator and a night side where the land still reads faintly — with an atmosphere rim and
-// a faint ocean glint, plus one lifted arc from every partner to "you" (the hub on the front of the sphere) and pulses that
-// run along the arcs toward you: rebates flowing back. Canvas 2D, no dependencies, loaded after first paint by RebateStage
-// (HomeV7.jsx); the server-rendered SVG globe and venue chips stay underneath, so nothing moves when this arrives. Draws at
-// most ~30 fps for an eight-second intro, then rests until interaction; stops off-screen or in a hidden tab, and
-// paints a single still frame under prefers-reduced-motion.
-const IDLE_MS = 8000;
-const TEAL = "31,224,192", ICE = "127,231,255";
-// Partner positions on the sphere (lat, lon in degrees), by chip slot: spread so each faces the viewer in turn.
-const SPOTS = [[34, -52], [26, 58], [-20, -128], [-28, 118], [-44, 4]];
-const TILT = -0.38; // the sphere leans toward the viewer
-const unit = (v) => { const l = Math.hypot(...v); return v.map((n) => n / l); };
-const HUB = unit([-0.16, -0.26, 1]);
-// The sun sits up and to the left, a little in front: day on the left, the terminator crossing the right third.
-const SUN = unit([-0.76, -0.4, 0.44]);
-const GLINT = unit([SUN[0], SUN[1], SUN[2] + 1]); // where the sun reflects toward the viewer
-
+// Lazy hero renderer: the idle callback in RebateStage builds one dotted map, then CSS owns every frame.
+// Two equirectangular periods translate behind a fixed circular mask and spherical light/shadow layers.
+// No animation clock, canvas redraw, or dependency enters the home entry; the SSR SVG stays until the image loads.
 // Coastlines, hand-traced at about 1-2 degrees (enough for a 200-600 px dotted globe): flat [lon, lat, lon, lat, ...] rings.
 // LAKES are cut back out of the land (enclosed seas). Points inside a ring become land dots once, when the globe mounts.
 const LAND = [
@@ -95,278 +80,119 @@ function landDots(n) {
   return new Float32Array(out);
 }
 
-const vec = ([lat, lon]) => {
-  const a = (lat * Math.PI) / 180, b = (lon * Math.PI) / 180;
-  return [Math.cos(a) * Math.sin(b), -Math.sin(a), Math.cos(a) * Math.cos(b)];
+const NS = "http://www.w3.org/2000/svg";
+const svgElement = (name, attrs = {}) => {
+  const node = document.createElementNS(NS, name);
+  for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value);
+  return node;
 };
-// Dot shades, dim night side to lit day side: one fill per band per frame.
-const BANDS = [
-  `rgba(${TEAL},0.13)`, `rgba(${TEAL},0.22)`, `rgba(${TEAL},0.36)`, `rgba(${TEAL},0.52)`,
-  `rgba(${TEAL},0.7)`, `rgba(96,236,214,0.86)`, `rgba(168,246,236,0.95)`,
-];
+
+// A rasterizable SVG image (not thousands of live DOM dots). Each 720 px period represents all 360 degrees;
+// the circular viewport shows half a period. At -50% translation the second copy exactly replaces the first.
+function landTexture() {
+  const points = landDots(12000), dots = [];
+  for (let i = 0; i < points.length; i += 3) {
+    const lon = (Math.atan2(points[i], points[i + 2]) * 180 / Math.PI + 360) % 360;
+    const lat = Math.asin(-points[i + 1]) * 180 / Math.PI;
+    const x = (lon * 2).toFixed(1), y = (180 - lat * 2).toFixed(1);
+    dots.push(`M${x} ${y}h2v2h-2z`);
+  }
+  const svg = `<svg xmlns="${NS}" width="1440" height="360" viewBox="0 0 1440 360"><defs><path id="land" d="${dots.join("")}"/></defs><g fill="#6cecd6"><use href="#land"/><use href="#land" x="720"/></g></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+// Decorative positions on the visible hemisphere; chip order/content still comes from RebateStage.
+const SPOTS = [[-.6, -.42], [.62, -.25], [-.58, .5], [.62, .47], [.12, .75]];
 
 export function mountGlobe(host, stage, still) {
-  const canvas = document.createElement("canvas");
-  let ctx = canvas.getContext?.("2d");
-  // The Earth itself (air, sea, land dots) is drawn into its own layer and only redrawn once the globe has turned about a
-  // third of a degree (~17 fps at one turn a minute); arcs and pulses on top keep the ~30 fps frame. Keeps idle JS low.
-  const layer = document.createElement("canvas"), lctx = layer.getContext?.("2d");
-  let drawnAt = NaN;
+  const root = document.createElement("div"), disc = document.createElement("div"), map = document.createElement("img");
+  root.className = "hx-earth";
+  root.setAttribute("aria-hidden", "true");
+  disc.className = "hx-earth-disc";
+  map.className = "hx-earth-map";
+  map.alt = "";
+  map.draggable = false;
+  const grid = svgElement("svg", { viewBox: "-50 -50 100 100", class: "hx-earth-grid" });
+  for (const rx of [14, 31]) grid.append(svgElement("ellipse", { rx, ry: 50 }));
+  for (const cy of [-30, 0, 30]) grid.append(svgElement("ellipse", { cy, rx: Math.sqrt(2500 - cy * cy), ry: 9 }));
+  disc.append(map, grid);
+  const routes = svgElement("svg", { class: "hx-earth-routes" });
+  root.append(disc, routes);
+  host.append(root);
+
   const motion = window.matchMedia?.("(prefers-reduced-motion: reduce)");
   still = motion?.matches ?? still;
-  if (!ctx) return null;
-  canvas.setAttribute("aria-hidden", "true");
-  canvas.style.cssText = "position:absolute;inset:0;inline-size:100%;block-size:100%;opacity:0;transition:opacity .6s cubic-bezier(.16,1,.3,1);pointer-events:none";
-  host.append(canvas);
-
-  let w = 0, h = 0, cx = 0, cy = 0, r = 0, dpr = 1, count = 0, pts = new Float32Array(0), shade = new Uint8Array(0), px = pts;
-  // Start with Asia facing the viewer; the globe then turns west to east like the Earth (about one turn a minute).
-  let chips = [], anchors = [], selected = null, raf = 0, reveal = 0, last = 0, visible = true, angle = -1.9;
-  let disposed = false, idleAt = performance.now() + IDLE_MS;
-  const spin = (v, a) => {
-    // Turn about the vertical axis, then lean toward the viewer.
-    const ca = Math.cos(a), sa = Math.sin(a), x = v[0] * ca + v[2] * sa, z = -v[0] * sa + v[2] * ca;
-    const ct = Math.cos(TILT), st = Math.sin(TILT);
-    return [x, v[1] * ct - z * st, v[1] * st + z * ct];
-  };
-
-  const measure = () => {
-    const rect = host.getBoundingClientRect();
-    const ring = stage.querySelector(".hx-globe-svg circle")?.getBoundingClientRect();
-    w = rect.width; h = rect.height;
-    if (!w || !h) return;
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = layer.width = Math.round(w * dpr); canvas.height = layer.height = Math.round(h * dpr);
-    drawnAt = NaN;
-    // Same circle as the server-rendered SVG, so the canvas lands exactly on it.
-    if (ring?.width) { r = ring.width / 2; cx = ring.left - rect.left + r; cy = ring.top - rect.top + r; }
-    else { r = Math.min(w, h) * 0.34; cx = w / 2; cy = h / 2; }
-    // About 5-6 px between dots at any size; the land keeps roughly 30 % of them.
-    const n = Math.round(Math.min(9000, Math.max(3600, r * r * 0.36)) / 400) * 400;
-    if (n !== count) { count = n; pts = landDots(n); shade = new Uint8Array(pts.length / 3); px = new Float32Array(pts.length); }
-    chips = [...stage.querySelectorAll(".hx-stage-node")];
-    anchors = chips.map((chip) => {
-      const c = chip.getBoundingClientRect();
-      const x = Math.min(Math.max(cx, c.left - rect.left), c.right - rect.left);
-      const y = Math.min(Math.max(cy, c.top - rect.top), c.bottom - rect.top);
-      return { x, y, slug: chip.dataset.venue };
-    });
-  };
-
-  const disc = (fill) => { ctx.fillStyle = fill; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill(); };
-  const drawEarth = () => {
-    // Atmosphere: a soft rim that is brighter on the sunlit side, drawn behind the sphere.
-    const ax = cx + SUN[0] * r * 0.08, ay = cy + SUN[1] * r * 0.08;
-    const air = ctx.createRadialGradient(ax, ay, r * 0.92, ax, ay, r * 1.2);
-    air.addColorStop(0, `rgba(${ICE},0.3)`); air.addColorStop(0.35, `rgba(${TEAL},0.12)`); air.addColorStop(1, `rgba(${TEAL},0)`);
-    ctx.fillStyle = air; ctx.beginPath(); ctx.arc(cx, cy, r * 1.2, 0, Math.PI * 2); ctx.fill();
-    // Ocean body, lit from the sun's side: deep teal by day, near-black by night.
-    const sx = cx + SUN[0] * r * 0.55, sy = cy + SUN[1] * r * 0.55;
-    const sea = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 1.55);
-    sea.addColorStop(0, "#133a43"); sea.addColorStop(0.4, "#0b2229"); sea.addColorStop(0.72, "#060d11"); sea.addColorStop(1, "#040608");
-    disc(sea);
-
-    // Faint graticule (every 30 degrees) turning with the land, front half only.
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = `rgba(${TEAL},0.07)`;
-    ctx.beginPath();
-    for (let m = 0; m < 11; m += 1) {
-      let pen = false;
-      for (let k = 0; k <= 60; k += 1) {
-        const u = (k / 60) * Math.PI * 2;
-        const lat = ((m - 8) * Math.PI) / 6; // m 6..10: parallels at -60..60
-        const v = m < 6
-          ? spin([Math.cos(u) * Math.sin((m * Math.PI) / 6), Math.sin(u), Math.cos(u) * Math.cos((m * Math.PI) / 6)], angle)
-          : spin([Math.cos(lat) * Math.cos(u), -Math.sin(lat), Math.cos(lat) * Math.sin(u)], angle);
-        if (v[2] < 0) { pen = false; continue; }
-        if (pen) ctx.lineTo(cx + v[0] * r, cy + v[1] * r); else ctx.moveTo(cx + v[0] * r, cy + v[1] * r);
-        pen = true;
-      }
-    }
-    ctx.stroke();
-
-    // Land dots, shaded by the sun (soft terminator) and by how squarely they face the viewer.
-    const ca = Math.cos(angle), sa = Math.sin(angle), ct = Math.cos(TILT), st = Math.sin(TILT);
-    const base = r > 150 ? 2.1 : r > 100 ? 1.8 : 1.5, top = BANDS.length - 1;
-    for (let i = 0, j = 0; i < pts.length; i += 3, j += 1) {
-      const ox = pts[i], oy = pts[i + 1], oz = pts[i + 2];
-      const x = ox * ca + oz * sa, z0 = -ox * sa + oz * ca, y = oy * ct - z0 * st, z = oy * st + z0 * ct;
-      if (z <= 0.02) { shade[j] = 255; continue; }
-      const lit = x * SUN[0] + y * SUN[1] + z * SUN[2];
-      const day = Math.min(1, Math.max(0, (lit + 0.12) / 0.4)); // terminator about 13 degrees wide
-      const level = (0.12 + 0.88 * day * day * (3 - 2 * day)) * (0.45 + 0.55 * Math.min(1, z * 1.6));
-      shade[j] = Math.min(top, Math.floor(level * BANDS.length));
-      px[j * 3] = cx + x * r; px[j * 3 + 1] = cy + y * r; px[j * 3 + 2] = base * (0.55 + 0.45 * z);
-    }
-    for (let band = 0; band <= top; band += 1) {
-      ctx.fillStyle = BANDS[band];
-      ctx.beginPath();
-      for (let j = 0; j < shade.length; j += 1) {
-        if (shade[j] !== band) continue;
-        const s = px[j * 3 + 2];
-        ctx.rect(px[j * 3] - s / 2, px[j * 3 + 1] - s / 2, s, s);
-      }
-      ctx.fill();
-    }
-
-    // Ocean glint where the sun reflects toward the viewer, and a fresnel rim that wraps the edge in air.
-    const gx = cx + GLINT[0] * r, gy = cy + GLINT[1] * r;
-    const glint = ctx.createRadialGradient(gx, gy, 0, gx, gy, r * 0.42);
-    glint.addColorStop(0, "rgba(190,250,255,0.13)"); glint.addColorStop(1, "rgba(190,250,255,0)");
-    disc(glint);
-    const rim = ctx.createRadialGradient(cx, cy, r * 0.72, cx, cy, r);
-    rim.addColorStop(0, `rgba(${ICE},0)`); rim.addColorStop(0.82, `rgba(${ICE},0.05)`); rim.addColorStop(1, `rgba(${ICE},0.22)`);
-    disc(rim);
-    // Night side: a shadow over the far half so the terminator reads as a curve, not just dimmer dots.
-    const nx = cx - SUN[0] * r * 1.05, ny = cy - SUN[1] * r * 1.05;
-    const night = ctx.createRadialGradient(nx, ny, 0, nx, ny, r * 1.3);
-    night.addColorStop(0, "rgba(2,4,6,0.62)"); night.addColorStop(0.5, "rgba(2,4,6,0.34)"); night.addColorStop(0.8, "rgba(2,4,6,0.08)"); night.addColorStop(1, "rgba(2,4,6,0)");
-    disc(night);
-  };
-
-  const draw = (now) => {
-    if (!w || !h) return;
-    if (lctx && !(Math.abs(angle - drawnAt) < 0.006)) {
-      const main = ctx;
-      ctx = lctx;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, w, h);
-      drawEarth();
-      ctx = main;
-      drawnAt = angle;
-    }
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, w, h);
-    if (lctx) ctx.drawImage(layer, 0, 0, w, h); else drawEarth();
-
-    const hx = cx + HUB[0] * r, hy = cy + HUB[1] * r;
-    ctx.lineCap = "round";
-    anchors.forEach((anchor, index) => {
-      const spot = SPOTS[index % SPOTS.length];
-      const node = spin(vec(spot), angle);
-      const on = anchor.slug === selected;
-      const nx = cx + node[0] * r, ny = cy + node[1] * r, front = node[2];
-      // Leader from the chip to its point on the sphere while that point faces the viewer.
-      if (front > 0.05) {
-        ctx.strokeStyle = `rgba(${on ? ICE : TEAL},${(on ? 0.5 : 0.22) * Math.min(1, front * 2)})`;
-        ctx.lineWidth = 1;
-        ctx.setLineDash([2, 4]);
-        ctx.beginPath(); ctx.moveTo(anchor.x, anchor.y); ctx.lineTo(nx, ny); ctx.stroke();
-        ctx.setLineDash([]);
-      }
-      // Arc from the partner to the hub, lifted off the surface (slerp + height), hidden where the sphere covers it.
-      const dot = Math.max(-1, Math.min(1, node[0] * HUB[0] + node[1] * HUB[1] + node[2] * HUB[2]));
-      const omega = Math.acos(dot), sin = Math.sin(omega) || 1, lift = 0.05 + omega * 0.07, steps = 28;
-      const path = [];
-      for (let k = 0; k <= steps; k += 1) {
-        const t = k / steps, a = Math.sin((1 - t) * omega) / sin, b = Math.sin(t * omega) / sin, m = 1 + lift * Math.sin(Math.PI * t);
-        const x = (node[0] * a + HUB[0] * b) * m, y = (node[1] * a + HUB[1] * b) * m, z = (node[2] * a + HUB[2] * b) * m;
-        path.push([cx + x * r, cy + y * r, z < 0 && x * x + y * y < 1 ? 0 : Math.min(1, 0.35 + Math.max(0, z))]);
-      }
-      ctx.lineWidth = on ? 1.6 : 1;
-      for (let k = 1; k < path.length; k += 1) {
-        const alpha = Math.min(path[k - 1][2], path[k][2]);
-        if (!alpha) continue;
-        ctx.strokeStyle = `rgba(${on ? ICE : TEAL},${(on ? 0.85 : 0.42) * alpha})`;
-        ctx.beginPath(); ctx.moveTo(path[k - 1][0], path[k - 1][1]); ctx.lineTo(path[k][0], path[k][1]); ctx.stroke();
-      }
-      // Pulses run partner → you; the selected partner sends two.
-      if (!still) {
-        for (let p = 0; p < (on ? 2 : 1); p += 1) {
-          const t = ((now / (on ? 1900 : 2600)) + index * 0.23 + p * 0.5) % 1;
-          const at = path[Math.min(steps, Math.round(t * steps))];
-          if (!at[2]) continue;
-          ctx.fillStyle = `rgba(${ICE},${0.22 * at[2]})`;
-          ctx.beginPath(); ctx.arc(at[0], at[1], on ? 5 : 4, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = `rgba(255,255,255,${0.9 * at[2]})`;
-          ctx.beginPath(); ctx.arc(at[0], at[1], on ? 2 : 1.5, 0, Math.PI * 2); ctx.fill();
-        }
-      }
-      if (front > 0) {
-        ctx.fillStyle = `rgba(${on ? ICE : TEAL},${Math.min(1, 0.3 + front)})`;
-        ctx.beginPath(); ctx.arc(nx, ny, on ? 3.2 : 2.4, 0, Math.PI * 2); ctx.fill();
-      }
-    });
-    // The hub: where the rebates land.
-    const beat = still ? 0.4 : (now % 2400) / 2400;
-    ctx.strokeStyle = `rgba(${ICE},${0.6 * (1 - beat)})`;
-    ctx.lineWidth = 1.2;
-    ctx.beginPath(); ctx.arc(hx, hy, 4 + beat * 14, 0, Math.PI * 2); ctx.stroke();
-    ctx.fillStyle = "#EFFFFC";
-    ctx.beginPath(); ctx.arc(hx, hy, 3.4, 0, Math.PI * 2); ctx.fill();
-  };
-
-  const frame = (now) => {
-    raf = 0;
-    if (disposed || still || !visible || document.hidden || now >= idleAt) { sync(); return; }
-    if (now - last >= 32) {
-      angle += Math.min(64, now - (last || now)) * 0.00011; // one turn in about a minute
-      last = now;
-      draw(now);
-    }
-    raf = requestAnimationFrame(frame);
-  };
-  const run = () => {
-    if (disposed || !visible || document.hidden) return;
-    if (!raf && performance.now() < idleAt) { last = 0; raf = requestAnimationFrame(frame); }
-  };
-  const halt = () => { cancelAnimationFrame(raf); raf = 0; };
+  let disposed = false, visible = true, selected = null;
   const sync = () => {
     if (disposed) return;
-    const paused = still || !visible || document.hidden || performance.now() >= idleAt;
-    stage.dataset.paused = String(paused);
-    if (paused) {
-      halt();
-      // A hidden resize clears the bitmap; show a fresh still on return even
-      // when the animation budget has expired.
-      if (visible && !document.hidden) draw(still ? 0 : performance.now());
-    } else run();
+    stage.dataset.paused = String(still || !visible || document.hidden);
   };
-  // No idle interval/timeout: the final frame retires its own loop. Returning to a
-  // tab or viewport does not renew an expired intro; only meaningful interaction does.
-  const interact = () => {
-    if (disposed || still) return;
-    idleAt = performance.now() + IDLE_MS;
-    if (!raf) sync();
-  };
-  const preference = (event) => {
+  const measure = () => {
     if (disposed) return;
-    still = event.matches;
-    sync();
+    const rect = host.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    // Match the actual SSR sphere, not its larger atmospheric halo. The box itself remains CSS-reserved.
+    const ring = stage.querySelector(".hx-globe-rim")?.getBoundingClientRect();
+    const r = ring?.width ? ring.width / 2 : Math.min(rect.width, rect.height) * .34;
+    const cx = ring?.width ? ring.left - rect.left + r : rect.width / 2;
+    const cy = ring?.width ? ring.top - rect.top + r : rect.height / 2;
+    Object.assign(disc.style, { left: `${cx - r}px`, top: `${cy - r}px`, width: `${2 * r}px`, height: `${2 * r}px` });
+    routes.setAttribute("viewBox", `0 0 ${rect.width} ${rect.height}`);
+    const hx = cx - .16 * r, hy = cy - .26 * r, groups = [];
+    stage.querySelectorAll(".hx-stage-node").forEach((chip, index) => {
+      const [x, y] = SPOTS[index % SPOTS.length], nx = cx + x * r, ny = cy + y * r;
+      const box = chip.getBoundingClientRect();
+      const ax = Math.min(Math.max(cx, box.left - rect.left), box.right - rect.left);
+      const ay = Math.min(Math.max(cy, box.top - rect.top), box.bottom - rect.top);
+      const bend = r * (.32 + index * .035);
+      const path = `M${nx},${ny} Q${(nx + hx) / 2},${Math.min(ny, hy) - bend} ${hx},${hy}`;
+      const group = svgElement("g", { "data-venue": chip.dataset.venue, "data-on": String(chip.dataset.venue === selected) });
+      group.append(svgElement("path", { d: `M${ax},${ay} L${nx},${ny}`, class: "hx-earth-leader" }));
+      group.append(svgElement("path", { d: path, class: "hx-earth-arc" }));
+      group.append(svgElement("circle", { cx: nx, cy: ny, r: 2.5, class: "hx-earth-node" }));
+      const pulse = svgElement("circle", { r: 2, class: "hx-earth-pulse" });
+      pulse.style.offsetPath = `path("${path}")`;
+      pulse.style.animationDelay = `${-index * .53}s`;
+      group.append(pulse);
+      groups.push(group);
+    });
+    groups.push(svgElement("circle", { cx: hx, cy: hy, r: 8, class: "hx-earth-beat" }));
+    groups.push(svgElement("circle", { cx: hx, cy: hy, r: 3.4, class: "hx-earth-hub" }));
+    routes.replaceChildren(...groups);
   };
-  const interactions = ["pointerenter", "pointermove", "pointerdown", "focusin"];
-
-  const io = typeof IntersectionObserver === "function" ? new IntersectionObserver(([entry]) => { if (disposed) return; visible = entry.isIntersecting; sync(); }) : null;
+  const preference = (event) => { still = event.matches; sync(); };
+  const io = typeof IntersectionObserver === "function" ? new IntersectionObserver(([entry]) => {
+    if (disposed) return;
+    visible = entry.isIntersecting;
+    sync();
+  }) : null;
+  const ro = typeof ResizeObserver === "function" ? new ResizeObserver(measure) : null;
   io?.observe(stage);
-  const ro = typeof ResizeObserver === "function" ? new ResizeObserver(() => { if (disposed) return; measure(); if (visible && !document.hidden && (still || !raf)) draw(performance.now()); }) : null;
   ro?.observe(host);
   stage.querySelectorAll(".hx-stage-node").forEach((chip) => ro?.observe(chip));
   document.addEventListener("visibilitychange", sync);
   motion?.addEventListener?.("change", preference);
-  interactions.forEach((type) => stage.addEventListener(type, interact, { passive: true }));
-
+  map.onload = () => { if (!disposed) stage.setAttribute("data-live", ""); };
+  map.src = landTexture();
   measure();
-  draw(performance.now());
-  stage.setAttribute("data-live", "");
-  reveal = requestAnimationFrame(() => { reveal = 0; if (!disposed) canvas.style.opacity = "1"; });
   sync();
 
   return {
     select(slug) {
       if (disposed) return;
-      selected = slug; measure(); interact();
-      if (visible && !document.hidden && (still || !raf)) draw(performance.now());
+      selected = slug;
+      measure();
     },
     destroy() {
       if (disposed) return;
       disposed = true;
-      cancelAnimationFrame(reveal); reveal = 0;
-      halt(); io?.disconnect(); ro?.disconnect();
+      map.onload = null;
+      io?.disconnect(); ro?.disconnect();
       document.removeEventListener("visibilitychange", sync);
       motion?.removeEventListener?.("change", preference);
-      interactions.forEach((type) => stage.removeEventListener(type, interact));
       stage.removeAttribute("data-live");
-      canvas.remove();
+      stage.removeAttribute("data-paused");
+      root.remove();
     },
   };
 }

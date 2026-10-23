@@ -1,0 +1,1075 @@
+{
+  "method": "Vite manifest static closure of browser entry plus modulePathsForRoute hydration roots; raw and per-file gzip level 6 estimates; deferred dynamic imports excluded; no browser network measurement",
+  "rows": [
+    {
+      "pathname": "/",
+      "roots": [
+        "assets/index-B4A8hvdK.js"
+      ],
+      "jsRequests": 8,
+      "js": {
+        "bytes": 938868,
+        "gzipBytes": 318582
+      },
+      "files": [
+        {
+          "file": "assets/core-shared-CxLMeUCL.js",
+          "bytes": 575438,
+          "gzipBytes": 197434
+        },
+        {
+          "file": "assets/core-ui-CPxPNAWZ.js",
+          "bytes": 44107,
+          "gzipBytes": 17840
+        },
+        {
+          "file": "assets/index-B4A8hvdK.js",
+          "bytes": 109271,
+          "gzipBytes": 34892
+        },
+        {
+          "file": "assets/route-v3-pages-strip-BlmxMovc.js",
+          "bytes": 6127,
+          "gzipBytes": 2747
+        },
+        {
+          "file": "assets/shared-brazil-paths-BWwlqz0u.js",
+          "bytes": 271,
+          "gzipBytes": 210
+        },
+        {
+          "file": "assets/shared-hero-copy-B0Q24wfR.js",
+          "bytes": 7186,
+          "gzipBytes": 3720
+        },
+        {
+          "file": "assets/shared-json-polling-CU55rQSN.js",
+          "bytes": 2232,
+          "gzipBytes": 1069
+        },
+        {
+          "file": "assets/vendor-react-CUZ3TzEi.js",
+          "bytes": 194236,
+          "gzipBytes": 60670
+        }
+      ]
+    },
+    {
+      "pathname": "/exchanges/bitget",
+      "roots": [
+        "assets/index-B4A8hvdK.js",
+        "assets/route-v3-venue-BSRp0Fmm.js"
+      ],
+      "jsRequests": 50,
+      "js": {
+        "bytes": 3323552,
+        "gzipBytes": 1121945
+      },
+      "files": [
+        {
+          "file": "assets/core-shared-CxLMeUCL.js",
+          "bytes": 575438,
+          "gzipBytes": 197434
+        },
+        {
+          "file": "assets/core-ui-CPxPNAWZ.js",
+          "bytes": 44107,
+          "gzipBytes": 17840
+        },
+        {
+          "file": "assets/data-campaign-copy-CLgf9Kxa.js",
+          "bytes": 27949,
+          "gzipBytes": 11408
+        },
+        {
+          "file": "assets/data-decision-content-Cu02VCt8.js",
+          "bytes": 66668,
+          "gzipBytes": 28449
+        },
+        {
+          "file": "assets/data-directory-context-Dp873SNX.js",
+          "bytes": 58389,
+          "gzipBytes": 21024
+        },
+        {
+          "file": "assets/data-news-library-CNPoyG9u.js",
+          "bytes": 53424,
+          "gzipBytes": 22156
+        },
+        {
+          "file": "assets/data-priority-venue-answers-3z8qXdnz.js",
+          "bytes": 84946,
+          "gzipBytes": 23074
+        },
+        {
+          "file": "assets/data-referral-seo-DxlHPCyu.js",
+          "bytes": 41407,
+          "gzipBytes": 15855
+        },
+        {
+          "file": "assets/data-research-D5PwuMHx.js",
+          "bytes": 93811,
+          "gzipBytes": 30604
+        },
+        {
+          "file": "assets/data-telegram-BH9-fgrx.js",
+          "bytes": 89654,
+          "gzipBytes": 25517
+        },
+        {
+          "file": "assets/data-v3-interface-copy-DEHtVExU.js",
+          "bytes": 53997,
+          "gzipBytes": 20010
+        },
+        {
+          "file": "assets/data-v3-product-BVi99vE6.js",
+          "bytes": 143275,
+          "gzipBytes": 45168
+        },
+        {
+          "file": "assets/index-B4A8hvdK.js",
+          "bytes": 109271,
+          "gzipBytes": 34892
+        },
+        {
+          "file": "assets/route-apps-Cog6VBA2.js",
+          "bytes": 50910,
+          "gzipBytes": 18601
+        },
+        {
+          "file": "assets/route-coins-DlJ4-JBu.js",
+          "bytes": 172894,
+          "gzipBytes": 47210
+        },
+        {
+          "file": "assets/route-data-2EDbYMU8.js",
+          "bytes": 205878,
+          "gzipBytes": 66964
+        },
+        {
+          "file": "assets/route-data-assets-CTrwwKvK.js",
+          "bytes": 59956,
+          "gzipBytes": 21147
+        },
+        {
+          "file": "assets/route-funding-matrix-BLcTXOIc.js",
+          "bytes": 34856,
+          "gzipBytes": 11637
+        },
+        {
+          "file": "assets/route-licenses-DKlLC3Xt.js",
+          "bytes": 127781,
+          "gzipBytes": 36987
+        },
+        {
+          "file": "assets/route-news-shared-BXQGIYkz.js",
+          "bytes": 66055,
+          "gzipBytes": 26667
+        },
+        {
+          "file": "assets/route-radar-6fFGHq4p.js",
+          "bytes": 69504,
+          "gzipBytes": 24998
+        },
+        {
+          "file": "assets/route-v3-pages-detail-stocks-DPeZtrD0.js",
+          "bytes": 2295,
+          "gzipBytes": 1033
+        },
+        {
+          "file": "assets/route-v3-pages-return-banner-B1Wi7Pus.js",
+          "bytes": 21837,
+          "gzipBytes": 8441
+        },
+        {
+          "file": "assets/route-v3-pages-shared-D154Qgwr.js",
+          "bytes": 4431,
+          "gzipBytes": 2390
+        },
+        {
+          "file": "assets/route-v3-pages-strip-BlmxMovc.js",
+          "bytes": 6127,
+          "gzipBytes": 2747
+        },
+        {
+          "file": "assets/route-v3-readiness-DvMQ0U3k.js",
+          "bytes": 19838,
+          "gzipBytes": 8757
+        },
+        {
+          "file": "assets/route-v3-registration-KBYi8smY.js",
+          "bytes": 70814,
+          "gzipBytes": 22747
+        },
+        {
+          "file": "assets/route-v3-venue-BSRp0Fmm.js",
+          "bytes": 274840,
+          "gzipBytes": 88317
+        },
+        {
+          "file": "assets/route-v3-venue-faq-BjIFFM_R.js",
+          "bytes": 120611,
+          "gzipBytes": 42832
+        },
+        {
+          "file": "assets/shared-answer-first-D3cuReOc.js",
+          "bytes": 33760,
+          "gzipBytes": 11125
+        },
+        {
+          "file": "assets/shared-brazil-paths-BWwlqz0u.js",
+          "bytes": 271,
+          "gzipBytes": 210
+        },
+        {
+          "file": "assets/shared-campaign-feature-CSSUHIxH.js",
+          "bytes": 21075,
+          "gzipBytes": 9662
+        },
+        {
+          "file": "assets/shared-copy-feedback-ByooC0gS.js",
+          "bytes": 4076,
+          "gzipBytes": 1889
+        },
+        {
+          "file": "assets/shared-exchange-facts-D2b2ZygQ.js",
+          "bytes": 27899,
+          "gzipBytes": 10590
+        },
+        {
+          "file": "assets/shared-fiat-_nuEJ9Fb.js",
+          "bytes": 13260,
+          "gzipBytes": 4743
+        },
+        {
+          "file": "assets/shared-glossary-tooltip-PeTA8LJp.js",
+          "bytes": 20818,
+          "gzipBytes": 5344
+        },
+        {
+          "file": "assets/shared-hero-copy-B0Q24wfR.js",
+          "bytes": 7186,
+          "gzipBytes": 3720
+        },
+        {
+          "file": "assets/shared-hero-lab-copy-C25vDuSG.js",
+          "bytes": 12316,
+          "gzipBytes": 5843
+        },
+        {
+          "file": "assets/shared-hero-verify-copy-DWCdgWKr.js",
+          "bytes": 16083,
+          "gzipBytes": 8019
+        },
+        {
+          "file": "assets/shared-intel-tool-links-BMvXnQPv.js",
+          "bytes": 722,
+          "gzipBytes": 476
+        },
+        {
+          "file": "assets/shared-json-polling-CU55rQSN.js",
+          "bytes": 2232,
+          "gzipBytes": 1069
+        },
+        {
+          "file": "assets/shared-market-events-client-CsdiPpPx.js",
+          "bytes": 1169,
+          "gzipBytes": 656
+        },
+        {
+          "file": "assets/shared-registration-helpers-J4W-P65r.js",
+          "bytes": 7882,
+          "gzipBytes": 4318
+        },
+        {
+          "file": "assets/shared-research-CzHY_0WY.js",
+          "bytes": 9711,
+          "gzipBytes": 4267
+        },
+        {
+          "file": "assets/shared-telegram-cta-BY5DH3sw.js",
+          "bytes": 4324,
+          "gzipBytes": 2531
+        },
+        {
+          "file": "assets/shared-telegram-return-91zPkc3s.js",
+          "bytes": 340,
+          "gzipBytes": 245
+        },
+        {
+          "file": "assets/shared-tokenized-stocks-D5qHH76r.js",
+          "bytes": 57960,
+          "gzipBytes": 17469
+        },
+        {
+          "file": "assets/shared-venue-copy-CBBtsmG8.js",
+          "bytes": 79646,
+          "gzipBytes": 28658
+        },
+        {
+          "file": "assets/shared-whales-Cd-5AmqX.js",
+          "bytes": 57623,
+          "gzipBytes": 15535
+        },
+        {
+          "file": "assets/vendor-react-CUZ3TzEi.js",
+          "bytes": 194236,
+          "gzipBytes": 60670
+        }
+      ]
+    },
+    {
+      "pathname": "/news/api-failover-cancel-control-disclosure-radar",
+      "roots": [
+        "assets/index-B4A8hvdK.js",
+        "assets/route-news-detail-BSW6Qjxp.js",
+        "assets/glossary-links-en-CGOax2N8.js"
+      ],
+      "jsRequests": 50,
+      "js": {
+        "bytes": 3492289,
+        "gzipBytes": 1151393
+      },
+      "files": [
+        {
+          "file": "assets/core-shared-CxLMeUCL.js",
+          "bytes": 575438,
+          "gzipBytes": 197434
+        },
+        {
+          "file": "assets/core-ui-CPxPNAWZ.js",
+          "bytes": 44107,
+          "gzipBytes": 17840
+        },
+        {
+          "file": "assets/data-aeo-questions-C7WNTQNY.js",
+          "bytes": 81097,
+          "gzipBytes": 25771
+        },
+        {
+          "file": "assets/data-brazil-market-BRxbxNLh.js",
+          "bytes": 40098,
+          "gzipBytes": 11759
+        },
+        {
+          "file": "assets/data-directory-context-Dp873SNX.js",
+          "bytes": 58389,
+          "gzipBytes": 21024
+        },
+        {
+          "file": "assets/data-factbook-V9iAfA-l.js",
+          "bytes": 93008,
+          "gzipBytes": 23812
+        },
+        {
+          "file": "assets/data-news-library-CNPoyG9u.js",
+          "bytes": 53424,
+          "gzipBytes": 22156
+        },
+        {
+          "file": "assets/data-promotions-BD7ea2An.js",
+          "bytes": 40438,
+          "gzipBytes": 4473
+        },
+        {
+          "file": "assets/data-referral-seo-DxlHPCyu.js",
+          "bytes": 41407,
+          "gzipBytes": 15855
+        },
+        {
+          "file": "assets/data-research-D5PwuMHx.js",
+          "bytes": 93811,
+          "gzipBytes": 30604
+        },
+        {
+          "file": "assets/data-telegram-BH9-fgrx.js",
+          "bytes": 89654,
+          "gzipBytes": 25517
+        },
+        {
+          "file": "assets/data-topic-guides-DAk7chBm.js",
+          "bytes": 97711,
+          "gzipBytes": 34702
+        },
+        {
+          "file": "assets/data-v3-product-BVi99vE6.js",
+          "bytes": 143275,
+          "gzipBytes": 45168
+        },
+        {
+          "file": "assets/glossary-links-en-CGOax2N8.js",
+          "bytes": 14147,
+          "gzipBytes": 4775
+        },
+        {
+          "file": "assets/index-B4A8hvdK.js",
+          "bytes": 109271,
+          "gzipBytes": 34892
+        },
+        {
+          "file": "assets/route-apps-Cog6VBA2.js",
+          "bytes": 50910,
+          "gzipBytes": 18601
+        },
+        {
+          "file": "assets/route-coins-DlJ4-JBu.js",
+          "bytes": 172894,
+          "gzipBytes": 47210
+        },
+        {
+          "file": "assets/route-data-2EDbYMU8.js",
+          "bytes": 205878,
+          "gzipBytes": 66964
+        },
+        {
+          "file": "assets/route-data-assets-CTrwwKvK.js",
+          "bytes": 59956,
+          "gzipBytes": 21147
+        },
+        {
+          "file": "assets/route-factbook-BshbuyN4.js",
+          "bytes": 134304,
+          "gzipBytes": 43981
+        },
+        {
+          "file": "assets/route-funding-matrix-BLcTXOIc.js",
+          "bytes": 34856,
+          "gzipBytes": 11637
+        },
+        {
+          "file": "assets/route-licenses-DKlLC3Xt.js",
+          "bytes": 127781,
+          "gzipBytes": 36987
+        },
+        {
+          "file": "assets/route-news-detail-BSW6Qjxp.js",
+          "bytes": 97433,
+          "gzipBytes": 36443
+        },
+        {
+          "file": "assets/route-news-shared-BXQGIYkz.js",
+          "bytes": 66055,
+          "gzipBytes": 26667
+        },
+        {
+          "file": "assets/route-radar-6fFGHq4p.js",
+          "bytes": 69504,
+          "gzipBytes": 24998
+        },
+        {
+          "file": "assets/route-topic-guide-Dzd53ghV.js",
+          "bytes": 311007,
+          "gzipBytes": 95987
+        },
+        {
+          "file": "assets/route-topic-guide-bridge-lhBFFwLx.js",
+          "bytes": 8364,
+          "gzipBytes": 3953
+        },
+        {
+          "file": "assets/route-v3-pages-strip-BlmxMovc.js",
+          "bytes": 6127,
+          "gzipBytes": 2747
+        },
+        {
+          "file": "assets/shared-answer-first-D3cuReOc.js",
+          "bytes": 33760,
+          "gzipBytes": 11125
+        },
+        {
+          "file": "assets/shared-brazil-paths-BWwlqz0u.js",
+          "bytes": 271,
+          "gzipBytes": 210
+        },
+        {
+          "file": "assets/shared-campaign-feature-CSSUHIxH.js",
+          "bytes": 21075,
+          "gzipBytes": 9662
+        },
+        {
+          "file": "assets/shared-compare-routes-Bgx_rlNr.js",
+          "bytes": 1104,
+          "gzipBytes": 829
+        },
+        {
+          "file": "assets/shared-copy-feedback-ByooC0gS.js",
+          "bytes": 4076,
+          "gzipBytes": 1889
+        },
+        {
+          "file": "assets/shared-exchange-facts-D2b2ZygQ.js",
+          "bytes": 27899,
+          "gzipBytes": 10590
+        },
+        {
+          "file": "assets/shared-glossary-link-4aV6HaBo.js",
+          "bytes": 1529,
+          "gzipBytes": 871
+        },
+        {
+          "file": "assets/shared-glossary-tooltip-PeTA8LJp.js",
+          "bytes": 20818,
+          "gzipBytes": 5344
+        },
+        {
+          "file": "assets/shared-hero-copy-B0Q24wfR.js",
+          "bytes": 7186,
+          "gzipBytes": 3720
+        },
+        {
+          "file": "assets/shared-hero-lab-copy-C25vDuSG.js",
+          "bytes": 12316,
+          "gzipBytes": 5843
+        },
+        {
+          "file": "assets/shared-hero-verify-copy-DWCdgWKr.js",
+          "bytes": 16083,
+          "gzipBytes": 8019
+        },
+        {
+          "file": "assets/shared-intel-tool-links-BMvXnQPv.js",
+          "bytes": 722,
+          "gzipBytes": 476
+        },
+        {
+          "file": "assets/shared-json-polling-CU55rQSN.js",
+          "bytes": 2232,
+          "gzipBytes": 1069
+        },
+        {
+          "file": "assets/shared-market-events-client-CsdiPpPx.js",
+          "bytes": 1169,
+          "gzipBytes": 656
+        },
+        {
+          "file": "assets/shared-onsite-telegram-handoff-C6wEXbkC.js",
+          "bytes": 10323,
+          "gzipBytes": 4538
+        },
+        {
+          "file": "assets/shared-registration-helpers-J4W-P65r.js",
+          "bytes": 7882,
+          "gzipBytes": 4318
+        },
+        {
+          "file": "assets/shared-research-CzHY_0WY.js",
+          "bytes": 9711,
+          "gzipBytes": 4267
+        },
+        {
+          "file": "assets/shared-telegram-cta-BY5DH3sw.js",
+          "bytes": 4324,
+          "gzipBytes": 2531
+        },
+        {
+          "file": "assets/shared-tokenized-stocks-D5qHH76r.js",
+          "bytes": 57960,
+          "gzipBytes": 17469
+        },
+        {
+          "file": "assets/shared-venue-copy-CBBtsmG8.js",
+          "bytes": 79646,
+          "gzipBytes": 28658
+        },
+        {
+          "file": "assets/shared-whales-Cd-5AmqX.js",
+          "bytes": 57623,
+          "gzipBytes": 15535
+        },
+        {
+          "file": "assets/vendor-react-CUZ3TzEi.js",
+          "bytes": 194236,
+          "gzipBytes": 60670
+        }
+      ]
+    },
+    {
+      "pathname": "/compare/binance-vs-okx",
+      "roots": [
+        "assets/index-B4A8hvdK.js",
+        "assets/route-v3-pages-cfxOG7Pj.js"
+      ],
+      "jsRequests": 65,
+      "js": {
+        "bytes": 5280981,
+        "gzipBytes": 1748055
+      },
+      "files": [
+        {
+          "file": "assets/core-shared-CxLMeUCL.js",
+          "bytes": 575438,
+          "gzipBytes": 197434
+        },
+        {
+          "file": "assets/core-ui-CPxPNAWZ.js",
+          "bytes": 44107,
+          "gzipBytes": 17840
+        },
+        {
+          "file": "assets/data-aeo-questions-C7WNTQNY.js",
+          "bytes": 81097,
+          "gzipBytes": 25771
+        },
+        {
+          "file": "assets/data-brazil-market-BRxbxNLh.js",
+          "bytes": 40098,
+          "gzipBytes": 11759
+        },
+        {
+          "file": "assets/data-campaign-copy-CLgf9Kxa.js",
+          "bytes": 27949,
+          "gzipBytes": 11408
+        },
+        {
+          "file": "assets/data-compare-direct-answers-COQzRVTH.js",
+          "bytes": 183236,
+          "gzipBytes": 50190
+        },
+        {
+          "file": "assets/data-compare-faq-locales-D_is2dGN.js",
+          "bytes": 23318,
+          "gzipBytes": 10585
+        },
+        {
+          "file": "assets/data-compare-generated-CiN_KPz4.js",
+          "bytes": 252257,
+          "gzipBytes": 92574
+        },
+        {
+          "file": "assets/data-decision-content-Cu02VCt8.js",
+          "bytes": 66668,
+          "gzipBytes": 28449
+        },
+        {
+          "file": "assets/data-directory-context-Dp873SNX.js",
+          "bytes": 58389,
+          "gzipBytes": 21024
+        },
+        {
+          "file": "assets/data-factbook-V9iAfA-l.js",
+          "bytes": 93008,
+          "gzipBytes": 23812
+        },
+        {
+          "file": "assets/data-news-library-CNPoyG9u.js",
+          "bytes": 53424,
+          "gzipBytes": 22156
+        },
+        {
+          "file": "assets/data-official-research-lI6bynmd.js",
+          "bytes": 62715,
+          "gzipBytes": 23760
+        },
+        {
+          "file": "assets/data-priority-venue-answers-3z8qXdnz.js",
+          "bytes": 84946,
+          "gzipBytes": 23074
+        },
+        {
+          "file": "assets/data-promotions-BD7ea2An.js",
+          "bytes": 40438,
+          "gzipBytes": 4473
+        },
+        {
+          "file": "assets/data-referral-seo-DxlHPCyu.js",
+          "bytes": 41407,
+          "gzipBytes": 15855
+        },
+        {
+          "file": "assets/data-research-D5PwuMHx.js",
+          "bytes": 93811,
+          "gzipBytes": 30604
+        },
+        {
+          "file": "assets/data-telegram-BH9-fgrx.js",
+          "bytes": 89654,
+          "gzipBytes": 25517
+        },
+        {
+          "file": "assets/data-topic-guides-DAk7chBm.js",
+          "bytes": 97711,
+          "gzipBytes": 34702
+        },
+        {
+          "file": "assets/data-v3-interface-copy-DEHtVExU.js",
+          "bytes": 53997,
+          "gzipBytes": 20010
+        },
+        {
+          "file": "assets/data-v3-product-BVi99vE6.js",
+          "bytes": 143275,
+          "gzipBytes": 45168
+        },
+        {
+          "file": "assets/home-below-fold-erC7ZBZe.js",
+          "bytes": 74166,
+          "gzipBytes": 29419
+        },
+        {
+          "file": "assets/index-B4A8hvdK.js",
+          "bytes": 109271,
+          "gzipBytes": 34892
+        },
+        {
+          "file": "assets/route-activity-b0YiiZEL.js",
+          "bytes": 886537,
+          "gzipBytes": 266662
+        },
+        {
+          "file": "assets/route-apps-Cog6VBA2.js",
+          "bytes": 50910,
+          "gzipBytes": 18601
+        },
+        {
+          "file": "assets/route-coins-DlJ4-JBu.js",
+          "bytes": 172894,
+          "gzipBytes": 47210
+        },
+        {
+          "file": "assets/route-converter-aWCXH0p7.js",
+          "bytes": 37968,
+          "gzipBytes": 12961
+        },
+        {
+          "file": "assets/route-data-2EDbYMU8.js",
+          "bytes": 205878,
+          "gzipBytes": 66964
+        },
+        {
+          "file": "assets/route-data-assets-CTrwwKvK.js",
+          "bytes": 59956,
+          "gzipBytes": 21147
+        },
+        {
+          "file": "assets/route-factbook-BshbuyN4.js",
+          "bytes": 134304,
+          "gzipBytes": 43981
+        },
+        {
+          "file": "assets/route-funding-matrix-BLcTXOIc.js",
+          "bytes": 34856,
+          "gzipBytes": 11637
+        },
+        {
+          "file": "assets/route-licenses-DKlLC3Xt.js",
+          "bytes": 127781,
+          "gzipBytes": 36987
+        },
+        {
+          "file": "assets/route-news-shared-BXQGIYkz.js",
+          "bytes": 66055,
+          "gzipBytes": 26667
+        },
+        {
+          "file": "assets/route-radar-6fFGHq4p.js",
+          "bytes": 69504,
+          "gzipBytes": 24998
+        },
+        {
+          "file": "assets/route-rates-C4iS3ePX.js",
+          "bytes": 81157,
+          "gzipBytes": 29221
+        },
+        {
+          "file": "assets/route-v3-compare-final-choice-CwS1QOgF.js",
+          "bytes": 16722,
+          "gzipBytes": 6432
+        },
+        {
+          "file": "assets/route-v3-pages-cfxOG7Pj.js",
+          "bytes": 187150,
+          "gzipBytes": 65518
+        },
+        {
+          "file": "assets/route-v3-pages-return-banner-B1Wi7Pus.js",
+          "bytes": 21837,
+          "gzipBytes": 8441
+        },
+        {
+          "file": "assets/route-v3-pages-shared-D154Qgwr.js",
+          "bytes": 4431,
+          "gzipBytes": 2390
+        },
+        {
+          "file": "assets/route-v3-pages-strip-BlmxMovc.js",
+          "bytes": 6127,
+          "gzipBytes": 2747
+        },
+        {
+          "file": "assets/route-v3-research-panels-DZ1jFoGx.js",
+          "bytes": 9638,
+          "gzipBytes": 4897
+        },
+        {
+          "file": "assets/route-v3-venue-faq-BjIFFM_R.js",
+          "bytes": 120611,
+          "gzipBytes": 42832
+        },
+        {
+          "file": "assets/shared-answer-first-D3cuReOc.js",
+          "bytes": 33760,
+          "gzipBytes": 11125
+        },
+        {
+          "file": "assets/shared-brazil-paths-BWwlqz0u.js",
+          "bytes": 271,
+          "gzipBytes": 210
+        },
+        {
+          "file": "assets/shared-campaign-feature-CSSUHIxH.js",
+          "bytes": 21075,
+          "gzipBytes": 9662
+        },
+        {
+          "file": "assets/shared-compare-picker-DWM9eP4l.js",
+          "bytes": 2050,
+          "gzipBytes": 847
+        },
+        {
+          "file": "assets/shared-copy-feedback-ByooC0gS.js",
+          "bytes": 4076,
+          "gzipBytes": 1889
+        },
+        {
+          "file": "assets/shared-exchange-facts-D2b2ZygQ.js",
+          "bytes": 27899,
+          "gzipBytes": 10590
+        },
+        {
+          "file": "assets/shared-fiat-_nuEJ9Fb.js",
+          "bytes": 13260,
+          "gzipBytes": 4743
+        },
+        {
+          "file": "assets/shared-glossary-tooltip-PeTA8LJp.js",
+          "bytes": 20818,
+          "gzipBytes": 5344
+        },
+        {
+          "file": "assets/shared-hero-copy-B0Q24wfR.js",
+          "bytes": 7186,
+          "gzipBytes": 3720
+        },
+        {
+          "file": "assets/shared-hero-lab-copy-C25vDuSG.js",
+          "bytes": 12316,
+          "gzipBytes": 5843
+        },
+        {
+          "file": "assets/shared-hero-verify-copy-DWCdgWKr.js",
+          "bytes": 16083,
+          "gzipBytes": 8019
+        },
+        {
+          "file": "assets/shared-home-calculator-CMD65UwY.js",
+          "bytes": 11663,
+          "gzipBytes": 5107
+        },
+        {
+          "file": "assets/shared-intel-tool-links-BMvXnQPv.js",
+          "bytes": 722,
+          "gzipBytes": 476
+        },
+        {
+          "file": "assets/shared-json-polling-CU55rQSN.js",
+          "bytes": 2232,
+          "gzipBytes": 1069
+        },
+        {
+          "file": "assets/shared-market-events-client-CsdiPpPx.js",
+          "bytes": 1169,
+          "gzipBytes": 656
+        },
+        {
+          "file": "assets/shared-onsite-telegram-handoff-C6wEXbkC.js",
+          "bytes": 10323,
+          "gzipBytes": 4538
+        },
+        {
+          "file": "assets/shared-registration-helpers-J4W-P65r.js",
+          "bytes": 7882,
+          "gzipBytes": 4318
+        },
+        {
+          "file": "assets/shared-research-CzHY_0WY.js",
+          "bytes": 9711,
+          "gzipBytes": 4267
+        },
+        {
+          "file": "assets/shared-telegram-cta-BY5DH3sw.js",
+          "bytes": 4324,
+          "gzipBytes": 2531
+        },
+        {
+          "file": "assets/shared-tokenized-stocks-D5qHH76r.js",
+          "bytes": 57960,
+          "gzipBytes": 17469
+        },
+        {
+          "file": "assets/shared-venue-copy-CBBtsmG8.js",
+          "bytes": 79646,
+          "gzipBytes": 28658
+        },
+        {
+          "file": "assets/shared-whales-Cd-5AmqX.js",
+          "bytes": 57623,
+          "gzipBytes": 15535
+        },
+        {
+          "file": "assets/vendor-react-CUZ3TzEi.js",
+          "bytes": 194236,
+          "gzipBytes": 60670
+        }
+      ]
+    },
+    {
+      "pathname": "/funding-rates",
+      "roots": [
+        "assets/index-B4A8hvdK.js",
+        "assets/route-data-2EDbYMU8.js"
+      ],
+      "jsRequests": 27,
+      "js": {
+        "bytes": 2015502,
+        "gzipBytes": 672525
+      },
+      "files": [
+        {
+          "file": "assets/core-shared-CxLMeUCL.js",
+          "bytes": 575438,
+          "gzipBytes": 197434
+        },
+        {
+          "file": "assets/core-ui-CPxPNAWZ.js",
+          "bytes": 44107,
+          "gzipBytes": 17840
+        },
+        {
+          "file": "assets/data-news-library-CNPoyG9u.js",
+          "bytes": 53424,
+          "gzipBytes": 22156
+        },
+        {
+          "file": "assets/data-referral-seo-DxlHPCyu.js",
+          "bytes": 41407,
+          "gzipBytes": 15855
+        },
+        {
+          "file": "assets/index-B4A8hvdK.js",
+          "bytes": 109271,
+          "gzipBytes": 34892
+        },
+        {
+          "file": "assets/route-apps-Cog6VBA2.js",
+          "bytes": 50910,
+          "gzipBytes": 18601
+        },
+        {
+          "file": "assets/route-coins-DlJ4-JBu.js",
+          "bytes": 172894,
+          "gzipBytes": 47210
+        },
+        {
+          "file": "assets/route-data-2EDbYMU8.js",
+          "bytes": 205878,
+          "gzipBytes": 66964
+        },
+        {
+          "file": "assets/route-data-assets-CTrwwKvK.js",
+          "bytes": 59956,
+          "gzipBytes": 21147
+        },
+        {
+          "file": "assets/route-funding-matrix-BLcTXOIc.js",
+          "bytes": 34856,
+          "gzipBytes": 11637
+        },
+        {
+          "file": "assets/route-licenses-DKlLC3Xt.js",
+          "bytes": 127781,
+          "gzipBytes": 36987
+        },
+        {
+          "file": "assets/route-news-shared-BXQGIYkz.js",
+          "bytes": 66055,
+          "gzipBytes": 26667
+        },
+        {
+          "file": "assets/route-radar-6fFGHq4p.js",
+          "bytes": 69504,
+          "gzipBytes": 24998
+        },
+        {
+          "file": "assets/route-v3-pages-strip-BlmxMovc.js",
+          "bytes": 6127,
+          "gzipBytes": 2747
+        },
+        {
+          "file": "assets/shared-answer-first-D3cuReOc.js",
+          "bytes": 33760,
+          "gzipBytes": 11125
+        },
+        {
+          "file": "assets/shared-brazil-paths-BWwlqz0u.js",
+          "bytes": 271,
+          "gzipBytes": 210
+        },
+        {
+          "file": "assets/shared-glossary-tooltip-PeTA8LJp.js",
+          "bytes": 20818,
+          "gzipBytes": 5344
+        },
+        {
+          "file": "assets/shared-hero-copy-B0Q24wfR.js",
+          "bytes": 7186,
+          "gzipBytes": 3720
+        },
+        {
+          "file": "assets/shared-intel-tool-links-BMvXnQPv.js",
+          "bytes": 722,
+          "gzipBytes": 476
+        },
+        {
+          "file": "assets/shared-json-polling-CU55rQSN.js",
+          "bytes": 2232,
+          "gzipBytes": 1069
+        },
+        {
+          "file": "assets/shared-market-events-client-CsdiPpPx.js",
+          "bytes": 1169,
+          "gzipBytes": 656
+        },
+        {
+          "file": "assets/shared-registration-helpers-J4W-P65r.js",
+          "bytes": 7882,
+          "gzipBytes": 4318
+        },
+        {
+          "file": "assets/shared-research-CzHY_0WY.js",
+          "bytes": 9711,
+          "gzipBytes": 4267
+        },
+        {
+          "file": "assets/shared-telegram-cta-BY5DH3sw.js",
+          "bytes": 4324,
+          "gzipBytes": 2531
+        },
+        {
+          "file": "assets/shared-tokenized-stocks-D5qHH76r.js",
+          "bytes": 57960,
+          "gzipBytes": 17469
+        },
+        {
+          "file": "assets/shared-whales-Cd-5AmqX.js",
+          "bytes": 57623,
+          "gzipBytes": 15535
+        },
+        {
+          "file": "assets/vendor-react-CUZ3TzEi.js",
+          "bytes": 194236,
+          "gzipBytes": 60670
+        }
+      ]
+    }
+  ]
+}

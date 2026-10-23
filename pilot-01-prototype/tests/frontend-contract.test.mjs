@@ -2016,7 +2016,8 @@ test("CleanFooter navigation labels match their destinations in every supported 
   }
   assert.match(cleanFooter, /href: brazil \? "\/br\/custos" : href\("\/embed\/calculator"\), label: labels\.calculator/);
   assert.match(cleanFooter, /!isNeutralCtaLocale\(locale\)[\s\S]*?href: href\("\/partners"\), label: partnerProgramLabel/);
-  assert.doesNotMatch(cleanFooter, /localeManifest|localeLinks/);
+  // Owner 2026-10-23: the footer carries compact language chips (wave 7); the manifest is used only there.
+  assert.match(cleanFooter, /localeManifest/);
   assert.doesNotMatch(cleanFooter, /contact:\s*text\.detailHandoff/);
   assert.doesNotMatch(cleanFooter, /about:\s*text\.home/);
   assert.doesNotMatch(cleanFooter, />\{copy\.(?:about|editorial|calculator|embedGuide|privacy|terms|disclosure|contact)\}<\/a>/);

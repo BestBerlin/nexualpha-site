@@ -1,0 +1,29 @@
+news: max warm request 1.41ms
+news: warm native render + PNG encode 31.65ms (explicit fonts)
+venue: max warm request 0.75ms
+venue: warm native render + PNG encode 33.46ms (explicit fonts)
+compare: max warm request 7.03ms
+compare: warm native render + PNG encode 34.35ms (explicit fonts)
+liquidations: max warm request 0.64ms
+liquidations: warm native render + PNG encode 28.63ms (explicit fonts)
+funding: max warm request 1.37ms
+funding: warm native render + PNG encode 46.54ms (explicit fonts)
+default: max warm request 0.31ms
+default: warm native render + PNG encode 28.39ms (explicit fonts)
+Measured 1151 text runs in 102 layouts with resvg ink bounds.
+✔ six distinct non-empty 1200x630 PNGs; warm cached requests below 150ms (2840.2725ms)
+✔ 17 locales × 6 types measure inside safe areas without text collisions (15143.363125ms)
+✔ CJK, wide Latin and unbroken titles use at most two measured lines (514.771167ms)
+✔ snapshot charts preserve signed rates, real coverage and timestamp; compare gap uses reviewed percent points (10.508833ms)
+✔ missing market numbers fail closed; metadata selects the versioned funding chart (4135.354458ms)
+✔ article categories differ and every existing WebP tile has a renderable PNG equivalent (42.848417ms)
+✔ compare columns mirror symmetrically with equal rounded tiles and a centered gradient VS ring (847.364833ms)
+✔ fee insights name the actual cheaper side, suppress missing data, and localize all supported editions (5125.982166ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 28783.532375

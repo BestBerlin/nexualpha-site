@@ -385,6 +385,7 @@ export default {
     if (url.pathname === "/api/news/search" && request.method === "GET" && env?.ASSETS) return handleNewsSearchJson(env, url);
     if (url.pathname === "/api/news/tool-articles" && request.method === "GET" && env?.ASSETS) return handleToolArticlesJson(env, url);
     if (url.pathname === "/content/news-feed-summary.json" && request.method === "GET" && env?.ASSETS) {
+      if (isTurkeyPage({ locale: routeLocale(url), market: url.searchParams.get("market") || undefined })) return handlePublicNewsSummaryFeed(request, env, url);
       const response = await env.ASSETS.fetch(request);
       if (!response.ok) return response;
       const headers = new Headers(response.headers);
@@ -3943,7 +3944,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(brProjection.attribution ? { brAttribution: brProjection.attribution } : {}),
     // Listing payloads are summary rows for one page ("/news" projection: no content, sources or seo), never article bodies.
     // Neutral locales (locale-policy.js): the state carries the same sign-up-free text the page renders.
-    ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(route.newsListing ? "/news" : pathname, route.newsArticles, locale, { preserveSsrContent: true }).map((article) => (isNeutralCtaLocale(locale) ? neutralArticleView(article, locale) : article)) } : {}),
+    ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(route.newsListing ? "/news" : pathname, route.newsArticles, locale, { preserveSsrContent: true, market: url?.searchParams.get("market") || undefined }).map((article) => (isNeutralCtaLocale(locale) ? neutralArticleView(article, locale) : article)) } : {}),
     ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
     ...(route.fundingMatrix && typeof route.fundingMatrix === "object" ? { fundingMatrix: route.fundingMatrix } : {}),
     ...(route.funding && typeof route.funding === "object" ? { funding: route.funding } : {}),
@@ -4083,7 +4084,6 @@ function summarizeNewsArticle(article) {
     title: article.title,
     summary: article.summary,
     relatedVenues: Array.isArray(article.relatedVenues) ? article.relatedVenues : [],
-    ...(researchClaimTexts(article).length ? { researchClaims: researchClaimTexts(article) } : {}),
     ...(Array.isArray(article.tags) ? { tags: article.tags.filter((tag) => typeof tag === "string" && tag.trim()) } : {}),
     ...(Array.isArray(article.topicTags) ? { topicTags: article.topicTags.filter((tag) => typeof tag === "string" && tag.trim()) } : {}),
     ...(article.cta && typeof article.cta === "object" ? { cta: article.cta } : {}),
@@ -4137,7 +4137,10 @@ function projectNewsArticleForRoute(pathname, article, locale = "en", { preserve
     },
   };
   projected.seo = { noindex: article.seo?.noindex !== false };
-  if (String(pathname || "").startsWith("/news/")) {
+  // Hubs use compact claims to reproduce claim-based matching during hydration.
+  // News cards and reading neighbors render titles/metadata only.
+  if (!/^\/news(?:\/|$)/.test(pathname) && researchClaimTexts(article).length) projected.researchClaims = researchClaimTexts(article);
+  if (pathname === `/news/${article.slug}`) {
     const contentLocale = newsContentLocale(locale, article);
     // Full SSR snapshots must hydrate the exact same Markdown text.
     // Simplified fallback rendering retains its separate text projection.
@@ -4154,7 +4157,11 @@ function projectNewsArticleForRoute(pathname, article, locale = "en", { preserve
 
 function initialNewsArticlesForRoute(pathname, articles, locale = "en", options = {}) {
   const rows = Array.isArray(articles) ? articles : [];
-  return rows.map((article) => projectNewsArticleForRoute(pathname, article, locale, options)).filter(Boolean);
+  // Also gate build-time/prerender payloads at the serialization boundary, not
+  // only the live feed used to select the visible cards.
+  const slug = pathname.match(/^\/news\/([a-z0-9-]+)$/)?.[1];
+  return newsArticleGeoPool(rows, { locale, market: options.market }, slug)
+    .map((article) => projectNewsArticleForRoute(pathname, article, locale, options)).filter(Boolean);
 }
 
 async function handlePublicNewsSummaryFeed(request, env, url) {
@@ -4163,10 +4170,11 @@ async function handlePublicNewsSummaryFeed(request, env, url) {
     const response = await env.ASSETS.fetch(new Request(new URL("/content/news-feed.json", url), { headers: { accept: "application/json" } }));
     if (!response.ok) return response;
     const parsed = await response.json();
-    const articles = Array.isArray(parsed?.articles) ? parsed.articles.map(applyNewsSearchState).map(article => {
+    const context = { locale: routeLocale(url), market: url.searchParams.get("market") || undefined };
+    const articles = newsArticleGeoPool(Array.isArray(parsed?.articles) ? parsed.articles : [], context).map(applyNewsSearchState).map(article => {
       const summary = summarizeNewsArticle(article);
       return summary ? { ...summary, ...(typeof article.seo?.noindex === "boolean" ? { seo: { noindex: article.seo.noindex } } : {}) } : null;
-    }).filter(Boolean) : [];
+    }).filter(Boolean);
     return new Response(JSON.stringify({ ...parsed, articles }), {
       headers: {
         "content-type": "application/json; charset=utf-8",
@@ -5107,7 +5115,8 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         const coinsRoute = parseCoinsPath(pathname);
         const coin = coinsRoute?.kind === "coin" ? coinBySlug(coinsRoute.slug) : null;
         const feed = coin ? await loadNewsFeed(env, url) : null;
-        const newsArticles = coin ? projectHubResearch(pathname, selectResearch(feed?.articles || [], { locale: publicRoute.locale, terms: [coin.slug, coin.id, coin.name, ...(coin.symbol?.length >= 3 ? [coin.symbol] : [])] }), publicRoute.locale) : [];
+        const pool = newsArticleGeoPool(feed?.articles || [], { locale: publicRoute.locale, market: url.searchParams.get("market") || undefined });
+        const newsArticles = coin ? projectHubResearch(pathname, selectResearch(pool, { locale: publicRoute.locale, terms: [coin.slug, coin.id, coin.name, ...(coin.symbol?.length >= 3 ? [coin.symbol] : [])] }), publicRoute.locale) : [];
         const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), { coins, ...(newsArticles.length ? { newsArticles } : {}) });
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxc ")) {
           metadata.coinsSsrMode = overlay ? "runtime-snapshot" : "runtime";
@@ -5492,7 +5501,8 @@ async function handleNewsArticleJson(env, url) {
     const articles = newsArticleGeoPool([projected, ...related, ...linkedSummaries], { locale: requestedLocale, market: url.searchParams.get("market") || undefined }, slug);
     return new Response(JSON.stringify({ version: 1, locale: requestedLocale, contentLocale, articles, relatedSlugs: articles.slice(1).filter(row => relatedSlugs.has(row.slug)).map(row => row.slug) }), { headers: { ...headers, "cache-control": "public, max-age=300", vary: "Accept-Encoding" } });
   }
-  return new Response(JSON.stringify({ version: 1, articles: [article, ...related, ...linkedSummaries], relatedSlugs: [...relatedSlugs] }), { headers: { ...headers, "cache-control": "public, max-age=300" } });
+  const articles = newsArticleGeoPool([article, ...related, ...linkedSummaries], { locale: routeLocale(url), market: url.searchParams.get("market") || undefined }, slug);
+  return new Response(JSON.stringify({ version: 1, articles, relatedSlugs: articles.slice(1).filter(row => relatedSlugs.has(row.slug)).map(row => row.slug) }), { headers: { ...headers, "cache-control": "public, max-age=300" } });
 }
 
 // Full-library search and listing (2026-10-10). Searches titles and summaries of every published article in the
@@ -5592,7 +5602,8 @@ async function handleNewsSearchJson(env, url) {
     return new Response(JSON.stringify({ version: 1, status: "unavailable", reasonCode: "NEWS_FEED_UNAVAILABLE", articles: [] }), { status: 503, headers: { ...headers, "cache-control": "no-store" } });
   }
   // Archive pages (no query) on a localized listing put the articles written natively in that locale first.
-  const matches = query ? searchNewsArticles(feed.articles, { query, category }) : sortNewsForLocale(searchNewsArticles(feed.articles, { query, category }), locale);
+  const pool = newsArticleGeoPool(feed.articles, { locale, market: params.get("market") || undefined });
+  const matches = query ? searchNewsArticles(pool, { query, category }) : sortNewsForLocale(searchNewsArticles(pool, { query, category }), locale);
   const totalPages = Math.max(1, Math.ceil(matches.length / limit));
   const rows = matches.slice((page - 1) * limit, page * limit).map((article) => {
     const summary = summarizeNewsArticle(article);
@@ -5612,8 +5623,8 @@ async function handleNewsSearchJson(env, url) {
     pageSize: limit,
     total: matches.length,
     totalPages,
-    libraryTotal: feed.articles.length,
-    counts: newsCategoryCounts(feed.articles),
+    libraryTotal: pool.length,
+    counts: newsCategoryCounts(pool),
     articles: rows,
   }), { headers: { ...headers, "cache-control": "public, max-age=120", vary: "Accept-Encoding" } });
 }
@@ -7598,6 +7609,14 @@ async function resolveRouteMetadata(url, env) {
     : loadedNewsFeed;
   const newsContext = { locale: requestedLocale, market: url.searchParams.get("market") || undefined };
   const requestedSlug = contentUrl.pathname.match(/^\/news\/([a-z0-9-]+)$/)?.[1];
+  const requestedArticle = requestedSlug ? neutralFeed?.articles?.find(article => article.slug === requestedSlug) : null;
+  if (requestedSlug && !newsMetadataAllowed([
+    requestedSlug, requestedArticle?.title?.[requestedLocale] || requestedArticle?.title?.en,
+  ], newsContext)) {
+    // A restricted subject must not survive in a 404 canonical, og:url or
+    // hydration pathname. Redirect to the safe local news index with no body.
+    return { status: 301, redirect: localizedCanonical("/news", requestedLocale) };
+  }
   const newsFeed = neutralFeed ? { ...neutralFeed, articles: newsArticleGeoPool(neutralFeed.articles, newsContext, requestedSlug) } : neutralFeed;
   const searchEligibilityNewsFeed = isNewsRoute && typeof newsFeed?.searchPublished !== "boolean"
     ? await loadNewsFeed(env, url)

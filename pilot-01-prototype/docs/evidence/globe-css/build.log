@@ -1,0 +1,2477 @@
+
+> pilot-01-prototype@3.0.0 build
+> node scripts/generate-partner-geo-policy.mjs && node scripts/sync-priority-venue-seo.mjs && node scripts/generate-referral-partners.mjs && node scripts/fetch-exchange-campaigns-and-listings.mjs && node scripts/generate-promotions.mjs && node scripts/generate-regional-funding-verification-matrix.mjs && node scripts/generate-news-summary-feed.mjs && node scripts/generate-exchange-key-facts.mjs && node scripts/generate-public-llms.mjs && vite build && node scripts/build-route-css.mjs && vite build --ssr src/entry-server.jsx --outDir dist/ssr && node scripts/build-news-ssr.mjs && node scripts/generate-prerender-manifest.mjs && node scripts/build-route-styles.mjs && node scripts/build-critical-css.mjs && node scripts/prepare-sites-build.mjs && node scripts/verify-build-budget.mjs --strict
+
+referral-partners.generated.js written
+[NexuAlpha] Official activity feed unavailable; emitted an empty fail-closed dataset.
+Exported 11 signup rules and 21 campaign rules
+{
+  "jsonPath": "public/research/regional-funding-verification-matrix.json",
+  "csvPath": "public/research/regional-funding-verification-matrix.csv",
+  "rows": 12,
+  "markets": [
+    "BR",
+    "MX",
+    "TW",
+    "ID",
+    "US",
+    "EU",
+    "UK",
+    "JP",
+    "HK",
+    "KR",
+    "SG",
+    "TR"
+  ]
+}
+Generated public/content/news-feed-summary.json (850816 bytes, 416 articles)
+Generated 25 source-bound exchange fact sheets
+Generated public/llms-small.txt (7489 bytes)
+Generated public/llms.txt (384896 bytes)
+Generated public/llms-full.txt (748201 bytes)
+vite v6.4.2 building for production...
+✔ [paraglide-js] Compilation complete (message-modules)
+<script src="/insights/s.js"> in "/index.html" can't be bundled without type="module" attribute
+transforming...
+✓ 1031 modules transformed.
+Circular chunk: route-news-shared -> route-coins -> route-radar -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-data -> route-data-assets -> route-data. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-funding-matrix -> route-data -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+rendering chunks...
+computing gzip size...
+dist/client/version.json                                         0.05 kB │ gzip:   0.07 kB
+dist/client/index.html                                          10.33 kB │ gzip:   2.62 kB
+dist/client/style-modules.json                                 109.28 kB │ gzip:  14.02 kB
+dist/client/.vite/manifest.json                                128.01 kB │ gzip:  13.79 kB
+dist/client/assets/CrawlPriorityLinks-R-KlwU--.css               0.38 kB │ gzip:   0.21 kB
+dist/client/assets/home-below-fold-DI1V7PAM.css                  0.44 kB │ gzip:   0.22 kB
+dist/client/assets/shared-glossary-tooltip-a_4iPyoU.css          0.58 kB │ gzip:   0.34 kB
+dist/client/assets/route-v3-decision-articles-CWMRbu4U.css       0.78 kB │ gzip:   0.36 kB
+dist/client/assets/route-news-detail-CDScZxma.css                0.89 kB │ gzip:   0.45 kB
+dist/client/assets/shared-decision-return-DP_5KV8G.css           0.97 kB │ gzip:   0.44 kB
+dist/client/assets/route-embed-SNKbIF6n.css                      1.34 kB │ gzip:   0.60 kB
+dist/client/assets/route-beginner-CAClAFHq.css                   1.55 kB │ gzip:   0.67 kB
+dist/client/assets/shared-compare-picker-BS3U8fkD.css            1.70 kB │ gzip:   0.64 kB
+dist/client/assets/shared-decision-rail-DE-Xm3Ow.css             1.70 kB │ gzip:   0.62 kB
+dist/client/assets/route-topic-guide-bridge-CJ2eVMIt.css         1.73 kB │ gzip:   0.67 kB
+dist/client/assets/route-apps-2yWtS30U.css                       1.75 kB │ gzip:   0.65 kB
+dist/client/assets/page-directory-fiat-CU_z_NuM.css              1.86 kB │ gzip:   0.69 kB
+dist/client/assets/route-converter-BuMFqkoC.css                  2.27 kB │ gzip:   0.86 kB
+dist/client/assets/page-profile-fiat-CkasW-b-.css                2.34 kB │ gzip:   0.79 kB
+dist/client/assets/route-licenses-IUXgdDJo.css                   2.47 kB │ gzip:   0.81 kB
+dist/client/assets/route-v3-venue-DpdKAyV0.css                   2.59 kB │ gzip:   0.92 kB
+dist/client/assets/route-brand-pages-CVo3R4mu.css                2.62 kB │ gzip:   0.99 kB
+dist/client/assets/route-v3-pages-strip-B9dGq9Xu.css             2.65 kB │ gzip:   0.82 kB
+dist/client/assets/route-v3-pages-detail-stocks-Cogh_Agp.css     2.77 kB │ gzip:   0.77 kB
+dist/client/assets/route-v3-research-panels-D37EyhLa.css         2.88 kB │ gzip:   0.92 kB
+dist/client/assets/route-v3-readiness-DMJR0oHn.css               2.89 kB │ gzip:   0.97 kB
+dist/client/assets/route-market-CRdOQfme.css                     2.91 kB │ gzip:   0.94 kB
+dist/client/assets/route-kol-j9pVBgAT.css                        2.94 kB │ gzip:   0.94 kB
+dist/client/assets/route-v3-pages-return-banner-LkFHU4or.css     4.09 kB │ gzip:   1.08 kB
+dist/client/assets/route-v3-social-proof-BqVz3TVC.css            4.30 kB │ gzip:   1.33 kB
+dist/client/assets/route-data-assets-DIx5YDQK.css                4.39 kB │ gzip:   1.30 kB
+dist/client/assets/route-intel-tools-DfgLCo1p.css                5.16 kB │ gzip:   1.54 kB
+dist/client/assets/route-funding-matrix-C15dHtcF.css             5.39 kB │ gzip:   1.59 kB
+dist/client/assets/route-v3-wizard-BHsi0vsX.css                  6.43 kB │ gzip:   1.74 kB
+dist/client/assets/route-methodology-C7vi8Ba6.css                6.77 kB │ gzip:   1.75 kB
+dist/client/assets/route-onchain-DLcu9FUE.css                    6.85 kB │ gzip:   1.76 kB
+dist/client/assets/page-home-movers-Cji9oHxZ.css                 7.61 kB │ gzip:   1.91 kB
+dist/client/assets/core-c2-CbPMdkkN.css                          8.16 kB │ gzip:   1.80 kB
+dist/client/assets/route-radar-DZnKITKz.css                      8.36 kB │ gzip:   2.32 kB
+dist/client/assets/route-v3-pages-detail-fOBGrGuD.css            8.75 kB │ gzip:   2.08 kB
+dist/client/assets/route-campaign-landing-CoROb_ig.css           8.89 kB │ gzip:   2.49 kB
+dist/client/assets/route-v3-calculators-D48oOccw.css             9.08 kB │ gzip:   2.45 kB
+dist/client/assets/page-profile-signature-mid1-B3_HNw6V.css      9.08 kB │ gzip:   1.66 kB
+dist/client/assets/route-glossary-jiql5P1Q.css                   9.52 kB │ gzip:   2.53 kB
+dist/client/assets/page-compare-signature-mid1-txnO9i5Y.css     10.39 kB │ gzip:   1.51 kB
+dist/client/assets/route-collection-hubs-DOm53-fU.css           11.14 kB │ gzip:   1.70 kB
+dist/client/assets/route-v3-registration-Bp-zVp8O.css           13.18 kB │ gzip:   2.63 kB
+dist/client/assets/route-partners-_ESL0bQS.css                  13.67 kB │ gzip:   2.93 kB
+dist/client/assets/route-campaign-bybit-D3Iaqq-J.css            13.78 kB │ gzip:   3.49 kB
+dist/client/assets/route-deposit-BJXsKRap.css                   14.10 kB │ gzip:   3.12 kB
+dist/client/assets/route-coins-B7w5Aj7B.css                     14.13 kB │ gzip:   3.49 kB
+dist/client/assets/route-campaign-bitget-TxtEKypZ.css           14.27 kB │ gzip:   3.54 kB
+dist/client/assets/route-v3-home-BgHbIJUC.css                   14.67 kB │ gzip:   3.35 kB
+dist/client/assets/route-flash-jcSrt419.css                     15.03 kB │ gzip:   3.74 kB
+dist/client/assets/route-v3-pages-growth-B_QoPQRY.css           15.34 kB │ gzip:   2.97 kB
+dist/client/assets/route-rates-BMduuguU.css                     15.57 kB │ gzip:   3.52 kB
+dist/client/assets/route-tokenized-assets-DGHisS3b.css          16.24 kB │ gzip:   3.05 kB
+dist/client/assets/route-data-D2UVfZAz.css                      16.26 kB │ gzip:   4.00 kB
+dist/client/assets/route-campaign-kraken-BnvEOC6Y.css           16.89 kB │ gzip:   4.03 kB
+dist/client/assets/page-home-early-BYatyjIN.css                 16.97 kB │ gzip:   3.72 kB
+dist/client/assets/page-telegram-late-q7jB01Qs.css              17.77 kB │ gzip:   2.68 kB
+dist/client/assets/page-directory-mid2-B9z2dOfn.css             19.56 kB │ gzip:   4.17 kB
+dist/client/assets/route-topic-guide-CBpqS7c3.css               19.96 kB │ gzip:   4.16 kB
+dist/client/assets/route-academy-DzLsOnzz.css                   20.34 kB │ gzip:   4.73 kB
+dist/client/assets/page-detail-mid2-VzrK0foD.css                23.76 kB │ gzip:   3.74 kB
+dist/client/assets/route-telegram-Cm2Lka-Y.css                  26.60 kB │ gzip:   5.14 kB
+dist/client/assets/route-factbook-DSv7s9hL.css                  27.17 kB │ gzip:   5.20 kB
+dist/client/assets/route-tokenized-stocks-DEl4JePf.css          28.90 kB │ gzip:   5.49 kB
+dist/client/assets/core-c4-CP07BY60.css                         29.33 kB │ gzip:   4.00 kB
+dist/client/assets/page-inner-c1-80gou8Hd.css                   31.35 kB │ gzip:   4.64 kB
+dist/client/assets/page-home-mid2-C4afzbTA.css                  31.89 kB │ gzip:   5.38 kB
+dist/client/assets/page-news-signature-mid1-D6YOvw-I.css        32.27 kB │ gzip:   4.61 kB
+dist/client/assets/route-v3-pages-directory-DWG3ST9P.css        33.70 kB │ gzip:   6.32 kB
+dist/client/assets/page-inner-c3-DwMG14he.css                   34.99 kB │ gzip:   3.94 kB
+dist/client/assets/page-br-late-BcIGwmg_.css                    36.18 kB │ gzip:   5.31 kB
+dist/client/assets/page-home-mid1-Blfh1Lnq.css                  37.12 kB │ gzip:   5.87 kB
+dist/client/assets/core-c3-DxH2PD9h.css                         40.16 kB │ gzip:   6.51 kB
+dist/client/assets/page-inner-c2-LYxbbNCk.css                   42.83 kB │ gzip:   5.80 kB
+dist/client/assets/route-v3-pages-1pNHMFIg.css                  47.80 kB │ gzip:   8.33 kB
+dist/client/assets/route-activity-SVed9Fro.css                  48.94 kB │ gzip:   7.68 kB
+dist/client/assets/page-rates-late-BiePMuRq.css                 51.35 kB │ gzip:   6.45 kB
+dist/client/assets/page-factbook-late-DG5l-DmE.css              53.87 kB │ gzip:   5.79 kB
+dist/client/assets/page-compare-mid1-DcQVjc6X.css               56.50 kB │ gzip:   7.81 kB
+dist/client/assets/route-international-y6PECpre.css             60.50 kB │ gzip:   9.19 kB
+dist/client/assets/core-c--l7-kaKX.css                          69.93 kB │ gzip:  10.68 kB
+dist/client/assets/page-profile-mid1-BDdoIGjF.css               70.04 kB │ gzip:  10.15 kB
+dist/client/assets/route-news-shared-CR8fQg_I.css               74.37 kB │ gzip:  12.17 kB
+dist/client/assets/core-b-8CVlvBN7.css                         101.47 kB │ gzip:  17.54 kB
+dist/client/assets/page-home-late-XbNTUmvn.css                 166.01 kB │ gzip:  25.88 kB
+dist/client/assets/page-home-calculator-Co47K9Nj.css           183.80 kB │ gzip:  30.84 kB
+dist/client/assets/index-BBY1ydFA.css                          211.88 kB │ gzip:  33.95 kB
+dist/client/assets/shared-brazil-paths-BWwlqz0u.js               0.27 kB │ gzip:   0.21 kB
+dist/client/assets/shared-telegram-return-91zPkc3s.js            0.34 kB │ gzip:   0.25 kB
+dist/client/assets/data-market-nav-BMvXnQPv.js                   0.72 kB │ gzip:   0.48 kB
+dist/client/assets/shared-compare-routes-Bgx_rlNr.js             1.10 kB │ gzip:   0.83 kB
+dist/client/assets/route-v3-decision-articles-Dy2CG1GV.js        1.30 kB │ gzip:   0.76 kB
+dist/client/assets/shared-market-events-client-Dn7WzXXz.js       1.36 kB │ gzip:   0.74 kB
+dist/client/assets/SearchDialog-CqihLjQV.js                      1.36 kB │ gzip:   0.69 kB
+dist/client/assets/shared-glossary-link-4aV6HaBo.js              1.53 kB │ gzip:   0.87 kB
+dist/client/assets/route-v3-pages-state-DcLJvpGM.js              1.79 kB │ gzip:   0.86 kB
+dist/client/assets/shared-compare-picker-DWM9eP4l.js             2.05 kB │ gzip:   0.85 kB
+dist/client/assets/route-v3-pages-detail-stocks-DPeZtrD0.js      2.30 kB │ gzip:   1.03 kB
+dist/client/assets/ticker-live-DIWGmsRK.js                       3.22 kB │ gzip:   1.59 kB
+dist/client/assets/shared-json-polling-Dvdcyq8K.js               3.54 kB │ gzip:   1.61 kB
+dist/client/assets/route-embed-vV9Knb6a.js                       3.68 kB │ gzip:   2.07 kB
+dist/client/assets/home7-board-motion-CesUddO1.js                3.75 kB │ gzip:   1.64 kB
+dist/client/assets/shared-copy-feedback-ByooC0gS.js              4.08 kB │ gzip:   1.89 kB
+dist/client/assets/shared-telegram-cta-BY5DH3sw.js               4.32 kB │ gzip:   2.53 kB
+dist/client/assets/route-v3-pages-shared-D154Qgwr.js             4.43 kB │ gzip:   2.39 kB
+dist/client/assets/route-kol-CrYlbGoW.js                         5.61 kB │ gzip:   2.69 kB
+dist/client/assets/route-v3-pages-strip-BlmxMovc.js              6.13 kB │ gzip:   2.75 kB
+dist/client/assets/shared-hero-copy-B0Q24wfR.js                  7.19 kB │ gzip:   3.72 kB
+dist/client/assets/HomeTokenizedStrip-jqdlJuun.js                7.51 kB │ gzip:   3.00 kB
+dist/client/assets/ToolArticleLinks-9nw1nt1V.js                  7.77 kB │ gzip:   3.66 kB
+dist/client/assets/shared-registration-helpers-J4W-P65r.js       7.88 kB │ gzip:   4.32 kB
+dist/client/assets/route-topic-guide-bridge-lhBFFwLx.js          8.36 kB │ gzip:   3.95 kB
+dist/client/assets/route-v3-research-panels-DZ1jFoGx.js          9.64 kB │ gzip:   4.90 kB
+dist/client/assets/shared-research-CzHY_0WY.js                   9.71 kB │ gzip:   4.27 kB
+dist/client/assets/CommandFinder-daC3Cpl5.js                     9.75 kB │ gzip:   3.94 kB
+dist/client/assets/CrossroadsCompare-DY1KmLM9.js                10.21 kB │ gzip:   4.28 kB
+dist/client/assets/shared-onsite-telegram-handoff-C6wEXbkC.js   10.32 kB │ gzip:   4.54 kB
+dist/client/assets/CrawlPriorityLinks-Jlwm0wyP.js               10.34 kB │ gzip:   4.65 kB
+dist/client/assets/home-globe-CZwZX7Dc.js                       11.26 kB │ gzip:   5.14 kB
+dist/client/assets/route-market-B1lGVbsC.js                     11.51 kB │ gzip:   4.67 kB
+dist/client/assets/shared-home-calculator-CMD65UwY.js           11.66 kB │ gzip:   5.11 kB
+dist/client/assets/shared-hero-lab-copy-C25vDuSG.js             12.32 kB │ gzip:   5.84 kB
+dist/client/assets/shared-fiat-_nuEJ9Fb.js                      13.26 kB │ gzip:   4.74 kB
+dist/client/assets/glossary-links-en-CGOax2N8.js                14.15 kB │ gzip:   4.78 kB
+dist/client/assets/glossary-content-loader-kgb4DBG2.js          14.39 kB │ gzip:   2.56 kB
+dist/client/assets/zh-Hant-UETjuVne.js                          15.39 kB │ gzip:   6.37 kB
+dist/client/assets/shared-hero-verify-copy-DWCdgWKr.js          16.08 kB │ gzip:   8.02 kB
+dist/client/assets/route-v3-compare-final-choice-CwS1QOgF.js    16.72 kB │ gzip:   6.43 kB
+dist/client/assets/glossary-links-id-Dl-MoJLs.js                17.77 kB │ gzip:   6.08 kB
+dist/client/assets/it-dfqk3Ah1.js                               18.10 kB │ gzip:   6.38 kB
+dist/client/assets/glossary-links-pt-br-QIpAUPys.js             18.54 kB │ gzip:   6.29 kB
+dist/client/assets/glossary-links-zh-hans-C_kL9342.js           18.75 kB │ gzip:   7.08 kB
+dist/client/assets/tr-BKXtn8LP.js                               19.07 kB │ gzip:   6.69 kB
+dist/client/assets/glossary-links-es-B1QjkOuN.js                19.23 kB │ gzip:   6.49 kB
+dist/client/assets/route-v3-readiness-DvMQ0U3k.js               19.84 kB │ gzip:   8.76 kB
+dist/client/assets/vi-BBxU1KpV.js                               19.92 kB │ gzip:   6.11 kB
+dist/client/assets/glossary-links-ko-CJddU3jM.js                20.25 kB │ gzip:   7.28 kB
+dist/client/assets/es-DFPjBmK6.js                               20.41 kB │ gzip:   7.00 kB
+dist/client/assets/fr-NDrTdT0H.js                               20.54 kB │ gzip:   6.99 kB
+dist/client/assets/ts-copy-en-JB9o36dn.js                       20.60 kB │ gzip:   7.07 kB
+dist/client/assets/ts-copy-zh-hant-BoDosdCW.js                  20.66 kB │ gzip:   7.74 kB
+dist/client/assets/glossary-links-tr-DGmzXJUd.js                20.68 kB │ gzip:   7.10 kB
+dist/client/assets/ts-copy-zh-hans-C9QUF7F4.js                  20.73 kB │ gzip:   7.70 kB
+dist/client/assets/shared-glossary-tooltip-PeTA8LJp.js          20.82 kB │ gzip:   5.34 kB
+dist/client/assets/shared-campaign-feature-CSSUHIxH.js          21.08 kB │ gzip:   9.66 kB
+dist/client/assets/glossary-shard-zh-hans-8-0ZrKnSOY.js         21.09 kB │ gzip:   8.90 kB
+dist/client/assets/zh-Hans-BRk6_H8D.js                          21.28 kB │ gzip:   8.79 kB
+dist/client/assets/glossary-shard-id-8-DTGmh30V.js              21.45 kB │ gzip:   7.35 kB
+dist/client/assets/ts-copy-id-CeofQfDu.js                       21.46 kB │ gzip:   7.15 kB
+dist/client/assets/glossary-shard-en-8-CZ48cdAg.js              21.55 kB │ gzip:   7.75 kB
+dist/client/assets/glossary-links-vi-DhcuT1aT.js                21.60 kB │ gzip:   7.12 kB
+dist/client/assets/route-v3-pages-return-banner-B1Wi7Pus.js     21.84 kB │ gzip:   8.44 kB
+dist/client/assets/ts-copy-it-CsQ3gTe2.js                       21.92 kB │ gzip:   7.49 kB
+dist/client/assets/pt-BR--V5KDQXq.js                            21.97 kB │ gzip:   7.68 kB
+dist/client/assets/glossary-shard-pt-br-8-CDEwI_YA.js           21.98 kB │ gzip:   7.95 kB
+dist/client/assets/glossary-shard-es-8-tR35Qdlt.js              22.02 kB │ gzip:   7.89 kB
+dist/client/assets/id-B18BoU7n.js                               22.10 kB │ gzip:   7.47 kB
+dist/client/assets/CampaignRadar-CoHtqsbV.js                    22.22 kB │ gzip:   8.19 kB
+dist/client/assets/ts-copy-de-CTDp8Ksj.js                       22.25 kB │ gzip:   7.69 kB
+dist/client/assets/en-qi6rJxuA.js                               22.43 kB │ gzip:   7.87 kB
+dist/client/assets/ts-copy-tr-BW430Wht.js                       22.83 kB │ gzip:   7.46 kB
+dist/client/assets/ts-copy-pt-br-BS8bBhBZ.js                    22.91 kB │ gzip:   7.62 kB
+dist/client/assets/ts-copy-es-D6stBVB8.js                       22.96 kB │ gzip:   7.54 kB
+dist/client/assets/glossary-shard-tr-8-DGbIBbnY.js              23.26 kB │ gzip:   8.30 kB
+dist/client/assets/data-compare-faq-locales-D_is2dGN.js         23.32 kB │ gzip:  10.59 kB
+dist/client/assets/de-C4OgUBg-.js                               23.54 kB │ gzip:   8.56 kB
+dist/client/assets/ts-copy-fr-CGAr0FeC.js                       23.83 kB │ gzip:   7.87 kB
+dist/client/assets/route-v3-pages-copy-jJUOIF6W.js              23.87 kB │ gzip:   8.88 kB
+dist/client/assets/glossary-links-ja-Ck07mUjc.js                23.93 kB │ gzip:   7.77 kB
+dist/client/assets/ko-DgG2llxq.js                               24.02 kB │ gzip:   8.14 kB
+dist/client/assets/ts-copy-ko-CKhbmM3o.js                       24.17 kB │ gzip:   7.87 kB
+dist/client/assets/glossary-shard-ko-8-BMMu9NOM.js              24.27 kB │ gzip:   8.61 kB
+dist/client/assets/glossary-shard-vi-8-CvHW1QdC.js              24.34 kB │ gzip:   8.00 kB
+dist/client/assets/ja-BDg57chl.js                               24.65 kB │ gzip:   7.96 kB
+dist/client/assets/glossary-shard-en-5-BM5hrmPU.js              24.88 kB │ gzip:   8.67 kB
+dist/client/assets/glossary-shard-zh-hans-5-qq7DlPCL.js         25.06 kB │ gzip:  10.30 kB
+dist/client/assets/glossary-shard-es-5-C5wttk_p.js              25.29 kB │ gzip:   8.73 kB
+dist/client/assets/glossary-shard-pt-br-5-BzAsAXBG.js           25.52 kB │ gzip:   8.67 kB
+dist/client/assets/ts-copy-ja-CdhSw6kY.js                       25.87 kB │ gzip:   8.10 kB
+dist/client/assets/glossary-shard-id-5-jnK6aIiT.js              25.97 kB │ gzip:   8.63 kB
+dist/client/assets/ts-copy-vi-pmTiYP4e.js                       26.09 kB │ gzip:   7.62 kB
+dist/client/assets/glossary-shard-en-15-wmGX0S4w.js             26.38 kB │ gzip:   9.52 kB
+dist/client/assets/glossary-shard-ja-8-CMpQEWod.js              26.47 kB │ gzip:   8.68 kB
+dist/client/assets/glossary-shard-zh-hans-15-C3NyZ0Io.js        26.58 kB │ gzip:  11.33 kB
+dist/client/assets/glossary-shard-tr-5-DuX1tNFe.js              27.15 kB │ gzip:   9.23 kB
+dist/client/assets/glossary-shard-id-15-VM-Imv-Y.js             27.27 kB │ gzip:   9.24 kB
+dist/client/assets/glossary-shard-es-15-UxcY-Ikg.js             27.64 kB │ gzip:   9.72 kB
+dist/client/assets/glossary-shard-pt-br-15-CDefFNch.js          27.71 kB │ gzip:   9.86 kB
+dist/client/assets/shared-exchange-facts-D2b2ZygQ.js            27.90 kB │ gzip:  10.59 kB
+dist/client/assets/data-campaign-copy-CLgf9Kxa.js               27.95 kB │ gzip:  11.41 kB
+dist/client/assets/glossary-shard-vi-5-Do4mC3lB.js              27.97 kB │ gzip:   8.60 kB
+dist/client/assets/ur-CJ67qXvf.js                               28.37 kB │ gzip:   8.68 kB
+dist/client/assets/ar-DfnKRM4c.js                               28.41 kB │ gzip:   8.32 kB
+dist/client/assets/glossary-shard-ko-5-nyLJFso8.js              28.42 kB │ gzip:   9.74 kB
+dist/client/assets/glossary-shard-tr-15-fvKTwNfx.js             28.64 kB │ gzip:  10.00 kB
+dist/client/assets/shared-tokenized-stocks-live-C7IDIdg0.js     29.45 kB │ gzip:   6.20 kB
+dist/client/assets/glossary-shard-ko-15-DeED7qPn.js             29.70 kB │ gzip:  10.41 kB
+dist/client/assets/ts-copy-ar-CIkhBbod.js                       29.92 kB │ gzip:   8.42 kB
+dist/client/assets/glossary-shard-vi-15-DLpY46rL.js             30.35 kB │ gzip:   9.78 kB
+dist/client/assets/glossary-shard-ja-5-DsYSMXfn.js              31.66 kB │ gzip:  10.10 kB
+dist/client/assets/ts-copy-ur-B7XPJ3B-.js                       31.71 kB │ gzip:   8.46 kB
+dist/client/assets/glossary-shard-en-12-DpnCMTQB.js             31.81 kB │ gzip:  10.74 kB
+dist/client/assets/glossary-shard-zh-hans-12-DdPmQ4QD.js        32.50 kB │ gzip:  12.61 kB
+dist/client/assets/ts-copy-uk-CSWvSEVp.js                       32.58 kB │ gzip:   8.97 kB
+dist/client/assets/ts-copy-ru-DdBY6xK0.js                       33.10 kB │ gzip:   9.02 kB
+dist/client/assets/route-v3-social-proof-CVd6mDCy.js            33.19 kB │ gzip:  13.46 kB
+dist/client/assets/glossary-shard-ja-15-DuI8s9kL.js             33.37 kB │ gzip:  10.90 kB
+dist/client/assets/glossary-shard-pt-br-12-DPrxEj6e.js          33.44 kB │ gzip:  10.92 kB
+dist/client/assets/glossary-shard-es-12-JSKyP9u9.js             33.64 kB │ gzip:  10.89 kB
+dist/client/assets/shared-answer-first-D3cuReOc.js              33.76 kB │ gzip:  11.13 kB
+dist/client/assets/glossary-shard-id-12-CB6-kknw.js             34.08 kB │ gzip:  10.53 kB
+dist/client/assets/route-funding-matrix-gT2f-8hN.js             34.86 kB │ gzip:  11.64 kB
+dist/client/assets/glossary-shard-tr-12-BfSjhvVc.js             34.90 kB │ gzip:  11.31 kB
+dist/client/assets/ru-DbX6Qh17.js                               35.06 kB │ gzip:   8.91 kB
+dist/client/assets/glossary-shard-zh-hans-0-BK8O3XLq.js         35.15 kB │ gzip:  13.89 kB
+dist/client/assets/uk-CalxTbI4.js                               35.30 kB │ gzip:   8.92 kB
+dist/client/assets/glossary-shard-id-0-DW7bTv7s.js              35.51 kB │ gzip:  11.22 kB
+dist/client/assets/glossary-shard-zh-hans-9-B4UeuVKj.js         35.68 kB │ gzip:  14.53 kB
+dist/client/assets/glossary-shard-vi-12-BGFrq3gx.js             35.79 kB │ gzip:  10.62 kB
+dist/client/assets/glossary-shard-zh-hans-10-bMD1KImB.js        35.96 kB │ gzip:  14.18 kB
+dist/client/assets/glossary-shard-en-10-DrVjTi2b.js             36.13 kB │ gzip:  12.21 kB
+dist/client/assets/glossary-shard-pt-br-0-xQelUEB8.js           36.31 kB │ gzip:  12.06 kB
+dist/client/assets/glossary-shard-en-9-BkdiqP0s.js              36.50 kB │ gzip:  12.71 kB
+dist/client/assets/glossary-shard-id-10-DllGNcBa.js             36.65 kB │ gzip:  11.61 kB
+dist/client/assets/glossary-shard-en-0-Cc82efJf.js              36.70 kB │ gzip:  12.24 kB
+dist/client/assets/glossary-shard-ko-12-CfQJFTK5.js             37.06 kB │ gzip:  11.68 kB
+dist/client/assets/glossary-shard-pt-br-10-BU7u0LwW.js          37.22 kB │ gzip:  12.27 kB
+dist/client/assets/glossary-shard-es-0-BywDogew.js              37.29 kB │ gzip:  12.16 kB
+dist/client/assets/glossary-shard-id-9-Dzzx45rl.js              37.29 kB │ gzip:  12.09 kB
+dist/client/assets/glossary-shard-es-10-Cq-qIrzi.js             37.36 kB │ gzip:  12.20 kB
+dist/client/assets/glossary-shard-pt-br-9-CeWM0UCa.js           37.52 kB │ gzip:  12.77 kB
+dist/client/assets/glossary-shard-es-9-ByVcNFYH.js              37.91 kB │ gzip:  12.88 kB
+dist/client/assets/route-converter-B3463xCC.js                  37.97 kB │ gzip:  12.96 kB
+dist/client/assets/glossary-shard-en-7-DKH2vulO.js              38.80 kB │ gzip:  13.54 kB
+dist/client/assets/glossary-shard-tr-0-ibS0TxIz.js              38.88 kB │ gzip:  12.72 kB
+dist/client/assets/glossary-shard-tr-9-ClKjmdTM.js              39.19 kB │ gzip:  13.14 kB
+dist/client/assets/glossary-shard-zh-hans-7-Z4aZq4s-.js         39.37 kB │ gzip:  16.20 kB
+dist/client/assets/glossary-shard-tr-10-i2NaAliC.js             39.47 kB │ gzip:  12.88 kB
+dist/client/assets/glossary-shard-zh-hans-11-CIIHxeRQ.js        39.55 kB │ gzip:  16.16 kB
+dist/client/assets/glossary-shard-es-7-Cg5fQrIm.js              39.96 kB │ gzip:  13.56 kB
+dist/client/assets/data-brazil-market-BRxbxNLh.js               40.10 kB │ gzip:  11.76 kB
+dist/client/assets/glossary-shard-id-7-BYKhzXDV.js              40.13 kB │ gzip:  13.17 kB
+dist/client/assets/glossary-shard-ko-0-DCZcU_bg.js              40.40 kB │ gzip:  13.07 kB
+dist/client/assets/data-promotions-BD7ea2An.js                  40.44 kB │ gzip:   4.47 kB
+dist/client/assets/glossary-index-en-lGKKEBKm.js                40.61 kB │ gzip:  13.41 kB
+dist/client/assets/glossary-shard-pt-br-7-CcIgiUgY.js           40.81 kB │ gzip:  14.01 kB
+dist/client/assets/glossary-shard-ko-10-BBz6qMek.js             40.82 kB │ gzip:  13.15 kB
+dist/client/assets/glossary-shard-ko-9-iP7B08Sq.js              40.87 kB │ gzip:  13.54 kB
+dist/client/assets/glossary-shard-id-11-Pe42kOwF.js             40.93 kB │ gzip:  13.27 kB
+dist/client/assets/glossary-shard-vi-9-CYbXk6BO.js              40.96 kB │ gzip:  12.59 kB
+dist/client/assets/glossary-shard-en-11-Mhwm3TMH.js             41.04 kB │ gzip:  14.09 kB
+dist/client/assets/glossary-shard-ja-12-CuLAHtLG.js             41.21 kB │ gzip:  12.37 kB
+dist/client/assets/data-referral-seo-DxlHPCyu.js                41.41 kB │ gzip:  15.86 kB
+dist/client/assets/glossary-shard-vi-0-Dc-5yxQ6.js              41.46 kB │ gzip:  12.28 kB
+dist/client/assets/glossary-shard-pt-br-11-DfwGFdVS.js          41.47 kB │ gzip:  13.96 kB
+dist/client/assets/glossary-shard-es-11-BdycxfJX.js             41.49 kB │ gzip:  13.96 kB
+dist/client/assets/route-news-list-BT1sSgP1.js                  42.14 kB │ gzip:  16.17 kB
+dist/client/assets/glossary-shard-vi-10-lYDdWUtT.js             42.19 kB │ gzip:  12.63 kB
+dist/client/assets/glossary-shard-tr-7-30JR0vSQ.js              42.51 kB │ gzip:  14.05 kB
+dist/client/assets/route-v3-calculators-B_613P7m.js             43.34 kB │ gzip:  15.45 kB
+dist/client/assets/route-flash-BxPMgijl.js                      43.73 kB │ gzip:  15.76 kB
+dist/client/assets/glossary-shard-zh-hans-4-CaVSKlTq.js         43.76 kB │ gzip:  16.57 kB
+dist/client/assets/glossary-shard-en-4-FNyfZkRh.js              43.82 kB │ gzip:  14.26 kB
+dist/client/assets/glossary-shard-tr-11-DixWjecD.js             43.83 kB │ gzip:  14.57 kB
+dist/client/assets/glossary-index-zh-hans-BFg4kMnn.js           43.86 kB │ gzip:  18.14 kB
+dist/client/assets/glossary-index-id-DveyzPCb.js                43.91 kB │ gzip:  13.83 kB
+dist/client/assets/core-ui-CPxPNAWZ.js                          44.11 kB │ gzip:  17.84 kB
+dist/client/assets/glossary-shard-ja-10-IcfPFDCK.js             44.36 kB │ gzip:  13.40 kB
+dist/client/assets/glossary-shard-ja-0-HP0hf6Qa.js              44.51 kB │ gzip:  13.61 kB
+dist/client/assets/glossary-shard-ko-7-CKCpAdcU.js              44.65 kB │ gzip:  15.08 kB
+dist/client/assets/glossary-shard-es-4-DLPQQt-O.js              44.71 kB │ gzip:  14.25 kB
+dist/client/assets/glossary-shard-pt-br-4-C6XzP7g2.js           44.77 kB │ gzip:  14.26 kB
+dist/client/assets/glossary-shard-ja-9-CO6cIuJI.js              44.95 kB │ gzip:  14.06 kB
+dist/client/assets/glossary-shard-vi-7-US68Ycf6.js              45.03 kB │ gzip:  13.75 kB
+dist/client/assets/glossary-shard-ko-11-Biexs4VN.js             45.35 kB │ gzip:  14.96 kB
+dist/client/assets/glossary-index-es-Cg8zdQPF.js                45.37 kB │ gzip:  14.91 kB
+dist/client/assets/glossary-shard-id-4-BMpBGFg8.js              45.78 kB │ gzip:  13.97 kB
+dist/client/assets/glossary-index-pt-br-D5qZq6Z_.js             45.93 kB │ gzip:  14.94 kB
+dist/client/assets/glossary-shard-vi-11-VTKHtka2.js             45.93 kB │ gzip:  14.02 kB
+dist/client/assets/glossary-index-ko-BMSIFwlY.js                46.47 kB │ gzip:  15.87 kB
+dist/client/assets/glossary-index-tr-C69FvYdA.js                47.01 kB │ gzip:  15.27 kB
+dist/client/assets/glossary-shard-tr-4-cHGReB0T.js              47.04 kB │ gzip:  14.80 kB
+dist/client/assets/glossary-shard-zh-hans-3-B431ivQE.js         47.11 kB │ gzip:  18.12 kB
+dist/client/assets/glossary-shard-en-3-D-bfZifu.js              47.32 kB │ gzip:  15.64 kB
+dist/client/assets/glossary-shard-id-3-b6U0ILi5.js              48.11 kB │ gzip:  15.00 kB
+dist/client/assets/glossary-shard-pt-br-3-DRB9UPxN.js           48.26 kB │ gzip:  15.84 kB
+dist/client/assets/glossary-shard-es-3-BirAFkrH.js              48.31 kB │ gzip:  15.45 kB
+dist/client/assets/glossary-shard-vi-4-BMyVmK3r.js              48.44 kB │ gzip:  14.06 kB
+dist/client/assets/glossary-shard-ja-7-DAzmV5Wc.js              48.49 kB │ gzip:  15.41 kB
+dist/client/assets/academy-content-zh-hant-Mi_BascL.js          48.74 kB │ gzip:  17.55 kB
+dist/client/assets/glossary-shard-ja-11-CkJbRXLB.js             48.75 kB │ gzip:  15.21 kB
+dist/client/assets/academy-content-zh-hans-P_07lbN-.js          49.11 kB │ gzip:  17.57 kB
+dist/client/assets/glossary-shard-ko-4-Dqqp-Vux.js              49.59 kB │ gzip:  15.46 kB
+dist/client/assets/glossary-shard-zh-hans-1-DbfIOAmK.js         49.85 kB │ gzip:  19.50 kB
+dist/client/assets/glossary-shard-zh-hans-13-CmZ5rw9K.js        50.06 kB │ gzip:  19.47 kB
+dist/client/assets/glossary-shard-en-2-BWgweuHc.js              50.56 kB │ gzip:  16.35 kB
+dist/client/assets/glossary-shard-tr-3-B52OsRjv.js              50.66 kB │ gzip:  16.09 kB
+dist/client/assets/route-v3-wizard-BsUCotjG.js                  50.74 kB │ gzip:  21.16 kB
+dist/client/assets/glossary-shard-en-13-kZflV4kp.js             50.76 kB │ gzip:  16.91 kB
+dist/client/assets/glossary-shard-en-1-BS5qVW0v.js              50.82 kB │ gzip:  16.83 kB
+dist/client/assets/glossary-shard-zh-hans-2-B175OFlA.js         50.88 kB │ gzip:  19.53 kB
+dist/client/assets/route-apps-Cog6VBA2.js                       50.91 kB │ gzip:  18.60 kB
+dist/client/assets/glossary-index-vi-Cwa7b_WN.js                50.93 kB │ gzip:  15.15 kB
+dist/client/assets/glossary-index-ja-D2Gg4kVK.js                51.42 kB │ gzip:  15.95 kB
+dist/client/assets/glossary-shard-es-2-Cd-Qn7Qx.js              51.49 kB │ gzip:  16.51 kB
+dist/client/assets/glossary-shard-id-1-_0S5wJR1.js              51.50 kB │ gzip:  15.96 kB
+dist/client/assets/glossary-shard-pt-br-1-HgVMsMhA.js           51.57 kB │ gzip:  16.88 kB
+dist/client/assets/glossary-shard-id-13-BSAZjSq7.js             51.83 kB │ gzip:  16.12 kB
+dist/client/assets/glossary-shard-es-13-34QGXrWB.js             52.22 kB │ gzip:  16.74 kB
+dist/client/assets/glossary-shard-es-1-BGuMq_XT.js              52.51 kB │ gzip:  17.05 kB
+dist/client/assets/glossary-shard-pt-br-2-yuSbbgxw.js           52.56 kB │ gzip:  16.95 kB
+dist/client/assets/glossary-shard-pt-br-13-BA25yYsP.js          52.75 kB │ gzip:  17.15 kB
+dist/client/assets/glossary-shard-vi-3-CzBOKAki.js              52.81 kB │ gzip:  15.43 kB
+dist/client/assets/glossary-shard-ko-3-D10ktGN_.js              52.90 kB │ gzip:  16.74 kB
+dist/client/assets/glossary-shard-id-2-lZ0vY2Du.js              53.04 kB │ gzip:  16.29 kB
+dist/client/assets/data-news-library-CNPoyG9u.js                53.42 kB │ gzip:  22.16 kB
+dist/client/assets/data-v3-interface-copy-DEHtVExU.js           54.00 kB │ gzip:  20.01 kB
+dist/client/assets/glossary-shard-tr-2-B0px8yKi.js              54.16 kB │ gzip:  17.30 kB
+dist/client/assets/glossary-shard-tr-13-AweuBII4.js             54.40 kB │ gzip:  17.51 kB
+dist/client/assets/academy-content-en-B89dpN0P.js               54.45 kB │ gzip:  16.94 kB
+dist/client/assets/glossary-shard-tr-1-CBmknTT5.js              55.29 kB │ gzip:  17.67 kB
+dist/client/assets/glossary-shard-ja-4-Bi1SdlMU.js              55.44 kB │ gzip:  16.25 kB
+dist/client/assets/glossary-shard-en-6-Dfu3ooqm.js              55.74 kB │ gzip:  18.58 kB
+dist/client/assets/glossary-shard-ko-13-DZx2XqwA.js             55.99 kB │ gzip:  18.01 kB
+dist/client/assets/glossary-shard-zh-hans-6-BbrLzp8b.js         56.87 kB │ gzip:  22.15 kB
+dist/client/assets/glossary-shard-ko-2-BDQtU7Os.js              57.16 kB │ gzip:  17.84 kB
+dist/client/assets/glossary-shard-vi-2-3w8F6oCl.js              57.28 kB │ gzip:  16.71 kB
+dist/client/assets/glossary-shard-ko-1-BSb3d3DE.js              57.42 kB │ gzip:  18.24 kB
+dist/client/assets/shared-whales-Cd-5AmqX.js                    57.62 kB │ gzip:  15.54 kB
+dist/client/assets/academy-content-pt-br-BqEbRyo_.js            57.64 kB │ gzip:  17.74 kB
+dist/client/assets/route-tokenized-stocks-BKwaGYy3.js           57.66 kB │ gzip:  18.15 kB
+dist/client/assets/glossary-shard-vi-1-DgIFot40.js              57.68 kB │ gzip:  16.95 kB
+dist/client/assets/glossary-shard-vi-13-B0mowN51.js             57.83 kB │ gzip:  16.86 kB
+dist/client/assets/glossary-shard-es-6-B9YW41PF.js              57.86 kB │ gzip:  18.66 kB
+dist/client/assets/academy-content-id-Dhfaq7-T.js               57.90 kB │ gzip:  17.32 kB
+dist/client/assets/shared-tokenized-stocks-D5qHH76r.js          57.96 kB │ gzip:  17.47 kB
+dist/client/assets/data-directory-context-Dp873SNX.js           58.39 kB │ gzip:  21.02 kB
+dist/client/assets/route-v3-home-BgQvIFff.js                    58.40 kB │ gzip:  19.67 kB
+dist/client/assets/glossary-shard-pt-br-6-DbPkRo3_.js           58.54 kB │ gzip:  19.02 kB
+dist/client/assets/glossary-shard-ja-3-DLlgJoZM.js              58.59 kB │ gzip:  17.59 kB
+dist/client/assets/glossary-shard-id-6-BG2o7rxt.js              58.86 kB │ gzip:  18.11 kB
+dist/client/assets/academy-content-es-Djof_tEd.js               59.23 kB │ gzip:  18.06 kB
+dist/client/assets/academy-content-tr-2NZOFZG3.js               59.69 kB │ gzip:  18.40 kB
+dist/client/assets/route-data-assets-CVqJuSnu.js                59.96 kB │ gzip:  21.15 kB
+dist/client/assets/glossary-shard-tr-6-DpiJV5q4.js              60.53 kB │ gzip:  19.23 kB
+dist/client/assets/academy-content-de-ByeAc33K.js               60.60 kB │ gzip:  19.40 kB
+dist/client/assets/glossary-shard-en-14-CBxmuSlO.js             61.12 kB │ gzip:  20.06 kB
+dist/client/assets/glossary-shard-zh-hans-14-BwsWWeJU.js        61.50 kB │ gzip:  24.20 kB
+dist/client/assets/academy-content-fr-BeTLqvHx.js               61.69 kB │ gzip:  19.13 kB
+dist/client/assets/glossary-shard-ja-1-BTPSiKQn.js              61.80 kB │ gzip:  18.69 kB
+dist/client/assets/glossary-shard-ja-13-CsXXqxkX.js             62.45 kB │ gzip:  18.64 kB
+dist/client/assets/glossary-shard-ja-2-DFqhCEWF.js              62.56 kB │ gzip:  18.57 kB
+dist/client/assets/data-official-research-lI6bynmd.js           62.72 kB │ gzip:  23.76 kB
+dist/client/assets/glossary-shard-es-14-DWcxA2XN.js             63.11 kB │ gzip:  20.63 kB
+dist/client/assets/glossary-shard-vi-6-K95EUtOM.js              63.22 kB │ gzip:  18.46 kB
+dist/client/assets/glossary-shard-id-14-Dn8sN8jg.js             63.36 kB │ gzip:  19.75 kB
+dist/client/assets/glossary-shard-ko-6-BL0do7G4.js              64.50 kB │ gzip:  20.68 kB
+dist/client/assets/route-academy-CzQiNhhR.js                    65.00 kB │ gzip:  23.28 kB
+dist/client/assets/route-glossary-BhsHVxp7.js                   65.04 kB │ gzip:  19.82 kB
+dist/client/assets/glossary-shard-pt-br-14-Akhg0TQ8.js          65.25 kB │ gzip:  21.28 kB
+dist/client/assets/PlatformMatcher-S-a22HqU.js                  65.61 kB │ gzip:  22.76 kB
+dist/client/assets/coin-content-zh-hans-Ctm9mIht.js             65.75 kB │ gzip:  25.74 kB
+dist/client/assets/route-news-shared-DKV-Zrj8.js                66.06 kB │ gzip:  26.67 kB
+dist/client/assets/route-onchain-BWSgJevp.js                    66.24 kB │ gzip:  25.66 kB
+dist/client/assets/glossary-shard-tr-14-C3mZVXPO.js             66.55 kB │ gzip:  21.39 kB
+dist/client/assets/data-decision-content-Cu02VCt8.js            66.67 kB │ gzip:  28.45 kB
+dist/client/assets/academy-content-ko-Cp7tAtRj.js               68.36 kB │ gzip:  19.93 kB
+dist/client/assets/glossary-shard-ko-14-B85jGReD.js             69.16 kB │ gzip:  22.00 kB
+dist/client/assets/route-partners-DI3xiyPx.js                   69.40 kB │ gzip:  26.12 kB
+dist/client/assets/route-radar-Bj3gQyuX.js                      69.50 kB │ gzip:  25.00 kB
+dist/client/assets/glossary-shard-vi-14-s79BvxXc.js             70.00 kB │ gzip:  20.58 kB
+dist/client/assets/academy-content-vi-Cr0F93i2.js               70.43 kB │ gzip:  18.76 kB
+dist/client/assets/route-v3-registration-KBYi8smY.js            70.81 kB │ gzip:  22.75 kB
+dist/client/assets/academy-content-ja-JRCWsURB.js               71.71 kB │ gzip:  20.29 kB
+dist/client/assets/glossary-shard-ja-6-Cx7ddzGp.js              71.81 kB │ gzip:  21.84 kB
+dist/client/assets/route-collection-hubs-CCaP0WKy.js            72.23 kB │ gzip:  24.90 kB
+dist/client/assets/coin-content-en-DQAYxyIt.js                  73.30 kB │ gzip:  24.02 kB
+dist/client/assets/home-below-fold-B5oj2tSl.js                  73.93 kB │ gzip:  29.34 kB
+dist/client/assets/glossary-shard-ja-14-D0tMG9pa.js             75.10 kB │ gzip:  22.57 kB
+dist/client/assets/route-beginner-ddruXMaq.js                   76.26 kB │ gzip:  28.56 kB
+dist/client/assets/academy-content-ar-Bt8OaWEN.js               78.82 kB │ gzip:  20.35 kB
+dist/client/assets/coin-content-pt-br-B5Zf6i5L.js               79.37 kB │ gzip:  25.44 kB
+dist/client/assets/shared-venue-copy-CBBtsmG8.js                79.65 kB │ gzip:  28.66 kB
+dist/client/assets/coin-content-id-Cr3CkQk6.js                  79.73 kB │ gzip:  24.36 kB
+dist/client/assets/coin-content-es-yju-aI_f.js                  80.06 kB │ gzip:  25.36 kB
+dist/client/assets/route-v3-directory-CkQD_jbw.js               80.58 kB │ gzip:  26.48 kB
+dist/client/assets/data-aeo-questions-C7WNTQNY.js               81.10 kB │ gzip:  25.77 kB
+dist/client/assets/coin-content-de-XO3OxGBe.js                  81.10 kB │ gzip:  27.37 kB
+dist/client/assets/route-rates-C4iS3ePX.js                      81.16 kB │ gzip:  29.22 kB
+dist/client/assets/coin-content-tr-BVTrraMk.js                  81.91 kB │ gzip:  26.42 kB
+dist/client/assets/route-v3-venue-research-BLPVJ6Ji.js          83.94 kB │ gzip:  28.54 kB
+dist/client/assets/data-priority-venue-answers-3z8qXdnz.js      84.95 kB │ gzip:  23.07 kB
+dist/client/assets/coin-content-fr-CSREDNVE.js                  85.19 kB │ gzip:  26.45 kB
+dist/client/assets/coin-content-ko-Dep9YuoX.js                  85.29 kB │ gzip:  27.00 kB
+dist/client/assets/route-campaign-landing-B8atVY1l.js           88.09 kB │ gzip:  31.12 kB
+dist/client/assets/route-intel-tools-B14m08pb.js                88.30 kB │ gzip:  30.18 kB
+dist/client/assets/data-telegram-BH9-fgrx.js                    89.65 kB │ gzip:  25.52 kB
+dist/client/assets/academy-content-ru-DLuzHRe0.js               91.05 kB │ gzip:  21.80 kB
+dist/client/assets/coin-content-vi-r6Cec0V0.js                  91.64 kB │ gzip:  25.75 kB
+dist/client/assets/route-campaign-bitget-DEwGXo7v.js            92.27 kB │ gzip:  30.06 kB
+dist/client/assets/data-factbook-V9iAfA-l.js                    93.01 kB │ gzip:  23.81 kB
+dist/client/assets/data-research-D5PwuMHx.js                    93.81 kB │ gzip:  30.60 kB
+dist/client/assets/coin-content-ja-BQkgg0DR.js                  94.47 kB │ gzip:  27.78 kB
+dist/client/assets/route-campaign-kraken-Cpg3M_Jb.js            94.85 kB │ gzip:  30.48 kB
+dist/client/assets/route-news-detail-CuPjfpaV.js                97.43 kB │ gzip:  36.44 kB
+dist/client/assets/data-topic-guides-DAk7chBm.js                97.71 kB │ gzip:  34.70 kB
+dist/client/assets/route-methodology-DHWwsbdx.js               102.16 kB │ gzip:  37.63 kB
+dist/client/assets/index-Dsii2szb.js                           109.27 kB │ gzip:  34.89 kB
+dist/client/assets/route-v3-venue-faq-DMeuQjVC.js              120.61 kB │ gzip:  42.83 kB
+dist/client/assets/route-telegram-B9nFhtek.js                  120.66 kB │ gzip:  44.63 kB
+dist/client/assets/route-licenses-DKlLC3Xt.js                  127.78 kB │ gzip:  36.99 kB
+dist/client/assets/route-campaign-bybit-krUS5B9_.js            133.91 kB │ gzip:  46.05 kB
+dist/client/assets/route-factbook-BshbuyN4.js                  134.30 kB │ gzip:  43.98 kB
+dist/client/assets/route-tokenized-assets-DQ8Uot-h.js          141.79 kB │ gzip:  47.93 kB
+dist/client/assets/data-v3-product-BVi99vE6.js                 143.28 kB │ gzip:  45.17 kB
+dist/client/assets/route-brand-pages-BD8B_Km9.js               150.83 kB │ gzip:  57.92 kB
+dist/client/assets/route-coins-DwoEZ18g.js                     172.89 kB │ gzip:  47.21 kB
+dist/client/assets/data-compare-direct-answers-COQzRVTH.js     183.24 kB │ gzip:  50.19 kB
+dist/client/assets/route-v3-pages-IAHIgjB9.js                  187.15 kB │ gzip:  65.52 kB
+dist/client/assets/route-deposit-DGXHj3QR.js                   193.71 kB │ gzip:  57.68 kB
+dist/client/assets/vendor-react-CUZ3TzEi.js                    194.24 kB │ gzip:  60.67 kB
+dist/client/assets/route-data-YxYpZ4HP.js                      205.91 kB │ gzip:  66.97 kB
+dist/client/assets/data-compare-generated-CiN_KPz4.js          252.26 kB │ gzip:  92.57 kB
+dist/client/assets/route-v3-venue-B-5s-Epf.js                  274.84 kB │ gzip:  88.32 kB
+dist/client/assets/route-topic-guide-Dzd53ghV.js               311.01 kB │ gzip:  95.99 kB
+dist/client/assets/route-international-DIztUqGy.js             324.32 kB │ gzip: 106.32 kB
+dist/client/assets/core-shared-CxLMeUCL.js                     575.44 kB │ gzip: 197.43 kB
+dist/client/assets/route-activity-Bp1Us5Nz.js                  886.54 kB │ gzip: 266.66 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 8.28s
+Route CSS: 7 v6 segments -> one full inner asset / one shared home asset
+vite v6.4.2 building SSR bundle for production...
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (message-modules)
+transforming...
+✓ 992 modules transformed.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> shared-news-selection -> shared-tokenized-stocks -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> shared-news-selection -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-exchange-facts -> route-news-shared -> route-funding-matrix -> shared-exchange-facts. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-funding-matrix -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-funding-matrix -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> route-data-assets -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-funding-matrix -> route-data -> route-data-assets -> route-apps -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> route-data-assets -> route-apps -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> route-data-assets -> shared-exchange-facts. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> route-data-assets -> route-licenses -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-funding-matrix -> route-data -> route-data-assets -> route-licenses -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-data -> route-data-assets -> route-data. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> shared-glossary-tooltip -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-funding-matrix -> route-data -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> shared-answer-first -> shared-exchange-facts. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-coins -> route-radar -> route-coins. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-converter -> route-coins -> route-radar -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-converter -> route-coins -> route-radar -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-converter -> route-coins -> route-radar -> shared-whales -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-exchange-facts -> route-news-shared -> route-converter -> route-coins -> shared-exchange-facts. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-converter -> route-coins -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-converter -> route-coins -> route-academy -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-converter -> route-coins -> route-academy -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-converter -> route-coins -> shared-research -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-converter -> route-coins -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-converter -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-tokenized-assets -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-tokenized-assets -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-tokenized-assets -> route-campaign-landing -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-tokenized-assets -> route-campaign-landing -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-tokenized-assets -> route-v3-venue-faq -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-tokenized-assets -> route-v3-venue-faq -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-exchange-facts -> route-news-shared -> route-tokenized-assets -> route-v3-venue-faq -> shared-exchange-facts. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-exchange-facts -> route-news-shared -> route-tokenized-assets -> shared-exchange-facts. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+rendering chunks...
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/shared/CrawlPriorityLinks.jsx is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/shared/ToolArticleLinks.jsx is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/v3/CrossroadsCompare.jsx is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/v3/PlatformMatcher.jsx is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-ar.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-de.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-en.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-es.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-fr.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-id.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-ja.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-ko.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-pt-br.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-ru.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-tr.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-vi.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-zh-hans.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-zh-hant.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/ar.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/de.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/en.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/es.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/fr.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/id.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/it.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/ja.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/ko.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/pt-BR.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/ru.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/tr.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/uk.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/ur.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/vi.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/zh-Hans.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/zh-Hant.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/tokenized-stocks/HomeTokenizedStrip.jsx is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/v7/HomeV7.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/v7/HomeV7.jsx, dynamic import will not move module into another chunk.
+
+dist/ssr/version.json                                           0.05 kB
+dist/ssr/assets/shared-brazil-paths-5QWdYVW7.js                 1.63 kB
+dist/ssr/assets/route-v3-decision-articles-CRv8JjtI.js          2.30 kB
+dist/ssr/assets/data-market-nav-B2hlcgAK.js                     2.39 kB
+dist/ssr/assets/shared-glossary-link-Bgkz8wZN.js                2.83 kB
+dist/ssr/assets/route-v3-pages-state-CKlhKIxl.js                3.39 kB
+dist/ssr/assets/shared-compare-picker-C1QtaloH.js               3.88 kB
+dist/ssr/assets/route-v3-pages-detail-stocks-DnO3NZ7_.js        4.13 kB
+dist/ssr/assets/shared-copy-feedback-DhbHHqG1.js                4.59 kB
+dist/ssr/assets/shared-telegram-cta-DgYt8THb.js                 5.16 kB
+dist/ssr/assets/route-v3-pages-shared-x3CMERkP.js               6.01 kB
+dist/ssr/assets/ticker-live-W8etM7ey.js                         7.45 kB
+dist/ssr/assets/home7-board-motion-DEz3DXbU.js                  7.66 kB
+dist/ssr/assets/shared-hero-copy-CSq7oplU.js                    7.80 kB
+dist/ssr/assets/route-kol-CvBhXNHV.js                           8.23 kB
+dist/ssr/assets/data-partner-geo-CMHfzEUk.js                    8.48 kB
+dist/ssr/assets/shared-compare-routes-DgpP-xUS.js              11.29 kB
+dist/ssr/assets/route-v3-research-panels-C9TY7f4z.js           12.42 kB
+dist/ssr/assets/shared-research-Ap52AzES.js                    12.46 kB
+dist/ssr/assets/route-market-Ba9nHOas.js                       13.30 kB
+dist/ssr/assets/shared-hero-lab-copy-P4clUf9N.js               13.83 kB
+dist/ssr/assets/home7-globe-DMUpq7FF.js                        16.26 kB
+dist/ssr/assets/shared-hero-verify-copy-BQwtct0Z.js            18.02 kB
+dist/ssr/assets/data-partner-registry-BCYZdj4N.js              20.63 kB
+dist/ssr/assets/ts-copy-en-C-fj2G0z.js                         22.02 kB
+dist/ssr/assets/ts-copy-zh-hant-CfZgJG4B.js                    22.08 kB
+dist/ssr/assets/ts-copy-zh-hans-DQnPoKlm.js                    22.14 kB
+dist/ssr/assets/shared-glossary-tooltip-DDAWnWrd.js            22.56 kB
+dist/ssr/assets/ts-copy-id-DO4M4fV-.js                         22.87 kB
+dist/ssr/assets/ts-copy-it-hWRYqRCQ.js                         23.34 kB
+dist/ssr/assets/ts-copy-de-CeUN9I9e.js                         23.66 kB
+dist/ssr/assets/ts-copy-tr-DR5kXUSe.js                         24.24 kB
+dist/ssr/assets/ts-copy-pt-br-D2o9Punb.js                      24.33 kB
+dist/ssr/assets/ts-copy-es-Cc-GVOp6.js                         24.38 kB
+dist/ssr/assets/route-v3-readiness--9Cq74oS.js                 24.43 kB
+dist/ssr/assets/ts-copy-fr-B4Lo4enl.js                         25.25 kB
+dist/ssr/assets/ts-copy-ko-BXQp8qIM.js                         25.59 kB
+dist/ssr/assets/data-compare-faq-locales-V1dj9ZzD.js           26.17 kB
+dist/ssr/assets/ts-copy-ja-UlNuyZz_.js                         27.28 kB
+dist/ssr/assets/route-v3-pages-copy-3OsDAXDB.js                27.43 kB
+dist/ssr/assets/ts-copy-vi-D0lkIfXF.js                         27.51 kB
+dist/ssr/assets/route-v3-pages-return-banner-Dlebe1j6.js       29.46 kB
+dist/ssr/assets/route-v3-compare-final-choice-qcxfL6Yp.js      30.25 kB
+dist/ssr/assets/data-campaign-copy-BSXckQ9b.js                 31.30 kB
+dist/ssr/assets/ts-copy-ar-BXUWe_t3.js                         31.33 kB
+dist/ssr/assets/shared-campaign-feature-DyGMAGfD.js            31.40 kB
+dist/ssr/assets/ts-copy-ur-BGBe1O5b.js                         33.12 kB
+dist/ssr/assets/ts-copy-uk-BiEvT7as.js                         34.00 kB
+dist/ssr/assets/ts-copy-ru-CmNi3B49.js                         34.52 kB
+dist/ssr/assets/shared-tokenized-stocks-live-DRh69Mau.js       40.33 kB
+dist/ssr/assets/route-v3-social-proof-BprwBiS3.js              41.11 kB
+dist/ssr/assets/shared-answer-first-DWwJyPJE.js                45.36 kB
+dist/ssr/assets/route-converter-BIF8DVrr.js                    48.85 kB
+dist/ssr/assets/route-funding-matrix-Bv5m4zzm.js               51.76 kB
+dist/ssr/assets/route-news-list-DnDujEus.js                    55.63 kB
+dist/ssr/assets/data-venue-BeyMDT-S.js                         56.53 kB
+dist/ssr/assets/route-flash-znMmeLcd.js                        56.96 kB
+dist/ssr/assets/route-v3-calculators-BFjgoEFT.js               57.61 kB
+dist/ssr/assets/shared-exchange-facts-7cw09fTZ.js              58.04 kB
+dist/ssr/assets/data-v3-interface-copy-DGe0tdgJ.js             58.64 kB
+dist/ssr/assets/route-embed-B5kcH_j_.js                        62.29 kB
+dist/ssr/assets/data-promotions-B0Smg1Yk.js                    62.53 kB
+dist/ssr/assets/route-v3-wizard-YH0cdMgp.js                    62.98 kB
+dist/ssr/assets/route-apps-CTVWPo86.js                         66.70 kB
+dist/ssr/assets/data-official-research-D4D-7MkJ.js             70.62 kB
+dist/ssr/assets/shared-tokenized-stocks-C1fvux9C.js            70.91 kB
+dist/ssr/assets/shared-whales-D55fSYyo.js                      71.95 kB
+dist/ssr/assets/data-decision-content-Bmvt7bCW.js              72.40 kB
+dist/ssr/assets/route-onchain-DSLVhaUF.js                      72.58 kB
+dist/ssr/assets/data-directory-context-BTVY0fWj.js             73.91 kB
+dist/ssr/assets/shared-news-selection-C_v1Zumb.js              78.69 kB
+dist/ssr/assets/route-glossary-ChZRVdtB.js                     79.50 kB
+dist/ssr/assets/route-v3-home-CQvVrHHe.js                      80.35 kB
+dist/ssr/assets/route-partners-DrRpMoBU.js                     81.30 kB
+dist/ssr/assets/shared-coin-rows-u6XEEKGU.js                   83.84 kB
+dist/ssr/assets/route-collection-hubs-B2CB6dsJ.js              85.00 kB
+dist/ssr/assets/route-tokenized-stocks-LeMtsqmi.js             87.94 kB
+dist/ssr/assets/route-v3-registration-DZVWzucK.js              89.49 kB
+dist/ssr/assets/route-radar-BH0Pv31i.js                        90.73 kB
+dist/ssr/assets/data-priority-venue-answers-DqahgMgn.js        93.84 kB
+dist/ssr/assets/route-academy-BTwFFe5c.js                      98.72 kB
+dist/ssr/assets/data-research-CEXo6EDu.js                     100.13 kB
+dist/ssr/assets/route-v3-venue-research-oR2qIThF.js           104.97 kB
+dist/ssr/assets/route-campaign-landing-_W_V-Vtb.js            106.46 kB
+dist/ssr/assets/data-topic-guides-C6GasOwh.js                 108.45 kB
+dist/ssr/assets/shared-venue-copy-CMDhhXcw.js                 110.03 kB
+dist/ssr/assets/route-intel-tools-9mCMIh5w.js                 110.87 kB
+dist/ssr/assets/data-factbook-Cfj8bBCq.js                     111.50 kB
+dist/ssr/assets/route-beginner-Ds2t8kdv.js                    111.76 kB
+dist/ssr/assets/data-telegram-DCqveznl.js                     112.98 kB
+dist/ssr/assets/route-campaign-bitget-C6zvxjyS.js             114.67 kB
+dist/ssr/assets/route-rates-CHgKp51_.js                       118.88 kB
+dist/ssr/assets/route-campaign-kraken-DRFMxuZE.js             119.51 kB
+dist/ssr/assets/route-v3-directory-4e1ySbD5.js                120.85 kB
+dist/ssr/assets/route-methodology-CbUTWtzI.js                 122.21 kB
+dist/ssr/assets/route-coins-70eGny7X.js                       127.32 kB
+dist/ssr/assets/route-data-assets-CZKcnF8p.js                 135.38 kB
+dist/ssr/assets/route-news-detail-O8kd3-dw.js                 138.54 kB
+dist/ssr/assets/route-telegram-BGjR-3a2.js                    155.35 kB
+dist/ssr/assets/data-v3-product-BG8BwCA2.js                   157.27 kB
+dist/ssr/assets/route-licenses-4sIzlMF9.js                    162.30 kB
+dist/ssr/assets/route-brand-pages-htPm4Hw6.js                 164.56 kB
+dist/ssr/assets/route-campaign-bybit-DGO8iXOf.js              169.32 kB
+dist/ssr/assets/route-factbook-DjNhkQkG.js                    178.27 kB
+dist/ssr/assets/route-v3-venue-faq-DnyElzj-.js                187.91 kB
+dist/ssr/assets/route-tokenized-assets-DIewkcFW.js            188.64 kB
+dist/ssr/assets/data-compare-direct-answers-B8x6G-AG.js       210.52 kB
+dist/ssr/assets/route-deposit-C-9RjB_T.js                     237.79 kB
+dist/ssr/assets/route-v3-pages-Bxh7C0_G.js                    257.03 kB
+dist/ssr/assets/route-data-C6R2ONQ3.js                        258.38 kB
+dist/ssr/assets/data-compare-generated-CArSXMa1.js            270.19 kB
+dist/ssr/assets/route-news-shared-C2bV-Lqh.js                 289.72 kB
+dist/ssr/assets/route-v3-venue-D5dv6SAs.js                    383.83 kB
+dist/ssr/assets/route-topic-guide-Bmo5aT0N.js                 409.05 kB
+dist/ssr/assets/route-international-Bdj1de_-.js               548.52 kB
+dist/ssr/assets/route-activity-Dv8UJryn.js                  1,049.63 kB
+dist/ssr/entry-server.js                                   11,525.64 kB
+✓ built in 5.62s
+vite v6.4.2 building SSR bundle for production...
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (message-modules)
+transforming...
+✓ 1041 modules transformed.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> shared-news-selection -> shared-tokenized-stocks -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> shared-news-selection -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-exchange-facts -> route-news-shared -> route-funding-matrix -> shared-exchange-facts. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-funding-matrix -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-funding-matrix -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> route-data-assets -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-funding-matrix -> route-data -> route-data-assets -> route-apps -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> route-data-assets -> route-apps -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> route-data-assets -> shared-exchange-facts. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> route-data-assets -> route-licenses -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-funding-matrix -> route-data -> route-data-assets -> route-licenses -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-data -> route-data-assets -> route-data. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> shared-glossary-tooltip -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-funding-matrix -> route-data -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-exchange-facts -> route-news-shared -> route-funding-matrix -> route-data -> shared-answer-first -> shared-exchange-facts. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-coins -> route-radar -> route-coins. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-converter -> route-coins -> route-radar -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-converter -> route-coins -> route-radar -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-converter -> route-coins -> route-radar -> shared-whales -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-exchange-facts -> route-news-shared -> route-converter -> route-coins -> shared-exchange-facts. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-converter -> route-coins -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-converter -> route-coins -> route-academy -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-converter -> route-coins -> route-academy -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-converter -> route-coins -> shared-research -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-converter -> route-coins -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-converter -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-tokenized-assets -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-tokenized-assets -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-tokenized-assets -> route-campaign-landing -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-tokenized-assets -> route-campaign-landing -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> route-news-shared -> route-tokenized-assets -> route-v3-venue-faq -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+Circular chunk: route-news-shared -> route-tokenized-assets -> route-v3-venue-faq -> route-news-shared. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-exchange-facts -> route-news-shared -> route-tokenized-assets -> route-v3-venue-faq -> shared-exchange-facts. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-exchange-facts -> route-news-shared -> route-tokenized-assets -> shared-exchange-facts. Please adjust the manual chunk logic for these chunks.
+Circular chunk: shared-venue-copy -> shared-exchange-facts -> shared-venue-copy. Please adjust the manual chunk logic for these chunks.
+rendering chunks...
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/shared/CrawlPriorityLinks.jsx is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/shared/ToolArticleLinks.jsx is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/v3/CrossroadsCompare.jsx is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/v3/PlatformMatcher.jsx is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-ar.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-de.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-en.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-es.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-fr.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-id.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-ja.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-ko.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-pt-br.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-ru.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-tr.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-vi.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-zh-hans.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-zh-hant.js is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/academy-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/ar.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/de.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/en.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/es.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/fr.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/id.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/it.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/ja.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/ko.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/pt-BR.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/ru.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/tr.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/uk.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/ur.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/vi.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/zh-Hans.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-copy/zh-Hant.json is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/App.jsx, /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/data/beginner-content-all.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/tokenized-stocks/HomeTokenizedStrip.jsx is dynamically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/v7/HomeV7.jsx but also statically imported by /Volumes/致态2TB/nx-wt-codex-globe-css/pilot-01-prototype/src/components/v7/HomeV7.jsx, dynamic import will not move module into another chunk.
+
+dist/news-ssr/version.json                                           0.05 kB
+dist/news-ssr/assets/shared-brazil-paths-5QWdYVW7.js                 1.63 kB
+dist/news-ssr/assets/data-market-nav-B2hlcgAK.js                     2.39 kB
+dist/news-ssr/assets/route-v3-decision-articles-C3uREA9L.js          2.48 kB
+dist/news-ssr/assets/shared-glossary-link-Bgkz8wZN.js                2.83 kB
+dist/news-ssr/assets/route-v3-pages-state-CKlhKIxl.js                3.39 kB
+dist/news-ssr/assets/shared-compare-picker-ZLXR3WPq.js               4.25 kB
+dist/news-ssr/assets/route-v3-pages-detail-stocks-DVTx_Oqs.js        4.55 kB
+dist/news-ssr/assets/shared-copy-feedback-DhbHHqG1.js                4.59 kB
+dist/news-ssr/assets/shared-telegram-cta-BHrWaP5a.js                 5.35 kB
+dist/news-ssr/assets/route-v3-pages-shared-wrgl4Bsb.js               6.05 kB
+dist/news-ssr/assets/ticker-live-BD1iaK6_.js                         7.52 kB
+dist/news-ssr/assets/home7-board-motion-D6eyMZv_.js                  7.72 kB
+dist/news-ssr/assets/shared-hero-copy-CSq7oplU.js                    7.80 kB
+dist/news-ssr/assets/data-partner-geo-CMHfzEUk.js                    8.48 kB
+dist/news-ssr/assets/route-kol-BelxLWhK.js                           8.69 kB
+dist/news-ssr/assets/shared-compare-routes-DgpP-xUS.js              11.29 kB
+dist/news-ssr/assets/shared-research-BMosLBsY.js                    12.75 kB
+dist/news-ssr/assets/route-v3-research-panels-VdLjwnj5.js           13.16 kB
+dist/news-ssr/assets/route-market-DeMKLdMt.js                       13.65 kB
+dist/news-ssr/assets/shared-hero-lab-copy-P4clUf9N.js               13.83 kB
+dist/news-ssr/assets/home7-globe-DMUpq7FF.js                        16.26 kB
+dist/news-ssr/assets/shared-hero-verify-copy-BQwtct0Z.js            18.02 kB
+dist/news-ssr/assets/data-partner-registry-BCYZdj4N.js              20.63 kB
+dist/news-ssr/assets/ts-copy-en-C-fj2G0z.js                         22.02 kB
+dist/news-ssr/assets/ts-copy-zh-hant-CfZgJG4B.js                    22.08 kB
+dist/news-ssr/assets/ts-copy-zh-hans-DQnPoKlm.js                    22.14 kB
+dist/news-ssr/assets/shared-glossary-tooltip-CmTwEaRq.js            22.63 kB
+dist/news-ssr/assets/ts-copy-id-DO4M4fV-.js                         22.87 kB
+dist/news-ssr/assets/ts-copy-it-hWRYqRCQ.js                         23.34 kB
+dist/news-ssr/assets/ts-copy-de-CeUN9I9e.js                         23.66 kB
+dist/news-ssr/assets/ts-copy-tr-DR5kXUSe.js                         24.24 kB
+dist/news-ssr/assets/ts-copy-pt-br-D2o9Punb.js                      24.33 kB
+dist/news-ssr/assets/ts-copy-es-Cc-GVOp6.js                         24.38 kB
+dist/news-ssr/assets/route-v3-readiness-DyaQNcJb.js                 24.90 kB
+dist/news-ssr/assets/ts-copy-fr-B4Lo4enl.js                         25.25 kB
+dist/news-ssr/assets/ts-copy-ko-BXQp8qIM.js                         25.59 kB
+dist/news-ssr/assets/data-compare-faq-locales-V1dj9ZzD.js           26.17 kB
+dist/news-ssr/assets/ts-copy-ja-UlNuyZz_.js                         27.28 kB
+dist/news-ssr/assets/route-v3-pages-copy-3OsDAXDB.js                27.43 kB
+dist/news-ssr/assets/ts-copy-vi-D0lkIfXF.js                         27.51 kB
+dist/news-ssr/assets/route-v3-pages-return-banner-DgBZB_R1.js       30.27 kB
+dist/news-ssr/assets/data-campaign-copy-BSXckQ9b.js                 31.30 kB
+dist/news-ssr/assets/ts-copy-ar-BXUWe_t3.js                         31.33 kB
+dist/news-ssr/assets/shared-campaign-feature-DyGMAGfD.js            31.40 kB
+dist/news-ssr/assets/route-v3-compare-final-choice-CLKsFtFB.js      31.60 kB
+dist/news-ssr/assets/ts-copy-ur-BGBe1O5b.js                         33.12 kB
+dist/news-ssr/assets/ts-copy-uk-BiEvT7as.js                         34.00 kB
+dist/news-ssr/assets/ts-copy-ru-CmNi3B49.js                         34.52 kB
+dist/news-ssr/assets/shared-tokenized-stocks-live-BG_eeoEp.js       40.33 kB
+dist/news-ssr/assets/route-v3-social-proof-BTmaY9Mg.js              41.59 kB
+dist/news-ssr/assets/shared-answer-first-yFmBRs1n.js                45.45 kB
+dist/news-ssr/assets/route-converter-JBy8GWFF.js                    50.31 kB
+dist/news-ssr/assets/route-funding-matrix-D2YJIX8o.js               53.97 kB
+dist/news-ssr/assets/data-venue-BeyMDT-S.js                         56.53 kB
+dist/news-ssr/assets/route-news-list-C-EV9INK.js                    57.15 kB
+dist/news-ssr/assets/data-v3-interface-copy-DGe0tdgJ.js             58.64 kB
+dist/news-ssr/assets/route-v3-calculators-CkWiwW5q.js               59.58 kB
+dist/news-ssr/assets/shared-exchange-facts-D0GRlywb.js              59.61 kB
+dist/news-ssr/assets/route-flash-YfVD-FuA.js                        59.67 kB
+dist/news-ssr/assets/data-promotions-B0Smg1Yk.js                    62.53 kB
+dist/news-ssr/assets/route-embed-CMMgEXgY.js                        63.38 kB
+dist/news-ssr/assets/route-v3-wizard-D8rtyMlJ.js                    64.46 kB
+dist/news-ssr/assets/route-apps-B5_oK9j8.js                         67.81 kB
+dist/news-ssr/assets/data-official-research-D4D-7MkJ.js             70.62 kB
+dist/news-ssr/assets/shared-tokenized-stocks-BmJwo2yp.js            70.91 kB
+dist/news-ssr/assets/shared-whales-Dyef4rfr.js                      71.95 kB
+dist/news-ssr/assets/data-decision-content-Bmvt7bCW.js              72.40 kB
+dist/news-ssr/assets/route-onchain-DVBo5XwP.js                      73.30 kB
+dist/news-ssr/assets/data-directory-context-HwO_gMS-.js             73.91 kB
+dist/news-ssr/assets/shared-news-selection-S2eVPojN.js              78.69 kB
+dist/news-ssr/assets/route-glossary-Ck9-kkTz.js                     81.60 kB
+dist/news-ssr/assets/route-v3-home-CGZ5_8B-.js                      82.17 kB
+dist/news-ssr/assets/route-partners-CD-M0iM3.js                     83.29 kB
+dist/news-ssr/assets/shared-coin-rows-u6XEEKGU.js                   83.84 kB
+dist/news-ssr/assets/route-collection-hubs-sCFfWlSh.js              86.70 kB
+dist/news-ssr/assets/route-v3-registration-DMeoQv2x.js              91.10 kB
+dist/news-ssr/assets/route-radar-DOe3LC3g.js                        93.68 kB
+dist/news-ssr/assets/data-priority-venue-answers-DqahgMgn.js        93.84 kB
+dist/news-ssr/assets/route-tokenized-stocks-DVWotF_B.js             96.44 kB
+dist/news-ssr/assets/data-research-CEXo6EDu.js                     100.13 kB
+dist/news-ssr/assets/route-academy-B0kSRwle.js                     102.00 kB
+dist/news-ssr/assets/data-topic-guides-C6GasOwh.js                 108.45 kB
+dist/news-ssr/assets/route-campaign-landing-DtDh6tp0.js            109.11 kB
+dist/news-ssr/assets/route-v3-venue-research-CVU-NBs-.js           110.15 kB
+dist/news-ssr/assets/shared-venue-copy-rcJfpgQI.js                 110.17 kB
+dist/news-ssr/assets/data-factbook-B1FrfrQY.js                     111.50 kB
+dist/news-ssr/assets/data-telegram-w4J0Ywur.js                     112.98 kB
+dist/news-ssr/assets/route-beginner-CGXsTO-C.js                    113.89 kB
+dist/news-ssr/assets/route-intel-tools-BSqUl5_s.js                 114.95 kB
+dist/news-ssr/assets/route-campaign-bitget-CnMapfe9.js             117.40 kB
+dist/news-ssr/assets/route-rates-C2lqN1J5.js                       122.61 kB
+dist/news-ssr/assets/route-campaign-kraken-D4o49iUS.js             123.12 kB
+dist/news-ssr/assets/route-methodology-1zlp5doS.js                 123.69 kB
+dist/news-ssr/assets/route-v3-directory-BZSf6ww6.js                126.47 kB
+dist/news-ssr/assets/route-coins-C5hRYkdd.js                       131.06 kB
+dist/news-ssr/assets/route-data-assets-mZZgOQzE.js                 140.43 kB
+dist/news-ssr/assets/route-news-detail-040WF5yf.js                 142.46 kB
+dist/news-ssr/assets/data-v3-product-0jS6yMi8.js                   157.27 kB
+dist/news-ssr/assets/route-telegram-B6ZLKoI0.js                    158.23 kB
+dist/news-ssr/assets/route-licenses-Ci0UhZ3y.js                    163.97 kB
+dist/news-ssr/assets/route-brand-pages-B09VSEql.js                 166.52 kB
+dist/news-ssr/assets/route-campaign-bybit-Dwb3E5Zj.js              171.91 kB
+dist/news-ssr/assets/route-factbook-BQ8DmSaK.js                    183.62 kB
+dist/news-ssr/assets/route-v3-venue-faq-CLVFvxZE.js                190.38 kB
+dist/news-ssr/assets/route-tokenized-assets-DWnR9spL.js            192.82 kB
+dist/news-ssr/assets/data-compare-direct-answers-BDIR7izJ.js       210.52 kB
+dist/news-ssr/assets/route-deposit-D1zYjGIN.js                     241.63 kB
+dist/news-ssr/assets/route-data-DEendq49.js                        264.26 kB
+dist/news-ssr/assets/route-v3-pages-uV88DxLI.js                    266.76 kB
+dist/news-ssr/assets/data-compare-generated-D3NBoHt3.js            270.19 kB
+dist/news-ssr/assets/route-news-shared-VDm8kPS1.js                 291.36 kB
+dist/news-ssr/assets/route-v3-venue-B5Kybau4.js                    393.06 kB
+dist/news-ssr/assets/route-topic-guide-7eJQ9oKz.js                 413.23 kB
+dist/news-ssr/assets/route-international-qnpxbi7k.js               559.09 kB
+dist/news-ssr/assets/route-activity-DeD0hT6K.js                  1,057.26 kB
+dist/news-ssr/assets/vendor-react-a9Dh47mY.js                    2,837.57 kB
+dist/news-ssr/entry-server.js                                   11,546.23 kB
+✓ built in 5.77s
+Prepared prerender manifest: 2590 routes, HTML split into route assets
+Route styles: scanned 100/559 route surfaces
+Route styles: scanned 200/559 route surfaces
+Route styles: scanned 300/559 route surfaces
+Route styles: scanned 400/559 route surfaces
+Route styles: scanned 500/559 route surfaces
+Route styles: 559 rendered routes, 82 manifest assets, 0 safe adjacent merges
+Critical CSS (home): 11 stylesheets, 829/6449 rules kept, 870 KB -> 117 KB (0 selectors kept unevaluated)
+Prepared Sites build: dist/server/index.js and dist/.openai/hosting.json
+{
+  "status": "PASS",
+  "strict": true,
+  "assets": [
+    {
+      "name": "route-activity-Bp1Us5Nz.js",
+      "bytes": 886537
+    },
+    {
+      "name": "core-shared-CxLMeUCL.js",
+      "bytes": 575438
+    },
+    {
+      "name": "route-international-DIztUqGy.js",
+      "bytes": 324320
+    },
+    {
+      "name": "route-topic-guide-Dzd53ghV.js",
+      "bytes": 311007
+    },
+    {
+      "name": "route-v3-venue-B-5s-Epf.js",
+      "bytes": 274840
+    },
+    {
+      "name": "data-compare-generated-CiN_KPz4.js",
+      "bytes": 252257
+    },
+    {
+      "name": "route-data-YxYpZ4HP.js",
+      "bytes": 205913
+    },
+    {
+      "name": "vendor-react-CUZ3TzEi.js",
+      "bytes": 194236
+    },
+    {
+      "name": "route-deposit-DGXHj3QR.js",
+      "bytes": 193713
+    },
+    {
+      "name": "route-v3-pages-IAHIgjB9.js",
+      "bytes": 187150
+    },
+    {
+      "name": "data-compare-direct-answers-COQzRVTH.js",
+      "bytes": 183236
+    },
+    {
+      "name": "route-coins-DwoEZ18g.js",
+      "bytes": 172894
+    },
+    {
+      "name": "route-brand-pages-BD8B_Km9.js",
+      "bytes": 150825
+    },
+    {
+      "name": "data-v3-product-BVi99vE6.js",
+      "bytes": 143275
+    },
+    {
+      "name": "route-tokenized-assets-DQ8Uot-h.js",
+      "bytes": 141794
+    },
+    {
+      "name": "route-factbook-BshbuyN4.js",
+      "bytes": 134304
+    },
+    {
+      "name": "route-campaign-bybit-krUS5B9_.js",
+      "bytes": 133912
+    },
+    {
+      "name": "route-licenses-DKlLC3Xt.js",
+      "bytes": 127781
+    },
+    {
+      "name": "route-telegram-B9nFhtek.js",
+      "bytes": 120662
+    },
+    {
+      "name": "route-v3-venue-faq-DMeuQjVC.js",
+      "bytes": 120611
+    },
+    {
+      "name": "index-Dsii2szb.js",
+      "bytes": 109265
+    },
+    {
+      "name": "route-methodology-DHWwsbdx.js",
+      "bytes": 102157
+    },
+    {
+      "name": "data-topic-guides-DAk7chBm.js",
+      "bytes": 97711
+    },
+    {
+      "name": "route-news-detail-CuPjfpaV.js",
+      "bytes": 97425
+    },
+    {
+      "name": "route-campaign-kraken-Cpg3M_Jb.js",
+      "bytes": 94852
+    },
+    {
+      "name": "coin-content-ja-BQkgg0DR.js",
+      "bytes": 94472
+    },
+    {
+      "name": "data-research-D5PwuMHx.js",
+      "bytes": 93811
+    },
+    {
+      "name": "data-factbook-V9iAfA-l.js",
+      "bytes": 93008
+    },
+    {
+      "name": "route-campaign-bitget-DEwGXo7v.js",
+      "bytes": 92273
+    },
+    {
+      "name": "coin-content-vi-r6Cec0V0.js",
+      "bytes": 91636
+    },
+    {
+      "name": "academy-content-ru-DLuzHRe0.js",
+      "bytes": 91046
+    },
+    {
+      "name": "data-telegram-BH9-fgrx.js",
+      "bytes": 89654
+    },
+    {
+      "name": "route-intel-tools-B14m08pb.js",
+      "bytes": 88301
+    },
+    {
+      "name": "route-campaign-landing-B8atVY1l.js",
+      "bytes": 88090
+    },
+    {
+      "name": "coin-content-ko-Dep9YuoX.js",
+      "bytes": 85287
+    },
+    {
+      "name": "coin-content-fr-CSREDNVE.js",
+      "bytes": 85191
+    },
+    {
+      "name": "data-priority-venue-answers-3z8qXdnz.js",
+      "bytes": 84946
+    },
+    {
+      "name": "route-v3-venue-research-BLPVJ6Ji.js",
+      "bytes": 83937
+    },
+    {
+      "name": "coin-content-tr-BVTrraMk.js",
+      "bytes": 81905
+    },
+    {
+      "name": "route-rates-C4iS3ePX.js",
+      "bytes": 81157
+    },
+    {
+      "name": "coin-content-de-XO3OxGBe.js",
+      "bytes": 81099
+    },
+    {
+      "name": "data-aeo-questions-C7WNTQNY.js",
+      "bytes": 81097
+    },
+    {
+      "name": "route-v3-directory-CkQD_jbw.js",
+      "bytes": 80576
+    },
+    {
+      "name": "coin-content-es-yju-aI_f.js",
+      "bytes": 80059
+    },
+    {
+      "name": "coin-content-id-Cr3CkQk6.js",
+      "bytes": 79730
+    },
+    {
+      "name": "shared-venue-copy-CBBtsmG8.js",
+      "bytes": 79646
+    },
+    {
+      "name": "coin-content-pt-br-B5Zf6i5L.js",
+      "bytes": 79365
+    },
+    {
+      "name": "academy-content-ar-Bt8OaWEN.js",
+      "bytes": 78822
+    },
+    {
+      "name": "route-beginner-ddruXMaq.js",
+      "bytes": 76262
+    },
+    {
+      "name": "glossary-shard-ja-14-D0tMG9pa.js",
+      "bytes": 75097
+    },
+    {
+      "name": "home-below-fold-B5oj2tSl.js",
+      "bytes": 73927
+    },
+    {
+      "name": "coin-content-en-DQAYxyIt.js",
+      "bytes": 73303
+    },
+    {
+      "name": "route-collection-hubs-CCaP0WKy.js",
+      "bytes": 72231
+    },
+    {
+      "name": "glossary-shard-ja-6-Cx7ddzGp.js",
+      "bytes": 71811
+    },
+    {
+      "name": "academy-content-ja-JRCWsURB.js",
+      "bytes": 71710
+    },
+    {
+      "name": "route-v3-registration-KBYi8smY.js",
+      "bytes": 70814
+    },
+    {
+      "name": "academy-content-vi-Cr0F93i2.js",
+      "bytes": 70429
+    },
+    {
+      "name": "glossary-shard-vi-14-s79BvxXc.js",
+      "bytes": 70002
+    },
+    {
+      "name": "route-radar-Bj3gQyuX.js",
+      "bytes": 69504
+    },
+    {
+      "name": "route-partners-DI3xiyPx.js",
+      "bytes": 69402
+    },
+    {
+      "name": "glossary-shard-ko-14-B85jGReD.js",
+      "bytes": 69164
+    },
+    {
+      "name": "academy-content-ko-Cp7tAtRj.js",
+      "bytes": 68360
+    },
+    {
+      "name": "data-decision-content-Cu02VCt8.js",
+      "bytes": 66668
+    },
+    {
+      "name": "glossary-shard-tr-14-C3mZVXPO.js",
+      "bytes": 66552
+    },
+    {
+      "name": "route-onchain-BWSgJevp.js",
+      "bytes": 66236
+    },
+    {
+      "name": "route-news-shared-DKV-Zrj8.js",
+      "bytes": 66055
+    },
+    {
+      "name": "coin-content-zh-hans-Ctm9mIht.js",
+      "bytes": 65751
+    },
+    {
+      "name": "PlatformMatcher-S-a22HqU.js",
+      "bytes": 65607
+    },
+    {
+      "name": "glossary-shard-pt-br-14-Akhg0TQ8.js",
+      "bytes": 65251
+    },
+    {
+      "name": "route-glossary-BhsHVxp7.js",
+      "bytes": 65042
+    },
+    {
+      "name": "route-academy-CzQiNhhR.js",
+      "bytes": 65003
+    },
+    {
+      "name": "glossary-shard-ko-6-BL0do7G4.js",
+      "bytes": 64500
+    },
+    {
+      "name": "glossary-shard-id-14-Dn8sN8jg.js",
+      "bytes": 63359
+    },
+    {
+      "name": "glossary-shard-vi-6-K95EUtOM.js",
+      "bytes": 63218
+    },
+    {
+      "name": "glossary-shard-es-14-DWcxA2XN.js",
+      "bytes": 63107
+    },
+    {
+      "name": "data-official-research-lI6bynmd.js",
+      "bytes": 62715
+    },
+    {
+      "name": "glossary-shard-ja-2-DFqhCEWF.js",
+      "bytes": 62559
+    },
+    {
+      "name": "glossary-shard-ja-13-CsXXqxkX.js",
+      "bytes": 62452
+    },
+    {
+      "name": "glossary-shard-ja-1-BTPSiKQn.js",
+      "bytes": 61803
+    },
+    {
+      "name": "academy-content-fr-BeTLqvHx.js",
+      "bytes": 61691
+    },
+    {
+      "name": "glossary-shard-zh-hans-14-BwsWWeJU.js",
+      "bytes": 61500
+    },
+    {
+      "name": "glossary-shard-en-14-CBxmuSlO.js",
+      "bytes": 61118
+    },
+    {
+      "name": "academy-content-de-ByeAc33K.js",
+      "bytes": 60595
+    },
+    {
+      "name": "glossary-shard-tr-6-DpiJV5q4.js",
+      "bytes": 60530
+    },
+    {
+      "name": "route-data-assets-CVqJuSnu.js",
+      "bytes": 59956
+    },
+    {
+      "name": "academy-content-tr-2NZOFZG3.js",
+      "bytes": 59692
+    },
+    {
+      "name": "academy-content-es-Djof_tEd.js",
+      "bytes": 59229
+    },
+    {
+      "name": "glossary-shard-id-6-BG2o7rxt.js",
+      "bytes": 58860
+    },
+    {
+      "name": "glossary-shard-ja-3-DLlgJoZM.js",
+      "bytes": 58585
+    },
+    {
+      "name": "glossary-shard-pt-br-6-DbPkRo3_.js",
+      "bytes": 58539
+    },
+    {
+      "name": "route-v3-home-BgQvIFff.js",
+      "bytes": 58398
+    },
+    {
+      "name": "data-directory-context-Dp873SNX.js",
+      "bytes": 58389
+    },
+    {
+      "name": "shared-tokenized-stocks-D5qHH76r.js",
+      "bytes": 57960
+    },
+    {
+      "name": "academy-content-id-Dhfaq7-T.js",
+      "bytes": 57903
+    },
+    {
+      "name": "glossary-shard-es-6-B9YW41PF.js",
+      "bytes": 57861
+    },
+    {
+      "name": "glossary-shard-vi-13-B0mowN51.js",
+      "bytes": 57830
+    },
+    {
+      "name": "glossary-shard-vi-1-DgIFot40.js",
+      "bytes": 57681
+    },
+    {
+      "name": "route-tokenized-stocks-BKwaGYy3.js",
+      "bytes": 57657
+    },
+    {
+      "name": "academy-content-pt-br-BqEbRyo_.js",
+      "bytes": 57636
+    },
+    {
+      "name": "shared-whales-Cd-5AmqX.js",
+      "bytes": 57623
+    },
+    {
+      "name": "glossary-shard-ko-1-BSb3d3DE.js",
+      "bytes": 57419
+    },
+    {
+      "name": "glossary-shard-vi-2-3w8F6oCl.js",
+      "bytes": 57279
+    },
+    {
+      "name": "glossary-shard-ko-2-BDQtU7Os.js",
+      "bytes": 57163
+    },
+    {
+      "name": "glossary-shard-zh-hans-6-BbrLzp8b.js",
+      "bytes": 56874
+    },
+    {
+      "name": "glossary-shard-ko-13-DZx2XqwA.js",
+      "bytes": 55987
+    },
+    {
+      "name": "glossary-shard-en-6-Dfu3ooqm.js",
+      "bytes": 55737
+    },
+    {
+      "name": "glossary-shard-ja-4-Bi1SdlMU.js",
+      "bytes": 55438
+    },
+    {
+      "name": "glossary-shard-tr-1-CBmknTT5.js",
+      "bytes": 55293
+    },
+    {
+      "name": "academy-content-en-B89dpN0P.js",
+      "bytes": 54448
+    },
+    {
+      "name": "glossary-shard-tr-13-AweuBII4.js",
+      "bytes": 54403
+    },
+    {
+      "name": "glossary-shard-tr-2-B0px8yKi.js",
+      "bytes": 54156
+    },
+    {
+      "name": "data-v3-interface-copy-DEHtVExU.js",
+      "bytes": 53997
+    },
+    {
+      "name": "data-news-library-CNPoyG9u.js",
+      "bytes": 53424
+    },
+    {
+      "name": "glossary-shard-id-2-lZ0vY2Du.js",
+      "bytes": 53040
+    },
+    {
+      "name": "glossary-shard-ko-3-D10ktGN_.js",
+      "bytes": 52897
+    },
+    {
+      "name": "glossary-shard-vi-3-CzBOKAki.js",
+      "bytes": 52814
+    },
+    {
+      "name": "glossary-shard-pt-br-13-BA25yYsP.js",
+      "bytes": 52754
+    },
+    {
+      "name": "glossary-shard-pt-br-2-yuSbbgxw.js",
+      "bytes": 52564
+    },
+    {
+      "name": "glossary-shard-es-1-BGuMq_XT.js",
+      "bytes": 52512
+    },
+    {
+      "name": "glossary-shard-es-13-34QGXrWB.js",
+      "bytes": 52219
+    },
+    {
+      "name": "glossary-shard-id-13-BSAZjSq7.js",
+      "bytes": 51831
+    },
+    {
+      "name": "glossary-shard-pt-br-1-HgVMsMhA.js",
+      "bytes": 51571
+    },
+    {
+      "name": "glossary-shard-id-1-_0S5wJR1.js",
+      "bytes": 51495
+    },
+    {
+      "name": "glossary-shard-es-2-Cd-Qn7Qx.js",
+      "bytes": 51490
+    },
+    {
+      "name": "glossary-index-ja-D2Gg4kVK.js",
+      "bytes": 51421
+    },
+    {
+      "name": "glossary-index-vi-Cwa7b_WN.js",
+      "bytes": 50934
+    },
+    {
+      "name": "route-apps-Cog6VBA2.js",
+      "bytes": 50910
+    },
+    {
+      "name": "glossary-shard-zh-hans-2-B175OFlA.js",
+      "bytes": 50883
+    },
+    {
+      "name": "glossary-shard-en-1-BS5qVW0v.js",
+      "bytes": 50824
+    },
+    {
+      "name": "glossary-shard-en-13-kZflV4kp.js",
+      "bytes": 50758
+    },
+    {
+      "name": "route-v3-wizard-BsUCotjG.js",
+      "bytes": 50744
+    },
+    {
+      "name": "glossary-shard-tr-3-B52OsRjv.js",
+      "bytes": 50657
+    },
+    {
+      "name": "glossary-shard-en-2-BWgweuHc.js",
+      "bytes": 50561
+    },
+    {
+      "name": "glossary-shard-zh-hans-13-CmZ5rw9K.js",
+      "bytes": 50059
+    },
+    {
+      "name": "glossary-shard-zh-hans-1-DbfIOAmK.js",
+      "bytes": 49847
+    },
+    {
+      "name": "glossary-shard-ko-4-Dqqp-Vux.js",
+      "bytes": 49589
+    },
+    {
+      "name": "academy-content-zh-hans-P_07lbN-.js",
+      "bytes": 49108
+    },
+    {
+      "name": "glossary-shard-ja-11-CkJbRXLB.js",
+      "bytes": 48752
+    },
+    {
+      "name": "academy-content-zh-hant-Mi_BascL.js",
+      "bytes": 48739
+    },
+    {
+      "name": "glossary-shard-ja-7-DAzmV5Wc.js",
+      "bytes": 48494
+    },
+    {
+      "name": "glossary-shard-vi-4-BMyVmK3r.js",
+      "bytes": 48444
+    },
+    {
+      "name": "glossary-shard-es-3-BirAFkrH.js",
+      "bytes": 48310
+    },
+    {
+      "name": "glossary-shard-pt-br-3-DRB9UPxN.js",
+      "bytes": 48261
+    },
+    {
+      "name": "glossary-shard-id-3-b6U0ILi5.js",
+      "bytes": 48113
+    },
+    {
+      "name": "glossary-shard-en-3-D-bfZifu.js",
+      "bytes": 47324
+    },
+    {
+      "name": "glossary-shard-zh-hans-3-B431ivQE.js",
+      "bytes": 47107
+    },
+    {
+      "name": "glossary-shard-tr-4-cHGReB0T.js",
+      "bytes": 47041
+    },
+    {
+      "name": "glossary-index-tr-C69FvYdA.js",
+      "bytes": 47007
+    },
+    {
+      "name": "glossary-index-ko-BMSIFwlY.js",
+      "bytes": 46470
+    },
+    {
+      "name": "glossary-index-pt-br-D5qZq6Z_.js",
+      "bytes": 45926
+    },
+    {
+      "name": "glossary-shard-vi-11-VTKHtka2.js",
+      "bytes": 45926
+    },
+    {
+      "name": "glossary-shard-id-4-BMpBGFg8.js",
+      "bytes": 45779
+    },
+    {
+      "name": "glossary-index-es-Cg8zdQPF.js",
+      "bytes": 45371
+    },
+    {
+      "name": "glossary-shard-ko-11-Biexs4VN.js",
+      "bytes": 45349
+    },
+    {
+      "name": "glossary-shard-vi-7-US68Ycf6.js",
+      "bytes": 45026
+    },
+    {
+      "name": "glossary-shard-ja-9-CO6cIuJI.js",
+      "bytes": 44948
+    },
+    {
+      "name": "glossary-shard-pt-br-4-C6XzP7g2.js",
+      "bytes": 44772
+    },
+    {
+      "name": "glossary-shard-es-4-DLPQQt-O.js",
+      "bytes": 44708
+    },
+    {
+      "name": "glossary-shard-ko-7-CKCpAdcU.js",
+      "bytes": 44649
+    },
+    {
+      "name": "glossary-shard-ja-0-HP0hf6Qa.js",
+      "bytes": 44505
+    },
+    {
+      "name": "glossary-shard-ja-10-IcfPFDCK.js",
+      "bytes": 44358
+    },
+    {
+      "name": "core-ui-CPxPNAWZ.js",
+      "bytes": 44107
+    },
+    {
+      "name": "glossary-index-id-DveyzPCb.js",
+      "bytes": 43909
+    },
+    {
+      "name": "glossary-index-zh-hans-BFg4kMnn.js",
+      "bytes": 43855
+    },
+    {
+      "name": "glossary-shard-tr-11-DixWjecD.js",
+      "bytes": 43826
+    },
+    {
+      "name": "glossary-shard-en-4-FNyfZkRh.js",
+      "bytes": 43816
+    },
+    {
+      "name": "glossary-shard-zh-hans-4-CaVSKlTq.js",
+      "bytes": 43760
+    },
+    {
+      "name": "route-flash-BxPMgijl.js",
+      "bytes": 43727
+    },
+    {
+      "name": "route-v3-calculators-B_613P7m.js",
+      "bytes": 43338
+    },
+    {
+      "name": "glossary-shard-tr-7-30JR0vSQ.js",
+      "bytes": 42505
+    },
+    {
+      "name": "glossary-shard-vi-10-lYDdWUtT.js",
+      "bytes": 42193
+    },
+    {
+      "name": "route-news-list-BT1sSgP1.js",
+      "bytes": 42139
+    },
+    {
+      "name": "glossary-shard-es-11-BdycxfJX.js",
+      "bytes": 41494
+    },
+    {
+      "name": "glossary-shard-pt-br-11-DfwGFdVS.js",
+      "bytes": 41472
+    },
+    {
+      "name": "glossary-shard-vi-0-Dc-5yxQ6.js",
+      "bytes": 41458
+    },
+    {
+      "name": "data-referral-seo-DxlHPCyu.js",
+      "bytes": 41407
+    },
+    {
+      "name": "glossary-shard-ja-12-CuLAHtLG.js",
+      "bytes": 41214
+    },
+    {
+      "name": "glossary-shard-en-11-Mhwm3TMH.js",
+      "bytes": 41040
+    },
+    {
+      "name": "glossary-shard-vi-9-CYbXk6BO.js",
+      "bytes": 40962
+    },
+    {
+      "name": "glossary-shard-id-11-Pe42kOwF.js",
+      "bytes": 40932
+    },
+    {
+      "name": "glossary-shard-ko-9-iP7B08Sq.js",
+      "bytes": 40869
+    },
+    {
+      "name": "glossary-shard-ko-10-BBz6qMek.js",
+      "bytes": 40817
+    },
+    {
+      "name": "glossary-shard-pt-br-7-CcIgiUgY.js",
+      "bytes": 40808
+    },
+    {
+      "name": "glossary-index-en-lGKKEBKm.js",
+      "bytes": 40614
+    },
+    {
+      "name": "data-promotions-BD7ea2An.js",
+      "bytes": 40438
+    },
+    {
+      "name": "glossary-shard-ko-0-DCZcU_bg.js",
+      "bytes": 40395
+    },
+    {
+      "name": "glossary-shard-id-7-BYKhzXDV.js",
+      "bytes": 40127
+    },
+    {
+      "name": "data-brazil-market-BRxbxNLh.js",
+      "bytes": 40098
+    },
+    {
+      "name": "glossary-shard-es-7-Cg5fQrIm.js",
+      "bytes": 39959
+    },
+    {
+      "name": "glossary-shard-zh-hans-11-CIIHxeRQ.js",
+      "bytes": 39549
+    },
+    {
+      "name": "glossary-shard-tr-10-i2NaAliC.js",
+      "bytes": 39471
+    },
+    {
+      "name": "glossary-shard-zh-hans-7-Z4aZq4s-.js",
+      "bytes": 39374
+    },
+    {
+      "name": "glossary-shard-tr-9-ClKjmdTM.js",
+      "bytes": 39189
+    },
+    {
+      "name": "glossary-shard-tr-0-ibS0TxIz.js",
+      "bytes": 38880
+    },
+    {
+      "name": "glossary-shard-en-7-DKH2vulO.js",
+      "bytes": 38795
+    },
+    {
+      "name": "route-converter-B3463xCC.js",
+      "bytes": 37968
+    },
+    {
+      "name": "glossary-shard-es-9-ByVcNFYH.js",
+      "bytes": 37908
+    },
+    {
+      "name": "glossary-shard-pt-br-9-CeWM0UCa.js",
+      "bytes": 37516
+    },
+    {
+      "name": "glossary-shard-es-10-Cq-qIrzi.js",
+      "bytes": 37356
+    },
+    {
+      "name": "glossary-shard-es-0-BywDogew.js",
+      "bytes": 37290
+    },
+    {
+      "name": "glossary-shard-id-9-Dzzx45rl.js",
+      "bytes": 37290
+    },
+    {
+      "name": "glossary-shard-pt-br-10-BU7u0LwW.js",
+      "bytes": 37224
+    },
+    {
+      "name": "glossary-shard-ko-12-CfQJFTK5.js",
+      "bytes": 37061
+    },
+    {
+      "name": "glossary-shard-en-0-Cc82efJf.js",
+      "bytes": 36704
+    },
+    {
+      "name": "glossary-shard-id-10-DllGNcBa.js",
+      "bytes": 36650
+    },
+    {
+      "name": "glossary-shard-en-9-BkdiqP0s.js",
+      "bytes": 36496
+    },
+    {
+      "name": "glossary-shard-pt-br-0-xQelUEB8.js",
+      "bytes": 36312
+    },
+    {
+      "name": "glossary-shard-en-10-DrVjTi2b.js",
+      "bytes": 36126
+    },
+    {
+      "name": "glossary-shard-zh-hans-10-bMD1KImB.js",
+      "bytes": 35955
+    },
+    {
+      "name": "glossary-shard-vi-12-BGFrq3gx.js",
+      "bytes": 35787
+    },
+    {
+      "name": "glossary-shard-zh-hans-9-B4UeuVKj.js",
+      "bytes": 35681
+    },
+    {
+      "name": "glossary-shard-id-0-DW7bTv7s.js",
+      "bytes": 35514
+    },
+    {
+      "name": "uk-CalxTbI4.js",
+      "bytes": 35300
+    },
+    {
+      "name": "glossary-shard-zh-hans-0-BK8O3XLq.js",
+      "bytes": 35149
+    },
+    {
+      "name": "ru-DbX6Qh17.js",
+      "bytes": 35058
+    },
+    {
+      "name": "glossary-shard-tr-12-BfSjhvVc.js",
+      "bytes": 34896
+    },
+    {
+      "name": "route-funding-matrix-gT2f-8hN.js",
+      "bytes": 34856
+    },
+    {
+      "name": "glossary-shard-id-12-CB6-kknw.js",
+      "bytes": 34080
+    },
+    {
+      "name": "shared-answer-first-D3cuReOc.js",
+      "bytes": 33760
+    },
+    {
+      "name": "glossary-shard-es-12-JSKyP9u9.js",
+      "bytes": 33641
+    },
+    {
+      "name": "glossary-shard-pt-br-12-DPrxEj6e.js",
+      "bytes": 33439
+    },
+    {
+      "name": "glossary-shard-ja-15-DuI8s9kL.js",
+      "bytes": 33368
+    },
+    {
+      "name": "route-v3-social-proof-CVd6mDCy.js",
+      "bytes": 33187
+    },
+    {
+      "name": "ts-copy-ru-DdBY6xK0.js",
+      "bytes": 33104
+    },
+    {
+      "name": "ts-copy-uk-CSWvSEVp.js",
+      "bytes": 32580
+    },
+    {
+      "name": "glossary-shard-zh-hans-12-DdPmQ4QD.js",
+      "bytes": 32498
+    },
+    {
+      "name": "glossary-shard-en-12-DpnCMTQB.js",
+      "bytes": 31810
+    },
+    {
+      "name": "ts-copy-ur-B7XPJ3B-.js",
+      "bytes": 31707
+    },
+    {
+      "name": "glossary-shard-ja-5-DsYSMXfn.js",
+      "bytes": 31664
+    },
+    {
+      "name": "glossary-shard-vi-15-DLpY46rL.js",
+      "bytes": 30353
+    },
+    {
+      "name": "ts-copy-ar-CIkhBbod.js",
+      "bytes": 29917
+    },
+    {
+      "name": "glossary-shard-ko-15-DeED7qPn.js",
+      "bytes": 29700
+    },
+    {
+      "name": "shared-tokenized-stocks-live-C7IDIdg0.js",
+      "bytes": 29448
+    },
+    {
+      "name": "glossary-shard-tr-15-fvKTwNfx.js",
+      "bytes": 28638
+    },
+    {
+      "name": "glossary-shard-ko-5-nyLJFso8.js",
+      "bytes": 28422
+    },
+    {
+      "name": "ar-DfnKRM4c.js",
+      "bytes": 28406
+    },
+    {
+      "name": "ur-CJ67qXvf.js",
+      "bytes": 28368
+    },
+    {
+      "name": "glossary-shard-vi-5-Do4mC3lB.js",
+      "bytes": 27966
+    },
+    {
+      "name": "data-campaign-copy-CLgf9Kxa.js",
+      "bytes": 27949
+    },
+    {
+      "name": "shared-exchange-facts-D2b2ZygQ.js",
+      "bytes": 27899
+    },
+    {
+      "name": "glossary-shard-pt-br-15-CDefFNch.js",
+      "bytes": 27714
+    },
+    {
+      "name": "glossary-shard-es-15-UxcY-Ikg.js",
+      "bytes": 27641
+    },
+    {
+      "name": "glossary-shard-id-15-VM-Imv-Y.js",
+      "bytes": 27270
+    },
+    {
+      "name": "glossary-shard-tr-5-DuX1tNFe.js",
+      "bytes": 27150
+    },
+    {
+      "name": "glossary-shard-zh-hans-15-C3NyZ0Io.js",
+      "bytes": 26578
+    },
+    {
+      "name": "glossary-shard-ja-8-CMpQEWod.js",
+      "bytes": 26473
+    },
+    {
+      "name": "glossary-shard-en-15-wmGX0S4w.js",
+      "bytes": 26383
+    },
+    {
+      "name": "ts-copy-vi-pmTiYP4e.js",
+      "bytes": 26094
+    },
+    {
+      "name": "glossary-shard-id-5-jnK6aIiT.js",
+      "bytes": 25972
+    },
+    {
+      "name": "ts-copy-ja-CdhSw6kY.js",
+      "bytes": 25866
+    },
+    {
+      "name": "glossary-shard-pt-br-5-BzAsAXBG.js",
+      "bytes": 25516
+    },
+    {
+      "name": "glossary-shard-es-5-C5wttk_p.js",
+      "bytes": 25288
+    },
+    {
+      "name": "glossary-shard-zh-hans-5-qq7DlPCL.js",
+      "bytes": 25062
+    },
+    {
+      "name": "glossary-shard-en-5-BM5hrmPU.js",
+      "bytes": 24879
+    },
+    {
+      "name": "ja-BDg57chl.js",
+      "bytes": 24653
+    },
+    {
+      "name": "glossary-shard-vi-8-CvHW1QdC.js",
+      "bytes": 24341
+    },
+    {
+      "name": "glossary-shard-ko-8-BMMu9NOM.js",
+      "bytes": 24266
+    },
+    {
+      "name": "ts-copy-ko-CKhbmM3o.js",
+      "bytes": 24170
+    },
+    {
+      "name": "ko-DgG2llxq.js",
+      "bytes": 24018
+    },
+    {
+      "name": "glossary-links-ja-Ck07mUjc.js",
+      "bytes": 23932
+    },
+    {
+      "name": "route-v3-pages-copy-jJUOIF6W.js",
+      "bytes": 23870
+    },
+    {
+      "name": "ts-copy-fr-CGAr0FeC.js",
+      "bytes": 23829
+    },
+    {
+      "name": "de-C4OgUBg-.js",
+      "bytes": 23535
+    },
+    {
+      "name": "data-compare-faq-locales-D_is2dGN.js",
+      "bytes": 23318
+    },
+    {
+      "name": "glossary-shard-tr-8-DGbIBbnY.js",
+      "bytes": 23256
+    },
+    {
+      "name": "ts-copy-es-D6stBVB8.js",
+      "bytes": 22964
+    },
+    {
+      "name": "ts-copy-pt-br-BS8bBhBZ.js",
+      "bytes": 22910
+    },
+    {
+      "name": "ts-copy-tr-BW430Wht.js",
+      "bytes": 22831
+    },
+    {
+      "name": "en-qi6rJxuA.js",
+      "bytes": 22432
+    },
+    {
+      "name": "ts-copy-de-CTDp8Ksj.js",
+      "bytes": 22245
+    },
+    {
+      "name": "CampaignRadar-CoHtqsbV.js",
+      "bytes": 22222
+    },
+    {
+      "name": "id-B18BoU7n.js",
+      "bytes": 22098
+    },
+    {
+      "name": "glossary-shard-es-8-tR35Qdlt.js",
+      "bytes": 22022
+    },
+    {
+      "name": "glossary-shard-pt-br-8-CDEwI_YA.js",
+      "bytes": 21984
+    },
+    {
+      "name": "pt-BR--V5KDQXq.js",
+      "bytes": 21967
+    },
+    {
+      "name": "ts-copy-it-CsQ3gTe2.js",
+      "bytes": 21923
+    },
+    {
+      "name": "route-v3-pages-return-banner-B1Wi7Pus.js",
+      "bytes": 21837
+    },
+    {
+      "name": "glossary-links-vi-DhcuT1aT.js",
+      "bytes": 21600
+    },
+    {
+      "name": "glossary-shard-en-8-CZ48cdAg.js",
+      "bytes": 21546
+    },
+    {
+      "name": "ts-copy-id-CeofQfDu.js",
+      "bytes": 21457
+    },
+    {
+      "name": "glossary-shard-id-8-DTGmh30V.js",
+      "bytes": 21450
+    },
+    {
+      "name": "zh-Hans-BRk6_H8D.js",
+      "bytes": 21281
+    },
+    {
+      "name": "glossary-shard-zh-hans-8-0ZrKnSOY.js",
+      "bytes": 21094
+    },
+    {
+      "name": "shared-campaign-feature-CSSUHIxH.js",
+      "bytes": 21075
+    },
+    {
+      "name": "shared-glossary-tooltip-PeTA8LJp.js",
+      "bytes": 20818
+    },
+    {
+      "name": "ts-copy-zh-hans-C9QUF7F4.js",
+      "bytes": 20725
+    },
+    {
+      "name": "glossary-links-tr-DGmzXJUd.js",
+      "bytes": 20680
+    },
+    {
+      "name": "ts-copy-zh-hant-BoDosdCW.js",
+      "bytes": 20662
+    },
+    {
+      "name": "ts-copy-en-JB9o36dn.js",
+      "bytes": 20601
+    },
+    {
+      "name": "fr-NDrTdT0H.js",
+      "bytes": 20538
+    },
+    {
+      "name": "es-DFPjBmK6.js",
+      "bytes": 20414
+    },
+    {
+      "name": "glossary-links-ko-CJddU3jM.js",
+      "bytes": 20246
+    },
+    {
+      "name": "vi-BBxU1KpV.js",
+      "bytes": 19921
+    },
+    {
+      "name": "route-v3-readiness-DvMQ0U3k.js",
+      "bytes": 19838
+    },
+    {
+      "name": "glossary-links-es-B1QjkOuN.js",
+      "bytes": 19227
+    },
+    {
+      "name": "tr-BKXtn8LP.js",
+      "bytes": 19072
+    },
+    {
+      "name": "glossary-links-zh-hans-C_kL9342.js",
+      "bytes": 18752
+    },
+    {
+      "name": "glossary-links-pt-br-QIpAUPys.js",
+      "bytes": 18537
+    },
+    {
+      "name": "it-dfqk3Ah1.js",
+      "bytes": 18095
+    },
+    {
+      "name": "glossary-links-id-Dl-MoJLs.js",
+      "bytes": 17769
+    },
+    {
+      "name": "route-v3-compare-final-choice-CwS1QOgF.js",
+      "bytes": 16722
+    },
+    {
+      "name": "shared-hero-verify-copy-DWCdgWKr.js",
+      "bytes": 16083
+    },
+    {
+      "name": "zh-Hant-UETjuVne.js",
+      "bytes": 15386
+    },
+    {
+      "name": "glossary-content-loader-kgb4DBG2.js",
+      "bytes": 14392
+    },
+    {
+      "name": "glossary-links-en-CGOax2N8.js",
+      "bytes": 14147
+    },
+    {
+      "name": "shared-fiat-_nuEJ9Fb.js",
+      "bytes": 13260
+    },
+    {
+      "name": "shared-hero-lab-copy-C25vDuSG.js",
+      "bytes": 12316
+    },
+    {
+      "name": "shared-home-calculator-CMD65UwY.js",
+      "bytes": 11663
+    },
+    {
+      "name": "route-market-B1lGVbsC.js",
+      "bytes": 11514
+    },
+    {
+      "name": "home-globe-CZwZX7Dc.js",
+      "bytes": 11258
+    },
+    {
+      "name": "CrawlPriorityLinks-Jlwm0wyP.js",
+      "bytes": 10339
+    },
+    {
+      "name": "shared-onsite-telegram-handoff-C6wEXbkC.js",
+      "bytes": 10323
+    },
+    {
+      "name": "CrossroadsCompare-DY1KmLM9.js",
+      "bytes": 10211
+    },
+    {
+      "name": "CommandFinder-daC3Cpl5.js",
+      "bytes": 9746
+    },
+    {
+      "name": "shared-research-CzHY_0WY.js",
+      "bytes": 9711
+    },
+    {
+      "name": "route-v3-research-panels-DZ1jFoGx.js",
+      "bytes": 9638
+    },
+    {
+      "name": "route-topic-guide-bridge-lhBFFwLx.js",
+      "bytes": 8364
+    },
+    {
+      "name": "shared-registration-helpers-J4W-P65r.js",
+      "bytes": 7882
+    },
+    {
+      "name": "ToolArticleLinks-9nw1nt1V.js",
+      "bytes": 7772
+    },
+    {
+      "name": "HomeTokenizedStrip-jqdlJuun.js",
+      "bytes": 7506
+    },
+    {
+      "name": "shared-hero-copy-B0Q24wfR.js",
+      "bytes": 7186
+    },
+    {
+      "name": "route-v3-pages-strip-BlmxMovc.js",
+      "bytes": 6127
+    },
+    {
+      "name": "route-kol-CrYlbGoW.js",
+      "bytes": 5608
+    },
+    {
+      "name": "route-v3-pages-shared-D154Qgwr.js",
+      "bytes": 4431
+    },
+    {
+      "name": "shared-telegram-cta-BY5DH3sw.js",
+      "bytes": 4324
+    },
+    {
+      "name": "shared-copy-feedback-ByooC0gS.js",
+      "bytes": 4076
+    },
+    {
+      "name": "home7-board-motion-CesUddO1.js",
+      "bytes": 3754
+    },
+    {
+      "name": "route-embed-vV9Knb6a.js",
+      "bytes": 3681
+    },
+    {
+      "name": "shared-json-polling-Dvdcyq8K.js",
+      "bytes": 3540
+    },
+    {
+      "name": "ticker-live-DIWGmsRK.js",
+      "bytes": 3216
+    },
+    {
+      "name": "route-v3-pages-detail-stocks-DPeZtrD0.js",
+      "bytes": 2295
+    },
+    {
+      "name": "shared-compare-picker-DWM9eP4l.js",
+      "bytes": 2050
+    },
+    {
+      "name": "route-v3-pages-state-DcLJvpGM.js",
+      "bytes": 1790
+    },
+    {
+      "name": "shared-glossary-link-4aV6HaBo.js",
+      "bytes": 1529
+    },
+    {
+      "name": "SearchDialog-CqihLjQV.js",
+      "bytes": 1363
+    },
+    {
+      "name": "shared-market-events-client-Dn7WzXXz.js",
+      "bytes": 1363
+    },
+    {
+      "name": "route-v3-decision-articles-Dy2CG1GV.js",
+      "bytes": 1300
+    },
+    {
+      "name": "shared-compare-routes-Bgx_rlNr.js",
+      "bytes": 1104
+    },
+    {
+      "name": "data-market-nav-BMvXnQPv.js",
+      "bytes": 722
+    },
+    {
+      "name": "shared-telegram-return-91zPkc3s.js",
+      "bytes": 340
+    },
+    {
+      "name": "shared-brazil-paths-BWwlqz0u.js",
+      "bytes": 271
+    }
+  ],
+  "checks": [
+    {
+      "label": "app shell",
+      "asset": "index-Dsii2szb.js",
+      "candidates": [
+        "index-Dsii2szb.js"
+      ],
+      "bytes": 109265,
+      "maxBytes": 400000,
+      "pass": true
+    },
+    {
+      "label": "V3 route",
+      "asset": "route-v3-pages-IAHIgjB9.js",
+      "candidates": [
+        "route-v3-pages-IAHIgjB9.js"
+      ],
+      "bytes": 187150,
+      "maxBytes": 320000,
+      "pass": true
+    },
+    {
+      "label": "shared decision navigation CSS",
+      "asset": "shared-decision-rail-DE-Xm3Ow.css",
+      "pass": true
+    },
+    {
+      "label": "shared scenario copy CSS",
+      "asset": "shared-decision-return-DP_5KV8G.css",
+      "pass": true
+    },
+    {
+      "label": "home initial JS (static closure of the entry, gzip)",
+      "asset": "core-shared-CxLMeUCL.js vendor-react-CUZ3TzEi.js index-Dsii2szb.js core-ui-CPxPNAWZ.js shared-hero-copy-B0Q24wfR.js route-v3-pages-strip-BlmxMovc.js shared-json-polling-Dvdcyq8K.js shared-brazil-paths-BWwlqz0u.js",
+      "bytes": 319124,
+      "maxBytes": 350000,
+      "chunks": [
+        {
+          "name": "core-shared-CxLMeUCL.js",
+          "bytes": 575438,
+          "gzipBytes": 197434
+        },
+        {
+          "name": "vendor-react-CUZ3TzEi.js",
+          "bytes": 194236,
+          "gzipBytes": 60670
+        },
+        {
+          "name": "index-Dsii2szb.js",
+          "bytes": 109265,
+          "gzipBytes": 34891
+        },
+        {
+          "name": "core-ui-CPxPNAWZ.js",
+          "bytes": 44107,
+          "gzipBytes": 17840
+        },
+        {
+          "name": "shared-hero-copy-B0Q24wfR.js",
+          "bytes": 7186,
+          "gzipBytes": 3720
+        },
+        {
+          "name": "route-v3-pages-strip-BlmxMovc.js",
+          "bytes": 6127,
+          "gzipBytes": 2747
+        },
+        {
+          "name": "shared-json-polling-Dvdcyq8K.js",
+          "bytes": 3540,
+          "gzipBytes": 1612
+        },
+        {
+          "name": "shared-brazil-paths-BWwlqz0u.js",
+          "bytes": 271,
+          "gzipBytes": 210
+        }
+      ],
+      "pass": true
+    }
+  ]
+}

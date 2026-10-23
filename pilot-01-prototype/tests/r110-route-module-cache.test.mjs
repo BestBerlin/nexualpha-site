@@ -124,10 +124,10 @@ test("hydration preparer waits before hydrate and does not call ready on preload
 });
 
 test("route-to-module mapping keeps proven long SSR routes narrow", () => {
-  // venue-graph lane 2026-10-11: the venue detail left V3Pages.jsx (route-v3-venue chunk); compare/activities/404 keep v3Pages.
+  // Venue and activity routes have independent hydration modules; compare keeps V3Pages.
   assert.deepEqual(modulePathsForRoute({ name: "venue" }), [ROUTE_MODULE_PATHS.venueDetail]);
   assert.deepEqual(modulePathsForRoute({ name: "compare" }), [ROUTE_MODULE_PATHS.v3Pages]);
-  assert.deepEqual(modulePathsForRoute({ name: "activities" }), [ROUTE_MODULE_PATHS.v3Pages]);
+  assert.deepEqual(modulePathsForRoute({ name: "activities" }), [ROUTE_MODULE_PATHS.activityPages]);
   // Perf lane 2026-10-11: the v7 home hydrates with no deferred module; the research drawer and closing index load
   // when they scroll near (DeferUntilVisible). The directory, news list and data pages became route modules, so the
   // routes that render them preload exactly their own module (expected values updated with that change).

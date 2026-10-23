@@ -1,0 +1,26 @@
+{
+  "branch": "codex/globe-css",
+  "build": "PASS (exit 0)",
+  "budget": "PASS (exit 0)",
+  "homeStaticClosureGzipBytes": 319124,
+  "globeChunkGzipBytes": 5140,
+  "globeInHomeStaticClosure": false,
+  "relatedTests": {
+    "passed": 29,
+    "failed": 0,
+    "skipped": 0
+  },
+  "typecheck": "PASS (exit 0)",
+  "renderEvidence": "Deterministic 600x600 reduced-motion SVG/PNG crops; not browser screenshots",
+  "generatedFiles": "16 tracked public build outputs restored from HEAD",
+  "commit": "BLOCKED: git add cannot create shared worktree index.lock: Operation not permitted",
+  "browser": "BLOCKED: Chrome launch Target closed; browser policy rejects file: navigation (HTTP(S) only)",
+  "betterDesign": "UI/UX principles and review rules blocked by free-query quota; no rendered DOM spacing capture",
+  "pendingLeadChecks": [
+    "Responsive appearance at 390/768/1440",
+    "Compositor/paint behavior",
+    "Idle JS <50ms per 5s",
+    "CLS 0",
+    "Stage and commit the working tree"
+  ]
+}

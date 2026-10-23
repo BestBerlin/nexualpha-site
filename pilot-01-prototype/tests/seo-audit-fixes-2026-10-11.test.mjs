@@ -132,7 +132,7 @@ test("#2 NewsArticle JSON-LD carries the article's 1200x630 social card in the w
   for (const [pathname, locale] of [[`/news/${slug}`, "en"], [`/es/news/${slug}`, "es"]]) {
     const meta = await routeMetadata(new URL(`${ORIGIN}${pathname}`), env);
     const schema = meta.schema.find((node) => node["@type"] === "NewsArticle");
-    const expected = [{ "@type": "ImageObject", url: `${ORIGIN}/og/news/${slug}.png${locale === "en" ? "" : `?locale=${locale}`}`, width: 1200, height: 630 }];
+    const expected = [{ "@type": "ImageObject", url: `${ORIGIN}/og/news/${slug}.png?v=2${locale === "en" ? "" : `&locale=${locale}`}`, width: 1200, height: 630 }];
     assert.deepEqual(schema.image, expected, pathname);
     assert.equal(meta.image, expected[0].url, `${pathname}: same URL as og:image`);
     assert.equal(schema.author["@type"], "Organization", "author stays the desk until a named author exists in data");

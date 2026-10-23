@@ -1,0 +1,4 @@
+✔ [paraglide-js] Compilation complete (locale-modules)
+before-canvas: 600x600; SVG 88905 bytes; PNG 241133 bytes
+after-css: 600x600; SVG 72713 bytes; PNG 209063 bytes
+Baseline b497d6ea; normalized 600px art crop; reduced motion; real SSR route slots; chips omitted.

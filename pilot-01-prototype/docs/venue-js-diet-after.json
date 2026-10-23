@@ -1,0 +1,466 @@
+{
+  "method": "Vite manifest static closure of browser entry plus modulePathsForRoute hydration roots and mandatory English/route locale copy packs; raw and per-file gzip level 6 estimates; scroll/interaction-only dynamic imports excluded; no browser network measurement",
+  "rows": [
+    {
+      "pathname": "/",
+      "roots": [
+        "assets/index-DYEtLHrJ.js"
+      ],
+      "localeCopyRoots": [],
+      "jsRequests": 5,
+      "js": {
+        "bytes": 941950,
+        "gzipBytes": 317220
+      },
+      "files": [
+        {
+          "file": "assets/_commonjsHelpers-CqkleIqs.js",
+          "bytes": 116,
+          "gzipBytes": 126
+        },
+        {
+          "file": "assets/core-shared-DAI-Rx0O.js",
+          "bytes": 680920,
+          "gzipBytes": 237559
+        },
+        {
+          "file": "assets/core-ui-ckwbz45p.js",
+          "bytes": 1142,
+          "gzipBytes": 665
+        },
+        {
+          "file": "assets/index-DYEtLHrJ.js",
+          "bytes": 65585,
+          "gzipBytes": 18199
+        },
+        {
+          "file": "assets/vendor-react-BmyfW8Fe.js",
+          "bytes": 194187,
+          "gzipBytes": 60671
+        }
+      ]
+    },
+    {
+      "pathname": "/exchanges/bitget",
+      "roots": [
+        "assets/index-DYEtLHrJ.js",
+        "assets/route-v3-venue-main-B_cuWHFX.js",
+        "assets/en-CxjBGvHd.js"
+      ],
+      "localeCopyRoots": [
+        "assets/en-CxjBGvHd.js"
+      ],
+      "jsRequests": 15,
+      "js": {
+        "bytes": 1954380,
+        "gzipBytes": 640060
+      },
+      "files": [
+        {
+          "file": "assets/_commonjsHelpers-CqkleIqs.js",
+          "bytes": 116,
+          "gzipBytes": 126
+        },
+        {
+          "file": "assets/_virtual_nexualpha-locale-copy-CxOnR5S6.js",
+          "bytes": 2260,
+          "gzipBytes": 1063
+        },
+        {
+          "file": "assets/core-shared-DAI-Rx0O.js",
+          "bytes": 680920,
+          "gzipBytes": 237559
+        },
+        {
+          "file": "assets/core-ui-ckwbz45p.js",
+          "bytes": 1142,
+          "gzipBytes": 665
+        },
+        {
+          "file": "assets/en-CxjBGvHd.js",
+          "bytes": 139898,
+          "gzipBytes": 37369
+        },
+        {
+          "file": "assets/index-DYEtLHrJ.js",
+          "bytes": 65585,
+          "gzipBytes": 18199
+        },
+        {
+          "file": "assets/route-v3-venue-main-B_cuWHFX.js",
+          "bytes": 34402,
+          "gzipBytes": 11015
+        },
+        {
+          "file": "assets/shared-route-10-DWG9FR1l.js",
+          "bytes": 33318,
+          "gzipBytes": 13661
+        },
+        {
+          "file": "assets/shared-route-14-DHv-23CK.js",
+          "bytes": 131352,
+          "gzipBytes": 41510
+        },
+        {
+          "file": "assets/shared-route-18-Ca7J0jg2.js",
+          "bytes": 2830,
+          "gzipBytes": 1723
+        },
+        {
+          "file": "assets/shared-route-2-CrGhdaqz.js",
+          "bytes": 221787,
+          "gzipBytes": 67066
+        },
+        {
+          "file": "assets/shared-route-26-BY_4lyI3.js",
+          "bytes": 824,
+          "gzipBytes": 446
+        },
+        {
+          "file": "assets/shared-route-30-DgZPEXC0.js",
+          "bytes": 11849,
+          "gzipBytes": 5640
+        },
+        {
+          "file": "assets/shared-route-6-D-NjKTho.js",
+          "bytes": 433910,
+          "gzipBytes": 143347
+        },
+        {
+          "file": "assets/vendor-react-BmyfW8Fe.js",
+          "bytes": 194187,
+          "gzipBytes": 60671
+        }
+      ]
+    },
+    {
+      "pathname": "/news/api-failover-cancel-control-disclosure-radar",
+      "roots": [
+        "assets/index-DYEtLHrJ.js",
+        "assets/route-news-detail-main-KVHL9otT.js",
+        "assets/glossary-links-en-CGOax2N8.js",
+        "assets/en-CxjBGvHd.js"
+      ],
+      "localeCopyRoots": [
+        "assets/en-CxjBGvHd.js"
+      ],
+      "jsRequests": 15,
+      "js": {
+        "bytes": 1618076,
+        "gzipBytes": 528669
+      },
+      "files": [
+        {
+          "file": "assets/_commonjsHelpers-CqkleIqs.js",
+          "bytes": 116,
+          "gzipBytes": 126
+        },
+        {
+          "file": "assets/_virtual_nexualpha-locale-copy-CxOnR5S6.js",
+          "bytes": 2260,
+          "gzipBytes": 1063
+        },
+        {
+          "file": "assets/core-shared-DAI-Rx0O.js",
+          "bytes": 680920,
+          "gzipBytes": 237559
+        },
+        {
+          "file": "assets/core-ui-ckwbz45p.js",
+          "bytes": 1142,
+          "gzipBytes": 665
+        },
+        {
+          "file": "assets/en-CxjBGvHd.js",
+          "bytes": 139898,
+          "gzipBytes": 37369
+        },
+        {
+          "file": "assets/glossary-links-en-CGOax2N8.js",
+          "bytes": 14147,
+          "gzipBytes": 4775
+        },
+        {
+          "file": "assets/index-DYEtLHrJ.js",
+          "bytes": 65585,
+          "gzipBytes": 18199
+        },
+        {
+          "file": "assets/route-news-detail-main-KVHL9otT.js",
+          "bytes": 59206,
+          "gzipBytes": 21400
+        },
+        {
+          "file": "assets/shared-route-10-DWG9FR1l.js",
+          "bytes": 33318,
+          "gzipBytes": 13661
+        },
+        {
+          "file": "assets/shared-route-12-Cmmz1XYA.js",
+          "bytes": 122813,
+          "gzipBytes": 22534
+        },
+        {
+          "file": "assets/shared-route-14-DHv-23CK.js",
+          "bytes": 131352,
+          "gzipBytes": 41510
+        },
+        {
+          "file": "assets/shared-route-26-BY_4lyI3.js",
+          "bytes": 824,
+          "gzipBytes": 446
+        },
+        {
+          "file": "assets/shared-route-30-DgZPEXC0.js",
+          "bytes": 11849,
+          "gzipBytes": 5640
+        },
+        {
+          "file": "assets/shared-route-8-B0bBqtP9.js",
+          "bytes": 160459,
+          "gzipBytes": 63051
+        },
+        {
+          "file": "assets/vendor-react-BmyfW8Fe.js",
+          "bytes": 194187,
+          "gzipBytes": 60671
+        }
+      ]
+    },
+    {
+      "pathname": "/compare/binance-vs-okx",
+      "roots": [
+        "assets/index-DYEtLHrJ.js",
+        "assets/route-v3-pages-main-DdhVF-Vi.js",
+        "assets/en-CxjBGvHd.js"
+      ],
+      "localeCopyRoots": [
+        "assets/en-CxjBGvHd.js"
+      ],
+      "jsRequests": 13,
+      "js": {
+        "bytes": 2493947,
+        "gzipBytes": 811107
+      },
+      "files": [
+        {
+          "file": "assets/_commonjsHelpers-CqkleIqs.js",
+          "bytes": 116,
+          "gzipBytes": 126
+        },
+        {
+          "file": "assets/_virtual_nexualpha-locale-copy-CxOnR5S6.js",
+          "bytes": 2260,
+          "gzipBytes": 1063
+        },
+        {
+          "file": "assets/core-shared-DAI-Rx0O.js",
+          "bytes": 680920,
+          "gzipBytes": 237559
+        },
+        {
+          "file": "assets/core-ui-ckwbz45p.js",
+          "bytes": 1142,
+          "gzipBytes": 665
+        },
+        {
+          "file": "assets/en-CxjBGvHd.js",
+          "bytes": 139898,
+          "gzipBytes": 37369
+        },
+        {
+          "file": "assets/index-DYEtLHrJ.js",
+          "bytes": 65585,
+          "gzipBytes": 18199
+        },
+        {
+          "file": "assets/route-v3-pages-main-DdhVF-Vi.js",
+          "bytes": 156012,
+          "gzipBytes": 53469
+        },
+        {
+          "file": "assets/shared-route-12-Cmmz1XYA.js",
+          "bytes": 122813,
+          "gzipBytes": 22534
+        },
+        {
+          "file": "assets/shared-route-14-DHv-23CK.js",
+          "bytes": 131352,
+          "gzipBytes": 41510
+        },
+        {
+          "file": "assets/shared-route-30-DgZPEXC0.js",
+          "bytes": 11849,
+          "gzipBytes": 5640
+        },
+        {
+          "file": "assets/shared-route-4-DLlQNUwg.js",
+          "bytes": 553903,
+          "gzipBytes": 188955
+        },
+        {
+          "file": "assets/shared-route-6-D-NjKTho.js",
+          "bytes": 433910,
+          "gzipBytes": 143347
+        },
+        {
+          "file": "assets/vendor-react-BmyfW8Fe.js",
+          "bytes": 194187,
+          "gzipBytes": 60671
+        }
+      ]
+    },
+    {
+      "pathname": "/funding-rates",
+      "roots": [
+        "assets/index-DYEtLHrJ.js",
+        "assets/route-data-funding-D7oaRT6b.js",
+        "assets/en-CxjBGvHd.js"
+      ],
+      "localeCopyRoots": [
+        "assets/en-CxjBGvHd.js"
+      ],
+      "jsRequests": 13,
+      "js": {
+        "bytes": 1152276,
+        "gzipBytes": 382152
+      },
+      "files": [
+        {
+          "file": "assets/_commonjsHelpers-CqkleIqs.js",
+          "bytes": 116,
+          "gzipBytes": 126
+        },
+        {
+          "file": "assets/_virtual_nexualpha-locale-copy-CxOnR5S6.js",
+          "bytes": 2260,
+          "gzipBytes": 1063
+        },
+        {
+          "file": "assets/core-shared-DAI-Rx0O.js",
+          "bytes": 680920,
+          "gzipBytes": 237559
+        },
+        {
+          "file": "assets/core-ui-ckwbz45p.js",
+          "bytes": 1142,
+          "gzipBytes": 665
+        },
+        {
+          "file": "assets/en-CxjBGvHd.js",
+          "bytes": 139898,
+          "gzipBytes": 37369
+        },
+        {
+          "file": "assets/index-DYEtLHrJ.js",
+          "bytes": 65585,
+          "gzipBytes": 18199
+        },
+        {
+          "file": "assets/route-data-funding-D7oaRT6b.js",
+          "bytes": 6965,
+          "gzipBytes": 2762
+        },
+        {
+          "file": "assets/shared-route-16-DHXYjbvY.js",
+          "bytes": 24836,
+          "gzipBytes": 10570
+        },
+        {
+          "file": "assets/shared-route-18-Ca7J0jg2.js",
+          "bytes": 2830,
+          "gzipBytes": 1723
+        },
+        {
+          "file": "assets/shared-route-22-CXx-e34J.js",
+          "bytes": 20864,
+          "gzipBytes": 5359
+        },
+        {
+          "file": "assets/shared-route-26-BY_4lyI3.js",
+          "bytes": 824,
+          "gzipBytes": 446
+        },
+        {
+          "file": "assets/shared-route-30-DgZPEXC0.js",
+          "bytes": 11849,
+          "gzipBytes": 5640
+        },
+        {
+          "file": "assets/vendor-react-BmyfW8Fe.js",
+          "bytes": 194187,
+          "gzipBytes": 60671
+        }
+      ]
+    }
+  ],
+  "baselineMethod": "Vite manifest static closure of browser entry plus modulePathsForRoute hydration roots; raw and per-file gzip level 6 estimates; deferred dynamic imports excluded; no browser network measurement",
+  "baselineHasFileInventory": true,
+  "comparison": [
+    {
+      "pathname": "/",
+      "beforeRequests": 8,
+      "afterRequests": 5,
+      "beforeBytes": 938868,
+      "afterBytes": 941950,
+      "beforeGzipBytes": 318582,
+      "afterGzipBytes": 317220,
+      "requestReduction": 0.375,
+      "gzipReduction": 0.004275194455430675,
+      "target": false,
+      "passed": true
+    },
+    {
+      "pathname": "/exchanges/bitget",
+      "beforeRequests": 50,
+      "afterRequests": 15,
+      "beforeBytes": 3323552,
+      "afterBytes": 1954380,
+      "beforeGzipBytes": 1121945,
+      "afterGzipBytes": 640060,
+      "requestReduction": 0.7,
+      "gzipReduction": 0.4295085766236313,
+      "target": true,
+      "passed": true
+    },
+    {
+      "pathname": "/news/api-failover-cancel-control-disclosure-radar",
+      "beforeRequests": 50,
+      "afterRequests": 15,
+      "beforeBytes": 3492289,
+      "afterBytes": 1618076,
+      "beforeGzipBytes": 1151393,
+      "afterGzipBytes": 528669,
+      "requestReduction": 0.7,
+      "gzipReduction": 0.5408440037415547,
+      "target": true,
+      "passed": true
+    },
+    {
+      "pathname": "/compare/binance-vs-okx",
+      "beforeRequests": 65,
+      "afterRequests": 13,
+      "beforeBytes": 5280981,
+      "afterBytes": 2493947,
+      "beforeGzipBytes": 1748055,
+      "afterGzipBytes": 811107,
+      "requestReduction": 0.8,
+      "gzipReduction": 0.5359945768296764,
+      "target": true,
+      "passed": true
+    },
+    {
+      "pathname": "/funding-rates",
+      "beforeRequests": 27,
+      "afterRequests": 13,
+      "beforeBytes": 2015502,
+      "afterBytes": 1152276,
+      "beforeGzipBytes": 672525,
+      "afterGzipBytes": 382152,
+      "requestReduction": 0.5185185185185186,
+      "gzipReduction": 0.43176536188245795,
+      "target": true,
+      "passed": true
+    }
+  ]
+}

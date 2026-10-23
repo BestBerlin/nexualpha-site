@@ -71,8 +71,10 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/finder/CommandFinder.jsx",
   "./components/finder/SearchDialog.jsx",
   "./components/v3/V3Pages.jsx",
+  "./components/v3/activity/ActivityPages.jsx",
   "./components/v3/VenueDetailPage.jsx",
   "./components/v3/VenueDetailResearch.jsx",
+  "./components/v3/HyperliquidFeeScenario.jsx",
   "./components/v3/activity/OfficialResearch.jsx",
   "./components/v3/activity/ActivityUpdatePage.jsx",
   "./components/v3/news/NewsDetailPage.jsx",
@@ -161,8 +163,10 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/finder/CommandFinder.jsx",
   "./components/finder/SearchDialog.jsx",
   "./components/v3/V3Pages.jsx",
+  "./components/v3/activity/ActivityPages.jsx",
   "./components/v3/VenueDetailPage.jsx",
   "./components/v3/VenueDetailResearch.jsx",
+  "./components/v3/HyperliquidFeeScenario.jsx",
   "./components/v3/activity/OfficialResearch.jsx",
   "./components/v3/activity/ActivityUpdatePage.jsx",
   "./components/v3/news/NewsDetailPage.jsx",
@@ -245,8 +249,8 @@ function deferredComponent(path, exportName) {
 
 const CommandFinder = deferredComponent("./components/finder/CommandFinder.jsx", "CommandFinder");
 const SearchDialog = deferredComponent("./components/finder/SearchDialog.jsx", "SearchDialog");
-const ActivityCenterPage = deferredComponent("./components/v3/V3Pages.jsx", "ActivityCenterPage");
-const ActivityDetailPage = deferredComponent("./components/v3/V3Pages.jsx", "ActivityDetailPage");
+const ActivityCenterPage = deferredComponent("./components/v3/activity/ActivityPages.jsx", "ActivityCenterPage");
+const ActivityDetailPage = deferredComponent("./components/v3/activity/ActivityPages.jsx", "ActivityDetailPage");
 const CompareDeepPage = deferredComponent("./components/v3/V3Pages.jsx", "CompareDeepPage");
 const CompareHubPage = deferredComponent("./components/v3/V3Pages.jsx", "CompareHubPage");
 const NotFoundPage = deferredComponent("./components/v3/V3Pages.jsx", "NotFoundPage");
@@ -254,6 +258,8 @@ const VenueDetailPage = deferredComponent("./components/v3/VenueDetailPage.jsx",
 // The venue page's collapsed "Sources" hub: static on the server, loaded on toggle in the browser (venue-graph lane).
 const VenueDetailResearch = deferredComponent("./components/v3/VenueDetailResearch.jsx", "VenueDetailResearch");
 const prefetchVenueResearch = () => preloadRouteModule(ROUTE_MODULE_PATHS.venueResearch).catch(() => {});
+const VenueFeeScenario = deferredComponent("./components/v3/HyperliquidFeeScenario.jsx", "HyperliquidFeeScenario");
+const prefetchVenueFeeScenario = () => preloadRouteModule(ROUTE_MODULE_PATHS.venueFeeScenario).catch(() => {});
 const ActivityUpdatePage = deferredComponent(ROUTE_MODULE_PATHS.activityUpdate, "ActivityUpdatePage");
 const OfficialResearchPage = deferredComponent("./components/v3/activity/OfficialResearch.jsx", "OfficialResearchPage");
 // Perf lane 2026-10-11: the directory, the home comparison slots, the news list and the data pages are route modules
@@ -903,7 +909,16 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     document.documentElement.dir = getTextDirection(locale);
     document.documentElement.dataset.build = __NEXUALPHA_BUILD_ID__;
   }, [locale]);
-  useEffect(() => { const syncFromHistory = () => setLocale(readLocale()); window.addEventListener("popstate", syncFromHistory); return () => window.removeEventListener("popstate", syncFromHistory); }, []);
+  useEffect(() => {
+    const syncFromHistory = () => {
+      const nextLocale = readLocale();
+      // Like the language menu, a cross-language history entry starts from its
+      // SSR document and its own copy edition. Same-language history stays local.
+      if (nextLocale !== locale) window.location.assign(window.location.href);
+    };
+    window.addEventListener("popstate", syncFromHistory);
+    return () => window.removeEventListener("popstate", syncFromHistory);
+  }, [locale]);
   useEffect(() => installHashNavigation(document, window), []);
   useEffect(() => {
     let alive = true;
@@ -1095,7 +1110,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "newsList") return pageShell(<NewsListPage locale={locale} market={route.market} product={route.product} category={route.category} page={route.page} initialArticles={initialNewsArticles} listing={initialNewsListing} />);
   if (route.name === "newsDetail") return pageShell(<NewsDetailPage slug={route.slug} locale={locale} market={route.market} product={route.product} initialArticles={initialNewsArticles} glossaryLinks={readGlossaryLinks(locale)} />);
   if (route.name === "venue" && !routedVenue) return pageShell(<NotFoundPage locale={locale} />);
-  if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={sharedOfficialEvents} market={route.market || (decisionPassport.market !== "unknown" ? decisionPassport.market : undefined)} product={route.product} accountStage={route.accountStage} funding={route.funding} researchComponent={VenueDetailResearch} prefetchResearch={prefetchVenueResearch} initialNewsArticles={initialNewsArticles} />);
+  if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={sharedOfficialEvents} market={route.market || (decisionPassport.market !== "unknown" ? decisionPassport.market : undefined)} product={route.product} accountStage={route.accountStage} funding={route.funding} researchComponent={VenueDetailResearch} prefetchResearch={prefetchVenueResearch} feeScenarioComponent={VenueFeeScenario} prefetchFeeScenario={prefetchVenueFeeScenario} initialNewsArticles={initialNewsArticles} />);
   if (route.name === "compareHub") return pageShell(<CompareHubPage locale={locale} venues={command.venueCatalog} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });
   if (route.name === "compare" && selectedFromRoute.length < 2) return pageShell(<NotFoundPage locale={locale} />);
   if (route.name === "compare" && selectedFromRoute.length >= 2) return pageShell(<CompareDeepPage initialNewsArticles={initialNewsArticles} copy={copy} locale={locale} selected={selectedFromRoute} venues={command.venueCatalog} updates={sharedOfficialEvents} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });

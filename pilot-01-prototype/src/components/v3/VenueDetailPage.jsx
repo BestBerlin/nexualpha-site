@@ -34,7 +34,6 @@ import { ExchangeFactsV5, feesCheckedLabel, feesStatusLabel } from "./ExchangeFa
 import { VenueRoute } from "../v6/InnerLedger.jsx";
 import { VenueFeeLedger } from "./VenueDetailPageFeeLedger.jsx";
 import { isoDay } from "../../data/exchange-facts.js";
-import { HyperliquidFeeScenario } from "./HyperliquidFeeScenario.jsx";
 import { priorityVenueAnswerFor } from "../../data/priority-venue-answers.js";
 import { decisionForVenue, hasReviewedEditorialDecision } from "../../data/venue-decision-content.js";
 import { campaignCopy } from "./activity/campaign-copy";
@@ -479,7 +478,7 @@ export function ActivityCards({ locale, updates }) {
 // module on the server and the route-module-cache wrapper in the browser, where its chunk (route-v3-venue-research)
 // loads when the reader opens the disclosure; `prefetchResearch` starts that download the moment the gate opens.
 // Tests that render the page directly use VenueDetailPageStatic.jsx, which wires the static component.
-export function VenueDetailPage({ copy, locale, venue, venues, updates, market, product, accountStage, funding, researchComponent: ResearchHub = null, prefetchResearch, initialNewsArticles = [] }) {
+export function VenueDetailPage({ copy, locale, venue, venues, updates, market, product, accountStage, funding, researchComponent: ResearchHub = null, prefetchResearch, feeScenarioComponent: FeeScenario = null, prefetchFeeScenario, initialNewsArticles = [] }) {
   const codeFeedback = useCopyFeedback(`${venue.slug}:code`);
   const copied = codeFeedback.state === "success";
   const [tradeVolume, setTradeVolume] = useState(50000);
@@ -954,7 +953,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
           />
         )}
 
-        {venue.slug === "hyperliquid" && ["en", "zh-Hans", "zh-Hant"].includes(locale) && <HyperliquidFeeScenario locale={locale} market={effectiveMarket} />}
+        {venue.slug === "hyperliquid" && ["en", "zh-Hans", "zh-Hant"].includes(locale) && FeeScenario && <DeferUntilVisible target=".v3-hyperliquid-fee-scenario" interactionOnly prefetch={prefetchFeeScenario}><FeeScenario locale={locale} market={effectiveMarket} /></DeferUntilVisible>}
 
         {!priorityAnswer && (
           <section className="v3-profile-decision-context" data-profile-task="context">

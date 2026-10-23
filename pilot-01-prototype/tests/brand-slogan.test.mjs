@@ -152,7 +152,7 @@ test("footer renders slogan A under the brand mark in en, zh-Hans and ar", async
   }
   // Footer v11 (2026-10-18): the slogan is a start-aligned editorial line in the shell layer.
   const css = await readFile(path.join(root, "src/styles/v5/shell.css"), "utf8");
-  assert.match(css, /\.nx-ftr__slogan[^{]*\{[^}]*text-align: start/, "footer slogan is styled in the shell layer");
+  assert.match(css, /\.nx-ftr \.nx-ftr__slogan\s*\{[^}]*max-inline-size/, "footer slogan is styled in the shell layer");
 });
 
 test("default and home social cards carry slogan A; article cards are unchanged", () => {
@@ -173,8 +173,8 @@ test("default and home social cards carry slogan A; article cards are unchanged"
   }
   const news = newsCardSvg({ title: "Example headline", category: "News", date: "2026-10-11", locale: "en" });
   assert.ok(!news.includes("verified gateway"), "article cards keep their own headline");
-  assert.equal(socialImagePathForRoute("/"), "/og/default/site.png");
-  assert.equal(socialImagePathForRoute("/", "ar"), "/og/default/site.png?locale=ar");
+  assert.equal(socialImagePathForRoute("/"), "/og/default/site.png?v=2");
+  assert.equal(socialImagePathForRoute("/", "ar"), "/og/default/site.png?v=2&locale=ar");
 });
 
 test("the default card's inlined brand mark matches public/brand/nexualpha/nexualpha-round.svg", async () => {

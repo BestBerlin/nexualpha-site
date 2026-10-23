@@ -1,0 +1,19 @@
+{
+  "baseline": "b497d6ea",
+  "modulePath": "src/components/v7/home7-globe.js",
+  "afterModuleSha256": "c1eca2215be5be0cd5cbeb62168a18ee645e81371c0f87877871230e83f5c976",
+  "normalizedArtSize": 600,
+  "reducedMotion": true,
+  "assets": {
+    "before-canvas": {
+      "svgBytes": 88905,
+      "pngBytes": 241133,
+      "pngSha256": "e969f2231d62b9e58d3c565b74a414f012c82ee9f65ec53454a992abd65432cd"
+    },
+    "after-css": {
+      "svgBytes": 72713,
+      "pngBytes": 209063,
+      "pngSha256": "ba2aa233d67302d7eb271893ba49c1a3582b7844bf9f76444c0d541dc083320a"
+    }
+  }
+}

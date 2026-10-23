@@ -1,5 +1,5 @@
 // Venue-graph perf lane (2026-10-11): /exchanges/<slug> is its own route module and chunk.
-//  - the route-to-module map sends the venue route to VenueDetailPage.jsx (compare, activities, 404 keep V3Pages.jsx);
+//  - the route-to-module map sends venues to VenueDetailPage.jsx, activities to ActivityPages.jsx, and compare/404 to V3Pages.jsx;
 //  - in the built entry, the venue module's Vite preload list excludes the compare, activity and topic-guide graphs,
 //    and the browser entry never imports the venue chunk statically (Vite's preload helper stays in the shell);
 //  - DeferUntilVisible interactionOnly does not open on visibility, only on interaction or an already-open <details>;
@@ -19,11 +19,13 @@ const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
 const dist = new URL("../dist/client/", import.meta.url);
 const built = existsSync(new URL("index.html", dist));
 
-test("the venue route preloads its own module; compare, activities and 404 keep the V3 pages module", () => {
+test("venue and activities preload their own modules; compare and 404 keep the V3 pages module", () => {
   assert.equal(ROUTE_MODULE_PATHS.venueDetail, "./components/v3/VenueDetailPage.jsx");
   assert.equal(ROUTE_MODULE_PATHS.venueResearch, "./components/v3/VenueDetailResearch.jsx");
+  assert.equal(ROUTE_MODULE_PATHS.venueFeeScenario, "./components/v3/HyperliquidFeeScenario.jsx");
   assert.deepEqual(modulePathsForRoute({ name: "venue" }), [ROUTE_MODULE_PATHS.venueDetail]);
-  for (const name of ["compare", "compareHub", "activity", "activities", "notFound"]) assert.deepEqual(modulePathsForRoute({ name }), [ROUTE_MODULE_PATHS.v3Pages], name);
+  for (const name of ["compare", "compareHub", "notFound"]) assert.deepEqual(modulePathsForRoute({ name }), [ROUTE_MODULE_PATHS.v3Pages], name);
+  for (const name of ["activity", "activities"]) assert.deepEqual(modulePathsForRoute({ name }), [ROUTE_MODULE_PATHS.activityPages], name);
   const app = read("../src/App.jsx");
   for (const path of ["./components/v3/VenueDetailPage.jsx", "./components/v3/VenueDetailResearch.jsx"]) {
     assert.equal(app.match(new RegExp(`^  "${path.replace(/[./]/g, "\\$&")}",$`, "gm"))?.length, 2, `${path} is listed in the browser and the SSR glob`);
@@ -37,6 +39,8 @@ test("the venue route preloads its own module; compare, activities and 404 keep 
   const venue = read("../src/components/v3/VenueDetailPage.jsx");
   assert.match(venue, /<DeferUntilVisible target="\.v3-profile-sources-group" interactionOnly prefetch=\{prefetchResearch\}>/);
   assert.doesNotMatch(venue, /from "\.\/VenueDetailResearch\.jsx"/, "the first screen never imports the research hub statically");
+  assert.doesNotMatch(venue, /from "\.\/HyperliquidFeeScenario\.jsx"/);
+  assert.match(venue, /target="\.v3-hyperliquid-fee-scenario" interactionOnly prefetch=\{prefetchFeeScenario\}/);
   assert.doesNotMatch(venue, /official-campaign|compare-generated|compare-direct-answers|TopicGuide|FactbookPage|activity\/ActivityPages/);
   assert.doesNotMatch(read("../src/components/v3/V3Pages.jsx"), /export function VenueDetailPage/);
 });
@@ -62,6 +66,8 @@ test("vite config pins the venue graph: shared helpers, CSS-only route-v3-pages-
   assert.equal(chunk("/src/components/v3/growth-conversion.css"), "route-v3-pages-growth");
   assert.equal(chunk("/src/components/v3/activity/campaign-copy.js"), "data-campaign-copy");
   assert.equal(chunk("/src/components/v3/activity/ActivityPages.jsx"), "route-activity");
+  assert.equal(chunk("/src/data/app-downloads.js"), "shared-app-downloads");
+  assert.equal(chunk("/src/data/app-download-copy.js"), "shared-app-downloads");
   for (const id of ["/src/data/reviewed-fee-copy.js", "/src/data/venue-fee-summary.js", "/src/data/reviewed-base-fees.js", "/src/data/public-copy-sanitizer.js", "/src/data/contextual-href.js", "/src/data/plural-copy.js", "/src/utils/fallback-lang.js", "/src/utils/venue-name-helper.js", "/src/components/v3/exchange-matrix-copy.js"]) {
     assert.equal(chunk(id), "shared-venue-copy", id);
   }
@@ -93,11 +99,30 @@ export function routePreloadList(entrySource, modulePath) {
   const table = entrySource.match(/m\.f\|\|\(m\.f=(\[[^\]]*\])\)/);
   if (!table) throw new Error("__vite__mapDeps table not found in the entry");
   const files = JSON.parse(table[1]).map((file) => file.replace(/^assets\//, ""));
-  const escaped = modulePath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const match = entrySource.match(new RegExp(`"${escaped}":\\(\\)=>\\w+\\(\\(\\)=>import\\("\\./([\\w.-]+\\.js)"\\)(?:\\.then\\([^)]*\\))?,__vite__mapDeps\\(\\[([\\d,]*)\\]\\)`));
-  if (!match) throw new Error(`dynamic import of ${modulePath} not found in the entry`);
-  return [...new Set([match[1], ...match[2].split(",").filter(Boolean).map((index) => files[Number(index)])])];
+  const start = entrySource.indexOf(`${JSON.stringify(modulePath)}:`);
+  if (start < 0) throw new Error(`dynamic import of ${modulePath} not found in the entry`);
+  // Copy preparation can wrap import() in a promise. Scope the search to this
+  // glob property instead of depending on the minified callback's exact shape.
+  const tail = entrySource.slice(start);
+  const nextProperty = tail.indexOf(',"./');
+  const loader = nextProperty < 0 ? tail : tail.slice(0, nextProperty);
+  const asset = loader.match(/import\("\.\/([\w.-]+\.js)"\)/);
+  const deps = loader.match(/__vite__mapDeps\(\[([\d,]*)\]\)/);
+  if (!asset || !deps) throw new Error(`preload list of ${modulePath} not found in the entry`);
+  return [...new Set([asset[1], ...deps[1].split(",").filter(Boolean).map((index) => {
+    assert.ok(files[Number(index)], `preload index ${index} exists`);
+    return files[Number(index)];
+  })])];
 }
+
+test("route preload inspection accepts locale preparation and stays within its glob property", () => {
+  const table = 'm.f||(m.f=["assets/shared.js","assets/venue.css"])';
+  for (const load of ['import("./venue.js")', 'globalThis.prepare().then(()=>import("./venue.js"))']) {
+    const source = `${table};{"./venue.jsx":()=>p(()=>${load},__vite__mapDeps([0,1])),"./other.jsx":()=>p(()=>import("./other.js"),__vite__mapDeps([0]))}`;
+    assert.deepEqual(routePreloadList(source, "./venue.jsx"), ["venue.js", "shared.js", "venue.css"]);
+    assert.throws(() => routePreloadList(source, "./missing.jsx"), /not found/);
+  }
+});
 
 test("built entry: the venue route's preload list excludes the compare, activity and topic-guide graphs", { skip: !built && "run after `npm run build`" }, () => {
   const assets = readdirSync(new URL("assets/", dist));
@@ -105,7 +130,7 @@ test("built entry: the venue route's preload list excludes the compare, activity
   const source = readFileSync(new URL(`assets/${entry}`, dist), "utf8");
   const venue = routePreloadList(source, "./components/v3/VenueDetailPage.jsx");
   const chunkNames = venue.map((file) => file.replace(/-[\w-]{8}\.(?:js|css)$/, ""));
-  assert.ok(chunkNames.includes("route-v3-venue"), "venue chunk is the module's own chunk");
+  assert.ok(chunkNames.includes("route-v3-venue-main"), "venue chunk is the module's own chunk");
   for (const forbidden of ["route-activity", "route-v3-pages", "route-topic-guide", "route-factbook", "route-collection-hubs", "route-v3-home", "route-v3-wizard", "route-v3-calculators", "route-rates", "home-below-fold", "route-v3-venue-research", "data-compare-generated", "data-compare-direct-answers", "data-compare-faq-locales", "data-topic-guides", "data-factbook", "data-aeo-questions", "data-official-research"]) {
     assert.ok(!chunkNames.includes(forbidden), `${forbidden} must not preload with the venue route (got ${chunkNames.join(", ")})`);
   }

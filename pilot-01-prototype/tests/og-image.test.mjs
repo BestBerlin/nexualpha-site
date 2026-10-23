@@ -7,6 +7,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createOgImageRoute, wrapText, formatUsdCompact, socialImagePathForRoute, OG_WIDTH, OG_HEIGHT } from "../server/og-image.mjs";
 import { CUSTOM_INVITE_CODES } from "../src/data/partner-registry.js";
+import { publicCtaForVenue } from "../src/data/public-cta.js";
 import worker, { routeMetadata, applySocialImage } from "../worker/index.js";
 import { createProductionServer } from "../server.mjs";
 
@@ -150,7 +151,7 @@ test("rendered cards are cached in memory and on disk under the build id", async
   }
 });
 
-test("cards print page facts but never invite codes, and RTL titles are right-aligned", async () => {
+test("cards print page facts, only public CTA invite codes, and right-aligned RTL titles", async () => {
   const f = await fixture();
   try {
     const route = createOgImageRoute({ clientRoot: f.clientRoot, buildId: "3.0-test" });
@@ -159,7 +160,9 @@ test("cards print page facts but never invite codes, and RTL titles are right-al
     for (const [kind, id] of [["venue", "okx"], ["venue", "binance"], ["venue", "bitget"], ["compare", "binance-vs-okx"], ["compare", "okx-vs-bitget-vs-bybit"]]) {
       const svg = await route.svgFor(kind, id, "en");
       assert.ok(svg, `${kind}/${id} resolves`);
-      for (const code of codes) assert.ok(!svg.includes(code), `${kind}/${id} must not print invite code`);
+      const permitted = kind === "venue" ? publicCtaForVenue(id).inviteCode : null;
+      for (const code of codes) if (code !== permitted) assert.ok(!svg.includes(code), `${kind}/${id} must not print another invite code`);
+      if (permitted) { assert.ok(svg.includes(permitted)); assert.match(svg, /commission/); }
     }
     const okx = await route.svgFor("venue", "okx", "en");
     assert.match(okx, /OKX/);
@@ -179,8 +182,9 @@ test("cards print page facts but never invite codes, and RTL titles are right-al
     assert.match(liq, /Shorts {2}\$98\.3M/);
     assert.match(liq, /\$12\.4M · BTCUSDT Longs/);
     const news = await route.svgFor("news", "verify-official-exchange-site", "en");
-    assert.match(news, /Source-Backed Research {2}· {2}2026-10-09/);
-    assert.equal((news.match(/letter-spacing="-0\.8"/g) || []).length, 3, "long title wraps to three lines");
+    assert.match(news, /Source-Backed Research/);
+    assert.match(news, /2026-10-09/);
+    assert.equal((news.match(/data-og-title="true"/g) || []).length, 2, "article title uses at most two lines");
     assert.match(news, /…<\/text>/, "truncated title ends with an ellipsis");
     const ar = await route.svgFor("news", "verify-official-exchange-site", "ar");
     assert.match(ar, /direction="rtl"/);
@@ -233,24 +237,24 @@ test("route metadata points og:image and twitter:image at the page's card by rou
   const feed = { articles: [ARTICLE] };
   const env = { ASSETS: { fetch: async (req) => new URL(req.url).pathname === "/content/news-feed.json" ? new Response(JSON.stringify(feed)) : new Response("", { status: 404 }) } };
   const news = await routeMetadata(new URL("https://nexualpha.com/news/verify-official-exchange-site"), env);
-  assert.equal(news.image, "https://nexualpha.com/og/news/verify-official-exchange-site.png");
+  assert.equal(news.image, "https://nexualpha.com/og/news/verify-official-exchange-site.png?v=2");
   const newsZh = await routeMetadata(new URL("https://nexualpha.com/zh-hans/news/verify-official-exchange-site"), env);
-  assert.equal(newsZh.image, "https://nexualpha.com/og/news/verify-official-exchange-site.png?locale=zh-Hans");
+  assert.equal(newsZh.image, "https://nexualpha.com/og/news/verify-official-exchange-site.png?v=2&locale=zh-Hans");
   const okx = await routeMetadata(new URL("https://nexualpha.com/exchanges/okx"), {});
-  assert.equal(okx.image, "https://nexualpha.com/og/venue/okx.png");
+  assert.equal(okx.image, "https://nexualpha.com/og/venue/okx.png?v=2");
   const compare = await routeMetadata(new URL("https://nexualpha.com/compare/binance-vs-okx"), {});
-  assert.equal(compare.image, "https://nexualpha.com/og/compare/binance-vs-okx.png");
+  assert.equal(compare.image, "https://nexualpha.com/og/compare/binance-vs-okx.png?v=2");
   const missing = await routeMetadata(new URL("https://nexualpha.com/exchanges/not-a-venue"), {});
   assert.equal(missing.status, 404);
   assert.equal(missing.image, undefined, "404 pages keep the brand image");
   const home = await routeMetadata(new URL("https://nexualpha.com/"), {});
   // Owner 2026-10-11 (brand slogans): the home page uses the default card, which carries slogan A under the wordmark.
-  assert.equal(home.image, "https://nexualpha.com/og/default/site.png", "home uses the slogan card");
+  assert.equal(home.image, "https://nexualpha.com/og/default/site.png?v=2", "home uses the slogan card");
   const homeAr = await routeMetadata(new URL("https://nexualpha.com/ar/"), {});
-  assert.equal(homeAr.image, "https://nexualpha.com/og/default/site.png?locale=ar", "home card follows the edition locale");
+  assert.equal(homeAr.image, "https://nexualpha.com/og/default/site.png?v=2&locale=ar", "home card follows the edition locale");
   // Generic by route kind, so pages built in parallel branches pick a card up as soon as they return 200.
-  assert.equal(applySocialImage({ status: 200 }, "/liquidations", "en").image, "https://nexualpha.com/og/liquidations/24h.png");
-  assert.equal(applySocialImage({ status: 200 }, "/funding-rates", "ar").image, "https://nexualpha.com/og/default/site.png?locale=ar");
+  assert.equal(applySocialImage({ status: 200 }, "/liquidations", "en").image, "https://nexualpha.com/og/liquidations/24h.png?v=2");
+  assert.equal(applySocialImage({ status: 200 }, "/funding-rates", "ar").image, "https://nexualpha.com/og/funding/rates.png?v=2&locale=ar");
   assert.equal(applySocialImage({ status: 200, image: "https://nexualpha.com/custom.png" }, "/exchanges/okx").image, "https://nexualpha.com/custom.png", "a route's own image wins");
   assert.equal(socialImagePathForRoute("/methodology"), null);
   assert.equal(socialImagePathForRoute("/news/"), null);
@@ -260,13 +264,13 @@ test("route metadata points og:image and twitter:image at the page's card by rou
       ? new Response("<!doctype html><html><head><title>x</title></head><body><div id=\"root\"></div></body></html>", { headers: { "content-type": "text/html; charset=utf-8" } })
       : new Response("", { status: 404 }) },
   })).text();
-  assert.match(html, /<meta property="og:image" content="https:\/\/nexualpha\.com\/og\/venue\/okx\.png"/);
+  assert.match(html, /<meta property="og:image" content="https:\/\/nexualpha\.com\/og\/venue\/okx\.png\?v=2"/);
   assert.match(html, /<meta property="og:image:width" content="1200"/);
   assert.match(html, /<meta property="og:image:height" content="630"/);
-  assert.match(html, /<meta name="twitter:image" content="https:\/\/nexualpha\.com\/og\/venue\/okx\.png"/);
+  assert.match(html, /<meta name="twitter:image" content="https:\/\/nexualpha\.com\/og\/venue\/okx\.png\?v=2"/);
   assert.match(html, /<meta name="twitter:card" content="summary_large_image"/);
   // The worker alone never serves an HTML page at an image URL.
-  const workerOnly = await worker.fetch(new Request("https://nexualpha.com/og/venue/okx.png"), { ASSETS: { fetch: async () => new Response("<html></html>") } });
+  const workerOnly = await worker.fetch(new Request("https://nexualpha.com/og/venue/okx.png?v=2"), { ASSETS: { fetch: async () => new Response("<html></html>") } });
   assert.equal(workerOnly.status, 404);
 });
 

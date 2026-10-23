@@ -1,0 +1,62 @@
+✔ both slogans exist in all 17 locales and slogan B carries no typed percentage (5.909541ms)
+✔ slogan B's share follows HOME_REBATE_MAX_PCT through formatPercent (0.375458ms)
+✔ Organization JSON-LD carries slogan A in every locale, identical in the Worker head and computeRouteSeo (16.145291ms)
+✔ home title and description match across the SSR head, /api/route-seo and computeRouteSeo in 17 locales (51.216583ms)
+✔ reviewed brand-first titles retain their wording and home descriptions preserve the entity definition (0.466083ms)
+✔ footer renders slogan A under the brand mark in en, zh-Hans and ar (152.444292ms)
+✔ default and home social cards carry slogan A; article cards are unchanged (4.815583ms)
+✔ the default card's inlined brand mark matches public/brand/nexualpha/nexualpha-round.svg (0.958958ms)
+✔ llms.txt and llms-small.txt lead with the canonical entity definition (1.431875ms)
+news: max warm request 7.93ms
+news: warm native render + PNG encode 35.07ms (explicit fonts)
+venue: max warm request 11.42ms
+venue: warm native render + PNG encode 74.72ms (explicit fonts)
+compare: max warm request 22.80ms
+compare: warm native render + PNG encode 57.68ms (explicit fonts)
+liquidations: max warm request 6.56ms
+liquidations: warm native render + PNG encode 43.20ms (explicit fonts)
+funding: max warm request 6.74ms
+funding: warm native render + PNG encode 44.04ms (explicit fonts)
+default: max warm request 0.81ms
+default: warm native render + PNG encode 45.56ms (explicit fonts)
+Measured 1185 text runs in 102 layouts with resvg ink bounds.
+✔ six distinct non-empty 1200x630 PNGs; warm cached requests below 150ms (2510.096542ms)
+✔ 17 locales × 6 types measure inside safe areas without text collisions (15958.495917ms)
+✔ CJK, wide Latin and unbroken titles use at most two measured lines (439.365167ms)
+✔ snapshot charts preserve signed rates, real coverage and timestamp; compare gap uses reviewed percent points (7.2955ms)
+✔ missing market numbers fail closed; metadata selects the versioned funding chart (1652.793625ms)
+✔ article categories differ and every existing WebP tile has a renderable PNG equivalent (31.645917ms)
+✔ compare columns mirror symmetrically with equal rounded tiles and a centered gradient VS ring (857.289625ms)
+✔ fee insights name the actual cheaper side, suppress missing data, and localize all supported editions (5671.224708ms)
+✔ every card kind renders a 1200x630 PNG with public cache headers (3455.026208ms)
+✔ unknown ids, kinds and malformed paths answer 404 without rendering (11.494ms)
+✔ rendered cards are cached in memory and on disk under the build id (597.504583ms)
+✔ cards print page facts, only public CTA invite codes, and right-aligned RTL titles (8.870208ms)
+✔ a missing liquidation feed renders an 'updating' card and a missing renderer falls back to the brand image (192.76175ms)
+✔ wrapText keeps three lines with an ellipsis and formatUsdCompact rounds like the page (25.684791ms)
+✔ route metadata points og:image and twitter:image at the page's card by route kind (22.875834ms)
+﹣ the production server serves /og cards before the worker and keeps HEAD/trailing-slash behaviour (0.099917ms) # Loopback HTTP server unavailable: EPERM binding 127.0.0.1 in this environment
+✔ #1 every sitemap entry that carries hreflang matches the page head; other routes carry none in sitemap.xml (2946.874708ms)
+✔ #1 the build sitemap uses the same helpers, and stale flat sitemap blocks are not carried into split children (2325.103959ms)
+✔ #1 hreflangAlternates is the page head shape: one link per edition plus x-default on the first (0.181166ms)
+✔ #2 NewsArticle JSON-LD carries the article's 1200x630 social card in the worker head and the SSR head (10.108792ms)
+✔ #3 sitemap lastmod is each route's own content date, not the publish/build date (2241.020916ms)
+✔ #4 a locale news listing is indexable only with >= 5 native editions (1704.036042ms)
+✔ #5 #7 the article's short answer is the first content after the byline; read time is the shown edition's own (392.664375ms)
+✔ #6 home and venue SSR render no placeholder or internal workflow copy (502.503ms)
+✔ #6 empty article headings are dropped, headings with sub-sections kept (0.297917ms)
+✔ #7 read time per edition: words/230 for space-separated scripts, Han/Kana characters/450 for CJK (1.254458ms)
+✔ #8 every crawler-specific robots group repeats the * group's Disallow lines (1.178416ms)
+✔ #9 /embed/* is noindex in the meta tag and the X-Robots-Tag header, and not in the route inventory index (9.394833ms)
+✔ #10 llms*.txt describe the site accurately: slogan-led summary, partner codes with disclosure, no code names (939.930375ms)
+✔ Turkish percent dative follows the spoken number: %40'a, %25'e, %50'ye (1.558667ms)
+✔ every src/data module the worker imports (transitively) is shipped with the server build (60.295667ms)
+✔ every server module the worker imports is shipped with the server build (2.269709ms)
+ℹ tests 41
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 45863.303417

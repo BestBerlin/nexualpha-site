@@ -1,0 +1,86 @@
+{
+  "baseline": "ab3f70dd",
+  "method": "original and current source rendered against identical final assets",
+  "rows": [
+    {
+      "pathname": "/exchanges/bitget",
+      "equal": true,
+      "sha256": "99fadcc12bc0a26f037e2bf6a65eb602e0f1713ecd30ccd14a987de8831a5a81"
+    },
+    {
+      "pathname": "/news/api-failover-cancel-control-disclosure-radar",
+      "equal": true,
+      "sha256": "22aa38bc87d00e4b4684bdc74f28c3bbbe734a673fa15a58d8c88c1f612f4417"
+    },
+    {
+      "pathname": "/compare/binance-vs-okx",
+      "equal": true,
+      "sha256": "dc80c406d28781d1d8bfd6b450b6fd1640e72c9be902bfced792348097c60aaf"
+    },
+    {
+      "pathname": "/funding-rates",
+      "equal": true,
+      "sha256": "24b8f4261bc8cc48a5f0dba157a2a19e49caefd022dc4fa7fa5f1c58b5198188"
+    },
+    {
+      "pathname": "/zh-hans/exchanges/bitget",
+      "equal": true,
+      "sha256": "e663d51682badafe1dad09927f0839b1c554edd93a2be5b5232ac46c80dac8ea"
+    },
+    {
+      "pathname": "/zh-hans/news/api-failover-cancel-control-disclosure-radar",
+      "equal": true,
+      "sha256": "b03244dc7969b52b769fd9745e7cc5eef3934a547ffc96d7d07e4a8b71b8e50f"
+    },
+    {
+      "pathname": "/zh-hans/compare/binance-vs-okx",
+      "equal": true,
+      "sha256": "47af1c25337191d72b827aae4ae2b0db910f55fc2f62867db567054c1bb0e3bc"
+    },
+    {
+      "pathname": "/zh-hans/funding-rates",
+      "equal": true,
+      "sha256": "ec7eee64218f65da8f761d94048157fbf99377e1733f15ad5f44c7f41acdaa81"
+    },
+    {
+      "pathname": "/it/exchanges/bitget",
+      "equal": true,
+      "sha256": "e523d7ed2c4296f2be826c87bdd8a34562427c46f532d620786dcebc9e58a054"
+    },
+    {
+      "pathname": "/it/news/api-failover-cancel-control-disclosure-radar",
+      "equal": true,
+      "sha256": "157bb2928b62d5f36797f3cbf84e414f57a96a3b28bcf6db64726fbf2439a221"
+    },
+    {
+      "pathname": "/it/compare/binance-vs-okx",
+      "equal": true,
+      "sha256": "9680c0500cc843357defb0a879379930977052ca60b27366bb4c59844006592f"
+    },
+    {
+      "pathname": "/it/funding-rates",
+      "equal": true,
+      "sha256": "6393a871d5a84816965e774f83a151dc656f9464a6d66550180caac2f88d5821"
+    },
+    {
+      "pathname": "/ar/exchanges/bitget",
+      "equal": true,
+      "sha256": "98b8cf1399b34d8d5f9bf29a3e8729288c8ee38ec4fe141aee4c1e580a06ff21"
+    },
+    {
+      "pathname": "/ar/news/api-failover-cancel-control-disclosure-radar",
+      "equal": true,
+      "sha256": "478901afd47c9db6681150031d3378739227bd080cd1539e219d5e28b8165115"
+    },
+    {
+      "pathname": "/ar/compare/binance-vs-okx",
+      "equal": true,
+      "sha256": "9de20145f8e9a95946bd5be9e143b4af1d6ed9d8858cf81c88739899e638d899"
+    },
+    {
+      "pathname": "/ar/funding-rates",
+      "equal": true,
+      "sha256": "d43a59dbf0e9af122872dfd24bf22d7949c05c6114db1bc38ed902a8d33573a1"
+    }
+  ]
+}

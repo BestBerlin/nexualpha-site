@@ -1,0 +1,41 @@
+✔ both slogans exist in all 17 locales and slogan B carries no typed percentage (3.094625ms)
+✔ slogan B's share follows HOME_REBATE_MAX_PCT through formatPercent (0.251541ms)
+✔ Organization JSON-LD carries slogan A in every locale, identical in the Worker head and computeRouteSeo (14.323209ms)
+✔ home title and description match across the SSR head, /api/route-seo and computeRouteSeo in 17 locales (42.531833ms)
+✔ reviewed brand-first titles retain their wording and home descriptions preserve the entity definition (0.494417ms)
+✔ footer renders slogan A under the brand mark in en, zh-Hans and ar (108.099166ms)
+✔ default and home social cards carry slogan A; article cards are unchanged (3.186125ms)
+✔ the default card's inlined brand mark matches public/brand/nexualpha/nexualpha-round.svg (0.489209ms)
+✔ llms.txt and llms-small.txt lead with the canonical entity definition (0.476417ms)
+✔ every card kind renders a 1200x630 PNG with public cache headers (2977.477792ms)
+✔ unknown ids, kinds and malformed paths answer 404 without rendering (6.408625ms)
+✔ rendered cards are cached in memory and on disk under the build id (669.300167ms)
+✔ cards print page facts, only public CTA invite codes, and right-aligned RTL titles (17.083958ms)
+✔ a missing liquidation feed renders an 'updating' card and a missing renderer falls back to the brand image (268.145667ms)
+✔ wrapText keeps three lines with an ellipsis and formatUsdCompact rounds like the page (31.255667ms)
+✔ route metadata points og:image and twitter:image at the page's card by route kind (20.864208ms)
+﹣ the production server serves /og cards before the worker and keeps HEAD/trailing-slash behaviour (0.102333ms) # Loopback HTTP server unavailable: EPERM binding 127.0.0.1 in this environment
+✔ #1 every sitemap entry that carries hreflang matches the page head; other routes carry none in sitemap.xml (3023.198917ms)
+✔ #1 the build sitemap uses the same helpers, and stale flat sitemap blocks are not carried into split children (2386.708125ms)
+✔ #1 hreflangAlternates is the page head shape: one link per edition plus x-default on the first (0.165042ms)
+✔ #2 NewsArticle JSON-LD carries the article's 1200x630 social card in the worker head and the SSR head (7.984625ms)
+✔ #3 sitemap lastmod is each route's own content date, not the publish/build date (2218.981167ms)
+✔ #4 a locale news listing is indexable only with >= 5 native editions (1711.966125ms)
+✔ #5 #7 the article's short answer is the first content after the byline; read time is the shown edition's own (342.746166ms)
+✔ #6 home and venue SSR render no placeholder or internal workflow copy (386.115083ms)
+✔ #6 empty article headings are dropped, headings with sub-sections kept (0.328916ms)
+✔ #7 read time per edition: words/230 for space-separated scripts, Han/Kana characters/450 for CJK (1.376041ms)
+✔ #8 every crawler-specific robots group repeats the * group's Disallow lines (1.770417ms)
+✔ #9 /embed/* is noindex in the meta tag and the X-Robots-Tag header, and not in the route inventory index (9.166833ms)
+✔ #10 llms*.txt describe the site accurately: slogan-led summary, partner codes with disclosure, no code names (794.968333ms)
+✔ Turkish percent dative follows the spoken number: %40'a, %25'e, %50'ye (1.110541ms)
+✔ every src/data module the worker imports (transitively) is shipped with the server build (128.158333ms)
+✔ every server module the worker imports is shipped with the server build (2.272541ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 12557.806875

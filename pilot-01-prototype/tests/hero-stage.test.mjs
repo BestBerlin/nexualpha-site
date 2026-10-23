@@ -8,19 +8,20 @@ test('stage shares actual hero state without a separate volume demo', () => {
   assert.match(source, /<RebateStage locale={locale} picks={heroPicks} venues={venues} sel={sel} volume={heroVolume}/);
   assert.doesNotMatch(source, /hx-mac|useScreenDemo|animateMotion/);
   assert.match(source, /data-final-value={Math.round\(back\)}/);
-  // Globe (2026-10-22): the canvas module is a dynamic import started after load; the server renders a still SVG globe.
+  // The compositor texture module remains a dynamic import started after load; SSR keeps the still SVG globe.
   assert.match(source, /import\("\.\/home7-globe\.js"\)/);
   assert.doesNotMatch(source, /^import [^\n]*home7-globe/m, 'never a static import (home entry budget)');
   assert.match(source, /requestIdleCallback/);
   assert.match(css, /\.hx-stage\[data-live\]/);
   assert.match(css, /prefers-reduced-motion:reduce/);
   const globe = readFileSync('src/components/v7/home7-globe.js', 'utf8');
-  assert.match(globe, /if \(still\) \{ draw\(0\); return; \}/, 'reduced motion paints one still frame');
+  assert.match(globe, /still \|\| !visible \|\| document.hidden/, 'reduced motion pauses CSS');
+  assert.doesNotMatch(globe, /\b(?:requestAnimationFrame|setInterval|setTimeout)\s*\(/);
   assert.match(globe, /document\.hidden/);
   assert.match(globe, /IntersectionObserver/);
 });
 test('localized SSR retains accessible rows and immediate values', async () => {
-  const vite = await createServer({ appType:'custom', logLevel:'error', server:{middlewareMode:true} });
+  const vite = await createServer({ appType:'custom', logLevel:'error', optimizeDeps:{noDiscovery:true,include:[]}, server:{middlewareMode:true,hmr:false,ws:false} });
   try {
     const { render } = await vite.ssrLoadModule('/src/entry-server.jsx');
     for (const locale of ['zh-Hans','en','tr']) {
