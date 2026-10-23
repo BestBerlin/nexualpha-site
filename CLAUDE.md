@@ -3,6 +3,19 @@
 On every new session, first read `docs/company/SCORECARD.md` (owner target ≥ 90/100, measurable criteria), `docs/company/ITERATION-v8.md` (current milestone, checklist, next steps) and
 `docs/company/HANDOFF-LOCAL.md`. Design rules live in `pilot-01-prototype/docs/design-unified-v8.md`.
 
+## Roles: Claude is the CEO, Codex does the work (owner order 2026-10-23)
+- Claude is the controller/CEO: sets direction, writes task briefs, reviews and audits results (real browser at
+  390/768/1440, tests, QA gate), merges, deploys and reports to the owner in Chinese. Claude does not work single-threaded.
+- About 95% of implementation goes to Codex CLI: `nx-agents/codex/queue/<task>/BRIEF.md` + `run-codex-task.sh <task>`
+  (up to 6 in parallel; default model gpt-6.1-sol, CODEX_EFFORT high for hard tasks; GPT-6 Astra for hard design
+  calls). Shared rules for every brief: `nx-agents/codex/queue/_common.md`. Don't save Codex tokens.
+- Claude may still do small glue work that only the lead can do: merge conflict resolution, deploy wiring, prod
+  config, secrets, OAuth with the owner, and fixes found while reviewing a Codex result. Anything bigger → a brief.
+- Codex runs in a sandbox without network/localhost and cannot commit: extract its diff (`git add -N . && git diff HEAD
+  --binary`, excluding public/, dist, generated data, .tmp-*), apply with `git apply --3way` on a `lead/<wave>` branch,
+  then build, run the related tests and `scripts/qa-regression.mjs` locally before deploying. Pause Codex processes
+  (`kill -STOP`) during the deploy's QA gate: machine load inflates the idle-JS check.
+
 ## Stable rules
 - App: `pilot-01-prototype/` (React + Vite, SSR). Dev: `npx vite --port 5174`. Work branch `v7-home`; deploy only from
   `main` via the "Deploy to production" workflow (see `DEPLOY.md`), after the owner has approved the release.
