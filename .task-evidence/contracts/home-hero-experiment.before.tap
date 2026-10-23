@@ -1,0 +1,205 @@
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+TypeError: fetch failed
+
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+TypeError: fetch failed
+
+✔ [paraglide-js] Compilation complete (locale-modules)
+✖ registry: home_hero_copy_v1 is retired (2026-10-14), still valid, on the 17 localized home routes (15224.869625ms)
+✖ one hero headline for every variant: the live volume sentence (1.290375ms)
+✖ assignment: flag off (or kill switch) = inactive for everyone, no cookie (0.032375ms)
+✖ assignment: stable cookie, 50/50 draw, crawlers always A without a cookie (0.018625ms)
+✖ browser: hydrates the server's variant on a home page, uses the cookie elsewhere only while enabled (0.027917ms)
+✖ worker, kill switch off: home HTML and headers are unchanged (A, public cache, no cookie, no variant state) (0.0175ms)
+✖ worker, experiment running: B visitors get the B prerender, private + Vary: Cookie, crawlers get A (0.016041ms)
+✖ SSR markup equals hydrated markup for variant A (en, id) (0.015667ms)
+✖ SSR markup equals hydrated markup for variant B (en, id) (0.027375ms)
+✖ /go/<partner> and the site beacon record experiment + variant while it runs, nothing extra when off (0.033125ms)
+✖ v2 analytics events on home routes carry the variant (collector-valid) and growth-report splits by it (0.014584ms)
+✖ HeadlessChrome and Chrome serve byte-identical home HTML for the same experiment context (0.011875ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 0
+ℹ fail 12
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17423.988542
+
+✖ failing tests:
+
+test at tests/home-hero-experiment.test.mjs:38:1
+✖ registry: home_hero_copy_v1 is retired (2026-10-14), still valid, on the 17 localized home routes (15224.869625ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/home-hero-experiment.test.mjs:54:1
+✖ one hero headline for every variant: the live volume sentence (1.290375ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/home-hero-experiment.test.mjs:61:1
+✖ assignment: flag off (or kill switch) = inactive for everyone, no cookie (0.032375ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/home-hero-experiment.test.mjs:75:1
+✖ assignment: stable cookie, 50/50 draw, crawlers always A without a cookie (0.018625ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/home-hero-experiment.test.mjs:104:1
+✖ browser: hydrates the server's variant on a home page, uses the cookie elsewhere only while enabled (0.027917ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/home-hero-experiment.test.mjs:144:1
+✖ worker, kill switch off: home HTML and headers are unchanged (A, public cache, no cookie, no variant state) (0.0175ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/home-hero-experiment.test.mjs:159:1
+✖ worker, experiment running: B visitors get the B prerender, private + Vary: Cookie, crawlers get A (0.016041ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/home-hero-experiment.test.mjs:195:3
+✖ SSR markup equals hydrated markup for variant A (en, id) (0.015667ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/home-hero-experiment.test.mjs:195:3
+✖ SSR markup equals hydrated markup for variant B (en, id) (0.027375ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/home-hero-experiment.test.mjs:228:1
+✖ /go/<partner> and the site beacon record experiment + variant while it runs, nothing extra when off (0.033125ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/home-hero-experiment.test.mjs:266:1
+✖ v2 analytics events on home routes carry the variant (collector-valid) and growth-report splits by it (0.014584ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/home-hero-experiment.test.mjs:287:1
+✖ HeadlessChrome and Chrome serve byte-identical home HTML for the same experiment context (0.011875ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)

@@ -1,0 +1,11 @@
+✔ Wave61 default compare pages use distinct sourced SERP answers without touching CTA claims (217.320125ms)
+✔ Wave61 rates route owns fee-benchmark intent with published-source boundaries (2.655ms)
+✔ Wave61 tokenized-assets cluster differentiates parent, Treasury and stock-perp snippets (71.150083ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1672.860083

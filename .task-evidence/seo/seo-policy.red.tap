@@ -1,0 +1,52 @@
+✖ reviewed home and venue titles are allowed only at their exact locale owner and current copy (69.58625ms)
+✖ only the exact home and About entity description pair is exempt from duplicate findings (0.310166ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1671.323167
+
+✖ failing tests:
+
+test at tests/seo-index-audit.test.mjs:248:1
+✖ reviewed home and venue titles are allowed only at their exact locale owner and current copy (69.58625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  14 !== undefined
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/seo-index-audit.test.mjs:258:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.start (node:internal/test_runner/test:1096:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 14,
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/seo-index-audit.test.mjs:276:1
+✖ only the exact home and About entity description pair is exempt from duplicate findings (0.310166ms)
+  AssertionError [ERR_ASSERTION]: en
+  
+  1 !== undefined
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/seo-index-audit.test.mjs:282:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

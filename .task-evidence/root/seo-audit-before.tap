@@ -1,0 +1,23 @@
+✔ sitemap parser decodes URLsets, alternates, and lastmod while rejecting external paths (3.132459ms)
+✔ head parser uses exact robots tokens and extracts canonical plus hreflang metadata (0.845959ms)
+✔ built sitemap tree reports missing child sitemap files as hard audit input failures (163.196208ms)
+✔ audit fails closed when the built site is absent (2.908375ms)
+✔ index consistency validator catches adversarial SEO graph violations (6.591458ms)
+✔ canonical aliases do not create duplicate metadata findings (0.210292ms)
+﹣ built public sitemap, canonical, hreflang, robots and metadata stay index-consistent (9.933291ms) # Loopback HTTP server unavailable: EPERM binding 127.0.0.1 in this environment
+✔ request keys preserve query strings, slashes, and encoding (0.128791ms)
+✔ Google robot header restrictions respect scopes and restrictive directives (0.409542ms)
+✔ malformed sitemap content fails closed (0.470458ms)
+✔ content dates reject a build timestamp and accept omitted optional lastmod (0.5285ms)
+✔ translated slugs form one complete reciprocal cluster (0.753375ms)
+✔ unchanged sitemap content keeps its dates across build clocks (3.670208ms)
+✔ language links must belong to the page hreflang set and canonicals must target indexable pages (0.5785ms)
+✔ noindex metadata clears stale language alternates from an existing hydration payload (34.200708ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 1320.934875

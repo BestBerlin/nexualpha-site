@@ -1,0 +1,66 @@
+TAP version 13
+# Subtest: English beginner aliases 301 directly to canonical 200 pages and preserve queries
+ok 1 - English beginner aliases 301 directly to canonical 200 pages and preserve queries
+  ---
+  duration_ms: 688.014583
+  type: 'test'
+  ...
+# ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+# Subtest: home doors and footer link directly to localized beginner canonicals in every locale
+ok 2 - home doors and footer link directly to localized beginner canonicals in every locale
+  ---
+  duration_ms: 27232.2485
+  type: 'test'
+  ...
+# Subtest: each locale has 7 actionable steps, 50 distinct answers and localized route round trips
+ok 3 - each locale has 7 actionable steps, 50 distinct answers and localized route round trips
+  ---
+  duration_ms: 6.635208
+  type: 'test'
+  ...
+# Subtest: language switching translates beginner slugs and preserves step and country context
+ok 4 - language switching translates beginner slugs and preserves step and country context
+  ---
+  duration_ms: 167.612958
+  type: 'test'
+  ...
+# Subtest: country gates and owner ordering select one venue without reopening neutral locales
+ok 5 - country gates and owner ordering select one venue without reopening neutral locales
+  ---
+  duration_ms: 10.37175
+  type: 'test'
+  ...
+# Subtest: link checker accepts only HTTPS exact approved domains and rejects spoofing without network access
+ok 6 - link checker accepts only HTTPS exact approved domains and rejects spoofing without network access
+  ---
+  duration_ms: 1.171666
+  type: 'test'
+  ...
+# Subtest: all 170 beginner editions have matching Worker and app metadata, reviewed reciprocal hreflang and 50 visible FAQ answers
+ok 7 - all 170 beginner editions have matching Worker and app metadata, reviewed reciprocal hreflang and 50 visible FAQ answers
+  ---
+  duration_ms: 1414.421208
+  type: 'test'
+  ...
+# ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+# Subtest: real SSR pages contain the steps and FAQ, neutral bodies have zero commercial routes, and hydration retains content
+ok 8 - real SSR pages contain the steps and FAQ, neutral bodies have zero commercial routes, and hydration retains content
+  ---
+  duration_ms: 34017.762375
+  type: 'test'
+  ...
+# Subtest: a temporary beginner SSR failure retains the client shell without exposing a commercial route
+ok 9 - a temporary beginner SSR failure retains the client shell without exposing a commercial route
+  ---
+  duration_ms: 8.547333
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 66176.998875

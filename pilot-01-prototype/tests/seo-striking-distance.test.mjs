@@ -30,7 +30,11 @@ test('target metadata answers fee and registration intent consistently in client
       assert.ok(server.title.startsWith(names[index]) || server.title.startsWith('NexuAlpha'), `${locale}/${slug}: venue first: ${server.title}`);
       assert.doesNotMatch(server.title, /^referral code/i);
       const code = REFERRAL_PARTNERS.find(partner => partner.slug === slug)?.inviteCode;
-      if (code) assert.ok(server.title.includes(code), `${locale}/${slug}: registry code retained`);
+      // The English Hyperliquid SERP title now leads with fees and funded-account checks.
+      if (slug === 'hyperliquid' && locale === 'en') {
+        assert.match(server.title, /^Hyperliquid fees, rebates & funded account checks/);
+        assert.doesNotMatch(server.title, /referral code/i);
+      } else if (code) assert.ok(server.title.includes(code), `${locale}/${slug}: registry code retained`);
       assert.match(server.title, locale === 'en' ? /fees|sign-up|KYC/i : /手续费|注册|KYC/);
       assert.ok(server.description.length > 20, `${locale}/${slug}: substantive description`);
       assert.doesNotMatch(server.description, /^No verified user benefit\.?$/i);
@@ -56,8 +60,10 @@ test('comparison metadata and reverse heading preserve a qualified fee verdict f
     assert.equal(server.description, client.description, `${locale}/${slug}: description parity`);
     assert.match(server.title, /fees|手续费/i);
     const [left, right] = slug.split('-vs-');
+    const queryOrder = locale === 'en' ? ({ 'binance-vs-kraken': [right, left], 'binance-vs-bybit': [left, right], 'okx-vs-bybit': [left, right] })[slug] : null;
+    const [first, second] = queryOrder || [right, left];
     const display = value => ({ 'gate-io': 'Gate.io', dydx: 'dYdX', okx: 'OKX', mexc: 'MEXC' }[value] || value[0].toUpperCase() + value.slice(1));
-    assert.ok(answer.title.startsWith(`${display(right)} vs ${display(left)}`), `${locale}/${slug}: reverse ordering in answer heading`);
+    assert.ok(answer.title.startsWith(`${display(first)} vs ${display(second)}`), `${locale}/${slug}: observed query order or reverse ordering in answer heading`);
   }
 });
 
@@ -125,7 +131,7 @@ test('SSR venue answer follows H1 and body and footer expose the comparison rout
 
 test('Hyperliquid answer copy respects markets where referral promotion is unavailable', async () => {
   const { strikingDistanceVenueLead } = await import('../src/data/striking-distance-venue-copy.js');
-  assert.match(strikingDistanceVenueLead('hyperliquid', 'en'), /4% discount/);
+  assert.match(strikingDistanceVenueLead('hyperliquid', 'en'), /conditional 4% referral fee discount/);
   for (const locale of locales) {
     assert.doesNotMatch(strikingDistanceVenueLead('hyperliquid', locale, { referral: false }), /(?<![\d.])4%|discount|折扣/);
     const url = new URL(localizedHref('/exchanges/hyperliquid', { locale }), 'https://nexualpha.com');

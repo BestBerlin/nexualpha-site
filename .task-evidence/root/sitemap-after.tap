@@ -1,0 +1,38 @@
+✔ draft MEXC comparisons and topic summaries require identity verification (3.820083ms)
+✔ 17 UI locales use collision-free, round-trip public routes (2.794583ms)
+✔ native-review locales remain gated on general and whale information pages (1473.431333ms)
+✔ Urdu shell is RTL with the local Arabic fallback; Ukrainian is LTR (256.699042ms)
+✔ Ukrainian and Urdu counts use their own plural forms (0.319959ms)
+✔ new locales keep partner metadata neutral pending regulator review (5.936834ms)
+✔ draft comparison answers preserve complete structures, source routes and numeric facts (1.423333ms)
+✔ draft campaign explanations preserve numerical facts and shared FAQ coverage (1.212375ms)
+✔ new home copy defines every English UI key without inheriting English controls (31.138125ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ facts: every value cites known official sources with a date (29742.083333ms)
+✔ facts: sources, dates and ticker lists match the research packet (293.753625ms)
+✔ routes: ticker slugs mirror the ticker list; unknown tickers are missing (32.349208ms)
+✔ copy: every written edition exists; Türkiye never names Bitget; FAQ sources resolve (5.940833ms)
+✔ sign-up gating: registry code via /go, owner order, Türkiye without Bitget, neutral locales without CTA (5.989792ms)
+✔ promotions disappear after their deadline (0.147333ms)
+✔ hub SSR (zh-Hans, en): answer first, codes via /go, every fact sourced, schema, hreflang, no fine print (727.814917ms)
+✔ hub SSR: Türkiye never names Bitget; neutral locales show no code, CTA or campaign (2611.809834ms)
+✔ ticker pages: every ticker renders live rows with a source each, CTAs via /go, FAQ + Dataset schema; unknown ticker 404 (2992.029208ms)
+✔ ticker pages: index policy (launch twelve everywhere, the rest in the main markets), Türkiye and neutral editions (1149.978875ms)
+✔ exchange pages: answer from live counts, CTA via /go (none in neutral locales), Bitget 404 in Türkiye (453.291833ms)
+✔ home: the strip follows the whale board and precedes the how section; header and footer link the hub (403.641208ms)
+✔ exchange profiles show the tokenized-stocks block where the exchange lists stocks (134.802583ms)
+✔ sitemap: every edition with hreflang, listed in the index and robots.txt, committed copy current (4827.04975ms)
+✔ live snapshot: parsers read only stock instruments; diff reports listings and delistings; stale lanes stay quiet (14.4495ms)
+✔ runtime snapshot: a newer TS_LIVE_READ table is rendered, cited with its date and shipped as prerender state (258.864792ms)
+✔ hydration: ticker (baked and runtime table) and exchange pages hydrate without a mismatch (4016.827958ms)
+✔ campaigns drop at their end date without an edit (curated + found in the exchange's announcements) (1.394875ms)
+✔ copy split: the browser ships one edition (prerender state), never the 17-locale table (613.824208ms)
+✔ found campaigns get a fixed per-locale title from the official facts (never the English title outside en) (800.212709ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 52952.410666

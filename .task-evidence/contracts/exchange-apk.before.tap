@@ -1,0 +1,109 @@
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+TypeError: fetch failed
+
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+TypeError: fetch failed
+
+✔ [paraglide-js] Compilation complete (locale-modules)
+✔ official URLs, fallbacks and codes are unchanged (31196.078292ms)
+✔ host rule: OKX only on https *.okx.com, Binance only on https download.binance.com (0.300625ms)
+✔ probe: healthy chains, off-host targets never fetched, non-APK, missing file, network error, HEAD refused (5.179792ms)
+✔ probe cache: one check per TTL, stale result served while a refresh runs, unhealthy -> fallback (11.907834ms)
+✖ /go/okx-apk and /go/binance-apk 302 to the official URL and count the click like other /go routes (169.096166ms)
+[NexuAlpha] app-download SSR failed for /exchanges/okx/app (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /exchanges/okx/app (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] app-download SSR failed for /exchanges/bitget/app (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /exchanges/bitget/app (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] app-download SSR failed for /exchanges/bybit/app (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /exchanges/bybit/app (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] app-download SSR failed for /exchanges/okx/app (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /exchanges/okx/app (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] app-download SSR failed for /exchanges/okx/app (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /exchanges/okx/app (en): __vite_ssr_import_0__.m[key] is not a function
+✔ /go/<venue>-apk falls back to the official download page when the chain breaks or leaves the venue's host (128.890709ms)
+✖ buttons: after the store buttons, nofollow, /go route, size, native copy; codes + copy buttons; neutral locales none (43.31575ms)
+An error occurred in the <App> component.
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+✖ button gating: other venues, an explicit restricted market and hydration (612.712542ms)
+✔ no APK is hosted and the APK modules only know the exchanges' own URLs (9.847625ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 6
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35198.1
+
+✖ failing tests:
+
+test at tests/exchange-apk.test.mjs:142:1
+✖ /go/okx-apk and /go/binance-apk 302 to the official URL and count the click like other /go routes (169.096166ms)
+  AssertionError [ERR_ASSERTION]: human clicks only, crawler not counted
+  + actual - expected
+  ... Skipped lines
+  
+    [
+      [
+        'binance-apk',
+        'app-apk-en',
+        'binance',
+  ...
+      ],
+  +   [
+  +     'okx-apk',
+  +     'app-apk-en',
+  +     'okx',
+  +     'android-apk'
+  +   ]
+    ]
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/exchange-apk.test.mjs:155:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ [ 'binance-apk', 'app-apk-en', 'binance', 'android-apk' ], [ 'okx-apk', 'app-apk-en', 'okx', 'android-apk' ], [ 'okx-apk', 'app-apk-en', 'okx', 'android-apk' ] ],
+    expected: [ [ 'binance-apk', 'app-apk-en', 'binance', 'android-apk' ], [ 'okx-apk', 'app-apk-en', 'okx', 'android-apk' ] ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/exchange-apk.test.mjs:179:1
+✖ buttons: after the store buttons, nofollow, /go route, size, native copy; codes + copy buttons; neutral locales none (43.31575ms)
+  AssertionError [ERR_ASSERTION]: /exchanges/okx/app
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/exchange-apk.test.mjs:193:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/exchange-apk.test.mjs:215:1
+✖ button gating: other venues, an explicit restricted market and hydration (612.712542ms)
+  AssertionError [ERR_ASSERTION]: The "string" argument must be of type string. Received type undefined (undefined)
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/exchange-apk.test.mjs:222:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /^\/go\/(?:okx|binance)-apk\?src=app-apk-/,
+    operator: 'match',
+    diff: 'simple'
+  }

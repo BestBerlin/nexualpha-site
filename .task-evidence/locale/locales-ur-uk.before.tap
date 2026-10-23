@@ -1,0 +1,38 @@
+✔ draft MEXC comparisons and topic summaries require identity verification (42.765709ms)
+✔ 17 UI locales use collision-free, round-trip public routes (1.29775ms)
+✖ native-review locales remain gated outside the approved whale information page (1365.946792ms)
+✔ Urdu shell is RTL with the local Arabic fallback; Ukrainian is LTR (243.615125ms)
+✔ Ukrainian and Urdu counts use their own plural forms (5.422083ms)
+✔ new locales keep partner metadata neutral pending regulator review (2.271792ms)
+✔ draft comparison answers preserve complete structures, source routes and numeric facts (3.817958ms)
+✔ draft campaign explanations preserve numerical facts and shared FAQ coverage (2.173ms)
+✔ new home copy defines every English UI key without inheriting English controls (4.9815ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3679.104083
+
+✖ failing tests:
+
+test at tests/locales-ur-uk.test.mjs:52:1
+✖ native-review locales remain gated outside the approved whale information page (1365.946792ms)
+  AssertionError [ERR_ASSERTION]: ur
+  + actual - expected
+  
+  + 'noindex,follow'
+  - 'index,follow'
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/locales-ur-uk.test.mjs:60:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'noindex,follow',
+    expected: 'index,follow',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

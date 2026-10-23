@@ -157,9 +157,12 @@ describe("current homepage browser geometry", () => {
       try {
         noOverflow(await geometry(page), `${locale}/enlarged`);
         assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).fontSize), "32px");
-        const heading = await page.$eval(".h7-hero h1", node => ({ text: node.textContent.trim(), client: node.clientHeight, scroll: node.scrollHeight }));
+        const heading = await page.$eval(".h7-hero h1", node => {
+          const style = getComputedStyle(node);
+          return { text: node.textContent.trim(), client: node.clientHeight, scroll: node.scrollHeight, fontSize: style.fontSize, lineHeight: style.lineHeight, overflowY: style.overflowY };
+        });
         assert.ok(heading.text);
-        assert.ok(heading.scroll <= heading.client + 1, "enlarged headline is not vertically clipped");
+        assert.ok(heading.scroll <= heading.client + 1, `${locale}: enlarged headline is not vertically clipped: ${JSON.stringify(heading)}`);
       } finally { await page.close(); }
     }
   });

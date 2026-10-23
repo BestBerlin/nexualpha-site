@@ -1,0 +1,60 @@
+✖ target metadata answers fee and registration intent consistently in client and worker (93.951959ms)
+✖ comparison metadata and reverse heading preserve a qualified fee verdict first (4.268083ms)
+✔ all eight reverse comparison routes remain permanent redirects with locale and attribution (60.676ms)
+✔ SSR venue answer follows H1 and body and footer expose the comparison routes (2209.41025ms)
+✖ Hyperliquid answer copy respects markets where referral promotion is unavailable (4.334417ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 2
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4950.820292
+
+✖ failing tests:
+
+test at tests/seo-striking-distance.test.mjs:22:1
+✖ target metadata answers fee and registration intent consistently in client and worker (93.951959ms)
+  AssertionError [ERR_ASSERTION]: en/hyperliquid: registry code retained
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/seo-striking-distance.test.mjs:33:24)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/seo-striking-distance.test.mjs:46:1
+✖ comparison metadata and reverse heading preserve a qualified fee verdict first (4.268083ms)
+  AssertionError [ERR_ASSERTION]: en/binance-vs-bybit: reverse ordering in answer heading
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/seo-striking-distance.test.mjs:60:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/seo-striking-distance.test.mjs:126:1
+✖ Hyperliquid answer copy respects markets where referral promotion is unavailable (4.334417ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /4% discount/. Input:
+  
+  'Hyperliquid fees are 0.04%/0.07% maker/taker on spot and 0.015%/0.045% on perpetuals. A Hyperliquid funded account here uses your own USDC collateral, not an offer to get funded to trade Hyperliquid; Hyperliquid rebates refer to a conditional 4% referral fee discount, not cashback.'
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/seo-striking-distance.test.mjs:128:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Hyperliquid fees are 0.04%/0.07% maker/taker on spot and 0.015%/0.045% on perpetuals. A Hyperliquid funded account here uses your own USDC collateral, not an offer to get funded to trade Hyperliquid; Hyperliquid rebates refer to a conditional 4% referral fee discount, not cashback.',
+    expected: /4% discount/,
+    operator: 'match',
+    diff: 'simple'
+  }

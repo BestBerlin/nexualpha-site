@@ -1,0 +1,182 @@
+[
+  {
+    "test": "four app routes SSR in English and Simplified Chinese with matching client SEO and hydration",
+    "file": "app-downloads.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "all locale editions are localized and indexable, neutral locales never contain a sign-up block",
+    "file": "app-downloads.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "profile crosslinks, lazy route module, sitemap index and unsupported app routes",
+    "file": "app-downloads.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "all 170 sitemap pages have matching Worker and app metadata, full reciprocal hreflang and 50 visible FAQ answers",
+    "file": "beginner-path.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "/go/okx-apk and /go/binance-apk 302 to the official URL and count the click like other /go routes",
+    "file": "exchange-apk.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "locale fallback editions are server-rendered with the client component: main landmark, one H1, links, minimal payload",
+    "file": "fallback-locale-ssr.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "homepage keeps decisions above the compact closing band",
+    "file": "frontend-contract.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "built runtime renders the production snapshot within the request budget",
+    "file": "funding-matrix-deadline.test.mjs",
+    "class": "c"
+  },
+  {
+    "test": "/go/<partner> and the site beacon record experiment + variant while it runs, nothing extra when off",
+    "file": "home-hero-experiment.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "current homepage browser geometry",
+    "file": "home-layout.test.mjs",
+    "class": "unresolved"
+  },
+  {
+    "test": "site-facing QA scripts use the internal fetch",
+    "file": "internal-http.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "legal metadata: six indexable URLs and English canonical for other locales",
+    "file": "legal-pages.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "native-review locales remain gated outside the approved whale information page",
+    "file": "locales-ur-uk.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "Turkish rewards article has no Bitget in React, worker HTML, JSON-LD or hydration",
+    "file": "news-geo-policy.test.mjs",
+    "class": "b"
+  },
+  {
+    "test": "listing routes are server-rendered by NewsListPage: one H1 equal to the client heading, 24 cards, search and chips",
+    "file": "news-listing-ssr.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "SSR home keeps the scroll-deferred sections' text for crawlers and no-JS readers",
+    "file": "perf-core-bundle.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "news list route prerenders the core editions and every locale with a native article",
+    "file": "prerender-route-inventory.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "R43 news and topic owners mount contextual Telegram handoff back to their content route",
+    "file": "r40-telegram-return-entry.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "R46 OKX migration news bridge keeps Binance vs OKX comparison and internal registration checks",
+    "file": "r46-news-decision-bridge.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "R46 Hyperliquid news bridge sends readers to derivatives guide and side-by-side comparison",
+    "file": "r46-news-decision-bridge.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "R48 Gate.io owner is source-bound, internally connected and mirrored to the worker",
+    "file": "r48-owner-page-opportunities.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "radar metadata is canonical, indexable and schema stays visible-page truthful",
+    "file": "radar-seo.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "radar inventory and sitemap cover every locale prefix",
+    "file": "radar-seo.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "generated referral partners match the partner feed",
+    "file": "referral-seo.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "referral titles carry the real invite code and owner share in every locale",
+    "file": "referral-seo.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "built public sitemap, canonical, hreflang, robots and metadata stay index-consistent",
+    "file": "seo-index-audit.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "target metadata answers fee and registration intent consistently in client and worker",
+    "file": "seo-striking-distance.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "comparison metadata and reverse heading preserve a qualified fee verdict first",
+    "file": "seo-striking-distance.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "Hyperliquid answer copy respects markets where referral promotion is unavailable",
+    "file": "seo-striking-distance.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "Wave33 Hyperliquid exact queries cover fees and funded-account boundaries without promises",
+    "file": "seo-wave33-exact-query-intent.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "priority answers preserve Hyperliquid decision coverage and the GMX search title",
+    "file": "seo-wave46-search-growth.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "Wave55 Hyperliquid metadata strengthens fees and funded-account answer coverage without changing URL",
+    "file": "seo-wave55-hyperliquid-gsc-intent.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "Wave61 default compare pages use distinct sourced SERP answers without touching CTA claims",
+    "file": "seo-wave61-serp-priority.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "sitemap: every edition with hreflang, listed in the index and robots.txt, committed copy current",
+    "file": "tokenized-stocks.test.mjs",
+    "class": "a"
+  },
+  {
+    "test": "built entry: the venue route's preload list excludes the compare, activity and topic-guide graphs",
+    "file": "venue-graph.test.mjs",
+    "class": "b"
+  },
+  {
+    "test": "Wave49 Perp DEX related links preserve existing canonicals and Wave46 Hyperliquid copy",
+    "file": "wave49-asset-integration.test.mjs",
+    "class": "a"
+  }
+]

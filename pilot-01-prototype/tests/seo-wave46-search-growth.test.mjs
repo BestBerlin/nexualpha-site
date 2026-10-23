@@ -80,15 +80,15 @@ test("priority answers preserve Hyperliquid decision coverage and the GMX search
   const hyperliquidPage = hyperliquid.schemas.find((entry) => entry["@type"] === "WebPage");
   const hyperliquidFaq = hyperliquid.schemas.find((entry) => entry["@type"] === "FAQPage");
 
-  // Class b: 31c834d/owner exchange-keyword plan intentionally use referral-code title/description copy.
+  // The current GSC snippet leads with fee and funded-account checks.
   assert.equal(hyperliquid.title, referralSeoFor("hyperliquid").title);
-  assert.match(hyperliquid.description, /eligible referrals save/);
+  assert.match(hyperliquid.description, /rebates mean a conditional 4% fee discount/);
   assert.ok(hyperliquidPage.relatedLink.includes("https://nexualpha.com/compare/hyperliquid-vs-dydx"));
   assert.ok(hyperliquidPage.relatedLink.includes("https://nexualpha.com/topics/no-kyc"));
   assert.ok(hyperliquidPage.citation.includes("https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees"));
   assert.ok(hyperliquidFaq);
-  // Class b: current Hyperliquid answer set includes the approved referral route plus fee/funded-account checks.
-  assert.equal(hyperliquidFaq.mainEntity.length, 7);
+  // Current answers include the fee, referral, funded-account and own-collateral boundaries.
+  assert.equal(hyperliquidFaq.mainEntity.length, 11);
   const answers = JSON.stringify(hyperliquidFaq.mainEntity);
   assert.match(answers, /funded account/);
   assert.match(answers, /rolling 14-day volume/);

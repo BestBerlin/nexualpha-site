@@ -44,7 +44,8 @@ test("locale fallback editions are server-rendered with the client component: ma
     assert.equal(response.headers.get("x-nexualpha-fallback-render"), "runtime", `${path}: rendered at request time`);
     assert.equal(calls.length, 1, `${path}: rendered once`);
     assert.equal(calls[0].href, `https://nexualpha.com${content}?locale=${locale}`, `${path}: renders the hydration bootstrap URL`);
-    assert.deepEqual(calls[0].options, {}, `${path}: no feed props`);
+    const hydrationData = content === "/topics" ? { newsArticles: [] } : {};
+    assert.deepEqual(calls[0].options, hydrationData, `${path}: only the hub summary payload`);
     assert.doesNotMatch(html, /data-nexualpha-client-render="true"/, `${path}: hydrates instead of re-rendering`);
     const body = rootInnerHtml(html);
     assert.ok(body, `${path}: SSR body present`);
@@ -52,11 +53,11 @@ test("locale fallback editions are server-rendered with the client component: ma
     const headings = h1Texts(body);
     assert.equal(headings.length, 1, `${path}: exactly one H1 (${headings.join(" | ")})`);
     // The client renders the same component with the same props: its H1 is the SSR H1.
-    const clientHtml = await harness.render(`https://nexualpha.com${content}?locale=${locale}`, {});
+    const clientHtml = await harness.render(`https://nexualpha.com${content}?locale=${locale}`, hydrationData);
     assert.deepEqual(headings, h1Texts(clientHtml), `${path}: SSR H1 equals the client H1`);
     assert.ok(linkCount(body) >= minLinks, `${path}: ${linkCount(body)} links in the SSR body (>= ${minLinks})`);
     const state = prerenderState(html);
-    assert.deepEqual(state, { pathname: content, locale, version: "nexualpha-prerender-v1" }, `${path}: minimal hydration payload`);
+    assert.deepEqual(state, { pathname: content, locale, version: "nexualpha-prerender-v1", ...hydrationData }, `${path}: minimal hydration payload`);
     assert.doesNotMatch(html, /rel="modulepreload"/, `${path}: speculative module preloads removed`);
   }
 });

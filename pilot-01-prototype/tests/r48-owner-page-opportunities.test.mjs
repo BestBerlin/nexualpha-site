@@ -95,7 +95,7 @@ test("R48 Gate.io owner is source-bound, internally connected and mirrored to th
   const workerFaq = schemaOf(worker.schema, "FAQPage");
   const joined = `${JSON.stringify(client.schemas)}\n${JSON.stringify(worker.schema)}`;
 
-  assert.match(client.title, /^Gate\.io fees, sign-up & KYC/);
+  assert.match(client.title, /^Gate\.io register: KYC, fees/);
   assert.equal(worker.title, client.title);
   assert.equal(worker.description, client.description);
   assert.match(joined, /official regional domain.*identity requirements.*spot or futures fee schedule/is);

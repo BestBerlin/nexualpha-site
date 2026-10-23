@@ -35,6 +35,10 @@ test("internalFetch sends the UA and keeps other headers", async () => {
 test("site-facing QA scripts use the internal fetch", () => {
   for (const name of ["qa-content-sweep", "qa-l10n-gaps", "qa-crawl", "qa-crosslinks", "qa-http-sweep", "qa-regression", "crawl-link-surface", "production-smoke", "verify-sitemap-vs-pages", "smoke-position-radar"]) {
     const source = readFileSync(new URL(`../scripts/${name}.mjs`, import.meta.url), "utf8");
-    assert.match(source, new RegExp(`const fetch = internalFetch\\("${name}"\\);`), name);
+    assert.match(source, /import\s*\{[^}]*\binternalFetch\b[^}]*\}\s*from\s*["']\.\/lib\/internal-http\.mjs["']/, `${name}: shared internal helper`);
+    const initialization = name === "crawl-link-surface"
+      ? /fetch\s*=\s*internalFetch\(["']crawl-link-surface["']\)/
+      : new RegExp(`const fetch = internalFetch\\("${name}"\\);`);
+    assert.match(source, initialization, name);
   }
 });

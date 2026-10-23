@@ -43,8 +43,9 @@ test("Wave55 Hyperliquid metadata strengthens fees and funded-account answer cov
   assert.equal(client.title, referralSeoFor("hyperliquid").title);
   assert.equal(worker.title, client.title);
 
-  assert.equal(clientFaq.mainEntity.length, 7);
-  assert.equal(workerFaq.mainEntity.length, 7);
+  assert.equal(clientFaq.mainEntity.length, 11);
+  assert.equal(workerFaq.mainEntity.length, 11);
+  assert.deepEqual(workerFaq.mainEntity, clientFaq.mainEntity);
   assert.match(clientText, /rolling 14-day volume/);
   assert.match(clientText, /referral-code fee discount/);
   assert.match(clientText, /not a generic cashback promise/);

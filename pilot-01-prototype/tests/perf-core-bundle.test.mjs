@@ -3,7 +3,7 @@
 //  - route-matching slug lists mirror their heavy data sources without importing them;
 //  - every emitted stylesheet is re-linked in index.html in the historical cascade order;
 //  - DeferUntilVisible renders its children on the server for non-home deferred routes;
-//  - the SSR home still contains the lower-half text through StableHomeBelowFold without restoring the old research/closing link walls.
+//  - the SSR home keeps lower-half text through StableHomeBelowFold and discovery links after the closing band.
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
@@ -181,7 +181,14 @@ test("SSR home keeps the scroll-deferred sections' text for crawlers and no-JS r
     assert.doesNotMatch(html, /id="research-tools"|home-research-drawer/, `${locale}: old research-tools wall stays removed`);
     assert.match(html, /<footer class="nx-ftr" id="policy">/, `${locale}: compact footer`);
     assert.match(html, /data-footer-partner-links/, `${locale}: compact referral codes row`);
-    assert.doesNotMatch(html, /crawl-priority-links__groups|data-testid="brazil-entry-link"/, `${locale}: old closing link wall stays removed`);
+    assert.doesNotMatch(html, /data-testid="brazil-entry-link"|v6-close__index/, `${locale}: retired closing index stays removed`);
+    assert.match(html, /data-crawl-priority-links="home"/, `${locale}: SEO discovery remains crawlable`);
+    assert.ok(html.indexOf('class="v6-close"') < html.indexOf('data-crawl-priority-links="home"'), `${locale}: discovery follows the closing band`);
+    assert.ok(html.indexOf('data-crawl-priority-links="home"') < html.indexOf('<footer class="nx-ftr"'), `${locale}: discovery precedes the footer`);
+    const sections = ['class="h7-strip"', 'id="h7-whales"', 'class="h7-in h7-ts"', 'id="h7-below-root"', 'data-home-latest=""'];
+    for (let i = 1; i < sections.length; i++) {
+      assert.ok(html.indexOf(sections[i - 1]) >= 0 && html.indexOf(sections[i]) > html.indexOf(sections[i - 1]), `${locale}: home section order ${sections[i - 1]} -> ${sections[i]}`);
+    }
     assert.match(html, /id="h7-below-root"/, `${locale}: stable lower-home hydration root`);
     assert.doesNotMatch(html, /<template data-nexualpha-scope-start="home-research">/, `${locale}: old research scope is not emitted`);
   }

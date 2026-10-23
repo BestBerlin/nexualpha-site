@@ -1,0 +1,61 @@
+✔ layout targets exist in current commercial and neutral SSR homes (954.550959ms)
+▶ current homepage browser geometry
+  ✖ hero, whale board and calculator keep their hierarchy across locales and widths
+  ✖ commercial hero copy, calculator panel and globe stay inside the hero at Chinese breakpoints
+  ✖ unavailable live feeds leave a usable calculator and footer without an invented sentiment block
+  ✖ English mobile calculator venue names remain visible without clipping
+  ✖ Chinese homes remain readable at 320px with enlarged root text
+  ✖ Arabic market figures use explicit left-to-right isolation
+  ✖ neutral Chinese hero retains the fee board and calculator instead of a commercial panel
+✖ current homepage browser geometry (397.78325ms)
+ℹ tests 8
+ℹ suites 1
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 7
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2142.258791
+
+✖ failing tests:
+
+test at tests/home-layout.test.mjs:119:3
+✖ hero, whale board and calculator keep their hierarchy across locales and widths
+  'test did not finish before its parent and was cancelled'
+
+test at tests/home-layout.test.mjs:132:3
+✖ commercial hero copy, calculator panel and globe stay inside the hero at Chinese breakpoints
+  'test did not finish before its parent and was cancelled'
+
+test at tests/home-layout.test.mjs:147:3
+✖ unavailable live feeds leave a usable calculator and footer without an invented sentiment block
+  'test did not finish before its parent and was cancelled'
+
+test at tests/home-layout.test.mjs:158:3
+✖ English mobile calculator venue names remain visible without clipping
+  'test did not finish before its parent and was cancelled'
+
+test at tests/home-layout.test.mjs:173:3
+✖ Chinese homes remain readable at 320px with enlarged root text
+  'test did not finish before its parent and was cancelled'
+
+test at tests/home-layout.test.mjs:186:3
+✖ Arabic market figures use explicit left-to-right isolation
+  'test did not finish before its parent and was cancelled'
+
+test at tests/home-layout.test.mjs:195:3
+✖ neutral Chinese hero retains the fee board and calculator instead of a commercial panel
+  'test did not finish before its parent and was cancelled'
+
+test at tests/home-layout.test.mjs:92:1
+✖ current homepage browser geometry (397.78325ms)
+  Error: Failed to launch the browser process:  Code: null
+  
+  stderr:
+  
+  
+  TROUBLESHOOTING: https://pptr.dev/troubleshooting
+  
+      at ChildProcess.onClose (file:///Users/bestberlin/.codex/shared-tools/web-quality/node_modules/@puppeteer/browsers/lib/launch.js:343:24)
+      at ChildProcess.emit (node:events:521:24)
+      at ChildProcess._handle.onexit (node:internal/child_process:294:12)

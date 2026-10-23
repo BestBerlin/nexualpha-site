@@ -26,10 +26,10 @@ test("news list route prerenders the core editions and every locale with a nativ
   assert.ok(route);
   assert.equal(route.template, "newsList");
   assert.equal(route.index, true);
-  // No articles in the inventory: the core editions are prerendered; only English is a search locale until a locale
-  // has 5 native articles (SEO audit 2026-10-11 #4, owner-approved).
+  // Core editions still prerender without articles. Search publication requires one native English article
+  // or five native articles in another approved locale.
   assert.deepEqual(route.prerenderLocales, NEWS_CORE_LOCALES);
-  assert.deepEqual(route.locales, ["en"]);
+  assert.deepEqual(route.locales, []);
 
   const trArticle = { slug: "tr-native", status: "PUBLISHED", publishedAt: "2026-10-10T00:00:00Z", seo: { noindex: false }, sources: [{ url: "https://example.com" }],
     title: { en: "t", "zh-Hans": "t", tr: "t" }, summary: { en: "s", "zh-Hans": "s", tr: "s" }, content: { en: "b", "zh-Hans": "b", tr: "b" }, availableLocales: ["en", "zh-Hans", "tr"] };

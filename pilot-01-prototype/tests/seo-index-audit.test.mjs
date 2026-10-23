@@ -1,4 +1,3 @@
-import { loopbackUnavailableReason } from './sandbox-network.mjs';
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
@@ -7,6 +6,10 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { buildSitemap } from "../scripts/generate-prerender-manifest.mjs";
+import { homeTitle, homeDescription } from "../src/data/home-search-copy.js";
+import { referralSeoFor } from "../src/data/referral-seo.js";
+import { strikingDistanceVenueTitle } from "../src/data/striking-distance-venue-copy.js";
+import { localizedHref } from "../src/data/locale-routing.js";
 
 import {
   auditUrlKey,
@@ -231,9 +234,67 @@ test("canonical aliases do not create duplicate metadata findings", () => {
 });
 
 
-test("built public sitemap, canonical, hreflang, robots and metadata stay index-consistent", { timeout: 600_000 }, async (t) => {
-  const reason = await loopbackUnavailableReason();
-  if (reason) return t.skip(reason);
+function policyPage(pathname, overrides = {}) {
+  return {
+    path: pathname, canonicalPath: pathname, canonicalHref: `https://nexualpha.com${pathname}`,
+    responseStatus: 200, responseUrl: `https://nexualpha.com${pathname}`, noindex: false,
+    indexFollow: true, robots: "index,follow", alternates: [], lang: "en",
+    title: `Title ${pathname}`, description: `Description ${pathname}`,
+    jsonLdSchemas: jsonLdFor(pathname), jsonLdErrors: [], ...overrides,
+  };
+}
+
+test("reviewed home and venue titles are allowed only at their exact locale owner and current copy", () => {
+  const pages = [policyPage("/", { title: homeTitle("en") }), policyPage("/zh-hans", { title: homeTitle("zh-Hans"), lang: "zh-Hans" })];
+  for (const locale of ["en", "zh-Hans"]) {
+    for (const slug of ["bybit", "gate-io", "okx", "hyperliquid", "deribit", "jupiter", "mexc", "backpack"]) {
+      const pathname = localizedHref(`/exchanges/${slug}`, { locale });
+      const title = referralSeoFor(slug, locale)?.title || strikingDistanceVenueTitle(slug, locale);
+      pages.push(policyPage(pathname, { title, lang: locale }));
+    }
+  }
+  const report = validateIndexConsistency({ pages });
+  assert.equal(report.failuresByKind["title-over-budget"], undefined);
+  assert.equal(report.failuresByKind["invite-code-year-title"], undefined);
+
+  const venueTitle = referralSeoFor("bybit", "en").title;
+  const chineseTitle = referralSeoFor("okx", "zh-Hans").title;
+  const hostile = validateIndexConsistency({ pages: [
+    policyPage("/unrelated", { title: homeTitle("en") }),
+    policyPage("/", { title: `${homeTitle("en")} extra` }),
+    policyPage("/exchanges/bybit", { title: `${venueTitle} extra` }),
+    policyPage("/exchanges/okx", { title: venueTitle }),
+    policyPage("/fr/exchanges/bybit", { title: venueTitle, lang: "en" }),
+    policyPage("/zh-hans/exchanges/okx", { title: `${chineseTitle} 新增`, lang: "zh-Hans" }),
+    policyPage("/zh-hans/exchanges/binance", { title: chineseTitle, lang: "zh-Hans" }),
+  ] });
+  assert.equal(hostile.failuresByKind["title-over-budget"], 7);
+  assert.equal(hostile.failuresByKind["invite-code-year-title"], 2);
+});
+
+test("only the exact home and About entity description pair is exempt from duplicate findings", () => {
+  for (const locale of ["en", "zh-Hans", "es"]) {
+    const home = localizedHref("/", { locale });
+    const about = localizedHref("/about", { locale });
+    const description = homeDescription(locale);
+    const pair = [policyPage(home, { description, lang: locale }), policyPage(about, { description, lang: locale })];
+    assert.equal(validateIndexConsistency({ pages: pair }).failuresByKind["duplicate-description"], undefined, locale);
+    for (const pages of [
+      pair.map(page => ({ ...page, description: "An unreviewed shared description" })),
+      [...pair, policyPage(localizedHref("/rates", { locale }), { description, lang: locale })],
+      [pair[0], policyPage(localizedHref("/rates", { locale }), { description, lang: locale })],
+      pair.map(page => ({ ...page, description: description.toUpperCase() === description ? `${description} modified` : description.toUpperCase() })),
+    ]) {
+      assert.equal(validateIndexConsistency({ pages }).failuresByKind["duplicate-description"], 1, locale);
+    }
+  }
+  const description = homeDescription("en");
+  const unknownLocale = [policyPage("/", { description, lang: "unknown" }), policyPage("/about", { description, lang: "unknown" })];
+  assert.equal(validateIndexConsistency({ pages: unknownLocale }).failuresByKind["duplicate-description"], 1);
+});
+
+test("built public sitemap, canonical, hreflang, robots and metadata stay index-consistent", { timeout: 600_000 }, async () => {
+  // The built Worker harness calls worker.fetch directly and does not bind a socket.
   assert.equal(existsSync(path.join(projectRoot, "dist", "client", "sitemap.xml")), true, "build output missing: run npm run build before the built SEO index audit");
   const report = await runSeoIndexAudit({
     root: projectRoot,

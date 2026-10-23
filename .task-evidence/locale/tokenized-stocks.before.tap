@@ -1,0 +1,269 @@
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+TypeError: fetch failed
+
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+TypeError: fetch failed
+
+✔ [paraglide-js] Compilation complete (locale-modules)
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks (zh-Hans): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks (zh-Hans): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks (tr): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks (tr): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/nvda (zh-Hans): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/nvda (zh-Hans): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/nvda (de): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/nvda (de): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/arm (de): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/arm (de): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/arm (es): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/arm (es): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/tsla (tr): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/tsla (tr): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/nvda (ru): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/nvda (ru): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/nvda (ar): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/nvda (ar): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/nvda (zh-Hant): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/nvda (zh-Hant): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/nvda (ur): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/nvda (ur): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/nvda (uk): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/nvda (uk): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/nvda (vi): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/nvda (vi): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/openai (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/openai (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/exchange/bitget (zh-Hans): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/exchange/bitget (zh-Hans): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/nvda (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/nvda (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/tsla (zh-Hans): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/tsla (zh-Hans): __vite_ssr_import_0__.m[key] is not a function
+✔ facts: every value cites known official sources with a date (30554.859708ms)
+✔ facts: sources, dates and ticker lists match the research packet (511.658625ms)
+✔ routes: ticker slugs mirror the ticker list; unknown tickers are missing (5.071791ms)
+✔ copy: every written edition exists; Türkiye never names Bitget; FAQ sources resolve (86.799041ms)
+✔ sign-up gating: registry code via /go, owner order, Türkiye without Bitget, neutral locales without CTA (3.66175ms)
+✔ promotions disappear after their deadline (0.153667ms)
+✖ hub SSR (zh-Hans, en): answer first, codes via /go, every fact sourced, schema, hreflang, no fine print (122.895833ms)
+✖ hub SSR: Türkiye never names Bitget; neutral locales show no code, CTA or campaign (86.434375ms)
+✖ ticker pages: every ticker renders live rows with a source each, CTAs via /go, FAQ + Dataset schema; unknown ticker 404 (27.199667ms)
+✖ ticker pages: index policy (launch twelve everywhere, the rest in the main markets), Türkiye and neutral editions (644.445084ms)
+✖ exchange pages: answer from live counts, CTA via /go (none in neutral locales), Bitget 404 in Türkiye (34.789209ms)
+✖ home: the strip follows the whale board and precedes the how section; header and footer link the hub (1.569917ms)
+✖ exchange profiles show the tokenized-stocks block where the exchange lists stocks (4.113625ms)
+✖ sitemap: every edition with hreflang, listed in the index and robots.txt, committed copy current (133.21625ms)
+✔ live snapshot: parsers read only stock instruments; diff reports listings and delistings; stale lanes stay quiet (4.365709ms)
+✖ runtime snapshot: a newer TS_LIVE_READ table is rendered, cited with its date and shipped as prerender state (12.973125ms)
+An error occurred in the <App> component.
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/openai (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/openai (en): __vite_ssr_import_0__.m[key] is not a function
+An error occurred in the <App> component.
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/exchange/okx (es): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/exchange/okx (es): __vite_ssr_import_0__.m[key] is not a function
+An error occurred in the <App> component.
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks (en): __vite_ssr_import_0__.m[key] is not a function
+An error occurred in the <App> component.
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/nvda (ja): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/nvda (ja): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] tokenized-stocks SSR failed for /tokenized-stocks/nvda (zh-Hans): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /tokenized-stocks/nvda (zh-Hans): __vite_ssr_import_0__.m[key] is not a function
+✔ hydration: ticker (baked and runtime table) and exchange pages hydrate without a mismatch (2068.843458ms)
+✔ campaigns drop at their end date without an edit (curated + found in the exchange's announcements) (1.171042ms)
+✖ copy split: the browser ships one edition (prerender state), never the 17-locale table (12.868792ms)
+✖ found campaigns get a fixed per-locale title from the official facts (never the English title outside en) (7.784375ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 9
+ℹ fail 11
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 37896.9765
+
+✖ failing tests:
+
+test at tests/tokenized-stocks.test.mjs:121:1
+✖ hub SSR (zh-Hans, en): answer first, codes via /go, every fact sourced, schema, hreflang, no fine print (122.895833ms)
+  AssertionError [ERR_ASSERTION]: zh-Hans: server-rendered hub
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/tokenized-stocks.test.mjs:127:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/tokenized-stocks.test.mjs:165:1
+✖ hub SSR: Türkiye never names Bitget; neutral locales show no code, CTA or campaign (86.434375ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(mainHtml(tr))
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/tokenized-stocks.test.mjs:167:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/tokenized-stocks.test.mjs:180:1
+✖ ticker pages: every ticker renders live rows with a source each, CTAs via /go, FAQ + Dataset schema; unknown ticker 404 (27.199667ms)
+  AssertionError [ERR_ASSERTION]: NVDA
+  
+  0 !== 18
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/tokenized-stocks.test.mjs:187:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 18,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/tokenized-stocks.test.mjs:202:1
+✖ ticker pages: index policy (launch twelve everywhere, the rest in the main markets), Türkiye and neutral editions (644.445084ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /pre-IPO/i. Input:
+  
+  ''
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/tokenized-stocks.test.mjs:216:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: /pre-IPO/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/tokenized-stocks.test.mjs:220:1
+✖ exchange pages: answer from live counts, CTA via /go (none in neutral locales), Bitget 404 in Türkiye (34.789209ms)
+  AssertionError [ERR_ASSERTION]: bitget: stocks table
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/tokenized-stocks.test.mjs:226:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/tokenized-stocks.test.mjs:237:1
+✖ home: the strip follows the whale board and precedes the how section; header and footer link the hub (1.569917ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/tokenized-stocks.test.mjs:253:1
+✖ exchange profiles show the tokenized-stocks block where the exchange lists stocks (4.113625ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/tokenized-stocks.test.mjs:261:1
+✖ sitemap: every edition with hreflang, listed in the index and robots.txt, committed copy current (133.21625ms)
+  AssertionError [ERR_ASSERTION]: ur
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/tokenized-stocks.test.mjs:263:49)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/tokenized-stocks.test.mjs:301:1
+✖ runtime snapshot: a newer TS_LIVE_READ table is rendered, cited with its date and shipped as prerender state (12.973125ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /\b77x/i. Input:
+  
+  ''
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/tokenized-stocks.test.mjs:308:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: /\b77x/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/tokenized-stocks.test.mjs:345:1
+✖ copy split: the browser ships one edition (prerender state), never the 17-locale table (12.868792ms)
+  TypeError: Cannot read properties of null (reading '1')
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/tokenized-stocks.test.mjs:350:126)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7)
+
+test at tests/tokenized-stocks.test.mjs:359:1
+✖ found campaigns get a fixed per-locale title from the official facts (never the English title outside en) (7.784375ms)
+  AssertionError [ERR_ASSERTION]: zh-Hans template
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/tokenized-stocks.test.mjs:367:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -1,0 +1,82 @@
+✔ English beginner aliases 301 directly to canonical 200 pages and preserve queries (974.642083ms)
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+TypeError: fetch failed
+
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+TypeError: fetch failed
+
+✔ [paraglide-js] Compilation complete (locale-modules)
+✖ home doors and footer link directly to localized beginner canonicals in every locale (31207.920042ms)
+✔ each locale has 7 actionable steps, 50 distinct answers and localized route round trips (9.033666ms)
+✔ language switching translates beginner slugs and preserves step and country context (31.91275ms)
+✔ country gates and owner ordering select one venue without reopening neutral locales (1.253125ms)
+✔ link checker accepts only HTTPS exact approved domains and rejects spoofing without network access (0.634416ms)
+✖ all 170 sitemap pages have matching Worker and app metadata, full reciprocal hreflang and 50 visible FAQ answers (38.637875ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+[NexuAlpha] beginner SSR failed for /start (en); serving the app shell: __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /start (en): __vite_ssr_import_0__.m[key] is not a function
+✖ real SSR pages contain the steps and FAQ, neutral bodies have zero commercial routes, and hydration retains content (14068.841917ms)
+✔ a temporary beginner SSR failure retains the client shell without exposing a commercial route (44.196167ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 6
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 49832.041625
+
+✖ failing tests:
+
+test at tests/beginner-path.test.mjs:39:1
+✖ home doors and footer link directly to localized beginner canonicals in every locale (31207.920042ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/beginner-path.test.mjs:111:1
+✖ all 170 sitemap pages have matching Worker and app metadata, full reciprocal hreflang and 50 visible FAQ answers (38.637875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  16 !== 18
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/beginner-path.test.mjs:120:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 16,
+    expected: 18,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/beginner-path.test.mjs:141:1
+✖ real SSR pages contain the steps and FAQ, neutral bodies have zero commercial routes, and hydration retains content (14068.841917ms)
+  AssertionError [ERR_ASSERTION]: /start
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/beginner-path.test.mjs:151:16)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '<!doctype html><html lang="en" dir="ltr"><head><title translate="no" lang="en">How to buy crypto for beginners: 7 steps (2026)</title>    <meta name="description" content="Buy your first crypto in 7 steps: choose an exchange, register, verify your identity, deposit, buy spot, secure your account and withdraw." />\n      <meta property="og:type" content="website" data-nexualpha-route-seo="social" />\n      <meta property="og:site_name" content="NexuAlpha" data-nexualpha-route-seo="social" />\n      <meta property="og:title" content="How to buy crypto for beginners: 7 steps (2026)" data-nexualpha-route-seo="social" />\n      <meta property="og:description" content="Buy your first crypto in 7 steps: choose an exchange, register, verify your identity, deposit, buy spot, secure your account and withdraw." data-nexualpha-route-seo="social" />\n      <meta property="og:url" content="https://nexualpha.com/start" data-nexualpha-route-seo="social" />\n      <meta property="og:image" content="https://nexualpha.com/brand/nexualpha/nexualpha-social-v1.jpg" data-nexualpha-route-seo="social" />\n      <meta property="og:image:width" content="1200" data-nexualpha-route-seo="social" />\n      <meta property="og:image:height" content="630" data-nexualpha-route-seo="social" />\n      <meta property="og:image:alt" content="How to buy crypto for beginners: 7 steps (2026)" data-nexualpha-route-seo="social" />\n      <meta name="twitter:card" content="summary_large_image" data-nexualpha-route-seo="social" />\n      <meta name="twitter:site" content="@NexuAlpha" data-nexualpha-route-seo="social" />\n      <meta name="twitter:title" content="How to buy crypto for beginners: 7 steps (2026)" data-nexualpha-route-seo="social" />\n      <meta name="twitter:description" content="Buy your first crypto in 7 steps: choose an exchange, register, verify your identity, deposit, buy spot, secure your account and withdraw." data-nexualpha-route-seo="social" />\n      <meta name="twitter:image" content="https://nexualpha.com/brand/nexualpha/nexualpha-social-v1.jpg" data-nexualpha-route-seo="social" />\n      <link rel="alternate" type="application/rss+xml" title="NexuAlpha" href="/rss.xml" />\n      <link rel="alternate" hreflang="en" href="https://nexualpha.com/start" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/xinshou" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="es" href="https://nexualpha.com/es/empezar" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="pt-BR" href="https://nexualpha.com/pt-br/comecar" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="id" href="https://nexualpha.com/id-id/mulai" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="tr" href="https://nexualpha.com/tr/basla" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="ko" href="https://nexualpha.com/ko/sijak" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="ja" href="https://nexualpha.com/ja/hajimeru" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="fr" href="https://nexualpha.com/fr/debuter" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="de" href="https://nexualpha.com/de/starten" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="it" href="https://nexualpha.com/it/iniziare" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="ru" href="https://nexualpha.com/ru/nachat" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="ar" href="https://nexualpha.com/ar/ibda" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="zh-Hant" href="https://nexualpha.com/zh-hant/xinshou" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="vi" href="https://nexualpha.com/vi/bat-dau" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="x-default" href="https://nexualpha.com/start" data-nexualpha-route-seo="alternate" />\n      <link rel="canonical" href="https://nexualpha.com/start" data-nexualpha-route-seo="canonical" />\n      <meta name="robots" content="index,follow" data-nexualpha-route-seo="robots" />\n      <meta name="author" content="NexuAlpha Research Desk" data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-methodology" content="https://nexualpha.com/methodology" data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-llms" content="https://nexualpha.com/llms.txt" data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-route-marker" content="NEXUALPHA_BEGINNER_ROUTE_V1" data-nexualpha-route-seo="marker" />\n      <script id="nexualpha-route-schema" type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","name":"How to buy crypto for beginners: 7 steps (2026)","description":"Buy your first crypto in 7 steps: choose an exchange, register, verify your identity, deposit, buy spot, secure your account and withdraw.","url":"https://nexualpha.com/start","inLanguage":"en"},{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha","alternateName":["Nexu Alpha","NexuAlpha.com","nexualpha.com"],"url":"https://nexualpha.com/","logo":{"@type":"ImageObject","url":"https://nexualpha.com/brand/nexualpha/nexualpha-round.svg","width":"512","height":"512"},"image":"https://nexualpha.com/brand/nexualpha/nexualpha-square.png","slogan":"One verified gateway to the world’s exchanges.","description":"NexuAlpha compares crypto exchange fees and applicable rebates using official sources. Free, independent guidance funded by disclosed exchange referrals.","disambiguatingDescription":"NexuAlpha (also written Nexu Alpha) is the crypto exchange research and fee-rebate site at nexualpha.com. It is not an exchange, a token or a trading app, and it is not affiliated with other companies, tokens or projects that use similar names, such as Nexus Alpha, nexusalpha.ai or NexusAiCore. The only official channels are the ones listed on this page.","email":"contact@nexualpha.com","sameAs":["https://t.me/NexuAlphaClub","https://t.me/NexuAlphaGlobal","https://t.me/NexuAlphaAssistantBot","https://app.nexualpha.com/","https://t.me/NexuAlphaWorld","https://x.com/NexuAlpha","https://www.youtube.com/@NexuAlphaCN","https://www.youtube.com/@NexuAlphaGlobal"],"knowsAbout":["Crypto exchange trading fees","Exchange referral codes and fee rebates","Perpetual futures funding rates","Crypto futures liquidations","Proof of reserves disclosures","Regional exchange availability and KYC requirements","Official exchange announcements"],"contactPoint":[{"@type":"ContactPoint","contactType":"editorial","email":"contact@nexualpha.com","url":"https://t.me/NexuAlphaAssistantBot","availableLanguage":["en","zh"]}],"publishingPrinciples":"https://nexualpha.com/editorial-policy","correctionsPolicy":"https://nexualpha.com/editorial-policy#corrections","actionableFeedbackPolicy":"https://nexualpha.com/editorial-policy#corrections","ownershipFundingInfo":"https://nexualpha.com/about#funding","department":{"@type":"Organization","@id":"https://nexualpha.com/about#research-desk","name":"NexuAlpha Research Desk","url":"https://nexualpha.com/about#research-desk","parentOrganization":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"},"description":"The internal editorial team of NexuAlpha. It checks fees, referral terms and official announcements against primary sources; articles are researched and written with AI assistance and reviewed before publication. It is not a named individual, adviser, broker or exchange operator.","publishingPrinciples":"https://nexualpha.com/editorial-policy","knowsAbout":["Crypto exchange trading fees","Exchange referral codes and fee rebates","Perpetual futures funding rates","Crypto futures liquidations","Proof of reserves disclosures","Regional exchange availability and KYC requirements","Official exchange announcements"]}},{"@type":"WebSite","@id":"https://nexualpha.com/#website","name":"NexuAlpha","alternateName":["Nexu Alpha","NexuAlpha.com","nexualpha.com"],"url":"https://nexualpha.com/","inLanguage":"en","dateModified":"2026-09-21","description":"NexuAlpha compares crypto exchange fees and applicable rebates using official sources. Free, independent guidance funded by disclosed exchange referrals.","publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"NexuAlpha","item":"https://nexualpha.com/"},{"@type":"ListItem","position":2,"name":"How to buy crypto for beginners: 7 steps (2026)","item":"https://nexualpha.com/start"}]}]}</script>\n  </head><body><div id="root"></div></body></html>',
+    expected: /class="nxb /,
+    operator: 'match',
+    diff: 'simple'
+  }

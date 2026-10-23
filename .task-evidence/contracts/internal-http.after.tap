@@ -1,0 +1,12 @@
+✔ internal UA token is set or appended once (0.959125ms)
+✔ remote requests are spaced to the configured rate; loopback is not paced (0.92825ms)
+✔ internalFetch sends the UA and keeps other headers (190.454042ms)
+✔ site-facing QA scripts use the internal fetch (2.995917ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 401.670375

@@ -1,0 +1,44 @@
+✔ hyperliquid-dydx comparison adds one prerendered route per supported locale (12.590667ms)
+✖ news list route prerenders the core editions and every locale with a native article (29.146583ms)
+✔ Japan regional AEO page is indexed only in Japanese (71.592334ms)
+✔ Korea regional AEO page is indexed only in Korean (6.405959ms)
+✔ Taiwan and Indonesia regional routes prerender only their owner locales (89.732292ms)
+✔ Singapore regional research route is indexed only in English (15.64525ms)
+✔ Hong Kong regional research route is indexed only in Traditional Chinese (4.317875ms)
+✔ topics and factbook collection hubs are reviewed English collection routes (126.8205ms)
+✔ former factbook-only venues publish exchange profiles and no factbook detail routes (37.57325ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2252.917625
+
+✖ failing tests:
+
+test at tests/prerender-route-inventory.test.mjs:23:1
+✖ news list route prerenders the core editions and every locale with a native article (29.146583ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'en'
+  - ]
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/prerender-route-inventory.test.mjs:32:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'en' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

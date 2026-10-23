@@ -1,0 +1,13 @@
+✔ target metadata answers fee and registration intent consistently in client and worker (58.152542ms)
+✔ comparison metadata and reverse heading preserve a qualified fee verdict first (25.986792ms)
+✔ all eight reverse comparison routes remain permanent redirects with locale and attribution (55.671292ms)
+✔ SSR venue answer follows H1 and body and footer expose the comparison routes (1970.660458ms)
+✔ Hyperliquid answer copy respects markets where referral promotion is unavailable (1.64375ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3180.315125

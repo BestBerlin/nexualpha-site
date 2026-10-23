@@ -1,0 +1,89 @@
+TAP version 13
+# Subtest: hyperliquid-dydx comparison adds one prerendered route per supported locale
+ok 1 - hyperliquid-dydx comparison adds one prerendered route per supported locale
+  ---
+  duration_ms: 58.911
+  type: 'test'
+  ...
+# Subtest: news list route prerenders the core editions and every locale with a native article
+ok 2 - news list route prerenders the core editions and every locale with a native article
+  ---
+  duration_ms: 31.336125
+  type: 'test'
+  ...
+# Subtest: Japan regional AEO page is indexed only in Japanese
+ok 3 - Japan regional AEO page is indexed only in Japanese
+  ---
+  duration_ms: 7.12525
+  type: 'test'
+  ...
+# Subtest: Korea regional AEO page is indexed only in Korean
+ok 4 - Korea regional AEO page is indexed only in Korean
+  ---
+  duration_ms: 8.277458
+  type: 'test'
+  ...
+# Subtest: Taiwan and Indonesia regional routes prerender only their owner locales
+ok 5 - Taiwan and Indonesia regional routes prerender only their owner locales
+  ---
+  duration_ms: 10.631916
+  type: 'test'
+  ...
+# Subtest: Singapore regional research route is indexed only in English
+not ok 6 - Singapore regional research route is indexed only in English
+  ---
+  duration_ms: 7.795708
+  type: 'test'
+  location: '/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/prerender-route-inventory.test.mjs:73:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'en'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'en'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/prerender-route-inventory.test.mjs:79:10)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1201:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+    Test.postRun (node:internal/test_runner/test:1330:19)
+    Test.run (node:internal/test_runner/test:1258:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:831:7)
+  ...
+# Subtest: Hong Kong regional research route is indexed only in Traditional Chinese
+ok 7 - Hong Kong regional research route is indexed only in Traditional Chinese
+  ---
+  duration_ms: 5.78975
+  type: 'test'
+  ...
+# Subtest: topics and factbook collection hubs are reviewed English collection routes
+ok 8 - topics and factbook collection hubs are reviewed English collection routes
+  ---
+  duration_ms: 2.769041
+  type: 'test'
+  ...
+# Subtest: former factbook-only venues publish exchange profiles and no factbook detail routes
+ok 9 - former factbook-only venues publish exchange profiles and no factbook detail routes
+  ---
+  duration_ms: 6.230833
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 8
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 948.653834

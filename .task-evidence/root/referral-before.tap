@@ -1,0 +1,31 @@
+✔ generated referral partners match the partner feed (4.687708ms)
+✖ referral titles carry the real invite code and owner share in every locale (5.167709ms)
+✔ regulated locales keep neutral titles; Turkish referral titles only for SPK-listed exchanges (0.118209ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 359.183709
+
+✖ failing tests:
+
+test at tests/referral-seo.test.mjs:13:1
+✖ referral titles carry the real invite code and owner share in every locale (5.167709ms)
+  AssertionError [ERR_ASSERTION]: gate-io/en
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/referral-seo.test.mjs:20:14)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

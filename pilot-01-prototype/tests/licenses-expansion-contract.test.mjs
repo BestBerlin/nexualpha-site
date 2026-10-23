@@ -45,12 +45,18 @@ test('all requested jurisdictions have reproducible research and entity provenan
   }
 });
 test('published sitemap and localized schemas agree with indexable visible records', () => {
-  const entries = licenseSitemapEntries({ urlFor: (path, locale) => `https://nexualpha.com${localizedPath(path, locale)}` });
+  const candidates = licenseSitemapEntries({ urlFor: (path, locale) => `https://nexualpha.com${localizedPath(path, locale)}` });
+  const reviewPending = locale => ['ur', 'uk'].includes(locale);
+  const entries = candidates.filter(entry => !reviewPending(entry.locale));
   const xml = readFileSync(new URL('../public/sitemap-licenses.xml', import.meta.url), 'utf8');
+  const published = [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(match => match[1]);
   assert.equal((xml.match(/<loc>/g) || []).length, entries.length);
+  for (const entry of candidates.filter(entry => reviewPending(entry.locale))) assert.ok(!xml.includes(`<loc>${entry.loc}</loc>`), entry.loc);
   for (const entry of entries) {
-    assert.ok(xml.includes(`<loc>${entry.loc}</loc>`));
-    assert.equal(entry.alternates.length, LICENSE_INDEX_LOCALES.length + 1);
+    const block = published.find(body => body.includes(`<loc>${entry.loc}</loc>`));
+    assert.ok(block, entry.loc);
+    const alternates = [...block.matchAll(/hreflang="([^"]+)" href="([^"]+)"/g)].map(match => ({ hreflang: match[1], href: match[2] }));
+    assert.deepEqual(alternates, entry.alternates.filter(alt => !reviewPending(alt.hreflang)), entry.loc);
   }
   for (const locale of LICENSE_INDEX_LOCALES) for (const country of LICENSE_COUNTRIES) {
     const schemas = licenseSchemas(country.slug, locale);

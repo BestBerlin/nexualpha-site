@@ -1,0 +1,143 @@
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+TypeError: fetch failed
+
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+TypeError: fetch failed
+
+✔ [paraglide-js] Compilation complete (locale-modules)
+[NexuAlpha] app-download SSR failed for /exchanges/bitget/app (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /exchanges/bitget/app (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] app-download SSR failed for /exchanges/okx/app (ar): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /exchanges/okx/app (ar): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] app-download SSR failed for /exchanges/okx/app (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /exchanges/okx/app (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] app-download SSR failed for /exchanges/bitget/app (tr): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /exchanges/bitget/app (tr): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] app-download SSR failed for /exchanges/okx/app (tr): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /exchanges/okx/app (tr): __vite_ssr_import_0__.m[key] is not a function
+✔ app download venue lists use the shared priority order and filter Bitget for Turkish defaults (31397.40975ms)
+✖ four app routes SSR in English and Simplified Chinese with matching client SEO and hydration (232.165375ms)
+✖ all locale editions are localized and indexable, neutral locales never contain a sign-up block (3.914583ms)
+✖ all app download locales render the source check date with locale-aware UI text (7.482625ms)
+✖ Turkey and explicit market context use partner geo gating, including SSR (63.421ms)
+✖ APK data fails closed and a reviewed separate-host build exposes its metadata (2.138959ms)
+✖ profile crosslinks, lazy route module, sitemap index and unsupported app routes (20.102833ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 1
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35629.580625
+
+✖ failing tests:
+
+test at tests/app-downloads.test.mjs:41:1
+✖ four app routes SSR in English and Simplified Chinese with matching client SEO and hydration (232.165375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'Bitget App Download (iOS & Android) — 2026'
+  - ]
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/app-downloads.test.mjs:48:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'Bitget App Download (iOS & Android) — 2026' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/app-downloads.test.mjs:78:1
+✖ all locale editions are localized and indexable, neutral locales never contain a sign-up block (3.914583ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'تنزيل تطبيق OKX (iOS وAndroid) — 2026'
+  - ]
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/app-downloads.test.mjs:84:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'تنزيل تطبيق OKX (iOS وAndroid) — 2026' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/app-downloads.test.mjs:94:1
+✖ all app download locales render the source check date with locale-aware UI text (7.482625ms)
+  AssertionError [ERR_ASSERTION]: en
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/app-downloads.test.mjs:99:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: /<time dateTime="2026-10-12">/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/app-downloads.test.mjs:105:1
+✖ Turkey and explicit market context use partner geo gating, including SSR (63.421ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/app-downloads.test.mjs:111:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/app-downloads.test.mjs:121:1
+✖ APK data fails closed and a reviewed separate-host build exposes its metadata (2.138959ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/app-downloads.test.mjs:139:1
+✖ profile crosslinks, lazy route module, sitemap index and unsupported app routes (20.102833ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)

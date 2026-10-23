@@ -1,0 +1,80 @@
+TAP version 13
+# Subtest: draft MEXC comparisons and topic summaries require identity verification
+ok 1 - draft MEXC comparisons and topic summaries require identity verification
+  ---
+  duration_ms: 1.573917
+  type: 'test'
+  ...
+# Subtest: 17 UI locales use collision-free, round-trip public routes
+ok 2 - 17 UI locales use collision-free, round-trip public routes
+  ---
+  duration_ms: 1.28475
+  type: 'test'
+  ...
+# Subtest: native-review locales remain gated on general and whale information pages
+not ok 3 - native-review locales remain gated on general and whale information pages
+  ---
+  duration_ms: 607.023417
+  type: 'test'
+  location: '/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/locales-ur-uk.test.mjs:52:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(!toolsSitemap.includes(`<loc>https://nexualpha.com/${prefix}/whales</loc>`))
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/locales-ur-uk.test.mjs:57:48)
+    async Test.run (node:internal/test_runner/test:1208:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:831:7)
+  ...
+# Subtest: Urdu shell is RTL with the local Arabic fallback; Ukrainian is LTR
+ok 4 - Urdu shell is RTL with the local Arabic fallback; Ukrainian is LTR
+  ---
+  duration_ms: 189.103792
+  type: 'test'
+  ...
+# Subtest: Ukrainian and Urdu counts use their own plural forms
+ok 5 - Ukrainian and Urdu counts use their own plural forms
+  ---
+  duration_ms: 0.360417
+  type: 'test'
+  ...
+# Subtest: new locales keep partner metadata neutral pending regulator review
+ok 6 - new locales keep partner metadata neutral pending regulator review
+  ---
+  duration_ms: 1.934875
+  type: 'test'
+  ...
+# Subtest: draft comparison answers preserve complete structures, source routes and numeric facts
+ok 7 - draft comparison answers preserve complete structures, source routes and numeric facts
+  ---
+  duration_ms: 1.414833
+  type: 'test'
+  ...
+# Subtest: draft campaign explanations preserve numerical facts and shared FAQ coverage
+ok 8 - draft campaign explanations preserve numerical facts and shared FAQ coverage
+  ---
+  duration_ms: 49.956666
+  type: 'test'
+  ...
+# Subtest: new home copy defines every English UI key without inheriting English controls
+ok 9 - new home copy defines every English UI key without inheriting English controls
+  ---
+  duration_ms: 5.824292
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 8
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1898.035209

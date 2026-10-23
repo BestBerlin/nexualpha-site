@@ -1,3 +1,4 @@
+import { JSDOM } from 'jsdom';
 import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
@@ -83,7 +84,14 @@ test("R46 OKX migration news bridge keeps Binance vs OKX comparison and internal
   assert.doesNotMatch(html, /href="\/exchanges\/binance#registration-path\?market=GLOBAL&amp;product=spot"/);
   assert.match(html, /data-next-decision-action="compare"/);
   assert.match(html, /data-cta-placement="news-detail-venue-card"/);
-  assert.doesNotMatch(html, protectedMaterial);
+  // Sponsored slots are separate from these internal research handoffs.
+  const document = new JSDOM(html).window.document;
+  for (const selector of ['.news-detail__first-decision', '.news-detail__partners-box', '.news-detail__next-decision-bridge']) {
+    const bridge = document.querySelector(selector);
+    assert.ok(bridge, `${selector}: research handoff rendered`);
+    assert.doesNotMatch(bridge.outerHTML, protectedMaterial);
+    assert.equal(bridge.querySelectorAll('a[href^="/go/"]').length, 0);
+  }
 });
 
 test("R46 Hyperliquid news bridge sends readers to derivatives guide and side-by-side comparison", async () => {
@@ -117,7 +125,14 @@ test("R46 Hyperliquid news bridge sends readers to derivatives guide and side-by
   assert.match(html, /href="\/topics\/derivatives#nxa-context\?market=GLOBAL&amp;product=perpetuals"/);
   assert.match(html, /href="\/exchanges\/hyperliquid#registration-path\?market=GLOBAL&amp;product=perpetuals"/);
   assert.match(html, /href="\/exchanges\/dydx#registration-path\?market=GLOBAL&amp;product=perpetuals"/);
-  assert.doesNotMatch(html, protectedMaterial);
+  // Sponsored slots are separate from these internal research handoffs.
+  const document = new JSDOM(html).window.document;
+  for (const selector of ['.news-detail__first-decision', '.news-detail__partners-box', '.news-detail__next-decision-bridge']) {
+    const bridge = document.querySelector(selector);
+    assert.ok(bridge, `${selector}: research handoff rendered`);
+    assert.doesNotMatch(bridge.outerHTML, protectedMaterial);
+    assert.equal(bridge.querySelectorAll('a[href^="/go/"]').length, 0);
+  }
 });
 
 test("R46 news decision bridge preserves protected commercial registries", async () => {

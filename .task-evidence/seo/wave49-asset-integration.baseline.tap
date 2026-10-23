@@ -1,0 +1,35 @@
+✔ Wave49 keeps Wave48 citation assets owned by derivatives and tokenized Treasuries canonicals (15.730958ms)
+✖ Wave49 Perp DEX related links preserve existing canonicals and Wave46 Hyperliquid copy (3.302834ms)
+✔ Wave49 llms generator exposes new assets without creating indexable research URLs (2820.266917ms)
+✔ Wave49 integration preserves protected partner registry SHA (1.357125ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4577.279625
+
+✖ failing tests:
+
+test at tests/wave49-asset-integration.test.mjs:71:1
+✖ Wave49 Perp DEX related links preserve existing canonicals and Wave46 Hyperliquid copy (3.302834ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Hyperliquid.*fees.*wallet/i. Input:
+  
+  'Hyperliquid fees, rebates & funded account checks (2026)'
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/wave49-asset-integration.test.mjs:76:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Hyperliquid fees, rebates & funded account checks (2026)',
+    expected: /Hyperliquid.*fees.*wallet/i,
+    operator: 'match',
+    diff: 'simple'
+  }

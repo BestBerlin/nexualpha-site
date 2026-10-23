@@ -10,7 +10,10 @@ import {
   manifestRouteCanonicalPath,
   renderSitemapPagesWithWorker,
 } from "./audit-internal-inlinks.mjs";
-import { parsePublicRoute } from "../src/data/locale-routing.js";
+import { localizedHref, parsePublicRoute } from "../src/data/locale-routing.js";
+import { HOME_SEARCH_COPY, homeDescription, homeTitle } from "../src/data/home-search-copy.js";
+import { referralSeoFor } from "../src/data/referral-seo.js";
+import { STRIKING_DISTANCE_VENUES, strikingDistanceVenueTitle } from "../src/data/striking-distance-venue-copy.js";
 import { metaDescriptionLimit, titleBudgetForLocale, titleDisplayWidth } from "../src/data/meta-description.js";
 import { sitemapContentDates } from "./sitemap-content-dates.mjs";
 
@@ -427,6 +430,32 @@ function isCanonicalOwnerPage(page) {
   );
 }
 
+// Reviewed source copy can intentionally exceed the default snippet budget. Bind exceptions
+// to the exact canonical owner, locale and current copy; the runtime's prefix predicate is
+// deliberately not reused here because it would admit arbitrary overlong venue titles.
+function hasReviewedSearchTitle(page) {
+  if (!isCanonicalOwnerPage(page)) return false;
+  const route = parsePublicRoute(page.path);
+  const locale = page.lang || localeFromPath(page.path);
+  if (!["en", "zh-Hans"].includes(locale) || locale !== route.locale) return false;
+  if (page.path !== localizedHref(route.contentPathname, { locale })) return false;
+  if (route.contentPathname === "/") return page.title === homeTitle(locale);
+  const slug = route.contentPathname.match(/^\/exchanges\/([a-z0-9-]+)$/)?.[1];
+  if (!STRIKING_DISTANCE_VENUES.includes(slug)) return false;
+  const expected = referralSeoFor(slug, locale)?.title || strikingDistanceVenueTitle(slug, locale);
+  return page.title === expected;
+}
+
+// Home and About intentionally repeat the canonical Organization definition. Other
+// owners, altered copy, or a third member of that duplicate group still fail the audit.
+function isSharedEntityDescriptionPair(row, pageByPath) {
+  if (row.count !== 2 || !Object.hasOwn(HOME_SEARCH_COPY, row.locale)) return false;
+  const expectedPaths = [localizedHref("/", { locale: row.locale }), localizedHref("/about", { locale: row.locale })];
+  if (!expectedPaths.every(pathname => row.paths.includes(pathname))) return false;
+  const expected = homeDescription(row.locale);
+  return row.paths.every(pathname => pageByPath.get(pathname)?.description === expected);
+}
+
 function duplicateRows(pages, field) {
   const groups = new Map();
   for (const page of pages) {
@@ -537,8 +566,9 @@ export function validateIndexConsistency({ pages = [], sitemap = { urls: [], mis
       const titleLimit = titleBudgetForLocale(locale);
       const length = page.title.length;
       const width = titleDisplayWidth(page.title);
-      if (length > titleLimit) failures.push({ kind: "title-over-budget", path: pagePath, locale, length, width, limit: titleLimit, title: page.title });
-      if (isInviteCodeYearTitle(page.title)) failures.push({ kind: "invite-code-year-title", path: pagePath, locale, title: page.title });
+      const reviewedTitle = hasReviewedSearchTitle(page);
+      if (length > titleLimit && !reviewedTitle) failures.push({ kind: "title-over-budget", path: pagePath, locale, length, width, limit: titleLimit, title: page.title });
+      if (isInviteCodeYearTitle(page.title) && !reviewedTitle) failures.push({ kind: "invite-code-year-title", path: pagePath, locale, title: page.title });
     }
     if (!page.noindex && page.description) {
       const locale = page.lang || localeFromPath(pagePath);
@@ -638,7 +668,9 @@ export function validateIndexConsistency({ pages = [], sitemap = { urls: [], mis
     locale: page.lang || localeFromPath(page.path || page.canonicalPath),
   })).filter(isCanonicalOwnerPage);
   for (const row of duplicateRows(indexableCorpus, "title")) failures.push({ kind: "duplicate-title", ...row });
-  for (const row of duplicateRows(indexableCorpus, "description")) failures.push({ kind: "duplicate-description", ...row });
+  for (const row of duplicateRows(indexableCorpus, "description")) {
+    if (!isSharedEntityDescriptionPair(row, pageByPath)) failures.push({ kind: "duplicate-description", ...row });
+  }
 
   if (llms) {
     for (const file of llms.missingFiles || []) failures.push({ kind: "llms-file-missing", file });

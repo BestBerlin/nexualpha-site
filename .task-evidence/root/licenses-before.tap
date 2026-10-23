@@ -1,0 +1,20 @@
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ entity records have official register provenance, dates and unique jurisdiction keys (16708.318125ms)
+✔ all search locales have localized titles, answer and schema (1.023958ms)
+✔ Hong Kong license country labels do not depend on runtime Intl.DisplayNames wording (0.097417ms)
+✔ commercial routes fail closed for negative status, restricted countries, neutral Chinese and Türkiye exceptions (0.649334ms)
+✔ parser handles hub/country and rejects extra segments (0.690583ms)
+✔ English and Simplified Chinese hub and country routes SSR visible register rows and schemas (324.9515ms)
+✔ exchange detail includes its register section and source link (322.903667ms)
+✔ hub filters update the hydrated table without changing server evidence (941.545833ms)
+✔ sitemap includes all search locales and country pages, excludes unsupported editions (33.421166ms)
+✔ mobile cards mirror table rows with display names, jurisdiction, entity, type, status and source (118.038459ms)
+✔ registered non-partner venues never create unregistered go routes (0.10975ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20265.255916

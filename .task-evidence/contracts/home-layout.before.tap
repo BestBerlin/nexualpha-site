@@ -1,0 +1,18 @@
+﹣ layout targets exist in current commercial and neutral SSR homes (2.903416ms) # requires npm run build
+▶ current homepage browser geometry
+  ﹣ hero, whale board and calculator keep their hierarchy across locales and widths (0.463083ms) # requires npm run build
+  ﹣ commercial hero copy, calculator panel and globe stay inside the hero at Chinese breakpoints (0.143208ms) # requires npm run build
+  ﹣ unavailable live feeds leave a usable calculator and footer without an invented sentiment block (0.095625ms) # requires npm run build
+  ﹣ English mobile calculator venue names remain visible without clipping (0.096917ms) # requires npm run build
+  ﹣ Chinese homes remain readable at 320px with enlarged root text (0.107166ms) # requires npm run build
+  ﹣ Arabic market figures use explicit left-to-right isolation (0.054792ms) # requires npm run build
+  ﹣ neutral Chinese hero retains the fee board and calculator instead of a commercial panel (0.062458ms) # requires npm run build
+✔ current homepage browser geometry (1.942ms)
+ℹ tests 8
+ℹ suites 1
+ℹ pass 0
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 8
+ℹ todo 0
+ℹ duration_ms 546.364459

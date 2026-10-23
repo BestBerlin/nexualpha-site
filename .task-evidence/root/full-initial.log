@@ -1,0 +1,320 @@
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ episode index: 24 lessons, unique slugs, every content locale has every lesson (29192.40425ms)
+✔ numbers and codes in localized lessons match English (4.923959ms)
+﹣ academy data generator reproduces checked-in generated files (6.039959ms) # Academy regeneration source inputs are unavailable (24 episode files; first: /Users/bestberlin/Documents/ChatGPT/Crypto聚合/.gemini-v3/out/E01.json). Set ACADEMY_V3_DIR and ACADEMY_L10N_DIR to the complete source inputs.
+✔ /academy and a lesson render at request time in en and zh-hans with the hydrated component, canonical and hreflang (823.346375ms)
+✔ JSON-LD: Course on the hub, VideoObject + LearningResource on a lesson (180.724791ms)
+✔ locales without a localized lesson are noindex; unknown lessons are 404 (195.600416ms)
+✔ sitemap-academy.xml lists the hub and 24 lessons in every indexable locale and is in the sitemap index (7025.995291ms)
+✔ sign-up CTA: conversion lessons only, registry codes via /go/, geo-gated, none in neutral locales (375.764375ms)
+✔ no fine print, commission notes or 'not investment advice' on academy pages (footer excluded) (2343.199ms)
+✔ hydration of the hub and a lesson has no mismatch (en, zh-hans, ar) (2802.619417ms)
+✔ header, footer and home link the academy; /starter 301s to the localized academy (278.543333ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ compactOfficialAnnouncements keeps official event rows of the last 30 days with card fields only (27685.701042ms)
+✔ /activities is rendered at request time from the announcement feed: campaign cards, join links and footer-only disclosure in the SSR HTML (957.826583ms)
+✔ hydrateRoot in jsdom reports no hydration mismatch on /activities for tr, ar, zh-Hans, en and vi (5842.590166ms)
+✔ without a readable feed the prerendered page is served and the component renders a fixed-height placeholder (72.989958ms)
+✔ existing approved feed expires while mounted, without refetch or gate changes (2.99925ms)
+✔ activity center copy covers every supported locale and required key (4.852084ms)
+✔ activity center uses neutral product titles, not official-site labels (0.362625ms)
+✔ activity center no longer exposes internal project or CTA setup language (0.192667ms)
+✔ non-English locales do not reuse English fallback for required activity controls (0.151125ms)
+✔ unknown locale falls back explicitly to English copy (0.115958ms)
+✔ empty official activity feed stays compatible with eligibility projection (2.207375ms)
+✔ activity CTA opens only when source, eligibility fields, deadline and verified action are present (151.185083ms)
+✔ missing critical eligibility fields fail closed and keep the same-platform research alternative (0.496084ms)
+✔ expired activity remains fail-closed even when all eligibility fields exist (0.092167ms)
+✔ unverified or unsafe activity actions never become participation CTA (0.174167ms)
+﹣ research desk scope preserves the historical CSS snapshot (1.802542ms) # Historical style-evidence/{before,RULES,MODE}.css snapshots are unavailable in this checkout
+✔ native query entry and heading are readable without hiding, motion or new materials (0.238583ms)
+✔ native open swaps only direct summary grid and heading button, never source-index children (0.0825ms)
+✔ partner registry matches the reviewed current snapshot (4.813875ms)
+﹣ en whole index relocation and headings preserve all facts/links/states (0.796542ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ zh-Hans whole index relocation and headings preserve all facts/links/states (0.048166ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ zh-Hant whole index relocation and headings preserve all facts/links/states (0.03475ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ ja whole index relocation and headings preserve all facts/links/states (0.033917ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ ko whole index relocation and headings preserve all facts/links/states (0.039083ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ tr whole index relocation and headings preserve all facts/links/states (0.037208ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ ar whole index relocation and headings preserve all facts/links/states (0.032042ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ es whole index relocation and headings preserve all facts/links/states (0.027792ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ pt-BR whole index relocation and headings preserve all facts/links/states (0.05325ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ fr whole index relocation and headings preserve all facts/links/states (0.072ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ de whole index relocation and headings preserve all facts/links/states (0.037458ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ ru whole index relocation and headings preserve all facts/links/states (0.031375ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ id whole index relocation and headings preserve all facts/links/states (0.033083ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ vi whole index relocation and headings preserve all facts/links/states (0.033459ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ it whole index relocation and headings preserve all facts/links/states (0.026542ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ ur whole index relocation and headings preserve all facts/links/states (0.026625ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ uk whole index relocation and headings preserve all facts/links/states (0.018708ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+﹣ full source inverse preserves all handlers/facts and registry (0.021792ms) # Historical news-index-batch/candidate snapshot is unavailable in this checkout
+✔ en current research desk renders one closed source index before reward grid (195.541542ms)
+✔ zh-Hans current research desk renders one closed source index before reward grid (87.316416ms)
+✔ zh-Hant current research desk renders one closed source index before reward grid (144.737875ms)
+✔ ja current research desk renders one closed source index before reward grid (49.928291ms)
+✔ ko current research desk renders one closed source index before reward grid (56.171875ms)
+✔ tr current research desk renders one closed source index before reward grid (205.286833ms)
+✔ ar current research desk renders one closed source index before reward grid (75.136708ms)
+✔ es current research desk renders one closed source index before reward grid (249.406875ms)
+✔ pt-BR current research desk renders one closed source index before reward grid (49.794958ms)
+✔ fr current research desk renders one closed source index before reward grid (76.186375ms)
+✔ de current research desk renders one closed source index before reward grid (146.108625ms)
+✔ ru current research desk renders one closed source index before reward grid (114.491791ms)
+✔ id current research desk renders one closed source index before reward grid (133.869917ms)
+✔ vi current research desk renders one closed source index before reward grid (26.478166ms)
+✔ it current research desk renders one closed source index before reward grid (148.102667ms)
+✔ ur current research desk renders one closed source index before reward grid (156.702ms)
+✔ uk current research desk renders one closed source index before reward grid (125.208125ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ stable update identity preserves distinct feed IDs and validates source URLs (27919.723083ms)
+✔ update routes render all categories and translated template guidance in every locale (2064.67875ms)
+✔ neutral locales and blocked markets have no commercial CTA inside update article (384.099375ms)
+✔ Türkiye Bitget event update falls back to the activity index while listings stay informationally reachable (27.841167ms)
+✔ activity update pages SSR from INTEL_READ with all validated feed categories in the hydration payload (298.180375ms)
+✔ activity update SEO noindexes listings, campaigns and delistings, and never invents Event dates (85.508833ms)
+✔ activity update routes fall back to the cached official-announcements asset when INTEL_READ is absent (19.858792ms)
+✔ activity update SEO keeps the article alternative when only a deadline is known (3.186125ms)
+✔ activity update route SEO and hydration state use campaign briefs from ASSETS (92.608125ms)
+✔ localized activity update routes keep internal canonical and translated common listing headline while noindex (2.243625ms)
+✔ unknown activity update URLs 301 to the localized activity listing, keep ?market= and never render (34.092917ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ archived activity updates stay 200 with the ended label, CTA and related links, and the archived row in hydration state (31048.726542ms)
+✔ archived activity updates older than 180 days are noindex but still 200; live pages never show the ended label (3.619333ms)
+✔ archived activity updates resolve from the shipped archive asset when INTEL_ARCHIVE_READ is absent (1.041708ms)
+✔ retired /starter links 301 to the localized academy (新手村 is NexuAlpha Academy since 2026-10-12) (0.294666ms)
+✔ /sitemap-updates.xml stays empty for noindex update detail pages (0.441417ms)
+✔ activity update routes merge approved non-fixture core official-updates rows with the cached update feed (2.679375ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ request-time update SSR and hydration retain the blocked market gate (19716.082834ms)
+✔ question set is fixed: 20 questions, unique ids and queries, six display languages, 10 localized (1.74025ms)
+✔ SERP query list is 20 English + 10 local, all distinct (0.275666ms)
+✔ DuckDuckGo parser reads a real result page and finds no nexualpha.com entry (1.255083ms)
+✔ DuckDuckGo parser ranks nexualpha.com and skips ads; a challenge page is reported as blocked (0.620209ms)
+✔ Brave parser reads a real result page in display order (4.381333ms)
+✔ fetchSerp records a blocked status on HTTP 429 without throwing (3.471084ms)
+✔ GSC matching: exact rows, token variants, top page; Bing stats use the same matcher (1.253583ms)
+✔ manual template covers every engine x question with the agreed fields (0.45825ms)
+✔ ISO week helpers follow Asia/Shanghai calendar dates (1.780166ms)
+✔ report merges serp + gsc + manual and shows week-on-week deltas (3.478459ms)
+✔ report without previous week or manual data labels the baseline instead of inventing deltas (0.860042ms)
+✔ AEO question registry contains unique, bounded international targets (4.0095ms)
+✔ high-intent AEO visibility baseline records unverifiable citation status conservatively (1.795416ms)
+✔ GSC comparison question wave deepens Bybit vs Bitget without signup claims (0.179084ms)
+✔ AEO question registry covers the first international market wave (0.152291ms)
+✔ Singapore research wave keeps source-linked questions on the source-backed route (0.103333ms)
+✔ localized EU and UK wave keeps official-source and route boundaries (0.099208ms)
+✔ Turkish research wave keeps official-source and eligibility boundaries (0.060167ms)
+✔ Turkey SPK publication map stays aligned with the registry and Schema question (19.1875ms)
+✔ protocol question wave deepens GSC targets without promotion claims (0.645709ms)
+✔ Wave12 Korean and Turkish AEO entries cover the 12 high-intent localized pages (0.323833ms)
+✔ article question wave maps GSC topics to canonical sources without conversion claims (0.196083ms)
+✔ Worker topic source copy contains no unsafe absolute marketing claims (46.8905ms)
+✔ agent manifest is a tool directory and does not self-declare as OpenAPI (2.149667ms)
+✔ agent API /api/v1/agent/lowest-fee returns source-bound published fee scenarios with CORS (270.546459ms)
+✔ agent API /api/v1/agent/verify-domain reports registry matches without security guarantees (0.770667ms)
+✔ agent API /api/v1/agent/por-status fails closed instead of certifying reserves (0.359583ms)
+✔ LIVE labels cover every supported locale and only the two feed headings (94.808875ms)
+✔ whale motion detects newly inserted IDs, retains old rows and clears lifecycle resources (37.879209ms)
+✔ value tween ends exactly at the target and reduced motion schedules no frames (1.067083ms)
+✔ whale times switch to hours and days after one hour, in every locale (0.811625ms)
+✔ whale rows carry size tier and direction; at most three displayed $5M+ buy/sell rows pulse (7.04825ms)
+✔ ticker duplicates are hidden from accessibility and keyboard navigation (3.670959ms)
+✔ ticker motion is transform only and reduced motion is static (0.317916ms)
+✔ campaign and control cycles honor reduced motion (0.254791ms)
+✔ shared analytics contract has explicit event and Telegram source allowlists (1.39475ms)
+✔ referral persistence identity separates attribution context but not event ids (0.130625ms)
+✔ bitget: keeps only well-formed official items (24.343ms)
+✔ bitget: error payloads yield nothing (0.295417ms)
+✔ bybit: maps documented types and rejects foreign hosts (4.469625ms)
+✔ mergeIntel de-duplicates, sorts newest first and drops stale items (0.6005ms)
+✔ readIntelFeed re-validates stored items (1.547417ms)
+✔ OKX, Binance and KuCoin payloads normalize with category and official link (2.274875ms)
+✔ RSS items parse; Kraken asset listings are listings; future dates are dropped (0.328959ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ app download venue lists use the shared priority order and filter Bitget for Turkish defaults (21230.813125ms)
+✔ four app routes SSR in English and Simplified Chinese with matching client SEO and hydration (1462.254125ms)
+✔ all locale editions are localized, native-review editions stay noindex and neutral locales never contain a sign-up block (584.210542ms)
+✔ all app download locales render the source check date with locale-aware UI text (211.640375ms)
+✔ Turkey and explicit market context use partner geo gating, including SSR (1595.740041ms)
+✔ APK data fails closed and a reviewed separate-host build exposes its metadata (20.986333ms)
+✔ profile crosslinks, lazy route module, sitemap index and unsupported app routes (5957.54125ms)
+✔ Arabic pages preload the Arabic font once, right after the Geist preloads (204.882375ms)
+✔ non-Arabic pages do not preload the Arabic font (33.29625ms)
+✔ the Arabic face uses font-display optional so a late arrival never reflows the page (0.10475ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ directive parsing: known widgets and aliases, symbols for funding, unknown = nothing, prose untouched (21501.753667ms)
+✔ model: widget heights, tool links and copy in all 17 locales (2.309416ms)
+✔ isolate + strip: a directive glued to prose becomes its own paragraph; plain-text surfaces drop it (0.291958ms)
+✔ article SSR renders the embeds (en) and hydrates without mismatch (1430.843584ms)
+✔ article SSR renders the embeds (ar) and hydrates without mismatch (768.704625ms)
+✔ worker fallback article HTML (no SSR renderer) emits the same embed blocks (9.054542ms)
+✔ funding widget ?symbol= lists that row first and highlights it (0.850042ms)
+✔ content importer passes the directive through unchanged (54.364375ms)
+✔ bounded entity network links actual exchange, compare, coin and relevant tools in every locale (1035.656458ms)
+✔ entity-free articles have informational hub links; comparisons are never invented (7.204709ms)
+✔ recent shared-entity research excludes self, unrelated and unpublished articles (1.718958ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ article SSR emits the bounded network and two recent related articles as plain anchors (22424.858667ms)
+✔ chronological category neighbors give older indexable research three referring peers (0.693ms)
+✔ compact hydration pool retains exactly the recent cards and chronological reading links (1.6495ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ request-time article SSR carries only rendered news links and hydrates without mismatch (20924.30225ms)
+✔ matching comparisons use the shared complete curated route inventory (0.842709ms)
+✔ five same-locale indexable related editions include the two newest (0.907167ms)
+✔ neutral entity-free articles reserve an informational exchange destination before optional tools (0.891625ms)
+✔ related research excludes malformed dates as well as noindex and missing editions (0.161791ms)
+✔ venue-free multi-topic articles reserve a permitted exchange profile before optional tools (0.3535ms)
+✔ article converter links preserve the complete served universe and fall back for unsupported coins (12.040417ms)
+✔ guard rejects bare/wrong-code links and enforces locale gates (3.965333ms)
+Resolved /go routes:
+/go/binance (mirror-up) -> https://www.binance.com?ref=11350287
+/go/okx (mirror-up) -> https://www.okx.com/join/nexu888
+/go/bybit (mirror-up) -> https://www.bybit.com/register?affiliate_id=48553
+/go/bitget (mirror-up) -> https://partner.bitget.com/bg/C6PRAF
+/go/coinbase (mirror-up) -> https://www.coinbase.com/signup
+/go/kraken (mirror-up) -> https://www.kraken.com/sign-up?ref=7f97gkqw
+/go/gate-io (mirror-up) -> https://www.gate.com/signup/nexubest
+/go/kucoin (mirror-up) -> /exchanges/kucoin
+/go/mexc (mirror-up) -> https://www.mexc.com/register?inviteCode=4BRhe
+/go/htx (mirror-up) -> https://www.htx.com/invite/en-us/1h?invite_code=nexu888
+/go/coinw (mirror-up) -> https://www.coinw.com/register?r=2296057
+/go/backpack (mirror-up) -> https://backpack.exchange/join/luckybitcoin
+/go/deribit (mirror-up) -> /exchanges/deribit
+/go/uniswap (mirror-up) -> https://app.uniswap.org
+/go/pancakeswap (mirror-up) -> https://pancakeswap.finance
+/go/jupiter (mirror-up) -> https://jup.ag
+/go/raydium (mirror-up) -> https://raydium.io
+/go/aerodrome (mirror-up) -> https://aerodrome.finance
+/go/curve (mirror-up) -> https://curve.finance
+/go/hyperliquid (mirror-up) -> https://app.hyperliquid.xyz/join/NEXU888
+/go/dydx (mirror-up) -> https://dydx.trade
+/go/gmx (mirror-up) -> /exchanges/gmx
+/go/drift (mirror-up) -> /exchanges/drift
+/go/aevo (mirror-up) -> https://app.aevo.xyz/
+/go/hashkey (mirror-up) -> https://global.hashkey.com/
+/go/binance-gifts (mirror-up) -> https://www.binance.com/en/referral/tier-reward/2610tierreferral/claim?ref=GRO_100029289_0QEW9
+/go/binance-refer2earn (mirror-up) -> https://www.binance.com/en/referral/earn-together/refer2earn-usdc/claim?ref=GRO_28502_ES1YJ
+/go/binance-tournament (mirror-up) -> https://www.binance.com/en/activity/trading-competition/ref-tournament-oct?ref=11350287
+/go/bitget-alliance (mirror-up) -> https://www.bitget.com/activity/bitget-alliance?clacCode=DPRWSXAS
+/go/kraken-usdg-challenge (mirror-up) -> https://www.kraken.com/competitions/futures-5m-usdg-challenge-10-26?ref=7f97gkqw
+/go/binance-page?to=%2Fen%2Fsupport%2Ffaq (mirror-up) -> https://www.binance.com/en/support/faq?ref=11350287
+/go/bybit-page?to=%2Fen%2Fsupport%2Ffaq (mirror-up) -> https://www.bybit.com/en/support/faq?affiliate_id=48553
+/go/kraken-page?to=%2Fen%2Fsupport%2Ffaq (mirror-up) -> https://www.kraken.com/en/support/faq?ref=7f97gkqw
+/go/binance-alt (mirror-up) -> https://www.bsmkweb.cc/join?ref=11350287
+/go/binance-alt (mirror-down) -> https://www.binance.com?ref=11350287
+/go/okx-alt (mirror-up) -> https://www.topzhjdgxcb.net/join/NEXU888
+/go/okx-alt (mirror-down) -> https://www.okx.com/join/nexu888
+/go/bitget-alt (mirror-up) -> https://partner.bitget.com/bg/neh7w5h9
+/go/bitget-alt (mirror-down) -> https://partner.bitget.com/bg/C6PRAF
+/go/htx-alt (mirror-up) -> https://www.htx.net.in/invite/zh-cn/1h?invite_code=nexu888
+/go/htx-alt (mirror-down) -> https://www.htx.com/invite/en-us/1h?invite_code=nexu888
+/go/gate (mirror-up) -> https://www.gate.com/signup/nexubest
+/go/bybit-stocks (mirror-up) -> https://www.bybit.com/register?affiliate_id=48553
+/go/binance-october-gifts (mirror-up) -> https://www.binance.com/en/referral/tier-reward/2610tierreferral/claim?ref=GRO_100029289_0QEW9
+/go/binance-october (mirror-up) -> https://www.binance.com/en/referral/tier-reward/2610tierreferral/claim?ref=GRO_100029289_0QEW9
+✔ every /go route in the registries redirects with the venue code or campaign id (208.145958ms)
+✖ built SSR and content/data exchange links retain attribution (60.822458ms)
+✔ neutral locale projection closes every venue signup even with a promotable explicit market (16.728667ms)
+✔ news, academy and funding/liquidation shared offers are absent on neutral locales (13.59425ms)
+✔ promotable locale routes and registry destinations remain intact (0.540792ms)
+✔ Türkiye citation rendering retains labels while blocking Bitget external anchors (129.690958ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ actual Turkish home, activities, venue and comparison SSR retain facts without external Bitget links (22886.402292ms)
+✔ calculator retains decimal amounts and accepts valid comma-grouped pastes (58.456167ms)
+✔ calculator preserves a trailing decimal point and zero fractional digits while typing (7.87475ms)
+✔ negative, malformed, non-finite and out-of-range values keep the last valid amount and report an error (38.471291ms)
+✔ empty, zero and maximum stay finite; slider/chips and external values clear stale drafts (17.23475ms)
+✔ invalid-volume feedback is available through the existing 17 locale dictionaries (62.925166ms)
+✔ SSR coin venue links resolve to exactly one matching table row in all 17 locales (1407.680125ms)
+✔ mounted React input keeps decimals, exposes invalid feedback, and recovers through a preset (113.461417ms)
+✔ final cost-calculator href preserves the accepted amount and rejects excess decimal precision (362.251958ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ home exposes native funding cells, links and a single accessible rebate amount (22208.573791ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ compare region names describe unique purposes and liquidation stats keep a level-two outline (17469.327042ms)
+✔ campaign summary shared color has contrast headroom without opacity dilution (9.667541ms)
+✔ home CTA copy stops promising rebate when the rebate share is pending while retaining the code carrier (0.929208ms)
+✔ shared event source distinguishes current, pending review, regional unavailable and no-news states (1.108667ms)
+✔ event state labels exist for every supported public locale (0.13725ms)
+✔ shared official event feed keeps the home, compare and profile source filter identical (0.453375ms)
+✔ the same official announcement fixture is visible in home, compare and profile SSR (1820.306459ms)
+✔ F05 announcement snapshot age, failures and recovery are explicit (1.359042ms)
+✔ F05 serialized clock produces identical first hydration state (0.284209ms)
+✔ F05 all required locales have honest status labels (0.103667ms)
+✔ F05 home SSR reads the request announcement snapshot and serializes it (83.590125ms)
+✔ F05 build fallback preserves collector status and serializes its evaluation clock (4.21925ms)
+✔ F05 request-time home SSR and hydration receive exactly the same live snapshot (1495.07325ms)
+✔ F06 rejects cross-site simple posts before writing and permits same-origin beacons (409.437292ms)
+✔ F07 storage faults are counted, sanitized, and recover; missing directories are created (41.061291ms)
+✔ F07 beacon reports a failed count instead of success (33.474959ms)
+✔ F07 redirect still wins when counting fails (8.737708ms)
+✔ F07 real read-only directory failure is observable and recovers after permissions restore (11.296833ms)
+
+Interrupted while running:
+
+⚠ tests/audit-content.test.mjs (tests/audit-content.test.mjs:1:1)
+⚠ tests/audit-data-2026-10-11.test.mjs (tests/audit-data-2026-10-11.test.mjs:1:1)
+⚠ tests/audit-event-source-ssr.test.mjs (tests/audit-event-source-ssr.test.mjs:1:1)
+⚠ tests/audit-go-policy.test.mjs (tests/audit-go-policy.test.mjs:1:1)
+⚠ tests/audit-news-publication-eligibility.test.mjs (tests/audit-news-publication-eligibility.test.mjs:1:1)
+⚠ tests/audit-performance.test.mjs (tests/audit-performance.test.mjs:1:1)
+⚠ tests/audit-public-built-copy.test.mjs (tests/audit-public-built-copy.test.mjs:1:1)
+⚠ tests/audit-signup-order.test.mjs (tests/audit-signup-order.test.mjs:1:1)
+⚠ tests/audit-source-review-anchor.test.mjs (tests/audit-source-review-anchor.test.mjs:1:1)
+⚠ tests/audit-tokenized-freshness.test.mjs (tests/audit-tokenized-freshness.test.mjs:1:1)
+⚠ tests/backup-retention-policy.test.mjs (tests/backup-retention-policy.test.mjs:1:1)
+⚠ tests/beginner-path.test.mjs (tests/beginner-path.test.mjs:1:1)
+⚠ tests/beginner-server.test.mjs (tests/beginner-server.test.mjs:1:1)
+⚠ tests/binance-liq-stream.test.mjs (tests/binance-liq-stream.test.mjs:1:1)
+⚠ tests/binance-october.test.mjs (tests/binance-october.test.mjs:1:1)
+⚠ tests/bitget-alliance.test.mjs (tests/bitget-alliance.test.mjs:1:1)
+⚠ tests/bitget-guide.test.mjs (tests/bitget-guide.test.mjs:1:1)
+⚠ tests/bluegreen-release-contract.test.mjs (tests/bluegreen-release-contract.test.mjs:1:1)
+⚠ tests/bot-promos-feed.test.mjs (tests/bot-promos-feed.test.mjs:1:1)
+⚠ tests/br-full-funnel-contract.test.mjs (tests/br-full-funnel-contract.test.mjs:1:1)
+⚠ tests/brand-editorial.test.mjs (tests/brand-editorial.test.mjs:1:1)
+⚠ tests/brand-entity.test.mjs (tests/brand-entity.test.mjs:1:1)
+⚠ tests/brand-loading-priority.test.mjs (tests/brand-loading-priority.test.mjs:1:1)
+⚠ tests/brand-slogan.test.mjs (tests/brand-slogan.test.mjs:1:1)
+⚠ tests/brand-tiles.test.mjs (tests/brand-tiles.test.mjs:1:1)
+⚠ tests/brazil-content-depth.test.mjs (tests/brazil-content-depth.test.mjs:1:1)
+⚠ tests/brazil-deadline-topic.test.mjs (tests/brazil-deadline-topic.test.mjs:1:1)
+⚠ tests/brazil-decision.test.mjs (tests/brazil-decision.test.mjs:1:1)
+⚠ tests/brazil-embed.test.mjs (tests/brazil-embed.test.mjs:1:1)
+⚠ tests/brazil-market.test.mjs (tests/brazil-market.test.mjs:1:1)
+⚠ tests/brazil-seo.test.mjs (tests/brazil-seo.test.mjs:1:1)
+⚠ tests/browser-regression.test.mjs (tests/browser-regression.test.mjs:1:1)
+⚠ tests/browser-state.test.mjs (tests/browser-state.test.mjs:1:1)
+⚠ tests/build-data-safety.test.mjs (tests/build-data-safety.test.mjs:1:1)
+⚠ tests/bybit-stocks.test.mjs (tests/bybit-stocks.test.mjs:1:1)
+⚠ tests/campaign-autodraft.test.mjs (tests/campaign-autodraft.test.mjs:1:1)
+⚠ tests/campaign-briefs.test.mjs (tests/campaign-briefs.test.mjs:1:1)
+⚠ tests/campaign-conversion.test.mjs (tests/campaign-conversion.test.mjs:1:1)
+⚠ tests/campaign-intel-refresh.test.mjs (tests/campaign-intel-refresh.test.mjs:1:1)
+⚠ tests/citation-assets-discovery.test.mjs (tests/citation-assets-discovery.test.mjs:1:1)
+⚠ tests/cjk-typography.test.mjs (tests/cjk-typography.test.mjs:1:1)
+⚠ tests/clean-footer-locales-ssr.test.mjs (tests/clean-footer-locales-ssr.test.mjs:1:1)
+⚠ tests/click-human-signal.test.mjs (tests/click-human-signal.test.mjs:1:1)
+⚠ tests/click-report.test.mjs (tests/click-report.test.mjs:1:1)
+⚠ tests/click-truth.test.mjs (tests/click-truth.test.mjs:1:1)
+⚠ tests/client-json-polling-deadline.test.mjs (tests/client-json-polling-deadline.test.mjs:1:1)
+⚠ tests/client-json-polling.test.mjs (tests/client-json-polling.test.mjs:1:1)
+⚠ tests/coins-runtime.test.mjs (tests/coins-runtime.test.mjs:1:1)
+⚠ tests/coins.test.mjs (tests/coins.test.mjs:1:1)
+⚠ tests/commercial-claims.test.mjs (tests/commercial-claims.test.mjs:1:1)
+⚠ tests/compare-any.test.mjs (tests/compare-any.test.mjs:1:1)
+⚠ tests/compare-cls.test.mjs (tests/compare-cls.test.mjs:1:1)
+⚠ tests/compare-compact-pending.test.mjs (tests/compare-compact-pending.test.mjs:1:1)
+⚠ tests/compare-decision-ssr.test.mjs (tests/compare-decision-ssr.test.mjs:1:1)
+⚠ tests/compare-direct-answers.test.mjs (tests/compare-direct-answers.test.mjs:1:1)
+⚠ tests/compare-disclosure-layout.test.mjs (tests/compare-disclosure-layout.test.mjs:1:1)
+⚠ tests/compare-faq-locales.test.mjs (tests/compare-faq-locales.test.mjs:1:1)
+⚠ tests/compare-pairs-market-plan.test.mjs (tests/compare-pairs-market-plan.test.mjs:1:1)
+⚠ tests/compare-reading-structure.test.mjs (tests/compare-reading-structure.test.mjs:1:1)
+⚠ tests/compare-reading-style.test.mjs (tests/compare-reading-style.test.mjs:1:1)
+⚠ tests/compare-scorecard-cta.test.mjs (tests/compare-scorecard-cta.test.mjs:1:1)
+⚠ tests/compare-striking-distance.test.mjs (tests/compare-striking-distance.test.mjs:1:1)
+⚠ tests/content-sweep.test.mjs (tests/content-sweep.test.mjs:1:1)
+⚠ tests/converter-inlinks.test.mjs (tests/converter-inlinks.test.mjs:1:1)
+⚠ tests/converter-seo.test.mjs (tests/converter-seo.test.mjs:1:1)
+⚠ tests/converter-ui.test.mjs (tests/converter-ui.test.mjs:1:1)

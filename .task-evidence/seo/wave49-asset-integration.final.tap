@@ -1,0 +1,12 @@
+✔ Wave49 keeps Wave48 citation assets owned by derivatives and tokenized Treasuries canonicals (87.840042ms)
+✔ Wave49 Perp DEX related links preserve existing canonicals and Wave46 Hyperliquid copy (4.145667ms)
+✔ Wave49 llms generator exposes new assets without creating indexable research URLs (2446.34075ms)
+✔ Wave49 integration preserves protected partner registry SHA (0.490084ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4161.654958

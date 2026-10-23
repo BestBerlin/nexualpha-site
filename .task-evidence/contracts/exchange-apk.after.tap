@@ -1,0 +1,18 @@
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ official URLs, fallbacks and codes are unchanged (18495.659875ms)
+✔ host rule: OKX only on https *.okx.com, Binance only on https download.binance.com (0.256ms)
+✔ probe: healthy chains, off-host targets never fetched, non-APK, missing file, network error, HEAD refused (2.033666ms)
+✔ probe cache: one check per TTL, stale result served while a refresh runs, unhealthy -> fallback (11.831041ms)
+✔ /go/okx-apk and /go/binance-apk 302 to the official URL and count the click like other /go routes (25.249583ms)
+✔ /go/<venue>-apk falls back to the official download page when the chain breaks or leaves the venue's host (114.0395ms)
+✔ buttons: after the store buttons, nofollow, /go route, size, native copy; codes + copy buttons; neutral locales none (772.387583ms)
+✔ button gating: other venues, an explicit restricted market and hydration (1686.467792ms)
+✔ no APK is hosted and the APK modules only know the exchanges' own URLs (5.757ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22623.587958

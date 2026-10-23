@@ -108,27 +108,30 @@ test('link checker accepts only HTTPS exact approved domains and rejects spoofin
   assert.equal(checkBeginnerLink('https://example.org/').kind, 'unknown');
 });
 
-test('all 170 sitemap pages have matching Worker and app metadata, full reciprocal hreflang and 50 visible FAQ answers', async () => {
+test('all 170 beginner editions have matching Worker and app metadata, reviewed reciprocal hreflang and 50 visible FAQ answers', async () => {
   const entries = beginnerSitemapEntries(); assert.equal(entries.length, 170);
   assert.equal(new Set(entries.map(e => e.loc)).size, 170);
   for (const entry of entries) {
     assert.equal(beginnerAliasRedirect(entry.loc), null, entry.loc);
     const metadata = await routeMetadata(new URL(entry.loc), {});
     assert.equal(metadata.status, 200, entry.loc);
-    assert.equal(metadata.robots, 'index,follow', entry.loc);
+    const reviewPending = ['ur', 'uk'].includes(entry.locale);
+    const alternates = reviewPending ? [] : entry.alternates.filter(alt => !['ur', 'uk'].includes(alt.hreflang));
+    assert.equal(metadata.robots, reviewPending ? 'noindex,follow' : 'index,follow', entry.loc);
     assert.equal(metadata.canonical, entry.loc);
-    assert.equal(metadata.alternates.length, 18);
-    assert.deepEqual(metadata.alternates, entry.alternates);
+    assert.equal(metadata.alternates.length, reviewPending ? 0 : 16);
+    assert.deepEqual(metadata.alternates, alternates);
     assert.ok(metadata.title.length <= 60, `${entry.loc}: ${metadata.title}`);
     assert.ok(metadata.description.length <= 155, `${entry.loc}: ${metadata.description}`);
     assert.doesNotMatch(`${metadata.title} ${metadata.description}`, /promotable|official terms|terms apply|subject to|可推广|以.*为准|官方条款|平台条款|以.*為準|官方條款|平台條款/i);
     const app = computeRouteSeo({ url: entry.loc });
     assert.equal(app.canonical, entry.loc);
     assert.equal(app.locale, entry.locale);
-    assert.deepEqual(app.alternates, entry.alternates);
+    assert.equal(app.robots, metadata.robots, entry.loc);
+    assert.deepEqual(app.alternates, alternates);
     const route = parseBeginnerPath(entry.pathname, entry.locale);
     if (route.kind === 'questions') assert.equal(metadata.schema.find(s => s['@type'] === 'FAQPage').mainEntity.length, 50);
-    for (const alt of entry.alternates.filter(a => a.hreflang !== 'x-default')) {
+    for (const alt of alternates.filter(a => a.hreflang !== 'x-default')) {
       assert.equal(beginnerAliasRedirect(alt.href), null, alt.href);
       const altUrl = new URL(alt.href); const parsed = parsePublicRoute(altUrl.pathname, altUrl.searchParams);
       assert.ok(beginnerRouteSeo(parsed.contentPathname, parsed.locale)?.indexable, alt.href);

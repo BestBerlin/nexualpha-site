@@ -1,0 +1,11 @@
+✔ country expansion preserves neutral markets, dated answers and visible schema row counts (49.439708ms)
+✔ all requested jurisdictions have reproducible research and entity provenance (4.416041ms)
+✔ published sitemap and localized schemas agree with indexable visible records (240.501ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 465.86525

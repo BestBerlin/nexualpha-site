@@ -1,3 +1,4 @@
+import { JSDOM } from 'jsdom';
 import { committedFileHash } from './r100-test-contracts.mjs';
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
@@ -196,7 +197,15 @@ test("R43 news and topic owners mount contextual Telegram handoff back to their 
   assert.match(html, /data-telegram-return-route="\/news\/r43-content-bridge-fixture"/);
   assert.match(html, /data-telegram-return-route="\/topics\/derivatives"/);
   assert.match(html, /data-telegram-return-route="\/topics\/derivatives"/);
-  assert.doesNotMatch(html, protectedMaterial);
+  // Article sponsored slots may carry codes; contextual Telegram handoffs may not.
+  const document = new JSDOM(html).window.document;
+  const handoffs = [...document.querySelectorAll('[data-telegram-owner-level="true"]')];
+  assert.equal(handoffs.length, 2);
+  for (const handoff of handoffs) {
+    assert.doesNotMatch(handoff.outerHTML, protectedMaterial);
+    assert.equal(handoff.getAttribute('data-cta-kind'), 'telegram');
+    assert.equal(handoff.querySelectorAll('a[href^="/go/"]').length, 0);
+  }
 });
 
 test("R40 page owners mount contextual Telegram handoff without editing protected CTA registries", async () => {

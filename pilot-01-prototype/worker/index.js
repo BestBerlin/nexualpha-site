@@ -4388,7 +4388,7 @@ function renderNewsFallbackBody(metadata, url) {
   const endSponsoredHtml = renderSponsoredSlotHtml(promotions, { variant: "end", locale, market });
   const sidebarSponsoredHtml = renderSponsoredSlotHtml(promotions, { variant: "sidebar", locale, market });
   const railSponsoredHtml = sidebarSponsoredHtml ? `<div class="news-detail__rail"><div class="news-detail__rail-sticky">${sidebarSponsoredHtml}</div></div>` : "";
-  const relatedLinksHtml = renderArticleClusterLinksHtml(article, locale) + renderNewsRelatedArticlesHtml(article, metadata.newsArticles, locale) + renderArticleRelatedLinks(article, locale, market);
+  const relatedLinksHtml = renderArticleClusterLinksHtml(article, locale, market) + renderNewsRelatedArticlesHtml(article, metadata.newsArticles, locale) + renderArticleRelatedLinks(article, locale, market);
   const sourcesHtml = Array.isArray(article.sources) && article.sources.length
     ? `<h2>${escapeHtml(t.sources)}</h2><ul>${article.sources.map((source) => `<li><a href="${escapeHtml(source?.url || "#")}" rel="noopener noreferrer">${escapeHtml(source?.publisher || source?.title || source?.url || "Source")}${source?.title ? `: ${escapeHtml(source.title)}` : ""}</a></li>`).join("")}</ul>`
     : "";
@@ -4516,8 +4516,8 @@ function renderNewsRelatedArticlesHtml(article, articles, locale) {
 }
 
 // "Topic hubs & tools" (links-l10n lane 2026-10-11, scorecard C5/D4): the same cluster links NewsDetailPage renders.
-function renderArticleClusterLinksHtml(article, locale) {
-  const links = articleClusterLinks(article, locale);
+function renderArticleClusterLinksHtml(article, locale, market) {
+  const links = articleClusterLinks(article, locale).filter(link => newsMetadataAllowed(link, { locale, market }));
   if (!links.length) return "";
   return `<p class="news-detail__cluster-links" data-news-cluster-links=""><span>${escapeHtml(articleClusterLineLabel(locale))}:</span> ${links.map((link) => `<a href="${escapeHtml(link.href)}" data-cluster-link="${escapeHtml(link.id)}">${escapeHtml(link.label)}</a>`).join(" · ")}</p>`;
 }

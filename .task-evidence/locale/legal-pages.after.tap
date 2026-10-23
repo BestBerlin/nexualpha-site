@@ -1,0 +1,28 @@
+TAP version 13
+# Subtest: legal metadata: six indexable URLs and English canonical for other locales
+ok 1 - legal metadata: six indexable URLs and English canonical for other locales
+  ---
+  duration_ms: 17.332334
+  type: 'test'
+  ...
+# Subtest: legal SSR through worker: 200, headings, canonical, hreflang, footer and external contacts
+ok 2 - legal SSR through worker: 200, headings, canonical, hreflang, footer and external contacts
+  ---
+  duration_ms: 467.102125
+  type: 'test'
+  ...
+# Subtest: legal sitemap source, generated inventory and runtime sitemap include only the two published editions
+ok 3 - legal sitemap source, generated inventory and runtime sitemap include only the two published editions
+  ---
+  duration_ms: 3884.093167
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5106.767583

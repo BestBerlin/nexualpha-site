@@ -52,7 +52,7 @@ test("four app routes SSR in English and Simplified Chinese with matching client
     const client = computeRouteSeo({ url: `https://nexualpha.com${path}`, locale });
     assert.equal(client.status, 200);
     assert.equal(html.match(/<title[^>]*>([^<]*)<\/title>/)?.[1], client.title);
-    assert.equal((html.match(/rel="alternate" hreflang=/g) || []).length, 18);
+    assert.equal((html.match(/rel="alternate" hreflang=/g) || []).length, 16);
     const ld = schemas(html);
     const software = ld.find((row) => row["@type"] === "SoftwareApplication");
     assert.equal(software.operatingSystem, "iOS, Android");
@@ -75,14 +75,14 @@ test("four app routes SSR in English and Simplified Chinese with matching client
   }
 });
 
-test("all locale editions are localized and indexable, neutral locales never contain a sign-up block", async () => {
+test("all locale editions are localized, native-review editions stay noindex and neutral locales never contain a sign-up block", async () => {
   const locales = Object.keys(LOCALE_PREFIX_BY_CODE);
   assert.deepEqual(Object.keys(APP_DOWNLOAD_COPY).sort(), locales.sort());
   for (const locale of locales) {
     const path = localizedPath(appDownloadPath("okx"), locale);
     const html = await (await fetchPage(path)).text();
     assert.deepEqual(h1Texts(html), [appDownloadContent("okx", locale).text("title")]);
-    assert.match(html, /name="robots" content="index,follow"/);
+    assert.match(html, new RegExp(`name="robots" content="${["ur", "uk"].includes(locale) ? "noindex" : "index"},follow"`));
     assert.ok(APP_DOWNLOAD_COPY[locale].answer);
     assert.equal(APP_DOWNLOAD_COPY[locale].steps.length, 3);
     if (locale !== "en") assert.notEqual(APP_DOWNLOAD_COPY[locale].answer, APP_DOWNLOAD_COPY.en.answer);
@@ -158,8 +158,10 @@ test("profile crosslinks, lazy route module, sitemap index and unsupported app r
   assert.equal((await fetchPage("/exchanges/kraken/app")).status, 404);
   assert.equal((await fetchPage("/exchanges/okx/app/nope")).status, 404);
   const sitemap = buildAppsSitemap();
-  assert.equal(sitemap.count, APP_DOWNLOAD_SLUGS.length * 17);
-  for (const locale of Object.keys(LOCALE_PREFIX_BY_CODE)) for (const slug of APP_DOWNLOAD_SLUGS) assert.ok(sitemap.xml.includes(`<loc>https://nexualpha.com${localizedPath(appDownloadPath(slug), locale)}</loc>`));
+  assert.equal(sitemap.count, APP_DOWNLOAD_SLUGS.length * 15);
+  for (const locale of Object.keys(LOCALE_PREFIX_BY_CODE)) for (const slug of APP_DOWNLOAD_SLUGS) {
+    assert.equal(sitemap.xml.includes(`<loc>https://nexualpha.com${localizedPath(appDownloadPath(slug), locale)}</loc>`), !["ur", "uk"].includes(locale), `${locale}/${slug}`);
+  }
   assert.ok(buildSplitSitemaps([], []).index.includes("https://nexualpha.com/sitemap-apps.xml"));
   assert.equal(await (await fetchPage("/sitemap-apps.xml")).text(), sitemap.xml);
   const head = await worker.fetch(new Request("https://nexualpha.com/sitemap-apps.xml", { method: "HEAD" }), { ASSETS: assets });

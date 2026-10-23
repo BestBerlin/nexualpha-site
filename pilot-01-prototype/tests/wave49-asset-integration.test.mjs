@@ -73,7 +73,7 @@ test("Wave49 Perp DEX related links preserve existing canonicals and Wave46 Hype
   const dydx = computeRouteSeo({ url: "/exchanges/dydx", locale: "en" });
   const comparison = computeRouteSeo({ url: "/compare/hyperliquid-vs-dydx", locale: "en" });
 
-  assert.match(hyperliquid.title, /Hyperliquid.*fees.*wallet/i);
+  assert.match(hyperliquid.title, /Hyperliquid.*fees.*rebates.*funded account/i);
   assert.match(hyperliquid.description, /maker\/taker/i);
   assert.match(hyperliquid.description, /eligible referrals|account|wallet/i);
   assert.equal(comparison.canonical, "https://nexualpha.com/compare/hyperliquid-vs-dydx");

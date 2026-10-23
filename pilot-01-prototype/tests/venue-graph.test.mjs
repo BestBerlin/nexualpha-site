@@ -51,6 +51,7 @@ test("vite config pins the venue graph: shared helpers, CSS-only route-v3-pages-
   assert.equal(chunk("/src/components/v3/venue-detail-shared.jsx"), "route-v3-venue");
   assert.equal(chunk("/src/components/v3/VenueDetailResearch.jsx"), "route-v3-venue-research");
   assert.equal(chunk("/src/components/shared/json-polling.js"), "shared-json-polling");
+  assert.equal(chunk("/src/data/intel-tools-links.js"), "data-market-nav");
   assert.equal(chunk("/src/components/v3/v3-pages-shared.jsx"), "route-v3-pages-shared");
   assert.equal(chunk("/src/components/v3/TelegramReturnBanner.jsx"), "route-v3-pages-return-banner");
   assert.equal(chunk("/src/components/v3/telegram-return-banner.css"), "route-v3-pages-return-banner");

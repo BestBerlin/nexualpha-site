@@ -1,0 +1,12 @@
+✔ R48 maps six search opportunities to one canonical owner and one support boundary (0.8065ms)
+✔ R48 Aerodrome and GMX use concise decision-first English snippets in client and worker (64.703375ms)
+✔ R48 Gate.io owner is source-bound, internally connected and mirrored to the worker (11.005292ms)
+✔ R48 keeps all protected invitation and CTA registries byte-identical (42.275708ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1660.518083

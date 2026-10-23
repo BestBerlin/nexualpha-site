@@ -1,0 +1,12 @@
+Preserve trustworthy regression coverage after the merged waves
+
+Align intended publication and search contracts while fixing market-filter and venue-preload regressions.
+
+Constraint: Preserve registry facts, rebate shares, invite codes, CTA URLs and fee facts.
+Rejected: Blanket skips or relaxed geometry and timing bounds | They would hide unresolved regressions.
+Confidence: medium
+Scope-risk: moderate
+Directive: Recheck enlarged Chinese headline geometry in a browser-capable runner before visual closure.
+Tested: Build, strict 349903-byte gzip home budget, typecheck, syntax checks, 4603 tests with 4020 passed, 583 skipped and zero failed; built SEO audit of 6795 pages with zero findings.
+Not-tested: Browser geometry is blocked by loopback EPERM and unavailable browser execution.
+Co-Authored-By: Codex <noreply@openai.com>

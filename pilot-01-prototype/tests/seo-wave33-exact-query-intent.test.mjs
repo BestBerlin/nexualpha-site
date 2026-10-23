@@ -35,11 +35,11 @@ test("Wave33 Hyperliquid exact queries cover fees and funded-account boundaries 
   assert.equal(server.canonical, `https://nexualpha.com${path}`);
   assert.equal(client.robots, "index,follow");
   assert.equal(server.robots, "index,follow");
-  // Class b: 31c834d/owner exchange-keyword plan intentionally use referral-code title/description copy.
-  assert.match(client.title, /Hyperliquid fees & wallet setup — referral code/);
-  assert.match(server.title, /Hyperliquid fees & wallet setup — referral code/);
-  assert.match(client.description, /eligible referrals save/);
-  assert.match(server.description, /eligible referrals save/);
+  // The current English GSC snippet leads with fee and funded-account intent.
+  assert.match(client.title, /Hyperliquid fees, rebates & funded account checks/);
+  assert.match(server.title, /Hyperliquid fees, rebates & funded account checks/);
+  assert.match(client.description, /rebates mean a conditional 4% fee discount/);
+  assert.match(server.description, /rebates mean a conditional 4% fee discount/);
   assert.match(joined, /rolling 14-day volume/);
   assert.match(joined, /peer-to-peer and paid every hour/);
   assert.match(joined, /equity falls below maintenance margin/);

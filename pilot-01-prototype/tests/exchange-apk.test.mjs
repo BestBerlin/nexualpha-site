@@ -150,10 +150,14 @@ test("/go/okx-apk and /go/binance-apk 302 to the official URL and count the clic
     assert.equal(res.headers.get("cache-control"), "no-store");
   }
   await handle(new Request("https://nexualpha.com/go/okx-apk?src=app-apk-en", { headers: { "user-agent": "Googlebot/2.1" } }));
-  await new Promise((r) => setTimeout(r, 50));
+  await handle(new Request("https://nexualpha.com/go/okx-apk?src=app-apk-en", { headers: { "user-agent": "Mozilla/5.0 NexuAlpha-internal/apk-test" } }));
   const rows = (await readFile(eventFile, "utf8")).trim().split("\n").map((l) => JSON.parse(l));
-  assert.deepEqual(rows.map((r) => [r.partner, r.src, r.venue, r.campaign]).sort(),
-    [["binance-apk", "app-apk-en", "binance", "android-apk"], ["okx-apk", "app-apk-en", "okx", "android-apk"]], "human clicks only, crawler not counted");
+  assert.equal(rows.length, 3, "visitor and bot evidence is stored; internal QA writes no row");
+  assert.deepEqual(rows.map((r) => r.cls).sort(), ["bot", "unknown", "unknown"], "requests without a validated IP are not claimed as human");
+  assert.deepEqual(rows.filter((r) => r.cls !== "bot").map((r) => [r.partner, r.src, r.venue, r.campaign]).sort(),
+    [["binance-apk", "app-apk-en", "binance", "android-apk"], ["okx-apk", "app-apk-en", "okx", "android-apk"]], "visitor APK attribution is unchanged");
+  const bot = rows.find((r) => r.cls === "bot");
+  assert.deepEqual([bot.partner, bot.src, bot.venue, bot.campaign], ["okx-apk", "app-apk-en", "okx", "android-apk"], "crawler evidence retains its APK context for exclusion by reports");
 });
 
 test("/go/<venue>-apk falls back to the official download page when the chain breaks or leaves the venue's host", async () => {

@@ -20,7 +20,7 @@ test('legal metadata: six indexable URLs and English canonical for other locales
     for (const result of [await routeMetadata(new URL(url), {}), computeRouteSeo({ url, locale })]) {
       assert.equal(result.status, 200, url);
       for (const key of ['canonical', 'locale', 'robots', 'title']) assert.equal(result[key], expected[key], `${url} ${key}`);
-      assert.deepEqual(result.alternates, expected.alternates, url);
+      assert.deepEqual(result.alternates, ['ur', 'uk'].includes(locale) ? [] : expected.alternates, url);
     }
   }
 });

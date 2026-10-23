@@ -1,0 +1,23 @@
+✔ matrix deadline accepts a 3.2s cold loader and JSON second request serves data (3210.738875ms)
+ℹ slow collector first/second requests: 3209.9ms total
+✔ opted-in current flight publishes after timeout, retains stale on failure, rejects superseded flights (44.919709ms)
+✔ reader cached access returns immediately, refreshes in background and retains last good data (4.584875ms)
+✔ SSR bounds cold feed wait, background result primes JSON and warm SSR (310.191541ms)
+ℹ cold SSR 288.8ms; warm SSR 15.9ms
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ saved full production snapshot renders through real SSR entry below 1.5s (15085.571458ms)
+ℹ /en production snapshot SSR 117.3ms
+ℹ /zh-hans production snapshot SSR 140.4ms
+ℹ /ar production snapshot SSR 48.1ms
+✔ built runtime renders the production snapshot within the request budget (1120.706167ms)
+ℹ built runtime cold response 988.8ms
+ℹ built runtime warm response 130.8ms
+✔ matrix chunk matcher ignores funding-matrix in the worktree directory (9.451959ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 21414.162083

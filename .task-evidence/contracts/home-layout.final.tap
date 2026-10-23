@@ -1,0 +1,18 @@
+✔ layout targets exist in current commercial and neutral SSR homes (1433.920667ms)
+▶ current homepage browser geometry
+  ﹣ hero, whale board and calculator keep their hierarchy across locales and widths (0.101584ms) # Local loopback listening is unavailable (EPERM on 127.0.0.1)
+  ﹣ commercial hero copy, calculator panel and globe stay inside the hero at Chinese breakpoints (0.04875ms) # Local loopback listening is unavailable (EPERM on 127.0.0.1)
+  ﹣ unavailable live feeds leave a usable calculator and footer without an invented sentiment block (0.05175ms) # Local loopback listening is unavailable (EPERM on 127.0.0.1)
+  ﹣ English mobile calculator venue names remain visible without clipping (0.05125ms) # Local loopback listening is unavailable (EPERM on 127.0.0.1)
+  ﹣ Chinese homes remain readable at 320px with enlarged root text (0.037083ms) # Local loopback listening is unavailable (EPERM on 127.0.0.1)
+  ﹣ Arabic market figures use explicit left-to-right isolation (0.041583ms) # Local loopback listening is unavailable (EPERM on 127.0.0.1)
+  ﹣ neutral Chinese hero retains the fee board and calculator instead of a commercial panel (44.096833ms) # Local loopback listening is unavailable (EPERM on 127.0.0.1)
+✔ current homepage browser geometry (48.600125ms)
+ℹ tests 8
+ℹ suites 1
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 7
+ℹ todo 0
+ℹ duration_ms 2998.592833

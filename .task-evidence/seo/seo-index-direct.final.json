@@ -1,0 +1,23 @@
+{
+  "generatedAt": "2026-10-22T21:52:26.514Z",
+  "ok": true,
+  "stats": {
+    "sitemapFiles": 31,
+    "sitemapUrls": 5561,
+    "contentLastmodsChecked": 5552,
+    "manifestRoutes": 2314,
+    "hreflangTargets": 4727,
+    "renderedPages": 6795,
+    "llmsPageRefs": 386,
+    "llmsStaticRefs": 64,
+    "renderErrors": 0,
+    "failures": 0
+  },
+  "failuresByKind": {},
+  "samples": {},
+  "inputs": {
+    "root": "/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype",
+    "sitemap": "/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/dist/client/sitemap.xml",
+    "baseUrl": "https://nexualpha.com"
+  }
+}

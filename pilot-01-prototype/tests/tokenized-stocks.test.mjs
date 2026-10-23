@@ -260,7 +260,7 @@ test("exchange profiles show the tokenized-stocks block where the exchange lists
 
 test("sitemap: every edition with hreflang, listed in the index and robots.txt, committed copy current", async () => {
   const sitemap = buildTokenizedStocksSitemap();
-  for (const locale of TS_INDEX_LOCALES) assert.ok(sitemap.xml.includes(`<loc>https://nexualpha.com${localizedPath(TS_PATH, locale)}</loc>`), locale);
+  for (const locale of TS_INDEX_LOCALES) assert.equal(sitemap.xml.includes(`<loc>https://nexualpha.com${localizedPath(TS_PATH, locale)}</loc>`), !["ur", "uk"].includes(locale), locale);
   assert.ok(sitemap.xml.includes("https://nexualpha.com/zh-hans/tokenized-stocks/nvda"));
   assert.match(sitemap.xml, /hreflang="x-default"/);
   const split = buildSplitSitemaps(routeInventory([]), []);

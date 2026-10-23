@@ -1,0 +1,35 @@
+✔ the venue route preloads its own module; compare, activities and 404 keep the V3 pages module (9.67375ms)
+✔ vite config pins the venue graph: shared helpers, CSS-only route-v3-pages-* chunks and the preload helper (4.335708ms)
+✔ the Worker keeps linking the venue page's stylesheets (all route-v3-pages-* chunks on /exchanges/<slug>) (5.505667ms)
+✖ built entry: the venue route's preload list excludes the compare, activity and topic-guide graphs (11.419958ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ DeferUntilVisible interactionOnly renders the server HTML and opens only on interaction or an open <details> (15624.597959ms)
+✔ SSR venue and home pages hydrate without mismatches in en, it and ar (5115.714625ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22472.071333
+
+✖ failing tests:
+
+test at tests/venue-graph.test.mjs:99:1
+✖ built entry: the venue route's preload list excludes the compare, activity and topic-guide graphs (11.419958ms)
+  AssertionError [ERR_ASSERTION]: home-below-fold must not preload with the venue route (got route-v3-venue, route-v3-registration, vendor-react, shared-registration-helpers, core-shared, data-telegram, data-v3-product, shared-copy-feedback, shared-telegram-return, route-apps, core-ui, route-apps, route-v3-registration, data-referral-seo, route-v3-pages-shared, shared-venue-copy, shared-brazil-paths, data-v3-interface-copy, shared-answer-first, route-licenses, route-licenses, shared-fiat, route-v3-pages-strip, route-v3-pages-strip, shared-exchange-facts, shared-glossary-tooltip, shared-glossary-tooltip, shared-hero-copy, data-priority-venue-answers, data-decision-content, data-research, data-campaign-copy, route-v3-readiness, route-v3-readiness, route-v3-pages-return-banner, route-v3-pages-return-banner, route-v3-venue-faq, route-data-assets, shared-tokenized-stocks, route-data, shared-market-events-client, shared-json-polling, shared-telegram-cta, route-news-shared, shared-research, data-news-library, route-coins, route-radar, shared-whales, route-radar, route-coins, route-funding-matrix, route-funding-matrix, route-news-shared, home-below-fold, shared-home-calculator, shared-campaign-feature, data-aeo-questions, data-brazil-market, data-topic-guides, home-below-fold, page-home-movers, route-data, route-data-assets, route-v3-pages-detail-stocks, route-v3-pages-detail-stocks, route-v3-venue, route-v3-pages-detail, page-profile-fiat, page-profile-mid1, route-v3-pages-growth)
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/venue-graph.test.mjs:107:12)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

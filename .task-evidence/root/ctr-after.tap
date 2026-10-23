@@ -1,0 +1,14 @@
+✔ partner profile titles answer the sign-up query within the title budget (10.398625ms)
+✔ neutral locales (ru, ar, zh-Hant, ur, uk, vi) get no codes or sign-up titles (0.087958ms)
+✔ news SERP overrides stay within 60/155 characters and only apply to their edition (0.156959ms)
+✔ registration tutorials open with a link to the exchange profile (and app page) (1.132333ms)
+✔ split queries point at one owner (0.763042ms)
+✔ app route heads carry the new English titles (10.901459ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 725.107833

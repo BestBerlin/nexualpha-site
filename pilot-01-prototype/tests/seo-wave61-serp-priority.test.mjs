@@ -55,7 +55,7 @@ test("Wave61 default compare pages use distinct sourced SERP answers without tou
     if (direct) {
       assert.equal(client.title, direct.seoTitle, path);
       assert.equal(faqEntries(clientFaq)[0].acceptedAnswer.text, direct.body, `${path}: sourced direct fee answer`);
-      assert.match(JSON.stringify(faqEntries(clientFaq)), /who has lower fees/);
+      assert.match(JSON.stringify(faqEntries(clientFaq)), /who has lower (?:spot )?fees/);
     } else {
       assert.match(client.title, titlePattern, path);
       assert.match(`${client.description} ${JSON.stringify(faqEntries(clientFaq))}`, answerPattern, path);

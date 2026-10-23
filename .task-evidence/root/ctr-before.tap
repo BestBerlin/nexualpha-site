@@ -1,0 +1,32 @@
+✖ partner profile titles answer the sign-up query within the title budget (9.850833ms)
+✔ neutral locales (ru, ar, zh-Hant, ur, uk, vi) get no codes or sign-up titles (0.135125ms)
+✔ news SERP overrides stay within 60/155 characters and only apply to their edition (0.168084ms)
+✔ registration tutorials open with a link to the exchange profile (and app page) (1.091083ms)
+✔ split queries point at one owner (0.549084ms)
+✔ app route heads carry the new English titles (12.743125ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 729.222625
+
+✖ failing tests:
+
+test at tests/ctr-titles-2026-10-13.test.mjs:25:1
+✖ partner profile titles answer the sign-up query within the title budget (9.850833ms)
+  AssertionError [ERR_ASSERTION]: backpack/pt-BR description 160
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/ctr-titles-2026-10-13.test.mjs:31:14)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.start (node:internal/test_runner/test:1096:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

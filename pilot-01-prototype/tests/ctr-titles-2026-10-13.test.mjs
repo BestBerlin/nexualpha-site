@@ -15,6 +15,7 @@ import { NEWS_HUB_SEO_EN } from "../src/data/news-list-copy.js";
 import { NEWS_CANONICAL_TARGETS } from "../src/data/news-search-state.generated.js";
 import { routeMetadata } from "../worker/index.js";
 import { NEUTRAL_CTA_LOCALE_LIST } from "../src/data/locale-policy.js";
+import { metaDescriptionLimit } from "../src/data/meta-description.js";
 
 const PROMOTABLE = ["en", "zh-Hans", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "tr", "id"];
 const NEUTRAL = [...NEUTRAL_CTA_LOCALE_LIST];
@@ -28,7 +29,7 @@ test("partner profile titles answer the sign-up query within the title budget", 
       const seo = referralSeoFor(partner.slug, locale);
       if (!seo) continue;
       assert.ok(isNativeReferralTitle(seo.title, locale) || isStrikingDistanceVenueTitle(seo.title, locale) || seo.title.length <= budget(locale), `${partner.slug}/${locale} title ${seo.title.length}: ${seo.title}`);
-      assert.ok(seo.description.length <= 155, `${partner.slug}/${locale} description ${seo.description.length}`);
+      assert.ok(seo.description.length <= metaDescriptionLimit(locale), `${partner.slug}/${locale} description ${seo.description.length}`);
       assert.doesNotMatch(seo.description, /Partner link|Enlace de socio|Link de parceiro|Partnerlink|Lien partenaire|Ortaklık bağlantısı|Tautan mitra/i, `${partner.slug}/${locale} carries no fine print`);
       assert.doesNotMatch(`${seo.title} ${seo.description}`, HYPE);
     }

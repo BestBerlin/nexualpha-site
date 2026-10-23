@@ -1,0 +1,53 @@
+TAP version 13
+# ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+# Subtest: app download venue lists use the shared priority order and filter Bitget for Turkish defaults
+ok 1 - app download venue lists use the shared priority order and filter Bitget for Turkish defaults
+  ---
+  duration_ms: 18216.513666
+  type: 'test'
+  ...
+# Subtest: four app routes SSR in English and Simplified Chinese with matching client SEO and hydration
+ok 2 - four app routes SSR in English and Simplified Chinese with matching client SEO and hydration
+  ---
+  duration_ms: 1996.8665
+  type: 'test'
+  ...
+# Subtest: all locale editions are localized, native-review editions stay noindex and neutral locales never contain a sign-up block
+ok 3 - all locale editions are localized, native-review editions stay noindex and neutral locales never contain a sign-up block
+  ---
+  duration_ms: 618.348416
+  type: 'test'
+  ...
+# Subtest: all app download locales render the source check date with locale-aware UI text
+ok 4 - all app download locales render the source check date with locale-aware UI text
+  ---
+  duration_ms: 474.964667
+  type: 'test'
+  ...
+# Subtest: Turkey and explicit market context use partner geo gating, including SSR
+ok 5 - Turkey and explicit market context use partner geo gating, including SSR
+  ---
+  duration_ms: 1601.597125
+  type: 'test'
+  ...
+# Subtest: APK data fails closed and a reviewed separate-host build exposes its metadata
+ok 6 - APK data fails closed and a reviewed separate-host build exposes its metadata
+  ---
+  duration_ms: 11.207042
+  type: 'test'
+  ...
+# Subtest: profile crosslinks, lazy route module, sitemap index and unsupported app routes
+ok 7 - profile crosslinks, lazy route module, sitemap index and unsupported app routes
+  ---
+  duration_ms: 4081.219416
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 29642.021834

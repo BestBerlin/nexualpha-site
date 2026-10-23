@@ -40,7 +40,7 @@ test("radar metadata is canonical, indexable and schema stays visible-page truth
       assert.equal(seo.status, 200, href);
       assert.equal(metadata.status, 200, href);
       const routeLocales = kind === "whales" ? WHALES_INDEX_LOCALES : LONG_SHORT_INDEX_LOCALES;
-      const indexable = routeLocales.includes(locale);
+      const indexable = routeLocales.includes(locale) && !["ur", "uk"].includes(locale);
       assert.equal(metadata.robots, indexable ? "index,follow" : "noindex,follow", href);
       assert.equal(metadata.canonical, `${ORIGIN}${href}`, href);
       assert.equal(metadata.marker, "NEXUALPHA_RADAR_ROUTE_V1", href);
@@ -95,11 +95,12 @@ test("radar inventory and sitemap cover every locale prefix", () => {
   for (const locale of RADAR_INDEX_LOCALES) {
     assert.match(sitemap, new RegExp(`<loc>${ORIGIN}${localizedPath("/long-short", locale)}</loc>`), locale);
   }
-  for (const locale of WHALES_INDEX_LOCALES) {
+  for (const locale of WHALES_INDEX_LOCALES.filter((locale) => !["ur", "uk"].includes(locale))) {
     assert.match(sitemap, new RegExp(`<loc>${ORIGIN}${localizedPath("/whales", locale)}</loc>`), locale);
   }
-  assert.doesNotMatch(sitemap, new RegExp(`<loc>${ORIGIN}${localizedPath("/long-short", "ur")}</loc>`));
-  assert.doesNotMatch(sitemap, new RegExp(`<loc>${ORIGIN}${localizedPath("/long-short", "uk")}</loc>`));
+  for (const pathname of ["/long-short", "/whales"]) for (const locale of ["ur", "uk"]) {
+    assert.doesNotMatch(sitemap, new RegExp(`<loc>${ORIGIN}${localizedPath(pathname, locale)}</loc>`));
+  }
 });
 
 

@@ -1,0 +1,20 @@
+✔ brand entity facts: one Organization @id, logo ImageObject, Telegram sameAs, Research Desk department, no people (1.485959ms)
+✔ /about and /editorial-policy route metadata in all 15 locales: indexable, self-canonical, length-bounded, 16 hreflang, entity JSON-LD (107.068292ms)
+✔ home, article and data pages emit the same Organization @id and Research Desk author (1135.78325ms)
+✔ worker serves /about and /editorial-policy in every locale with the static-route marker and renders the brand page body when a renderer exists (80.556542ms)
+✔ about, editorial-policy pages, byline and footer render localized in all 15 locales (SSR) and link the entity routes (615.7175ms)
+✔ server build ships brand-entity.js and the brand pages have their own style chunk allow-listed (64.414ms)
+✔ canonical benefit-first entity definition is shared by home head, About, retrieval and schema (37.176833ms)
+✔ meta description limit is 160 across locales (2.840542ms)
+✔ clampMetaDescription cuts at a word or punctuation boundary without a trailing fragment (1.318ms)
+✔ route metadata stays within the description budget for every locale and commercial route (250.527375ms)
+✔ home title carries the commercial search intent per locale and keeps the reviewed brand title within 70 characters (20.659833ms)
+✔ article meta descriptions expand short or boilerplate snippets from article-owned text (1.302125ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2895.1975

@@ -103,7 +103,7 @@ test("listing routes are server-rendered by NewsListPage: one H1 equal to the cl
       if (row.availableLocales?.includes(locale)) assert.ok(expectedHref.endsWith(`/news/${row.slug}`), `${path}: ${row.slug} keeps its native article link`);
       assert.equal(row.content, undefined, `${path}: list hydration is summary-only`);
       assert.equal(row.sources, undefined, `${path}: list hydration carries no sources`);
-      assert.equal(row.seo, undefined, `${path}: list hydration carries no seo block`);
+      assert.deepEqual(row.seo, { noindex: false }, `${path}: list hydration preserves only the publication flag`);
     }
   }
 });

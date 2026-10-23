@@ -1,0 +1,10 @@
+✔ Wave33 Hyperliquid exact queries cover fees and funded-account boundaries without promises (97.801625ms)
+✔ Wave33 Uniswap testnet query says testnet is not mainnet real-money execution (20.353209ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1719.875458

@@ -1,0 +1,101 @@
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+TypeError: fetch failed
+
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+TypeError: fetch failed
+
+✔ [paraglide-js] Compilation complete (locale-modules)
+[NexuAlpha] route fallback SSR failed for /topics (ja): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /topics (ja): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /factbook (ar): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /topics/tokenized-assets (ko): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /topics (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] route fallback SSR failed for /topics (ja): __vite_ssr_import_0__.m[key] is not a function
+✖ locale fallback editions are server-rendered with the client component: main landmark, one H1, links, minimal payload (31609.21025ms)
+✖ metadata policy is unchanged: noindex,follow, canonical to the owner edition, no hreflang (89.383459ms)
+An error occurred in the <App> component.
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+[NexuAlpha] not-found SSR failed for /topics/not-a-topic (ja): __vite_ssr_import_0__.m[key] is not a function
+✖ the served HTML hydrates in jsdom without hydration errors (766.261625ms)
+✖ the 404 page is server-rendered (NotFoundPage) and stays 404 noindex,nofollow (3.02025ms)
+✔ a renderer failure is logged and falls back to the shell; hosts without a renderer keep the shell (7.06125ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 1
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35643.38075
+
+✖ failing tests:
+
+test at tests/fallback-locale-ssr.test.mjs:36:1
+✖ locale fallback editions are server-rendered with the client component: main landmark, one H1, links, minimal payload (31609.21025ms)
+  AssertionError [ERR_ASSERTION]: /ja/topics: rendered at request time
+  
+  null !== 'runtime'
+  
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/fallback-locale-ssr.test.mjs:44:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: 'runtime',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/fallback-locale-ssr.test.mjs:64:1
+✖ metadata policy is unchanged: noindex,follow, canonical to the owner edition, no hreflang (89.383459ms)
+  AssertionError [ERR_ASSERTION]: /topics: body
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/fallback-locale-ssr.test.mjs:76:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: /<main\b/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/fallback-locale-ssr.test.mjs:80:1
+✖ the served HTML hydrates in jsdom without hydration errors (766.261625ms)
+  AssertionError [ERR_ASSERTION]: /ja/topics: hydrated root keeps its content
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/fallback-locale-ssr.test.mjs:86:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/fallback-locale-ssr.test.mjs:90:1
+✖ the 404 page is server-rendered (NotFoundPage) and stays 404 noindex,nofollow (3.02025ms)
+  AssertionError [ERR_ASSERTION]: /ja/topics/not-a-topic: SSR body present
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/fallback-locale-ssr.test.mjs:98:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

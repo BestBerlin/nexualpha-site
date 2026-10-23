@@ -245,6 +245,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (/\/src\/(?:data\/answer-first|data\/data-updated|components\/shared\/ShortAnswer|components\/shared\/DataUpdatedStamp)\.jsx?$/.test(id)) return "shared-answer-first";
           // Data-page paths/nav are read by route-data, route-coins and the news chunks: pinned (SSR TDZ, 2026-10-13).
           if (id.endsWith("/src/data/market-data-pages-nav.js")) return "data-market-nav";
+          // Footers on data/flash routes share these labels with deferred home content. Keep the labels in the
+          // navigation chunk so Rollup cannot make unrelated route preloads depend on the home graph.
+          if (!isSsrBuild && id.endsWith("/src/data/intel-tools-links.js")) return "data-market-nav";
           // Shared browser polling helper: ticker, flash, movers and radar routes all use it. If Rollup lets a deferred
           // home chunk absorb it, unrelated route preloads pick up home-below-fold and its data graph.
           if (!isSsrBuild && id.endsWith("/src/components/shared/json-polling.js")) return "shared-json-polling";

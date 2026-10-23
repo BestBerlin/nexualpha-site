@@ -250,7 +250,14 @@ test("homepage keeps decisions above the compact closing band", () => {
   assert.match(activeHome, /<HomeV7[^>]*initialFlash=\{initialFlash\}/);
   assert.match(activeHome, /<ClosingBand locale=\{locale\} \/>/);
   assert.ok(activeHome.indexOf("<HomeV7") < activeHome.indexOf("<ClosingBand"));
-  assert.doesNotMatch(activeHome, /HomeResearchDrawer|CrawlPriorityLinks|legacy=/);
+  assert.doesNotMatch(activeHome, /HomeResearchDrawer|legacy=/);
+  assert.match(activeHome, /<CrawlPriorityLinks locale=\{locale\} scope="home" \/>/);
+  assert.ok(activeHome.indexOf("<ClosingBand") < activeHome.indexOf("<CrawlPriorityLinks"), "crawl discovery follows the decision and closing band");
+  assert.ok(activeHome.indexOf("<CrawlPriorityLinks") < activeHome.indexOf("{footer}"), "discovery remains before the footer");
+  const homeSections = ['className="h7-strip"', "<MoversBoard", "<TokenizedStrip", "<StableHomeBelowFold"];
+  for (let i = 1; i < homeSections.length; i++) {
+    assert.ok(homeV7.indexOf(homeSections[i - 1]) >= 0 && homeV7.indexOf(homeSections[i]) > homeV7.indexOf(homeSections[i - 1]), "partner strip, whale board, tokenized strip and deferred decisions retain owner order");
+  }
   assert.doesNotMatch(closingBand, /v6-close__index|ClosingIndexGroups/);
   assert.match(homeV7, /<HeroExchangeSwitcher[^>]*onPick=\{pickVenue\}/);
   assert.match(homeV7, /<HeroRebate[^>]*venue=\{sel\}/);

@@ -1,0 +1,15 @@
+✔ the venue route preloads its own module; compare, activities and 404 keep the V3 pages module (33.470416ms)
+✔ vite config pins the venue graph: shared helpers, CSS-only route-v3-pages-* chunks and the preload helper (2.687208ms)
+✔ the Worker keeps linking the venue page's stylesheets (all route-v3-pages-* chunks on /exchanges/<slug>) (5.500334ms)
+✔ built entry: the venue route's preload list excludes the compare, activity and topic-guide graphs (3.578666ms)
+✔ [paraglide-js] Compilation complete (locale-modules)
+✔ DeferUntilVisible interactionOnly renders the server HTML and opens only on interaction or an open <details> (16183.727042ms)
+✔ SSR venue and home pages hydrate without mismatches in en, it and ar (4804.580083ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22822.69425

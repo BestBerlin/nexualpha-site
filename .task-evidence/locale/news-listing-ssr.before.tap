@@ -1,0 +1,80 @@
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4.4.0/dist/index.js":
+
+TypeError: fetch failed
+
+
+ WARN  [paraglide-js] PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+PluginImportError: Couldn't import the plugin "https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2.2.6/dist/index.js":
+
+TypeError: fetch failed
+
+✔ [paraglide-js] Compilation complete (locale-modules)
+[NexuAlpha] news listing SSR failed for /news (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] news listing SSR failed for /news (en): __vite_ssr_import_0__.m[key] is not a function
+[NexuAlpha] news listing SSR failed for /news (en): __vite_ssr_import_0__.m[key] is not a function
+An error occurred in the <App> component.
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+✖ listing routes are server-rendered by NewsListPage: one H1 equal to the client heading, 24 cards, search and chips (31065.026708ms)
+✖ the hydration payload reproduces the SSR body byte for byte (renderToString round trip) (13.43625ms)
+✖ hydrateRoot in jsdom reports no hydration mismatch for /news, /ru/news, /news/page/2 and /news/category/guide (956.69275ms)
+✔ the shared hero copy covers all 17 locales and the fallback template uses it when the renderer is unavailable (17.498333ms)
+✔ a renderer that throws is logged and the listing falls back to the hand-written template with summary-only state (4.781875ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 2
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35383.665209
+
+✖ failing tests:
+
+test at tests/news-listing-ssr.test.mjs:65:1
+✖ listing routes are server-rendered by NewsListPage: one H1 equal to the client heading, 24 cards, search and chips (31065.026708ms)
+  AssertionError [ERR_ASSERTION]: /news: hydrates instead of re-rendering
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/news-listing-ssr.test.mjs:75:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '<!doctype html><html lang="en" dir="ltr"><head><title translate="no" lang="en">Crypto Exchange News: Binance, OKX, Bybit — NexuAlpha</title>    <meta name="description" content="Exchange news in Singapore time: listings, delistings, API changes and account rules from Binance, OKX, Bybit, Coinbase and Kraken, linked to the notices." />\n      <meta property="og:type" content="website" data-nexualpha-route-seo="social" />\n      <meta property="og:site_name" content="NexuAlpha" data-nexualpha-route-seo="social" />\n      <meta property="og:title" content="Crypto Exchange News: Binance, OKX, Bybit — NexuAlpha" data-nexualpha-route-seo="social" />\n      <meta property="og:description" content="Exchange news in Singapore time: listings, delistings, API changes and account rules from Binance, OKX, Bybit, Coinbase and Kraken, linked to the notices." data-nexualpha-route-seo="social" />\n      <meta property="og:url" content="https://nexualpha.com/news" data-nexualpha-route-seo="social" />\n      <meta property="og:image" content="https://nexualpha.com/brand/nexualpha/nexualpha-social-v1.jpg" data-nexualpha-route-seo="social" />\n      <meta property="og:image:width" content="1200" data-nexualpha-route-seo="social" />\n      <meta property="og:image:height" content="630" data-nexualpha-route-seo="social" />\n      <meta property="og:image:alt" content="Crypto Exchange News: Binance, OKX, Bybit — NexuAlpha" data-nexualpha-route-seo="social" />\n      <meta name="twitter:card" content="summary_large_image" data-nexualpha-route-seo="social" />\n      <meta name="twitter:site" content="@NexuAlpha" data-nexualpha-route-seo="social" />\n      <meta name="twitter:title" content="Crypto Exchange News: Binance, OKX, Bybit — NexuAlpha" data-nexualpha-route-seo="social" />\n      <meta name="twitter:description" content="Exchange news in Singapore time: listings, delistings, API changes and account rules from Binance, OKX, Bybit, Coinbase and Kraken, linked to the notices." data-nexualpha-route-seo="social" />\n      <meta name="twitter:image" content="https://nexualpha.com/brand/nexualpha/nexualpha-social-v1.jpg" data-nexualpha-route-seo="social" />\n      <link rel="alternate" type="application/rss+xml" title="NexuAlpha" href="/rss.xml" />\n      <link rel="alternate" hreflang="en" href="https://nexualpha.com/news" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="ru" href="https://nexualpha.com/ru/news" data-nexualpha-route-seo="alternate" />\n    <link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news" data-nexualpha-route-seo="alternate" />\n      <link rel="canonical" href="https://nexualpha.com/news" data-nexualpha-route-seo="canonical" />\n      <meta name="robots" content="index,follow" data-nexualpha-route-seo="robots" />\n      <meta name="author" content="NexuAlpha Research Desk" data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-last-reviewed" content="2026-10-10T12:00:00.000Z" data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-methodology" content="https://nexualpha.com/methodology" data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-llms" content="https://nexualpha.com/llms.txt" data-nexualpha-route-seo="trust" />\n      <meta name="nexualpha-route-marker" content="NEXUALPHA_NEWS_ROUTE_V1" data-nexualpha-route-seo="marker" />\n      <script id="nexualpha-route-schema" type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","name":"Crypto Exchange News: Binance, OKX, Bybit","url":"https://nexualpha.com/news","inLanguage":"en","dateModified":"2026-10-10T12:00:00.000Z","publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha","url":"https://nexualpha.com/","logo":{"@type":"ImageObject","url":"https://nexualpha.com/brand/nexualpha/nexualpha-round.svg","width":"512","height":"512"}},"mainEntity":{"@type":"ItemList","name":"Reviewed NexuAlpha news and research articles","numberOfItems":12,"itemListElement":[{"@type":"ListItem","position":1,"url":"https://nexualpha.com/news/fixture-article-00","item":{"@type":"NewsArticle","headline":"Fixture article 00 about guide","description":"Summary 00 for guide.","url":"https://nexualpha.com/news/fixture-article-00","datePublished":"2026-10-10T12:00:00.000Z","dateModified":"2026-10-10T12:00:00.000Z","inLanguage":"en","author":{"@type":"Organization","@id":"https://nexualpha.com/about#research-desk","name":"NexuAlpha Research Desk","url":"https://nexualpha.com/about#research-desk","parentOrganization":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"}},"publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha","url":"https://nexualpha.com/","logo":{"@type":"ImageObject","url":"https://nexualpha.com/brand/nexualpha/nexualpha-round.svg","width":"512","height":"512"}},"isAccessibleForFree":true}},{"@type":"ListItem","position":2,"url":"https://nexualpha.com/news/fixture-article-01","item":{"@type":"NewsArticle","headline":"Fixture article 01 about comparison","description":"Summary 01 for comparison.","url":"https://nexualpha.com/news/fixture-article-01","datePublished":"2026-10-10T11:00:00.000Z","dateModified":"2026-10-10T11:00:00.000Z","inLanguage":"en","author":{"@type":"Organization","@id":"https://nexualpha.com/about#research-desk","name":"NexuAlpha Research Desk","url":"https://nexualpha.com/about#research-desk","parentOrganization":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"}},"publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha","url":"https://nexualpha.com/","logo":{"@type":"ImageObject","url":"https://nexualpha.com/brand/nexualpha/nexualpha-round.svg","width":"512","height":"512"}},"isAccessibleForFree":true}},{"@type":"ListItem","position":3,"url":"https://nexualpha.com/news/fixture-article-02","item":{"@type":"NewsArticle","headline":"Fixture article 02 about exchange-update","description":"Summary 02 for exchange-update.","url":"https://nexualpha.com/news/fixture-article-02","datePublished":"2026-10-10T10:00:00.000Z","dateModified":"2026-10-10T10:00:00.000Z","inLanguage":"en","author":{"@type":"Organization","@id":"https://nexualpha.com/about#research-desk","name":"NexuAlpha Research Desk","url":"https://nexualpha.com/about#research-desk","parentOrganization":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"}},"publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha","url":"https://nexualpha.com/","logo":{"@type":"ImageObject","url":"https://nexualpha.com/brand/nexualpha/nexualpha-round.svg","width":"512","height":"512"}},"isAccessibleForFree":true}},{"@type":"ListItem","position":4,"url":"https://nexualpha.com/news/fixture-article-03","item":{"@type":"NewsArticle","headline":"Fixture article 03 about regulation","description":"Summary 03 for regulation.","url":"https://nexualpha.com/news/fixture-article-03","datePublished":"2026-10-10T09:00:00.000Z","dateModified":"2026-10-10T09:00:00.000Z","inLanguage":"en","author":{"@type":"Organization","@id":"https://nexualpha.com/about#research-desk","name":"NexuAlpha Research Desk","url":"https://nexualpha.com/about#research-desk","parentOrganization":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"}},"publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha","url":"https://nexualpha.com/","logo":{"@type":"ImageObject","url":"https://nexualpha.com/brand/nexualpha/nexualpha-round.svg","width":"512","height":"512"}},"isAccessibleForFree":true}},{"@type":"ListItem","position":5,"url":"https://nexualpha.com/news/fixture-article-04","item":{"@type":"NewsArticle","headline":"Fixture article 04 about rwa","description":"Summary 04 for rwa.","url":"https://nexualpha.com/news/fixture-article-04","datePublished":"2026-10-10T08:00:00.000Z","dateModified":"2026-10-10T08:00:00.000Z","inLanguage":"en","author":{"@type":"Organization","@id":"https://nexualpha.com/about#research-desk","name":"NexuAlpha Research Desk","url":"https://nexualpha.com/about#research-desk","parentOrganization":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"}},"publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha","url":"https://nexualpha.com/","logo":{"@type":"ImageObject","url":"https://nexualpha.com/brand/nexualpha/nexualpha-round.svg","width":"512","height":"512"}},"isAccessibleForFree":true}},{"@type":"ListItem","position":6,"url":"https://nexualpha.com/news/fixture-article-05","item":{"@type":"NewsArticle","headline":"Fixture article 05 about research","description":"Summary 05 for research.","url":"https://nexualpha.com/news/fixture-article-05","datePublished":"2026-10-10T07:00:00.000Z","dateModified":"2026-10-10T07:00:00.000Z","inLanguage":"en","author":{"@type":"Organization","@id":"https://nexualpha.com/about#research-desk","name":"NexuAlpha Research Desk","url":"https://nexualpha.com/about#research-desk","parentOrganization":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha"}},"publisher":{"@type":"Organization","@id":"https://nexualpha.com/#organization","name":"NexuAlpha","url":"https://nexualpha.com/","logo":{"@type":"ImageObject","url":"https://nexualpha.com/brand/nexualpha/nexualpha-round.svg","width":"512","height":"512"}},"isAccessibleForFree":true}},{"@type":"ListItem","position":7,"url":"https://nexualpha.com/news/fixture-article-06","item":{"@type":"NewsArticle","headline":"Fixture article 06 about guide","description":"Summary 06 for guide.","url":"https://nexualpha.com/news/fixture-article-06","datePublished":"2026-10-10T06:00:00.000Z","dateModified"'... 38930 more characters,
+    expected: /data-nexualpha-client-render="true"/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }
+
+test at tests/news-listing-ssr.test.mjs:111:1
+✖ the hydration payload reproduces the SSR body byte for byte (renderToString round trip) (13.43625ms)
+  TypeError: __vite_ssr_import_0__.m[key] is not a function
+      at message (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:7:75)
+      at t (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:26:30)
+      at v2Copy (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/content/v2-copy.js:136:16)
+      at eval (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:92)
+      at Object.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:3966:20)
+      at process.env.NODE_ENV.exports.useMemo (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react/cjs/react.development.js:1251:34)
+      at App (/Volumes/致态2TB/nx-wt-codex-tests-green-c/pilot-01-prototype/src/App.jsx:1057:51)
+      at Object.react_stack_bottom_frame (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:9808:18)
+      at renderWithHooks (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5062:19)
+      at renderElement (/Volumes/致态2TB/nexualpha-site-git/pilot-01-prototype/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:5497:23)
+
+test at tests/news-listing-ssr.test.mjs:122:1
+✖ hydrateRoot in jsdom reports no hydration mismatch for /news, /ru/news, /news/page/2 and /news/category/guide (956.69275ms)
+  AssertionError [ERR_ASSERTION]: /news: hydrated tree keeps the listing
+      at TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-tests-green-c/pilot-01-prototype/tests/news-listing-ssr.test.mjs:129:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: /news-index-query|Fixture article|Тестовая статья/,
+    operator: 'match',
+    diff: 'simple'
+  }

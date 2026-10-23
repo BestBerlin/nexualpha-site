@@ -1,0 +1,13 @@
+✔ R40 contextual Telegram return supports fee and regional first-party routes (3.953042ms)
+✔ R43 content pages preserve onsite Telegram return to news and topic routes (0.551459ms)
+✔ R40 onsite handoff renders anonymous owner-level attributes for venue compare rates and BR (347.935916ms)
+✔ R43 news and topic owners mount contextual Telegram handoff back to their content route (1325.377417ms)
+✔ R40 page owners mount contextual Telegram handoff without editing protected CTA registries (25.556791ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2857.737792

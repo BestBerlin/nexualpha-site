@@ -222,7 +222,6 @@ async function clickFixture() {
   await writeFile(path.join(clientRoot, "intel", "partners.json"), JSON.stringify({ partners: [{ slug: "okx", registrationUrl: "https://www.okx.com/join/TEST" }] }));
   return { dir, clientRoot, eventFile: path.join(dir, "clicks.jsonl") };
 }
-const settle = () => new Promise((resolve) => setTimeout(resolve, 30));
 const readRows = async (file) => (await readFile(file, "utf8").catch(() => "")).split("\n").filter(Boolean).map((line) => JSON.parse(line));
 
 test("/go/<partner> and the site beacon record experiment + variant while it runs, nothing extra when off", async () => {
@@ -243,14 +242,18 @@ test("/go/<partner> and the site beacon record experiment + variant while it run
     assert.equal((await go(goOn, "nx_hero=b", BOT_UAS[0])).status, 302);
     assert.equal((await beacon(beaconOn, "nx_hero=a")).status, 204);
     assert.equal((await beacon(beaconForced, "other=1; nx_hero=b")).status, 204);
-    let rows = [];
-    for (let i = 0; i < 100 && rows.length < 5; i++) { await settle(); rows = await readRows(eventFile); }
-    await settle();
-    rows = await readRows(eventFile);
-    assert.equal(rows.length, 5, "the crawler click is not recorded");
-    // Appends are fire-and-forget (the redirect never waits on disk), so the file order is not the request order.
+    assert.equal((await go(goOn, "nx_hero=b", "Mozilla/5.0 NexuAlpha-internal/hero-test")).status, 302);
+    const rows = await readRows(eventFile);
+    assert.equal(rows.length, 6, "crawler evidence is retained; internal QA writes no row");
+    const botRows = rows.filter((row) => row.cls === "bot");
+    assert.equal(botRows.length, 1);
+    assert.equal(botRows[0].experiment, undefined, "crawlers never receive experiment attribution");
+    assert.equal(botRows[0].variant, undefined);
+    // These fixtures have no validated client IP, so visitor rows must remain unknown rather than claim human clicks.
+    const visitorRows = rows.filter((row) => row.cls !== "bot");
+    assert.ok(visitorRows.every((row) => row.cls === "unknown"));
     const key = (tuple) => tuple.map(String).join("|");
-    assert.deepEqual(rows.map((row) => [row.kind || "go", row.experiment || null, row.variant || null]).sort((x, y) => key(x).localeCompare(key(y))), [
+    assert.deepEqual(visitorRows.map((row) => [row.kind || "go", row.experiment || null, row.variant || null]).sort((x, y) => key(x).localeCompare(key(y))), [
       ["go", null, null],
       ["go", HOME_HERO_EXPERIMENT_ID, "b"],
       ["go", null, null],

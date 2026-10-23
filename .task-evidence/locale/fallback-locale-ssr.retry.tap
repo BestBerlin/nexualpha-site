@@ -1,0 +1,41 @@
+TAP version 13
+# ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+# Subtest: locale fallback editions are server-rendered with the client component: main landmark, one H1, links, minimal payload
+ok 1 - locale fallback editions are server-rendered with the client component: main landmark, one H1, links, minimal payload
+  ---
+  duration_ms: 24615.447709
+  type: 'test'
+  ...
+# Subtest: metadata policy is unchanged: noindex,follow, canonical to the owner edition, no hreflang
+ok 2 - metadata policy is unchanged: noindex,follow, canonical to the owner edition, no hreflang
+  ---
+  duration_ms: 772.295
+  type: 'test'
+  ...
+# Subtest: the served HTML hydrates in jsdom without hydration errors
+ok 3 - the served HTML hydrates in jsdom without hydration errors
+  ---
+  duration_ms: 3192.408709
+  type: 'test'
+  ...
+# Subtest: the 404 page is server-rendered (NotFoundPage) and stays 404 noindex,nofollow
+ok 4 - the 404 page is server-rendered (NotFoundPage) and stays 404 noindex,nofollow
+  ---
+  duration_ms: 1703.951833
+  type: 'test'
+  ...
+# Subtest: a renderer failure is logged and falls back to the shell; hosts without a renderer keep the shell
+ok 5 - a renderer failure is logged and falls back to the shell; hosts without a renderer keep the shell
+  ---
+  duration_ms: 10.096792
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 32513.072875

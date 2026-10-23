@@ -1,0 +1,19 @@
+✔ client builds drop the SSR-only eager globs while the SSR branch keeps them (31.684625ms)
+✔ App.jsx and HomeV7 keep the SSR eager glob pattern the client plugin strips (37.43525ms)
+✔ route-matching slug lists mirror their data sources (2.111125ms)
+✔ data-page navigation projection matches the full copy module for every locale (0.587833ms)
+✔ Telegram deep links and official research helpers are re-exported unchanged (7.972375ms)
+✔ the shell no longer imports the heavy data modules directly (135.340833ms)
+✔ stylesheets are re-linked in the historical cascade order (0.688916ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ DeferUntilVisible renders its children inside a Suspense boundary on the server (1687.448417ms)
+✔ SSR home keeps the scroll-deferred sections' text for crawlers and no-JS readers (23156.2485ms)
+✔ SSR directory and news list still render through the deferred route modules (105.095208ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27708.108833

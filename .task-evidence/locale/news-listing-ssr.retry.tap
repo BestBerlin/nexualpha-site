@@ -1,0 +1,41 @@
+TAP version 13
+# ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+# Subtest: listing routes are server-rendered by NewsListPage: one H1 equal to the client heading, 24 cards, search and chips
+ok 1 - listing routes are server-rendered by NewsListPage: one H1 equal to the client heading, 24 cards, search and chips
+  ---
+  duration_ms: 25563.870833
+  type: 'test'
+  ...
+# Subtest: the hydration payload reproduces the SSR body byte for byte (renderToString round trip)
+ok 2 - the hydration payload reproduces the SSR body byte for byte (renderToString round trip)
+  ---
+  duration_ms: 893.1535
+  type: 'test'
+  ...
+# Subtest: hydrateRoot in jsdom reports no hydration mismatch for /news, /ru/news, /news/page/2 and /news/category/guide
+ok 3 - hydrateRoot in jsdom reports no hydration mismatch for /news, /ru/news, /news/page/2 and /news/category/guide
+  ---
+  duration_ms: 3824.451667
+  type: 'test'
+  ...
+# Subtest: the shared hero copy covers all 17 locales and the fallback template uses it when the renderer is unavailable
+ok 4 - the shared hero copy covers all 17 locales and the fallback template uses it when the renderer is unavailable
+  ---
+  duration_ms: 7.283125
+  type: 'test'
+  ...
+# Subtest: a renderer that throws is logged and the listing falls back to the hand-written template with summary-only state
+ok 5 - a renderer that throws is logged and the listing falls back to the hand-written template with summary-only state
+  ---
+  duration_ms: 6.451542
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 32235.204
