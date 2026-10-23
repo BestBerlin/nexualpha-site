@@ -124,3 +124,50 @@ html body:has(main#top.v3-compare-page){background-color:#08090C;background-imag
   @ .v3-faq-q-text{font-size:14px}
 }
 @media(prefers-reduced-motion:reduce){@ :is(.r9-cmp__num,.r9-cmp__id img,.r9-track i,.v3-compare-metric-bars i,.v3-compare-faq-icon){animation:none;transition:none}}
+
+/* Visual v3: the semantic scorecard becomes a mirrored measurement ledger. */
+@ .exchange-scorecard--visual .exchange-scorecard__verdicts{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-block:0 24px;border:0}
+@ .exchange-scorecard--visual .exchange-scorecard__verdicts > div{min-inline-size:0;padding:20px 16px;border:1px solid var(--x-line);border-radius:12px;background:var(--x-sf)}
+@ .exchange-scorecard--visual .exchange-scorecard__verdicts dt{display:grid;gap:16px;color:var(--x-ink2);font-size:14px;line-height:1.5}
+@ .exchange-scorecard__icon{display:grid;place-items:center;inline-size:40px;block-size:40px;border:1px solid var(--x-line2);border-radius:8px;color:var(--x-ink2)}
+@ .exchange-scorecard__icon svg{inline-size:24px;block-size:24px;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+@ .exchange-scorecard--visual .exchange-scorecard__verdicts dd{margin:12px 0 0;font-size:16px;line-height:1.5}
+@ .exchange-scorecard__leaders{display:flex;flex-wrap:wrap;gap:8px 12px}
+@ .exchange-scorecard__leader{display:flex;align-items:center;gap:8px;min-inline-size:0;overflow-wrap:anywhere}
+@ .exchange-scorecard__leader :is(img,[data-brand-fallback]){flex:none;inline-size:28px;block-size:28px;border-radius:8px}
+@ .exchange-scorecard--visual .exchange-scorecard__scroll{overflow:visible}
+@ .exchange-scorecard--visual .exchange-scorecard__scroll-hint{display:none}
+@ .exchange-scorecard--visual :is(table,thead,tbody,caption){display:block;inline-size:100%;box-sizing:border-box}
+@ .exchange-scorecard--visual thead tr{display:grid;grid-template-columns:repeat(var(--sc-cols,2),minmax(0,1fr));gap:24px;padding-block:12px}
+@ .exchange-scorecard--visual thead th:first-child{position:absolute;inline-size:1px;block-size:1px;min-width:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@ .exchange-scorecard--visual thead th{min-width:0;padding:0;border:0}
+@ .exchange-scorecard--visual thead th a{display:inline-flex;align-items:center;min-inline-size:44px;min-block-size:44px}
+@ .exchange-scorecard--visual thead th:nth-child(2){text-align:end}
+@ .exchange-scorecard--visual tr[data-scorecard-row]{display:grid;grid-template-columns:repeat(var(--sc-cols,2),minmax(0,1fr));gap:12px 24px;padding:20px 16px;border:1px solid var(--x-line);border-block-start:0;background:var(--x-sf)}
+@ .exchange-scorecard--visual tr[data-scorecard-row] > th{grid-column:1/-1;min-width:0;margin:0;padding:0;border:0;font-size:14px;line-height:1.5;color:var(--x-ink2)}
+@ .exchange-scorecard--visual tr[data-scorecard-row] > td{min-width:0;min-inline-size:0;padding:0;border:0;overflow-wrap:anywhere}
+@ .exchange-scorecard--visual td[data-venue]::before{content:none}
+@ .exchange-scorecard--visual .exchange-scorecard__group{display:block;border:0;padding:0}
+@ .exchange-scorecard--visual .exchange-scorecard__group th{display:block;min-width:0;padding:24px 16px 12px;border-block-end:1px solid var(--x-line2);font-size:14px}
+@ .exchange-scorecard--visual .exchange-scorecard__value{display:block;font:500 16px/1.5 var(--x-mono);color:var(--x-ink);font-variant-numeric:tabular-nums}
+@ .exchange-scorecard--visual [data-scorecard-side=a]{text-align:end}
+@ .exchange-scorecard--visual [data-scorecard-kind=chips] .exchange-scorecard__value{display:inline-flex;min-block-size:44px;align-items:center;box-sizing:border-box;padding:8px 12px;border:1px solid var(--x-line2);border-radius:8px;background:var(--x-sf2);font:400 14px/1.5 "Geist V5","Geist V5 Fallback",sans-serif}
+@ .exchange-scorecard--visual [data-scorecard-winner] .exchange-scorecard__value{color:var(--x-ac)}
+@ .exchange-scorecard--visual .exchange-scorecard__badge{display:block;margin:8px 0 0;color:var(--x-ac);font:500 12px/1.5 var(--x-mono)}
+@ .exchange-scorecard__bars{display:grid;gap:8px;margin-block-start:12px}
+@ .exchange-scorecard__bar{display:grid;gap:4px}
+@ .exchange-scorecard__bar small{font:400 12px/1.5 var(--x-mono);color:var(--x-ink3)}
+@ .exchange-scorecard__track{display:block;block-size:8px;overflow:hidden;border-radius:4px;background:rgb(255 255 255/.07)}
+@ .exchange-scorecard__track i{display:block;inline-size:calc(var(--scorecard-width) * 100%);block-size:100%;border-radius:inherit;background:var(--x-ink2)}
+@ [data-scorecard-side=a] .exchange-scorecard__track i{margin-inline-start:auto}
+@ [data-scorecard-metric-winner] .exchange-scorecard__track i{background:var(--x-ac)}
+@ [data-scorecard-metric-winner] small{color:var(--x-ac)}
+@ .exchange-scorecard--visual td[data-row=licenses] .exchange-scorecard__value{font:400 14px/1.5 "Geist V5","Geist V5 Fallback",sans-serif}
+@media(max-width:960px){@ .exchange-scorecard--visual .exchange-scorecard__verdicts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){
+  @ .exchange-scorecard--visual .exchange-scorecard__verdicts > div{padding:16px 12px}
+  @ .exchange-scorecard--visual thead{position:static;inline-size:100%;block-size:auto;overflow:visible;clip:auto}
+  @ .exchange-scorecard--visual thead tr,@ .exchange-scorecard--visual tr[data-scorecard-row]{column-gap:16px}
+  @ .exchange-scorecard--visual tr[data-scorecard-row]{padding:16px 12px}
+  @ .exchange-scorecard--visual .exchange-scorecard__value{font-size:14px}
+}

@@ -1,0 +1,9 @@
+Make inner-page decisions easier to scan
+
+Constraint: Preserve existing partner facts, CTA destinations and route-owned assets.
+Confidence: high
+Scope-risk: moderate
+Tested: Full build, strict budget, typecheck, 106 targeted tests, 23 overlapping integration tests, responsive Chrome review.
+Not-tested: Normal Node preview (listen EPERM); browser reduced-motion emulation denied; unconditional global CLS 0 remains open.
+Directive: Review recorded article/header anchor-load shifts in the normal runtime before release.
+Co-Authored-By: Codex <noreply@openai.com>

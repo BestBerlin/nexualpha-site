@@ -1,0 +1,2691 @@
+{
+  "status": "completed",
+  "score": 85,
+  "summary": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 3,
+    "total": 3
+  },
+  "findings": [
+    {
+      "ruleId": "spacing/off-scale-value",
+      "state": "compare-en-768",
+      "severity": "moderate",
+      "message": "compare-en-768 uses 1 off-scale spacing value across 11 elements: 20px.",
+      "fix": "Replace the measured values with the nearest project spacing token. Active scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px.",
+      "elementIds": [
+        "div:nth-of-type(1)@5",
+        "div:nth-of-type(2)@15",
+        "div:nth-of-type(3)@26",
+        "div:nth-of-type(4)@39",
+        "tr:nth-of-type(2)@65",
+        "tr:nth-of-type(3)@91",
+        "tr:nth-of-type(2)@122",
+        "tr:nth-of-type(3)@140",
+        "tr:nth-of-type(4)@146",
+        "tr:nth-of-type(2)@159",
+        "tr:nth-of-type(3)@165"
+      ],
+      "evidence": [
+        {
+          "label": "div:nth-of-type(1)@5 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@5 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(2)@15 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(2)@15 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(3)@26 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(3)@26 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(4)@39 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(4)@39 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@65 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@65 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(3)@91 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(3)@91 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@122 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@122 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(3)@140 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(3)@140 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(4)@146 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(4)@146 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@159 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@159 padding bottom",
+          "value": 20,
+          "unit": "px"
+        }
+      ],
+      "id": "spacing-1"
+    },
+    {
+      "ruleId": "spacing/off-scale-value",
+      "state": "compare-en-1440",
+      "severity": "moderate",
+      "message": "compare-en-1440 uses 2 off-scale spacing values across 12 elements: 20px, 112.5px.",
+      "fix": "Replace the measured values with the nearest project spacing token. Active scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px.",
+      "elementIds": [
+        "#exchange-scorecard",
+        "div:nth-of-type(1)@5",
+        "div:nth-of-type(2)@15",
+        "div:nth-of-type(3)@26",
+        "div:nth-of-type(4)@39",
+        "tr:nth-of-type(2)@65",
+        "tr:nth-of-type(3)@91",
+        "tr:nth-of-type(2)@122",
+        "tr:nth-of-type(3)@140",
+        "tr:nth-of-type(4)@146",
+        "tr:nth-of-type(2)@159",
+        "tr:nth-of-type(3)@165"
+      ],
+      "evidence": [
+        {
+          "label": "#exchange-scorecard margin right",
+          "value": 112.5,
+          "unit": "px"
+        },
+        {
+          "label": "#exchange-scorecard margin left",
+          "value": 112.5,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@5 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@5 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(2)@15 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(2)@15 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(3)@26 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(3)@26 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(4)@39 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(4)@39 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@65 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@65 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(3)@91 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(3)@91 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@122 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@122 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(3)@140 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(3)@140 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(4)@146 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(4)@146 padding bottom",
+          "value": 20,
+          "unit": "px"
+        }
+      ],
+      "id": "spacing-2"
+    },
+    {
+      "ruleId": "spacing/off-scale-value",
+      "state": "compare-en-1728",
+      "severity": "moderate",
+      "message": "compare-en-1728 uses 2 off-scale spacing values across 12 elements: 20px, 256.5px.",
+      "fix": "Replace the measured values with the nearest project spacing token. Active scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px.",
+      "elementIds": [
+        "#exchange-scorecard",
+        "div:nth-of-type(1)@5",
+        "div:nth-of-type(2)@15",
+        "div:nth-of-type(3)@26",
+        "div:nth-of-type(4)@39",
+        "tr:nth-of-type(2)@65",
+        "tr:nth-of-type(3)@91",
+        "tr:nth-of-type(2)@122",
+        "tr:nth-of-type(3)@140",
+        "tr:nth-of-type(4)@146",
+        "tr:nth-of-type(2)@159",
+        "tr:nth-of-type(3)@165"
+      ],
+      "evidence": [
+        {
+          "label": "#exchange-scorecard margin right",
+          "value": 256.5,
+          "unit": "px"
+        },
+        {
+          "label": "#exchange-scorecard margin left",
+          "value": 256.5,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@5 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@5 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(2)@15 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(2)@15 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(3)@26 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(3)@26 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(4)@39 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(4)@39 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@65 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@65 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(3)@91 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(3)@91 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@122 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(2)@122 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(3)@140 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(3)@140 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(4)@146 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "tr:nth-of-type(4)@146 padding bottom",
+          "value": 20,
+          "unit": "px"
+        }
+      ],
+      "id": "spacing-3"
+    }
+  ],
+  "states": [
+    {
+      "name": "compare-en-390",
+      "viewport": {
+        "width": 390,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "elements": [
+        {
+          "id": "#exchange-scorecard",
+          "name": "the section holding “Line by line”",
+          "rect": {
+            "x": 24,
+            "y": 76,
+            "width": 327,
+            "height": 2224.453125
+          }
+        },
+        {
+          "id": "dl:nth-of-type(1)@4",
+          "name": "an unnamed group inside the section holding “Line by line” (id dl:nth-of-type(1)@4)",
+          "rect": {
+            "x": 24,
+            "y": 149.4453125,
+            "width": 327,
+            "height": 391.625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@5",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(1)@5)",
+          "rect": {
+            "x": 24,
+            "y": 149.4453125,
+            "width": 157.5,
+            "height": 178.875
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@6",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@6)",
+          "rect": {
+            "x": 37,
+            "y": 166.4453125,
+            "width": 131.5,
+            "height": 98
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@10",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@10)",
+          "rect": {
+            "x": 37,
+            "y": 276.4453125,
+            "width": 131.5,
+            "height": 34.875
+          }
+        },
+        {
+          "id": "div:nth-of-type(2)@15",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(2)@15)",
+          "rect": {
+            "x": 193.5,
+            "y": 149.4453125,
+            "width": 157.5,
+            "height": 178.875
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@16",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@16)",
+          "rect": {
+            "x": 206.5,
+            "y": 166.4453125,
+            "width": 131.5,
+            "height": 98
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@21",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@21)",
+          "rect": {
+            "x": 206.5,
+            "y": 276.4453125,
+            "width": 131.5,
+            "height": 34.875
+          }
+        },
+        {
+          "id": "div:nth-of-type(3)@26",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(3)@26)",
+          "rect": {
+            "x": 24,
+            "y": 340.3203125,
+            "width": 157.5,
+            "height": 200.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@27",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@27)",
+          "rect": {
+            "x": 37,
+            "y": 357.3203125,
+            "width": 131.5,
+            "height": 77
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@31",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@31)",
+          "rect": {
+            "x": 37,
+            "y": 446.3203125,
+            "width": 131.5,
+            "height": 77.75
+          }
+        },
+        {
+          "id": "div:nth-of-type(4)@39",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(4)@39)",
+          "rect": {
+            "x": 193.5,
+            "y": 340.3203125,
+            "width": 157.5,
+            "height": 200.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@40",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@40)",
+          "rect": {
+            "x": 206.5,
+            "y": 357.3203125,
+            "width": 131.5,
+            "height": 119
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@44",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@44)",
+          "rect": {
+            "x": 206.5,
+            "y": 488.3203125,
+            "width": 131.5,
+            "height": 34.875
+          }
+        },
+        {
+          "id": "summary:nth-of-type(1)@50",
+          "label": "Show rules, dates and sourcesHide rules, dates and sources",
+          "name": "an unnamed control with id summary:nth-of-type(1)@50",
+          "rect": {
+            "x": 24,
+            "y": 565.0703125,
+            "width": 227.0625,
+            "height": 44
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@52",
+          "label": "Line by line",
+          "name": "Line by line",
+          "rect": {
+            "x": 24,
+            "y": 610.0703125,
+            "width": 327,
+            "height": 1690.3828125
+          }
+        },
+        {
+          "id": "table:nth-of-type(1)@53",
+          "name": "an unnamed table inside “Line by line” (id table:nth-of-type(1)@53)",
+          "rect": {
+            "x": 24,
+            "y": 610.0703125,
+            "width": 327,
+            "height": 1690.3828125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@56",
+          "name": "the group holding “Binance” and “OKX”",
+          "rect": {
+            "x": 24,
+            "y": 658.3671875,
+            "width": 327,
+            "height": 69
+          }
+        },
+        {
+          "id": "th:nth-of-type(2)@58",
+          "name": "the group holding “Binance”",
+          "rect": {
+            "x": 24,
+            "y": 670.3671875,
+            "width": 155.5,
+            "height": 44
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@59",
+          "label": "Binance",
+          "name": "Binance",
+          "rect": {
+            "x": 120.40625,
+            "y": 670.3671875,
+            "width": 59.09375,
+            "height": 44
+          }
+        },
+        {
+          "id": "th:nth-of-type(3)@60",
+          "name": "the group holding “OKX”",
+          "rect": {
+            "x": 195.5,
+            "y": 670.3671875,
+            "width": 155.5,
+            "height": 44
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@61",
+          "label": "OKX",
+          "name": "OKX",
+          "rect": {
+            "x": 195.5,
+            "y": 670.3671875,
+            "width": 44,
+            "height": 44
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@63",
+          "name": "an unnamed group with id tr:nth-of-type(1)@63",
+          "rect": {
+            "x": 24,
+            "y": 727.3671875,
+            "width": 327,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@64",
+          "name": "an unnamed group with id th:nth-of-type(1)@64",
+          "rect": {
+            "x": 24,
+            "y": 727.3671875,
+            "width": 327,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@65",
+          "name": "an unnamed group with id tr:nth-of-type(2)@65",
+          "rect": {
+            "x": 24,
+            "y": 786.0625,
+            "width": 327,
+            "height": 199
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@66",
+          "name": "an unnamed group with id th:nth-of-type(1)@66",
+          "rect": {
+            "x": 37,
+            "y": 802.0625,
+            "width": 301,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@67",
+          "name": "an unnamed group with id td:nth-of-type(1)@67",
+          "rect": {
+            "x": 37,
+            "y": 835.0625,
+            "width": 142.5,
+            "height": 133
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@78",
+          "name": "an unnamed group with id td:nth-of-type(2)@78",
+          "rect": {
+            "x": 195.5,
+            "y": 835.0625,
+            "width": 142.5,
+            "height": 133
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@91",
+          "name": "an unnamed group with id tr:nth-of-type(3)@91",
+          "rect": {
+            "x": 24,
+            "y": 985.0625,
+            "width": 327,
+            "height": 199
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@92",
+          "name": "an unnamed group with id th:nth-of-type(1)@92",
+          "rect": {
+            "x": 37,
+            "y": 1001.0625,
+            "width": 301,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@93",
+          "name": "an unnamed group with id td:nth-of-type(1)@93",
+          "rect": {
+            "x": 37,
+            "y": 1034.0625,
+            "width": 142.5,
+            "height": 133
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@106",
+          "name": "an unnamed group with id td:nth-of-type(2)@106",
+          "rect": {
+            "x": 195.5,
+            "y": 1034.0625,
+            "width": 142.5,
+            "height": 133
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@120",
+          "name": "an unnamed group with id tr:nth-of-type(1)@120",
+          "rect": {
+            "x": 24,
+            "y": 1184.0625,
+            "width": 327,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@121",
+          "name": "an unnamed group with id th:nth-of-type(1)@121",
+          "rect": {
+            "x": 24,
+            "y": 1184.0625,
+            "width": 327,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@122",
+          "name": "an unnamed group with id tr:nth-of-type(2)@122",
+          "rect": {
+            "x": 24,
+            "y": 1242.7578125,
+            "width": 327,
+            "height": 161
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@123",
+          "name": "an unnamed group with id th:nth-of-type(1)@123",
+          "rect": {
+            "x": 37,
+            "y": 1258.7578125,
+            "width": 301,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@124",
+          "name": "an unnamed group with id td:nth-of-type(1)@124",
+          "rect": {
+            "x": 37,
+            "y": 1291.7578125,
+            "width": 142.5,
+            "height": 95
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@133",
+          "name": "an unnamed group with id td:nth-of-type(2)@133",
+          "rect": {
+            "x": 195.5,
+            "y": 1291.7578125,
+            "width": 142.5,
+            "height": 95
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@140",
+          "name": "an unnamed group with id tr:nth-of-type(3)@140",
+          "rect": {
+            "x": 24,
+            "y": 1403.7578125,
+            "width": 327,
+            "height": 147
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@141",
+          "name": "an unnamed group with id th:nth-of-type(1)@141",
+          "rect": {
+            "x": 37,
+            "y": 1419.7578125,
+            "width": 301,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@142",
+          "name": "an unnamed group with id td:nth-of-type(1)@142",
+          "rect": {
+            "x": 37,
+            "y": 1452.7578125,
+            "width": 142.5,
+            "height": 81
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@144",
+          "name": "an unnamed group with id td:nth-of-type(2)@144",
+          "rect": {
+            "x": 195.5,
+            "y": 1452.7578125,
+            "width": 142.5,
+            "height": 81
+          }
+        },
+        {
+          "id": "tr:nth-of-type(4)@146",
+          "name": "an unnamed group with id tr:nth-of-type(4)@146",
+          "rect": {
+            "x": 24,
+            "y": 1550.7578125,
+            "width": 327,
+            "height": 142
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@147",
+          "name": "an unnamed group with id th:nth-of-type(1)@147",
+          "rect": {
+            "x": 37,
+            "y": 1566.7578125,
+            "width": 301,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@148",
+          "name": "an unnamed group with id td:nth-of-type(1)@148",
+          "rect": {
+            "x": 37,
+            "y": 1599.7578125,
+            "width": 142.5,
+            "height": 76
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@152",
+          "name": "an unnamed group with id td:nth-of-type(2)@152",
+          "rect": {
+            "x": 195.5,
+            "y": 1599.7578125,
+            "width": 142.5,
+            "height": 76
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@157",
+          "name": "an unnamed group with id tr:nth-of-type(1)@157",
+          "rect": {
+            "x": 24,
+            "y": 1692.7578125,
+            "width": 327,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@158",
+          "name": "an unnamed group with id th:nth-of-type(1)@158",
+          "rect": {
+            "x": 24,
+            "y": 1692.7578125,
+            "width": 327,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@159",
+          "name": "an unnamed group with id tr:nth-of-type(2)@159",
+          "rect": {
+            "x": 24,
+            "y": 1751.453125,
+            "width": 327,
+            "height": 126
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@160",
+          "name": "an unnamed group with id th:nth-of-type(1)@160",
+          "rect": {
+            "x": 37,
+            "y": 1767.453125,
+            "width": 301,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@161",
+          "name": "an unnamed group with id td:nth-of-type(1)@161",
+          "rect": {
+            "x": 37,
+            "y": 1800.453125,
+            "width": 142.5,
+            "height": 60
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@163",
+          "name": "an unnamed group with id td:nth-of-type(2)@163",
+          "rect": {
+            "x": 195.5,
+            "y": 1800.453125,
+            "width": 142.5,
+            "height": 60
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@165",
+          "name": "an unnamed group with id tr:nth-of-type(3)@165",
+          "rect": {
+            "x": 24,
+            "y": 1877.453125,
+            "width": 327,
+            "height": 423
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@166",
+          "name": "an unnamed group with id th:nth-of-type(1)@166",
+          "rect": {
+            "x": 37,
+            "y": 1893.453125,
+            "width": 301,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@167",
+          "name": "an unnamed group with id td:nth-of-type(1)@167",
+          "rect": {
+            "x": 37,
+            "y": 1926.453125,
+            "width": 142.5,
+            "height": 357
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@174",
+          "name": "an unnamed group with id td:nth-of-type(2)@174",
+          "rect": {
+            "x": 195.5,
+            "y": 1926.453125,
+            "width": 142.5,
+            "height": 357
+          }
+        }
+      ]
+    },
+    {
+      "name": "compare-en-768",
+      "viewport": {
+        "width": 768,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "elements": [
+        {
+          "id": "#exchange-scorecard",
+          "name": "the section holding “Line by line”",
+          "rect": {
+            "x": 24,
+            "y": 75.796875,
+            "width": 705,
+            "height": 2012.9296875
+          }
+        },
+        {
+          "id": "dl:nth-of-type(1)@4",
+          "name": "an unnamed group inside the section holding “Line by line” (id dl:nth-of-type(1)@4)",
+          "rect": {
+            "x": 24,
+            "y": 154.9921875,
+            "width": 705,
+            "height": 351.5
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@5",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(1)@5)",
+          "rect": {
+            "x": 24,
+            "y": 154.9921875,
+            "width": 346.5,
+            "height": 169.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@6",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@6)",
+          "rect": {
+            "x": 41,
+            "y": 175.9921875,
+            "width": 312.5,
+            "height": 77
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@10",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@10)",
+          "rect": {
+            "x": 41,
+            "y": 264.9921875,
+            "width": 312.5,
+            "height": 38.75
+          }
+        },
+        {
+          "id": "div:nth-of-type(2)@15",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(2)@15)",
+          "rect": {
+            "x": 382.5,
+            "y": 154.9921875,
+            "width": 346.5,
+            "height": 169.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@16",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@16)",
+          "rect": {
+            "x": 399.5,
+            "y": 175.9921875,
+            "width": 312.5,
+            "height": 77
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@21",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@21)",
+          "rect": {
+            "x": 399.5,
+            "y": 264.9921875,
+            "width": 312.5,
+            "height": 38.75
+          }
+        },
+        {
+          "id": "div:nth-of-type(3)@26",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(3)@26)",
+          "rect": {
+            "x": 24,
+            "y": 336.7421875,
+            "width": 346.5,
+            "height": 169.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@27",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@27)",
+          "rect": {
+            "x": 41,
+            "y": 357.7421875,
+            "width": 312.5,
+            "height": 77
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@31",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@31)",
+          "rect": {
+            "x": 41,
+            "y": 446.7421875,
+            "width": 312.5,
+            "height": 38.75
+          }
+        },
+        {
+          "id": "div:nth-of-type(4)@39",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(4)@39)",
+          "rect": {
+            "x": 382.5,
+            "y": 336.7421875,
+            "width": 346.5,
+            "height": 169.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@40",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@40)",
+          "rect": {
+            "x": 399.5,
+            "y": 357.7421875,
+            "width": 312.5,
+            "height": 77
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@44",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@44)",
+          "rect": {
+            "x": 399.5,
+            "y": 446.7421875,
+            "width": 312.5,
+            "height": 38.75
+          }
+        },
+        {
+          "id": "summary:nth-of-type(1)@50",
+          "label": "Show rules, dates and sourcesHide rules, dates and sources",
+          "name": "an unnamed control with id summary:nth-of-type(1)@50",
+          "rect": {
+            "x": 24,
+            "y": 530.4921875,
+            "width": 227.0625,
+            "height": 44
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@52",
+          "label": "Line by line",
+          "name": "Line by line",
+          "rect": {
+            "x": 24,
+            "y": 575.4921875,
+            "width": 705,
+            "height": 1513.234375
+          }
+        },
+        {
+          "id": "table:nth-of-type(1)@53",
+          "name": "an unnamed table inside “Line by line” (id table:nth-of-type(1)@53)",
+          "rect": {
+            "x": 24,
+            "y": 575.4921875,
+            "width": 705,
+            "height": 1513.234375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@56",
+          "name": "the group holding “Binance” and “OKX”",
+          "rect": {
+            "x": 24,
+            "y": 603.640625,
+            "width": 705,
+            "height": 68
+          }
+        },
+        {
+          "id": "th:nth-of-type(2)@58",
+          "name": "the group holding “Binance”",
+          "rect": {
+            "x": 24,
+            "y": 615.640625,
+            "width": 340.5,
+            "height": 44
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@59",
+          "label": "Binance",
+          "name": "Binance",
+          "rect": {
+            "x": 305.40625,
+            "y": 615.640625,
+            "width": 59.09375,
+            "height": 44
+          }
+        },
+        {
+          "id": "th:nth-of-type(3)@60",
+          "name": "the group holding “OKX”",
+          "rect": {
+            "x": 388.5,
+            "y": 615.640625,
+            "width": 340.5,
+            "height": 44
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@61",
+          "label": "OKX",
+          "name": "OKX",
+          "rect": {
+            "x": 388.5,
+            "y": 615.640625,
+            "width": 44,
+            "height": 44
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@63",
+          "name": "an unnamed group with id tr:nth-of-type(1)@63",
+          "rect": {
+            "x": 24,
+            "y": 671.640625,
+            "width": 705,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@64",
+          "name": "an unnamed group with id th:nth-of-type(1)@64",
+          "rect": {
+            "x": 24,
+            "y": 671.640625,
+            "width": 705,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@65",
+          "name": "an unnamed group with id tr:nth-of-type(2)@65",
+          "rect": {
+            "x": 24,
+            "y": 730.3359375,
+            "width": 705,
+            "height": 210
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@66",
+          "name": "an unnamed group with id th:nth-of-type(1)@66",
+          "rect": {
+            "x": 41,
+            "y": 750.3359375,
+            "width": 671,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@67",
+          "name": "an unnamed group with id td:nth-of-type(1)@67",
+          "rect": {
+            "x": 41,
+            "y": 783.3359375,
+            "width": 323.5,
+            "height": 136
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@78",
+          "name": "an unnamed group with id td:nth-of-type(2)@78",
+          "rect": {
+            "x": 388.5,
+            "y": 783.3359375,
+            "width": 323.5,
+            "height": 136
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@91",
+          "name": "an unnamed group with id tr:nth-of-type(3)@91",
+          "rect": {
+            "x": 24,
+            "y": 940.3359375,
+            "width": 705,
+            "height": 210
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@92",
+          "name": "an unnamed group with id th:nth-of-type(1)@92",
+          "rect": {
+            "x": 41,
+            "y": 960.3359375,
+            "width": 671,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@93",
+          "name": "an unnamed group with id td:nth-of-type(1)@93",
+          "rect": {
+            "x": 41,
+            "y": 993.3359375,
+            "width": 323.5,
+            "height": 136
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@106",
+          "name": "an unnamed group with id td:nth-of-type(2)@106",
+          "rect": {
+            "x": 388.5,
+            "y": 993.3359375,
+            "width": 323.5,
+            "height": 136
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@120",
+          "name": "an unnamed group with id tr:nth-of-type(1)@120",
+          "rect": {
+            "x": 24,
+            "y": 1150.3359375,
+            "width": 705,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@121",
+          "name": "an unnamed group with id th:nth-of-type(1)@121",
+          "rect": {
+            "x": 24,
+            "y": 1150.3359375,
+            "width": 705,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@122",
+          "name": "an unnamed group with id tr:nth-of-type(2)@122",
+          "rect": {
+            "x": 24,
+            "y": 1209.03125,
+            "width": 705,
+            "height": 172
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@123",
+          "name": "an unnamed group with id th:nth-of-type(1)@123",
+          "rect": {
+            "x": 41,
+            "y": 1229.03125,
+            "width": 671,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@124",
+          "name": "an unnamed group with id td:nth-of-type(1)@124",
+          "rect": {
+            "x": 41,
+            "y": 1262.03125,
+            "width": 323.5,
+            "height": 98
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@133",
+          "name": "an unnamed group with id td:nth-of-type(2)@133",
+          "rect": {
+            "x": 388.5,
+            "y": 1262.03125,
+            "width": 323.5,
+            "height": 98
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@140",
+          "name": "an unnamed group with id tr:nth-of-type(3)@140",
+          "rect": {
+            "x": 24,
+            "y": 1381.03125,
+            "width": 705,
+            "height": 118
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@141",
+          "name": "an unnamed group with id th:nth-of-type(1)@141",
+          "rect": {
+            "x": 41,
+            "y": 1401.03125,
+            "width": 671,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@142",
+          "name": "an unnamed group with id td:nth-of-type(1)@142",
+          "rect": {
+            "x": 41,
+            "y": 1434.03125,
+            "width": 323.5,
+            "height": 44
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@144",
+          "name": "an unnamed group with id td:nth-of-type(2)@144",
+          "rect": {
+            "x": 388.5,
+            "y": 1434.03125,
+            "width": 323.5,
+            "height": 44
+          }
+        },
+        {
+          "id": "tr:nth-of-type(4)@146",
+          "name": "an unnamed group with id tr:nth-of-type(4)@146",
+          "rect": {
+            "x": 24,
+            "y": 1499.03125,
+            "width": 705,
+            "height": 150
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@147",
+          "name": "an unnamed group with id th:nth-of-type(1)@147",
+          "rect": {
+            "x": 41,
+            "y": 1519.03125,
+            "width": 671,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@148",
+          "name": "an unnamed group with id td:nth-of-type(1)@148",
+          "rect": {
+            "x": 41,
+            "y": 1552.03125,
+            "width": 323.5,
+            "height": 76
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@152",
+          "name": "an unnamed group with id td:nth-of-type(2)@152",
+          "rect": {
+            "x": 388.5,
+            "y": 1552.03125,
+            "width": 323.5,
+            "height": 76
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@157",
+          "name": "an unnamed group with id tr:nth-of-type(1)@157",
+          "rect": {
+            "x": 24,
+            "y": 1649.03125,
+            "width": 705,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@158",
+          "name": "an unnamed group with id th:nth-of-type(1)@158",
+          "rect": {
+            "x": 24,
+            "y": 1649.03125,
+            "width": 705,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@159",
+          "name": "an unnamed group with id tr:nth-of-type(2)@159",
+          "rect": {
+            "x": 24,
+            "y": 1707.7265625,
+            "width": 705,
+            "height": 118
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@160",
+          "name": "an unnamed group with id th:nth-of-type(1)@160",
+          "rect": {
+            "x": 41,
+            "y": 1727.7265625,
+            "width": 671,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@161",
+          "name": "an unnamed group with id td:nth-of-type(1)@161",
+          "rect": {
+            "x": 41,
+            "y": 1760.7265625,
+            "width": 323.5,
+            "height": 44
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@163",
+          "name": "an unnamed group with id td:nth-of-type(2)@163",
+          "rect": {
+            "x": 388.5,
+            "y": 1760.7265625,
+            "width": 323.5,
+            "height": 44
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@165",
+          "name": "an unnamed group with id tr:nth-of-type(3)@165",
+          "rect": {
+            "x": 24,
+            "y": 1825.7265625,
+            "width": 705,
+            "height": 263
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@166",
+          "name": "an unnamed group with id th:nth-of-type(1)@166",
+          "rect": {
+            "x": 41,
+            "y": 1845.7265625,
+            "width": 671,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@167",
+          "name": "an unnamed group with id td:nth-of-type(1)@167",
+          "rect": {
+            "x": 41,
+            "y": 1878.7265625,
+            "width": 323.5,
+            "height": 189
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@174",
+          "name": "an unnamed group with id td:nth-of-type(2)@174",
+          "rect": {
+            "x": 388.5,
+            "y": 1878.7265625,
+            "width": 323.5,
+            "height": 189
+          }
+        }
+      ]
+    },
+    {
+      "name": "compare-en-1440",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "elements": [
+        {
+          "id": "#exchange-scorecard",
+          "name": "the section holding “Line by line”",
+          "rect": {
+            "x": 112.5,
+            "y": 75.796875,
+            "width": 1200,
+            "height": 1789.1796875
+          }
+        },
+        {
+          "id": "dl:nth-of-type(1)@4",
+          "name": "an unnamed group inside the section holding “Line by line” (id dl:nth-of-type(1)@4)",
+          "rect": {
+            "x": 112.5,
+            "y": 154.9921875,
+            "width": 1200,
+            "height": 190.75
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@5",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(1)@5)",
+          "rect": {
+            "x": 112.5,
+            "y": 154.9921875,
+            "width": 291,
+            "height": 190.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@6",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@6)",
+          "rect": {
+            "x": 129.5,
+            "y": 175.9921875,
+            "width": 257,
+            "height": 77
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@10",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@10)",
+          "rect": {
+            "x": 129.5,
+            "y": 264.9921875,
+            "width": 257,
+            "height": 38.75
+          }
+        },
+        {
+          "id": "div:nth-of-type(2)@15",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(2)@15)",
+          "rect": {
+            "x": 415.5,
+            "y": 154.9921875,
+            "width": 291,
+            "height": 190.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@16",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@16)",
+          "rect": {
+            "x": 432.5,
+            "y": 175.9921875,
+            "width": 257,
+            "height": 77
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@21",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@21)",
+          "rect": {
+            "x": 432.5,
+            "y": 264.9921875,
+            "width": 257,
+            "height": 38.75
+          }
+        },
+        {
+          "id": "div:nth-of-type(3)@26",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(3)@26)",
+          "rect": {
+            "x": 718.5,
+            "y": 154.9921875,
+            "width": 291,
+            "height": 190.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@27",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@27)",
+          "rect": {
+            "x": 735.5,
+            "y": 175.9921875,
+            "width": 257,
+            "height": 77
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@31",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@31)",
+          "rect": {
+            "x": 735.5,
+            "y": 264.9921875,
+            "width": 257,
+            "height": 38.75
+          }
+        },
+        {
+          "id": "div:nth-of-type(4)@39",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(4)@39)",
+          "rect": {
+            "x": 1021.5,
+            "y": 154.9921875,
+            "width": 291,
+            "height": 190.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@40",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@40)",
+          "rect": {
+            "x": 1038.5,
+            "y": 175.9921875,
+            "width": 257,
+            "height": 98
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@44",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@44)",
+          "rect": {
+            "x": 1038.5,
+            "y": 285.9921875,
+            "width": 257,
+            "height": 38.75
+          }
+        },
+        {
+          "id": "summary:nth-of-type(1)@50",
+          "label": "Show rules, dates and sourcesHide rules, dates and sources",
+          "name": "an unnamed control with id summary:nth-of-type(1)@50",
+          "rect": {
+            "x": 112.5,
+            "y": 369.7421875,
+            "width": 227.0625,
+            "height": 44
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@52",
+          "label": "Line by line",
+          "name": "Line by line",
+          "rect": {
+            "x": 112.5,
+            "y": 414.7421875,
+            "width": 1200,
+            "height": 1450.234375
+          }
+        },
+        {
+          "id": "table:nth-of-type(1)@53",
+          "name": "an unnamed table inside “Line by line” (id table:nth-of-type(1)@53)",
+          "rect": {
+            "x": 112.5,
+            "y": 414.7421875,
+            "width": 1200,
+            "height": 1450.234375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@56",
+          "name": "the group holding “Binance” and “OKX”",
+          "rect": {
+            "x": 112.5,
+            "y": 442.890625,
+            "width": 1200,
+            "height": 68
+          }
+        },
+        {
+          "id": "th:nth-of-type(2)@58",
+          "name": "the group holding “Binance”",
+          "rect": {
+            "x": 112.5,
+            "y": 454.890625,
+            "width": 588,
+            "height": 44
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@59",
+          "label": "Binance",
+          "name": "Binance",
+          "rect": {
+            "x": 641.40625,
+            "y": 454.890625,
+            "width": 59.09375,
+            "height": 44
+          }
+        },
+        {
+          "id": "th:nth-of-type(3)@60",
+          "name": "the group holding “OKX”",
+          "rect": {
+            "x": 724.5,
+            "y": 454.890625,
+            "width": 588,
+            "height": 44
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@61",
+          "label": "OKX",
+          "name": "OKX",
+          "rect": {
+            "x": 724.5,
+            "y": 454.890625,
+            "width": 44,
+            "height": 44
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@63",
+          "name": "an unnamed group with id tr:nth-of-type(1)@63",
+          "rect": {
+            "x": 112.5,
+            "y": 510.890625,
+            "width": 1200,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@64",
+          "name": "an unnamed group with id th:nth-of-type(1)@64",
+          "rect": {
+            "x": 112.5,
+            "y": 510.890625,
+            "width": 1200,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@65",
+          "name": "an unnamed group with id tr:nth-of-type(2)@65",
+          "rect": {
+            "x": 112.5,
+            "y": 569.5859375,
+            "width": 1200,
+            "height": 210
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@66",
+          "name": "an unnamed group with id th:nth-of-type(1)@66",
+          "rect": {
+            "x": 129.5,
+            "y": 589.5859375,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@67",
+          "name": "an unnamed group with id td:nth-of-type(1)@67",
+          "rect": {
+            "x": 129.5,
+            "y": 622.5859375,
+            "width": 571,
+            "height": 136
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@78",
+          "name": "an unnamed group with id td:nth-of-type(2)@78",
+          "rect": {
+            "x": 724.5,
+            "y": 622.5859375,
+            "width": 571,
+            "height": 136
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@91",
+          "name": "an unnamed group with id tr:nth-of-type(3)@91",
+          "rect": {
+            "x": 112.5,
+            "y": 779.5859375,
+            "width": 1200,
+            "height": 210
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@92",
+          "name": "an unnamed group with id th:nth-of-type(1)@92",
+          "rect": {
+            "x": 129.5,
+            "y": 799.5859375,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@93",
+          "name": "an unnamed group with id td:nth-of-type(1)@93",
+          "rect": {
+            "x": 129.5,
+            "y": 832.5859375,
+            "width": 571,
+            "height": 136
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@106",
+          "name": "an unnamed group with id td:nth-of-type(2)@106",
+          "rect": {
+            "x": 724.5,
+            "y": 832.5859375,
+            "width": 571,
+            "height": 136
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@120",
+          "name": "an unnamed group with id tr:nth-of-type(1)@120",
+          "rect": {
+            "x": 112.5,
+            "y": 989.5859375,
+            "width": 1200,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@121",
+          "name": "an unnamed group with id th:nth-of-type(1)@121",
+          "rect": {
+            "x": 112.5,
+            "y": 989.5859375,
+            "width": 1200,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@122",
+          "name": "an unnamed group with id tr:nth-of-type(2)@122",
+          "rect": {
+            "x": 112.5,
+            "y": 1048.28125,
+            "width": 1200,
+            "height": 172
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@123",
+          "name": "an unnamed group with id th:nth-of-type(1)@123",
+          "rect": {
+            "x": 129.5,
+            "y": 1068.28125,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@124",
+          "name": "an unnamed group with id td:nth-of-type(1)@124",
+          "rect": {
+            "x": 129.5,
+            "y": 1101.28125,
+            "width": 571,
+            "height": 98
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@133",
+          "name": "an unnamed group with id td:nth-of-type(2)@133",
+          "rect": {
+            "x": 724.5,
+            "y": 1101.28125,
+            "width": 571,
+            "height": 98
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@140",
+          "name": "an unnamed group with id tr:nth-of-type(3)@140",
+          "rect": {
+            "x": 112.5,
+            "y": 1220.28125,
+            "width": 1200,
+            "height": 118
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@141",
+          "name": "an unnamed group with id th:nth-of-type(1)@141",
+          "rect": {
+            "x": 129.5,
+            "y": 1240.28125,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@142",
+          "name": "an unnamed group with id td:nth-of-type(1)@142",
+          "rect": {
+            "x": 129.5,
+            "y": 1273.28125,
+            "width": 571,
+            "height": 44
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@144",
+          "name": "an unnamed group with id td:nth-of-type(2)@144",
+          "rect": {
+            "x": 724.5,
+            "y": 1273.28125,
+            "width": 571,
+            "height": 44
+          }
+        },
+        {
+          "id": "tr:nth-of-type(4)@146",
+          "name": "an unnamed group with id tr:nth-of-type(4)@146",
+          "rect": {
+            "x": 112.5,
+            "y": 1338.28125,
+            "width": 1200,
+            "height": 150
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@147",
+          "name": "an unnamed group with id th:nth-of-type(1)@147",
+          "rect": {
+            "x": 129.5,
+            "y": 1358.28125,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@148",
+          "name": "an unnamed group with id td:nth-of-type(1)@148",
+          "rect": {
+            "x": 129.5,
+            "y": 1391.28125,
+            "width": 571,
+            "height": 76
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@152",
+          "name": "an unnamed group with id td:nth-of-type(2)@152",
+          "rect": {
+            "x": 724.5,
+            "y": 1391.28125,
+            "width": 571,
+            "height": 76
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@157",
+          "name": "an unnamed group with id tr:nth-of-type(1)@157",
+          "rect": {
+            "x": 112.5,
+            "y": 1488.28125,
+            "width": 1200,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@158",
+          "name": "an unnamed group with id th:nth-of-type(1)@158",
+          "rect": {
+            "x": 112.5,
+            "y": 1488.28125,
+            "width": 1200,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@159",
+          "name": "an unnamed group with id tr:nth-of-type(2)@159",
+          "rect": {
+            "x": 112.5,
+            "y": 1546.9765625,
+            "width": 1200,
+            "height": 118
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@160",
+          "name": "an unnamed group with id th:nth-of-type(1)@160",
+          "rect": {
+            "x": 129.5,
+            "y": 1566.9765625,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@161",
+          "name": "an unnamed group with id td:nth-of-type(1)@161",
+          "rect": {
+            "x": 129.5,
+            "y": 1599.9765625,
+            "width": 571,
+            "height": 44
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@163",
+          "name": "an unnamed group with id td:nth-of-type(2)@163",
+          "rect": {
+            "x": 724.5,
+            "y": 1599.9765625,
+            "width": 571,
+            "height": 44
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@165",
+          "name": "an unnamed group with id tr:nth-of-type(3)@165",
+          "rect": {
+            "x": 112.5,
+            "y": 1664.9765625,
+            "width": 1200,
+            "height": 200
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@166",
+          "name": "an unnamed group with id th:nth-of-type(1)@166",
+          "rect": {
+            "x": 129.5,
+            "y": 1684.9765625,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@167",
+          "name": "an unnamed group with id td:nth-of-type(1)@167",
+          "rect": {
+            "x": 129.5,
+            "y": 1717.9765625,
+            "width": 571,
+            "height": 126
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@174",
+          "name": "an unnamed group with id td:nth-of-type(2)@174",
+          "rect": {
+            "x": 724.5,
+            "y": 1717.9765625,
+            "width": 571,
+            "height": 126
+          }
+        }
+      ]
+    },
+    {
+      "name": "compare-en-1728",
+      "viewport": {
+        "width": 1728,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "elements": [
+        {
+          "id": "#exchange-scorecard",
+          "name": "the section holding “Line by line”",
+          "rect": {
+            "x": 256.5,
+            "y": 75.796875,
+            "width": 1200,
+            "height": 1789.1796875
+          }
+        },
+        {
+          "id": "dl:nth-of-type(1)@4",
+          "name": "an unnamed group inside the section holding “Line by line” (id dl:nth-of-type(1)@4)",
+          "rect": {
+            "x": 256.5,
+            "y": 154.9921875,
+            "width": 1200,
+            "height": 190.75
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@5",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(1)@5)",
+          "rect": {
+            "x": 256.5,
+            "y": 154.9921875,
+            "width": 291,
+            "height": 190.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@6",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@6)",
+          "rect": {
+            "x": 273.5,
+            "y": 175.9921875,
+            "width": 257,
+            "height": 77
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@10",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@10)",
+          "rect": {
+            "x": 273.5,
+            "y": 264.9921875,
+            "width": 257,
+            "height": 38.75
+          }
+        },
+        {
+          "id": "div:nth-of-type(2)@15",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(2)@15)",
+          "rect": {
+            "x": 559.5,
+            "y": 154.9921875,
+            "width": 291,
+            "height": 190.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@16",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@16)",
+          "rect": {
+            "x": 576.5,
+            "y": 175.9921875,
+            "width": 257,
+            "height": 77
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@21",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@21)",
+          "rect": {
+            "x": 576.5,
+            "y": 264.9921875,
+            "width": 257,
+            "height": 38.75
+          }
+        },
+        {
+          "id": "div:nth-of-type(3)@26",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(3)@26)",
+          "rect": {
+            "x": 862.5,
+            "y": 154.9921875,
+            "width": 291,
+            "height": 190.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@27",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@27)",
+          "rect": {
+            "x": 879.5,
+            "y": 175.9921875,
+            "width": 257,
+            "height": 77
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@31",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@31)",
+          "rect": {
+            "x": 879.5,
+            "y": 264.9921875,
+            "width": 257,
+            "height": 38.75
+          }
+        },
+        {
+          "id": "div:nth-of-type(4)@39",
+          "name": "an unnamed group inside the section holding “Line by line” (id div:nth-of-type(4)@39)",
+          "rect": {
+            "x": 1165.5,
+            "y": 154.9921875,
+            "width": 291,
+            "height": 190.75
+          }
+        },
+        {
+          "id": "dt:nth-of-type(1)@40",
+          "name": "an unnamed group inside the section holding “Line by line” (id dt:nth-of-type(1)@40)",
+          "rect": {
+            "x": 1182.5,
+            "y": 175.9921875,
+            "width": 257,
+            "height": 98
+          }
+        },
+        {
+          "id": "dd:nth-of-type(1)@44",
+          "name": "an unnamed group inside the section holding “Line by line” (id dd:nth-of-type(1)@44)",
+          "rect": {
+            "x": 1182.5,
+            "y": 285.9921875,
+            "width": 257,
+            "height": 38.75
+          }
+        },
+        {
+          "id": "summary:nth-of-type(1)@50",
+          "label": "Show rules, dates and sourcesHide rules, dates and sources",
+          "name": "an unnamed control with id summary:nth-of-type(1)@50",
+          "rect": {
+            "x": 256.5,
+            "y": 369.7421875,
+            "width": 227.0625,
+            "height": 44
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@52",
+          "label": "Line by line",
+          "name": "Line by line",
+          "rect": {
+            "x": 256.5,
+            "y": 414.7421875,
+            "width": 1200,
+            "height": 1450.234375
+          }
+        },
+        {
+          "id": "table:nth-of-type(1)@53",
+          "name": "an unnamed table inside “Line by line” (id table:nth-of-type(1)@53)",
+          "rect": {
+            "x": 256.5,
+            "y": 414.7421875,
+            "width": 1200,
+            "height": 1450.234375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@56",
+          "name": "the group holding “Binance” and “OKX”",
+          "rect": {
+            "x": 256.5,
+            "y": 442.890625,
+            "width": 1200,
+            "height": 68
+          }
+        },
+        {
+          "id": "th:nth-of-type(2)@58",
+          "name": "the group holding “Binance”",
+          "rect": {
+            "x": 256.5,
+            "y": 454.890625,
+            "width": 588,
+            "height": 44
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@59",
+          "label": "Binance",
+          "name": "Binance",
+          "rect": {
+            "x": 785.40625,
+            "y": 454.890625,
+            "width": 59.09375,
+            "height": 44
+          }
+        },
+        {
+          "id": "th:nth-of-type(3)@60",
+          "name": "the group holding “OKX”",
+          "rect": {
+            "x": 868.5,
+            "y": 454.890625,
+            "width": 588,
+            "height": 44
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@61",
+          "label": "OKX",
+          "name": "OKX",
+          "rect": {
+            "x": 868.5,
+            "y": 454.890625,
+            "width": 44,
+            "height": 44
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@63",
+          "name": "an unnamed group with id tr:nth-of-type(1)@63",
+          "rect": {
+            "x": 256.5,
+            "y": 510.890625,
+            "width": 1200,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@64",
+          "name": "an unnamed group with id th:nth-of-type(1)@64",
+          "rect": {
+            "x": 256.5,
+            "y": 510.890625,
+            "width": 1200,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@65",
+          "name": "an unnamed group with id tr:nth-of-type(2)@65",
+          "rect": {
+            "x": 256.5,
+            "y": 569.5859375,
+            "width": 1200,
+            "height": 210
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@66",
+          "name": "an unnamed group with id th:nth-of-type(1)@66",
+          "rect": {
+            "x": 273.5,
+            "y": 589.5859375,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@67",
+          "name": "an unnamed group with id td:nth-of-type(1)@67",
+          "rect": {
+            "x": 273.5,
+            "y": 622.5859375,
+            "width": 571,
+            "height": 136
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@78",
+          "name": "an unnamed group with id td:nth-of-type(2)@78",
+          "rect": {
+            "x": 868.5,
+            "y": 622.5859375,
+            "width": 571,
+            "height": 136
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@91",
+          "name": "an unnamed group with id tr:nth-of-type(3)@91",
+          "rect": {
+            "x": 256.5,
+            "y": 779.5859375,
+            "width": 1200,
+            "height": 210
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@92",
+          "name": "an unnamed group with id th:nth-of-type(1)@92",
+          "rect": {
+            "x": 273.5,
+            "y": 799.5859375,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@93",
+          "name": "an unnamed group with id td:nth-of-type(1)@93",
+          "rect": {
+            "x": 273.5,
+            "y": 832.5859375,
+            "width": 571,
+            "height": 136
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@106",
+          "name": "an unnamed group with id td:nth-of-type(2)@106",
+          "rect": {
+            "x": 868.5,
+            "y": 832.5859375,
+            "width": 571,
+            "height": 136
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@120",
+          "name": "an unnamed group with id tr:nth-of-type(1)@120",
+          "rect": {
+            "x": 256.5,
+            "y": 989.5859375,
+            "width": 1200,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@121",
+          "name": "an unnamed group with id th:nth-of-type(1)@121",
+          "rect": {
+            "x": 256.5,
+            "y": 989.5859375,
+            "width": 1200,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@122",
+          "name": "an unnamed group with id tr:nth-of-type(2)@122",
+          "rect": {
+            "x": 256.5,
+            "y": 1048.28125,
+            "width": 1200,
+            "height": 172
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@123",
+          "name": "an unnamed group with id th:nth-of-type(1)@123",
+          "rect": {
+            "x": 273.5,
+            "y": 1068.28125,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@124",
+          "name": "an unnamed group with id td:nth-of-type(1)@124",
+          "rect": {
+            "x": 273.5,
+            "y": 1101.28125,
+            "width": 571,
+            "height": 98
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@133",
+          "name": "an unnamed group with id td:nth-of-type(2)@133",
+          "rect": {
+            "x": 868.5,
+            "y": 1101.28125,
+            "width": 571,
+            "height": 98
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@140",
+          "name": "an unnamed group with id tr:nth-of-type(3)@140",
+          "rect": {
+            "x": 256.5,
+            "y": 1220.28125,
+            "width": 1200,
+            "height": 118
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@141",
+          "name": "an unnamed group with id th:nth-of-type(1)@141",
+          "rect": {
+            "x": 273.5,
+            "y": 1240.28125,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@142",
+          "name": "an unnamed group with id td:nth-of-type(1)@142",
+          "rect": {
+            "x": 273.5,
+            "y": 1273.28125,
+            "width": 571,
+            "height": 44
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@144",
+          "name": "an unnamed group with id td:nth-of-type(2)@144",
+          "rect": {
+            "x": 868.5,
+            "y": 1273.28125,
+            "width": 571,
+            "height": 44
+          }
+        },
+        {
+          "id": "tr:nth-of-type(4)@146",
+          "name": "an unnamed group with id tr:nth-of-type(4)@146",
+          "rect": {
+            "x": 256.5,
+            "y": 1338.28125,
+            "width": 1200,
+            "height": 150
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@147",
+          "name": "an unnamed group with id th:nth-of-type(1)@147",
+          "rect": {
+            "x": 273.5,
+            "y": 1358.28125,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@148",
+          "name": "an unnamed group with id td:nth-of-type(1)@148",
+          "rect": {
+            "x": 273.5,
+            "y": 1391.28125,
+            "width": 571,
+            "height": 76
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@152",
+          "name": "an unnamed group with id td:nth-of-type(2)@152",
+          "rect": {
+            "x": 868.5,
+            "y": 1391.28125,
+            "width": 571,
+            "height": 76
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@157",
+          "name": "an unnamed group with id tr:nth-of-type(1)@157",
+          "rect": {
+            "x": 256.5,
+            "y": 1488.28125,
+            "width": 1200,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@158",
+          "name": "an unnamed group with id th:nth-of-type(1)@158",
+          "rect": {
+            "x": 256.5,
+            "y": 1488.28125,
+            "width": 1200,
+            "height": 58.6953125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@159",
+          "name": "an unnamed group with id tr:nth-of-type(2)@159",
+          "rect": {
+            "x": 256.5,
+            "y": 1546.9765625,
+            "width": 1200,
+            "height": 118
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@160",
+          "name": "an unnamed group with id th:nth-of-type(1)@160",
+          "rect": {
+            "x": 273.5,
+            "y": 1566.9765625,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@161",
+          "name": "an unnamed group with id td:nth-of-type(1)@161",
+          "rect": {
+            "x": 273.5,
+            "y": 1599.9765625,
+            "width": 571,
+            "height": 44
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@163",
+          "name": "an unnamed group with id td:nth-of-type(2)@163",
+          "rect": {
+            "x": 868.5,
+            "y": 1599.9765625,
+            "width": 571,
+            "height": 44
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@165",
+          "name": "an unnamed group with id tr:nth-of-type(3)@165",
+          "rect": {
+            "x": 256.5,
+            "y": 1664.9765625,
+            "width": 1200,
+            "height": 200
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@166",
+          "name": "an unnamed group with id th:nth-of-type(1)@166",
+          "rect": {
+            "x": 273.5,
+            "y": 1684.9765625,
+            "width": 1166,
+            "height": 21
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@167",
+          "name": "an unnamed group with id td:nth-of-type(1)@167",
+          "rect": {
+            "x": 273.5,
+            "y": 1717.9765625,
+            "width": 571,
+            "height": 126
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@174",
+          "name": "an unnamed group with id td:nth-of-type(2)@174",
+          "rect": {
+            "x": 868.5,
+            "y": 1717.9765625,
+            "width": 571,
+            "height": 126
+          }
+        }
+      ]
+    }
+  ],
+  "capturedWidths": [
+    390,
+    768,
+    1440,
+    1728
+  ],
+  "missingWidths": [],
+  "rubric": [],
+  "rubricStatus": "unavailable",
+  "nextStep": "Before you finish this review, call `find-design-system` with the product's description and list its top matches in your report, so the person can pick a style. Restyle the screen only with the one they pick."
+}

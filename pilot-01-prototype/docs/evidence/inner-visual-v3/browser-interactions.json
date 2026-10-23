@@ -1,0 +1,16 @@
+{
+  "table": {
+    "outline": "none",
+    "scrollLeft": 120,
+    "scrollWidth": 680,
+    "width": 325
+  },
+  "compare": {
+    "open": true
+  },
+  "venue": {
+    "open": true,
+    "rows": 3
+  },
+  "logs": []
+}

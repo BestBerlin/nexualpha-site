@@ -112,12 +112,12 @@ test("server-rendered article links the first partner mention, skips headings/co
   assert.doesNotMatch(html, /<code>[^<]*<a/, "no link inside code");
   // Owner 2026-10-13: the Binance page link carries our code through /go/binance-page; it is not autolinked again.
   assert.match(html, /<a href="\/go\/binance-page\?to=%2Fen%2Ffee%2Fschedule&amp;src=article"[^>]*>Binance fees<\/a>/, "existing link kept (coded)");
-  const related = html.match(/<p class="news-detail__related-partners"[^>]*>([\s\S]*?)<\/p>/);
+  const related = html.match(/<nav class="news-detail__related-partners news-detail__decision-links"[^>]*>([\s\S]*?)<\/nav>/);
   assert.ok(related, "related line present");
   assert.match(related[1], /Related:/);
-  assert.match(related[1], /data-related-partner="binance"[^>]*>Binance fees &amp; rebate</);
-  assert.match(related[1], /data-related-partner="okx"[^>]*>OKX fees &amp; rebate</);
-  assert.match(related[1], /data-related-compare="binance-vs-okx"[^>]*>Compare Binance vs OKX</);
+  assert.match(related[1], /data-related-partner="binance"[^>]*>[\s\S]*?<span>Binance fees &amp; rebate</);
+  assert.match(related[1], /data-related-partner="okx"[^>]*>[\s\S]*?<span>OKX fees &amp; rebate</);
+  assert.match(related[1], /data-related-compare="binance-vs-okx"[^>]*>[\s\S]*?<span>Compare Binance vs OKX</);
   const single = await renderArticle("## Direct answer\n\nOnly OKX is mentioned here.", "en");
   assert.doesNotMatch(single, /news-detail__related-partners/, "no related line with one partner");
   assert.equal((single.match(/data-partner-link=/g) || []).length, 1);

@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { FACTS_AS_OF } from '../../data/exchange-facts.js';
+import { isPartnerPromotableIn } from '../../data/partner-geo-policy.js';
 import { buildScorecard, countryRankings } from '../../data/exchange-scorecards.js';
 import { localizedHref } from '../../data/locale-routing.js';
 import { SourceLink } from '../shared/SourceLink.jsx';
+import { BrandMark } from '../brand/BrandMark.jsx';
 import './scorecards.css';
 import { localizedScorecardRow, localizedScorecardRule, localizedScorecardValue, scorecardCaption, sourceLabel } from './scorecard-copy.js';
 
@@ -54,7 +56,6 @@ function schema(items, locale, name) {
   return { '@context': 'https://schema.org', '@type': 'ItemList', name, itemListOrder: 'https://schema.org/ItemListUnordered', itemListElement: items.map((v, i) => ({ '@type': 'ListItem', position: i + 1, name: v.name, url: `https://nexualpha.com${localizedHref(`/exchanges/${v.slug}`, { locale })}` })) };
 }
 function JsonLd({ value }) { return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(value).replace(/</g, '\\u003c') }} />; }
-function Leaders({ winners, venues, empty }) { return winners.length ? winners.map((slug) => venues.find((v) => v.slug === slug)?.name || slug).join(' / ') : empty; }
 
 // De-AI pass 2 (2026-10-18): the scorecard leads with the verdicts, groups its rows (fees · coins & products · regions &
 // licences) and keeps rules, dates and sources one click away (a <details> toggle; everything stays in the SSR HTML).
@@ -81,6 +82,41 @@ function groupedRows(rows) {
   return groups.filter((group) => group.rows.length);
 }
 
+// Visuals use the same checked values and policy-filtered winners as the semantic table.
+// Fee tracks compare maker and taker separately; booleans never become numeric scores.
+function ScorecardIcon({ kind }) {
+  const paths = {
+    lowestFees: <><path d="M4 7h16M6 4v6m12-6v6M5 14h5v6H5zm9-2h5v8h-5z" /></>,
+    mostCoins: <><circle cx="9" cy="9" r="5" /><path d="M15 7a5 5 0 1 1-8 8m7-1h4m-2-2v4" /></>,
+    futures: <><path d="m4 17 5-5 4 3 7-10m-6 0h6v6M4 21h16" /></>,
+    beginners: <><path d="M4 10h16v10H4zM8 10V6a4 4 0 0 1 8 0v4m-4 4v3" /></>,
+  };
+  return <span className="exchange-scorecard__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none">{paths[kind]}</svg></span>;
+}
+
+function scorecardMetrics(row) {
+  if (row.key === 'spotFees' || row.key === 'perpFees') return ['maker', 'taker'];
+  return row.values.some((cell) => typeof cell.value === 'number' && Number.isFinite(cell.value)) ? ['value'] : [];
+}
+function ScorecardBars({ row, cell, locale, eligibleSlugs }) {
+  const metrics = scorecardMetrics(row);
+  if (!metrics.length) return null;
+  const numbers = row.values.flatMap((value) => metrics.map((key) => value[key])).filter((value) => typeof value === 'number' && Number.isFinite(value));
+  const scale = Math.max(0, ...numbers);
+  const labels = ({ 'zh-Hans': ['挂单', '吃单'], 'zh-Hant': ['掛單', '吃單'], ar: ['صانع', 'آخذ'] })[locale] || ['Maker', 'Taker'];
+  return <span className="exchange-scorecard__bars" aria-hidden="true" data-scorecard-bars={row.key}>
+    {metrics.map((key, index) => {
+      if (typeof cell[key] !== 'number' || !Number.isFinite(cell[key])) return null;
+      const eligibleValues = row.values.filter((value) => eligibleSlugs.includes(value.slug) && typeof value[key] === 'number' && Number.isFinite(value[key]));
+      const winsMetric = key === 'value' ? row.winners.includes(cell.slug) : eligibleSlugs.includes(cell.slug) && cell[key] === Math.min(...eligibleValues.map((value) => value[key]));
+      return <span className="exchange-scorecard__bar" key={key} data-scorecard-metric={key} data-scorecard-metric-winner={winsMetric ? '' : undefined}>
+        <small>{key === 'value' ? cell.value : labels[index]}{winsMetric && ' ✓'}</small>
+        <span className="exchange-scorecard__track"><i style={{ '--scorecard-width': scale ? Math.max(0, cell[key]) / scale : 0 }} /></span>
+      </span>;
+    })}
+  </span>;
+}
+
 export function ExchangeScorecard({ selected, locale = 'en', market }) {
   const now = useScorecardNow();
   const card = buildScorecard(selected, { locale, market, now: now ?? `${FACTS_AS_OF}T00:00:00+08:00` });
@@ -89,22 +125,24 @@ export function ExchangeScorecard({ selected, locale = 'en', market }) {
   if (card.venues.length < 2) return null;
   const rows = card.rows.filter((row) => now != null || row.key !== "currentPromotion");
   const verdicts = card.verdicts.filter((v) => v.winners.length);
-  return <section className="v2-section v2-shell exchange-scorecard exchange-scorecard--grouped" id="exchange-scorecard" aria-labelledby="exchange-scorecard-heading" lang={COPY[locale] ? locale : 'en'}>
+  const eligibleSlugs = card.venues.filter((venue) => isPartnerPromotableIn(venue.slug, { locale, market: market || card.market.key })).map((venue) => venue.slug);
+  return <section className="v2-section v2-shell exchange-scorecard exchange-scorecard--grouped exchange-scorecard--visual" id="exchange-scorecard" aria-labelledby="exchange-scorecard-heading" lang={COPY[locale] ? locale : 'en'}>
     <h2 id="exchange-scorecard-heading">{t[0]}</h2>
     {verdicts.length ? <>
       <h3>{t[6]}</h3>
-      <dl className="exchange-scorecard__verdicts">{verdicts.map((v) => <div key={v.key}><dt>{localizedScorecardRow(v.key, locale, v.label)}</dt><dd><Leaders winners={v.winners} venues={card.venues} empty={t[4]} /><p>{localizedScorecardRule(v.key, locale, v.rule)}</p></dd></div>)}</dl>
+      <dl className="exchange-scorecard__verdicts">{verdicts.map((v) => <div key={v.key} data-scorecard-verdict={v.key}><dt><ScorecardIcon kind={v.key} />{localizedScorecardRow(v.key, locale, v.label)}</dt><dd><span className="exchange-scorecard__leaders">{v.winners.map((slug) => <span className="exchange-scorecard__leader" key={slug}><BrandMark slug={slug} compact /><span>{card.venues.find((venue) => venue.slug === slug)?.name || slug}</span></span>)}</span><p>{localizedScorecardRule(v.key, locale, v.rule)}</p></dd></div>)}</dl>
     </> : null}
     <details className="exchange-scorecard__more"><summary><span className="exchange-scorecard__more-open">{g.more}</span><span className="exchange-scorecard__more-close">{g.less}</span></summary></details>
     <p className="exchange-scorecard__scroll-hint" lang={SCROLL_HINT[locale] ? locale : 'en'}>{SCROLL_HINT[locale] || SCROLL_HINT.en} <span aria-hidden="true">↔</span></p>
     <div className="exchange-scorecard__scroll" tabIndex={0} role="region" aria-label={t[0]}>
       <table><caption>{scorecardCaption(locale)}</caption>
-        <thead><tr><th scope="col">{t[1]}</th>{card.venues.map((v) => <th scope="col" key={v.slug}><a href={localizedHref(`/exchanges/${v.slug}`, { locale })}>{v.name}</a></th>)}</tr></thead>
+        <thead><tr style={{ "--sc-cols": card.venues.length }}><th scope="col">{t[1]}</th>{card.venues.map((v) => <th scope="col" key={v.slug}><a href={localizedHref(`/exchanges/${v.slug}`, { locale })}>{v.name}</a></th>)}</tr></thead>
         {groupedRows(rows).map((group) => <tbody key={group.key} data-group={group.key}>
           <tr className="exchange-scorecard__group" style={{ "--sc-cols": card.venues.length }}><th scope="rowgroup" colSpan={card.venues.length + 1}>{g[group.key]}</th></tr>
-          {group.rows.map((row) => <tr key={row.key} style={{ "--sc-cols": card.venues.length }}><th scope="row">{localizedScorecardRow(row.key, locale, row.label)}<span className="exchange-scorecard__date exchange-scorecard__rule">{localizedScorecardRule(row.key, locale, row.rule)}</span></th>{row.values.map((cell, i) => <td key={card.venues[i].slug} data-row={row.key} data-venue={card.venues[i].name}>
+          {group.rows.map((row) => <tr key={row.key} data-scorecard-row={row.key} data-scorecard-kind={scorecardMetrics(row).length ? "numeric" : "chips"} style={{ "--sc-cols": card.venues.length }}><th scope="row">{localizedScorecardRow(row.key, locale, row.label)}<span className="exchange-scorecard__date exchange-scorecard__rule">{localizedScorecardRule(row.key, locale, row.rule)}</span></th>{row.values.map((cell, i) => <td key={card.venues[i].slug} data-row={row.key} data-venue={card.venues[i].name} data-scorecard-side={i === 0 ? "a" : "b"} data-scorecard-winner={row.winners.includes(card.venues[i].slug) ? "" : undefined}>
             <span className="exchange-scorecard__value">{cell.value != null ? localizedScorecardValue(cell.display, locale) : null}</span>
-            {row.winners.includes(card.venues[i].slug) && <span className="exchange-scorecard__badge">{row.winners.length > 1 ? t[3] : t[2]}</span>}
+            <ScorecardBars row={row} cell={cell} locale={locale} eligibleSlugs={eligibleSlugs} />
+            {row.winners.includes(card.venues[i].slug) && <span className="exchange-scorecard__badge"><span aria-hidden="true">✓ </span>{row.winners.length > 1 ? t[3] : t[2]}</span>}
             {cell.value != null && cell.asOf && <span className="exchange-scorecard__date">{t[5]} {asOf(cell.asOf)}</span>}
             {cell.sources?.length > 0 && <span className="exchange-scorecard__sources">{cell.sources.map((url, n) => <SourceLink key={url} locale={locale} href={url}>{sourceLabel(locale)} {n + 1}</SourceLink>)}</span>}
           </td>)}</tr>)}

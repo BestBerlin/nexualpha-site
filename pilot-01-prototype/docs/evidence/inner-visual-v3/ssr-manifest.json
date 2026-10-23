@@ -1,0 +1,83 @@
+{
+  "renderer": "built Worker + dist/news-ssr/entry-server.js",
+  "article": "kraken-crypto-withdrawal-network-address-confirmation-checklist",
+  "routes": [
+    {
+      "route": "/zh-hans/exchanges/bitget",
+      "file": "venue-bitget-zh.html",
+      "status": 200,
+      "bytes": 215189,
+      "render": null
+    },
+    {
+      "route": "/exchanges/okx",
+      "file": "venue-okx-en.html",
+      "status": 200,
+      "bytes": 231769,
+      "render": null
+    },
+    {
+      "route": "/zh-hans/exchanges/okx",
+      "file": "venue-okx-zh.html",
+      "status": 200,
+      "bytes": 232350,
+      "render": null
+    },
+    {
+      "route": "/ar/exchanges/okx",
+      "file": "venue-okx-ar.html",
+      "status": 200,
+      "bytes": 205748,
+      "render": null
+    },
+    {
+      "route": "/news/kraken-crypto-withdrawal-network-address-confirmation-checklist",
+      "file": "article-en.html",
+      "status": 200,
+      "bytes": 132898,
+      "render": null
+    },
+    {
+      "route": "/zh-hans/news/kraken-crypto-withdrawal-network-address-confirmation-checklist",
+      "file": "article-zh.html",
+      "status": 200,
+      "bytes": 162436,
+      "render": null
+    },
+    {
+      "route": "/news/how-to-onboard-gate-with-kyc-fund-password-whitelist-and-cooldown-checks",
+      "file": "article-gate-en.html",
+      "status": 200,
+      "bytes": 119649,
+      "render": null
+    },
+    {
+      "route": "/zh-hans/news/how-to-onboard-gate-with-kyc-fund-password-whitelist-and-cooldown-checks",
+      "file": "article-gate-zh.html",
+      "status": 200,
+      "bytes": 141430,
+      "render": null
+    },
+    {
+      "route": "/compare/binance-vs-okx",
+      "file": "compare-binance-okx-en.html",
+      "status": 200,
+      "bytes": 227113,
+      "render": null
+    },
+    {
+      "route": "/zh-hans/compare/binance-vs-okx",
+      "file": "compare-binance-okx-zh.html",
+      "status": 200,
+      "bytes": 223636,
+      "render": null
+    },
+    {
+      "route": "/ar/compare/binance-vs-okx",
+      "file": "compare-binance-okx-ar.html",
+      "status": 200,
+      "bytes": 211189,
+      "render": null
+    }
+  ]
+}

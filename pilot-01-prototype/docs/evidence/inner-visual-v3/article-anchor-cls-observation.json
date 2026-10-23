@@ -1,0 +1,483 @@
+{
+  "cls": "0.04511001938014403",
+  "details": [
+    {
+      "open": true,
+      "text": "Show less−"
+    }
+  ],
+  "shifts": [
+    {
+      "sources": [
+        {
+          "current": {
+            "bottom": 0,
+            "height": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+          },
+          "node": "news-detail__cluster-links news-detail__decision-links",
+          "previous": {
+            "bottom": 900,
+            "height": 38.65625,
+            "left": 24,
+            "right": 351,
+            "top": 861.34375,
+            "width": 327,
+            "x": 24,
+            "y": 861.34375
+          }
+        }
+      ],
+      "value": 0.03730222222222222
+    },
+    {
+      "sources": [
+        {
+          "current": {
+            "bottom": 94.34375,
+            "height": 94.34375,
+            "left": 19,
+            "right": 266.21875,
+            "top": 0,
+            "width": 247.21875,
+            "x": 19,
+            "y": 0
+          },
+          "node": "nx-brand nx-brand--header",
+          "previous": {
+            "bottom": 105.5,
+            "height": 105.5,
+            "left": 19,
+            "right": 288.53125,
+            "top": 0,
+            "width": 269.53125,
+            "x": 19,
+            "y": 0
+          }
+        },
+        {
+          "current": {
+            "bottom": 51.5,
+            "height": 44,
+            "left": 305.75,
+            "right": 327.75,
+            "top": 7.5,
+            "width": 22,
+            "x": 305.75,
+            "y": 7.5
+          },
+          "node": "nx-tg nx-tg--compact",
+          "previous": {
+            "bottom": 51.5,
+            "height": 44,
+            "left": 328.0625,
+            "right": 350.0625,
+            "top": 7.5,
+            "width": 22,
+            "x": 328.0625,
+            "y": 7.5
+          }
+        },
+        {
+          "current": {
+            "bottom": 45.5,
+            "height": 32,
+            "left": 273.75,
+            "right": 295.75,
+            "top": 13.5,
+            "width": 22,
+            "x": 273.75,
+            "y": 13.5
+          },
+          "node": "nx-hot-chip",
+          "previous": {
+            "bottom": 45.5,
+            "height": 32,
+            "left": 296.0625,
+            "right": 318.0625,
+            "top": 13.5,
+            "width": 22,
+            "x": 296.0625,
+            "y": 13.5
+          }
+        },
+        {
+          "current": {
+            "bottom": 51.5,
+            "height": 44,
+            "left": 341.75,
+            "right": 361.75,
+            "top": 7.5,
+            "width": 20,
+            "x": 341.75,
+            "y": 7.5
+          },
+          "node": "nx-burger",
+          "previous": {
+            "bottom": 51.5,
+            "height": 44,
+            "left": 364.0625,
+            "right": 375,
+            "top": 7.5,
+            "width": 10.9375,
+            "x": 364.0625,
+            "y": 7.5
+          }
+        }
+      ],
+      "value": 0.002346228240740741
+    },
+    {
+      "sources": [
+        {
+          "current": {
+            "bottom": 82.6015625,
+            "height": 82.6015625,
+            "left": 19,
+            "right": 242.734375,
+            "top": 0,
+            "width": 223.734375,
+            "x": 19,
+            "y": 0
+          },
+          "node": "nx-brand nx-brand--header",
+          "previous": {
+            "bottom": 94.34375,
+            "height": 94.34375,
+            "left": 19,
+            "right": 266.21875,
+            "top": 0,
+            "width": 247.21875,
+            "x": 19,
+            "y": 0
+          }
+        },
+        {
+          "current": {
+            "bottom": 45.5,
+            "height": 32,
+            "left": 250.265625,
+            "right": 295,
+            "top": 13.5,
+            "width": 44.734375,
+            "x": 250.265625,
+            "y": 13.5
+          },
+          "node": "nx-hot-chip",
+          "previous": {
+            "bottom": 45.5,
+            "height": 32,
+            "left": 273.75,
+            "right": 295.75,
+            "top": 13.5,
+            "width": 22,
+            "x": 273.75,
+            "y": 13.5
+          }
+        }
+      ],
+      "value": 0.001878865972222222
+    },
+    {
+      "sources": [
+        {
+          "current": {
+            "bottom": 74.984375,
+            "height": 74.984375,
+            "left": 19,
+            "right": 227.5,
+            "top": 0,
+            "width": 208.5,
+            "x": 19,
+            "y": 0
+          },
+          "node": "nx-brand nx-brand--header",
+          "previous": {
+            "bottom": 82.6015625,
+            "height": 82.6015625,
+            "left": 19,
+            "right": 242.734375,
+            "top": 0,
+            "width": 223.734375,
+            "x": 19,
+            "y": 0
+          }
+        },
+        {
+          "current": {
+            "bottom": 45.5,
+            "height": 32,
+            "left": 235.03125,
+            "right": 295,
+            "top": 13.5,
+            "width": 59.96875,
+            "x": 235.03125,
+            "y": 13.5
+          },
+          "node": "nx-hot-chip",
+          "previous": {
+            "bottom": 45.5,
+            "height": 32,
+            "left": 250.265625,
+            "right": 295,
+            "top": 13.5,
+            "width": 44.734375,
+            "x": 250.265625,
+            "y": 13.5
+          }
+        }
+      ],
+      "value": 0.0010090422453703702
+    },
+    {
+      "sources": [
+        {
+          "current": {
+            "bottom": 68.671875,
+            "height": 68.671875,
+            "left": 19,
+            "right": 214.875,
+            "top": 0,
+            "width": 195.875,
+            "x": 19,
+            "y": 0
+          },
+          "node": "nx-brand nx-brand--header",
+          "previous": {
+            "bottom": 74.984375,
+            "height": 74.984375,
+            "left": 19,
+            "right": 227.5,
+            "top": 0,
+            "width": 208.5,
+            "x": 19,
+            "y": 0
+          }
+        },
+        {
+          "current": {
+            "bottom": 45.5,
+            "height": 32,
+            "left": 222.40625,
+            "right": 290.09375,
+            "top": 13.5,
+            "width": 67.6875,
+            "x": 222.40625,
+            "y": 13.5
+          },
+          "node": "nx-hot-chip",
+          "previous": {
+            "bottom": 45.5,
+            "height": 32,
+            "left": 235.03125,
+            "right": 295,
+            "top": 13.5,
+            "width": 59.96875,
+            "x": 235.03125,
+            "y": 13.5
+          }
+        },
+        {
+          "current": {
+            "bottom": 51.5,
+            "height": 44,
+            "left": 300.09375,
+            "right": 324.0234375,
+            "top": 7.5,
+            "width": 23.9296875,
+            "x": 300.09375,
+            "y": 7.5
+          },
+          "node": "nx-tg nx-tg--compact",
+          "previous": {
+            "bottom": 51.5,
+            "height": 44,
+            "left": 305,
+            "right": 327,
+            "top": 7.5,
+            "width": 22,
+            "x": 305,
+            "y": 7.5
+          }
+        }
+      ],
+      "value": 0.0007891092592592593
+    },
+    {
+      "sources": [
+        {
+          "current": {
+            "bottom": 63.828125,
+            "height": 63.828125,
+            "left": 19,
+            "right": 205.1875,
+            "top": 0,
+            "width": 186.1875,
+            "x": 19,
+            "y": 0
+          },
+          "node": "nx-brand nx-brand--header",
+          "previous": {
+            "bottom": 68.671875,
+            "height": 68.671875,
+            "left": 19,
+            "right": 214.875,
+            "top": 0,
+            "width": 195.875,
+            "x": 19,
+            "y": 0
+          }
+        },
+        {
+          "current": {
+            "bottom": 45.5,
+            "height": 32,
+            "left": 212.71875,
+            "right": 285.2890625,
+            "top": 13.5,
+            "width": 72.5703125,
+            "x": 212.71875,
+            "y": 13.5
+          },
+          "node": "nx-hot-chip",
+          "previous": {
+            "bottom": 45.5,
+            "height": 32,
+            "left": 222.40625,
+            "right": 290.09375,
+            "top": 13.5,
+            "width": 67.6875,
+            "x": 222.40625,
+            "y": 13.5
+          }
+        },
+        {
+          "current": {
+            "bottom": 51.5,
+            "height": 44,
+            "left": 295.2890625,
+            "right": 321.5703125,
+            "top": 7.5,
+            "width": 26.28125,
+            "x": 295.2890625,
+            "y": 7.5
+          },
+          "node": "nx-tg nx-tg--compact",
+          "previous": {
+            "bottom": 51.5,
+            "height": 44,
+            "left": 300.09375,
+            "right": 324.0234375,
+            "top": 7.5,
+            "width": 23.9296875,
+            "x": 300.09375,
+            "y": 7.5
+          }
+        }
+      ],
+      "value": 0.0005447325102880658
+    },
+    {
+      "sources": [
+        {
+          "current": {
+            "bottom": 53.03125,
+            "height": 47.0625,
+            "left": 19,
+            "right": 183.59375,
+            "top": 5.96875,
+            "width": 164.59375,
+            "x": 19,
+            "y": 5.96875
+          },
+          "node": "nx-brand nx-brand--header",
+          "previous": {
+            "bottom": 63.828125,
+            "height": 63.828125,
+            "left": 19,
+            "right": 205.1875,
+            "top": 0,
+            "width": 186.1875,
+            "x": 19,
+            "y": 0
+          }
+        },
+        {
+          "current": {
+            "bottom": 45.5,
+            "height": 32,
+            "left": 191.125,
+            "right": 274.5859375,
+            "top": 13.5,
+            "width": 83.4609375,
+            "x": 191.125,
+            "y": 13.5
+          },
+          "node": "nx-hot-chip",
+          "previous": {
+            "bottom": 45.5,
+            "height": 32,
+            "left": 212.71875,
+            "right": 285.2890625,
+            "top": 13.5,
+            "width": 72.5703125,
+            "x": 212.71875,
+            "y": 13.5
+          }
+        },
+        {
+          "current": {
+            "bottom": 51.5,
+            "height": 44,
+            "left": 284.5859375,
+            "right": 316.09375,
+            "top": 7.5,
+            "width": 31.5078125,
+            "x": 284.5859375,
+            "y": 7.5
+          },
+          "node": "nx-tg nx-tg--compact",
+          "previous": {
+            "bottom": 51.5,
+            "height": 44,
+            "left": 295.2890625,
+            "right": 321.5703125,
+            "top": 7.5,
+            "width": 26.28125,
+            "x": 295.2890625,
+            "y": 7.5
+          }
+        },
+        {
+          "current": {
+            "bottom": 51.5,
+            "height": 44,
+            "left": 330.09375,
+            "right": 361,
+            "top": 7.5,
+            "width": 30.90625,
+            "x": 330.09375,
+            "y": 7.5
+          },
+          "node": "nx-burger",
+          "previous": {
+            "bottom": 51.5,
+            "height": 44,
+            "left": 335.5703125,
+            "right": 361,
+            "top": 7.5,
+            "width": 25.4296875,
+            "x": 335.5703125,
+            "y": 7.5
+          }
+        }
+      ],
+      "value": 0.0012398189300411523
+    }
+  ]
+}

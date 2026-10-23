@@ -24,3 +24,26 @@ export function venueFactIcon(id) {
   if (id === "apps") return "app";
   return "source";
 }
+
+// Labels are exact excerpts of the existing localized editorial summary, never new product claims.
+export function venueAudienceChips(summary) {
+  const patterns = [
+    ["globe", /\bWeb3\b/i], ["products", /\bDEX\b/i],
+    ["app", /机器人|機器人|\bbots\b|\brobots\b|\bBot\b/i],
+    ["identity", /跟单|跟單|copy trading|Copy Trading|コピー取引|카피 트레이딩|نسخ التداول/i],
+    ["fees", /\bEarn\b/i],
+  ];
+  return patterns.flatMap(([kind, pattern]) => {
+    const label = String(summary || "").match(pattern)?.[0];
+    return label ? [{ kind, label }] : [];
+  });
+}
+
+export function VenueAudienceCard({ summary, label, locale, dir }) {
+  const chips = venueAudienceChips(summary);
+  return <div className="v3-venue-context vx-audience-card" lang={locale} dir={dir}>
+    <div className="vx-audience-card__head"><VenueVisualIcon kind="products" /><h2>{label}</h2></div>
+    <p className="v3-venue-summary">{summary}</p>
+    {chips.length > 0 && <ul className="vx-audience-chips">{chips.map(chip => <li key={chip.label}><VenueVisualIcon kind={chip.kind} /><span>{chip.label}</span></li>)}</ul>}
+  </div>;
+}

@@ -1,0 +1,286 @@
+{
+  "status": "completed",
+  "score": 85,
+  "summary": {
+    "critical": 0,
+    "serious": 1,
+    "moderate": 1,
+    "total": 2
+  },
+  "findings": [
+    {
+      "ruleId": "spacing/off-scale-value",
+      "state": "viewport-390",
+      "severity": "moderate",
+      "message": "viewport-390 uses 2 off-scale spacing values across 1 element: 35px, 42px.",
+      "fix": "Replace the measured values with the nearest project spacing token. Active scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px.",
+      "elementIds": [
+        "div:nth-of-type(1)@21"
+      ],
+      "evidence": [
+        {
+          "label": "div:nth-of-type(1)@21 margin top",
+          "value": 35,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@21 margin bottom",
+          "value": 42,
+          "unit": "px"
+        }
+      ],
+      "id": "spacing-1"
+    },
+    {
+      "ruleId": "spacing/viewport-overflow",
+      "state": "viewport-390",
+      "severity": "serious",
+      "message": "table:nth-of-type(1)@24 extends outside the 390px viewport.",
+      "fix": "Constrain the element to the viewport and verify the same content at narrow and wide breakpoints.",
+      "elementIds": [
+        "table:nth-of-type(1)@24"
+      ],
+      "evidence": [
+        {
+          "label": "Left edge",
+          "value": 25,
+          "unit": "px"
+        },
+        {
+          "label": "Right edge",
+          "value": 705,
+          "unit": "px"
+        },
+        {
+          "label": "Viewport width",
+          "value": 390,
+          "unit": "px"
+        }
+      ],
+      "id": "spacing-2"
+    }
+  ],
+  "states": [
+    {
+      "name": "viewport-390",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "elements": [
+        {
+          "id": "aside:nth-of-type(1)@1",
+          "name": "an unnamed sidebar with id aside:nth-of-type(1)@1",
+          "rect": {
+            "x": 24,
+            "y": 58.75,
+            "width": 327,
+            "height": 582.9921875
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@2",
+          "name": "an unnamed group with id div:nth-of-type(1)@2",
+          "rect": {
+            "x": 41,
+            "y": 75.75,
+            "width": 293,
+            "height": 18.1953125
+          }
+        },
+        {
+          "id": "ul:nth-of-type(1)@6",
+          "name": "an unnamed list with id ul:nth-of-type(1)@6",
+          "rect": {
+            "x": 41,
+            "y": 109.9453125,
+            "width": 293,
+            "height": 514.796875
+          }
+        },
+        {
+          "id": "li:nth-of-type(1)@7",
+          "name": "an unnamed list item with id li:nth-of-type(1)@7",
+          "rect": {
+            "x": 41,
+            "y": 109.9453125,
+            "width": 293,
+            "height": 216.7578125
+          }
+        },
+        {
+          "id": "li:nth-of-type(2)@14",
+          "name": "an unnamed list item with id li:nth-of-type(2)@14",
+          "rect": {
+            "x": 41,
+            "y": 338.703125,
+            "width": 293,
+            "height": 286.0390625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@21",
+          "name": "an unnamed group with id div:nth-of-type(1)@21",
+          "rect": {
+            "x": 24,
+            "y": 876.7421875,
+            "width": 327,
+            "height": 767.890625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@23",
+          "label": "CheckWhat it meansPractical actionUnknown to keep explicitOfficial routeonboardi",
+          "name": "an unnamed control with id div:nth-of-type(1)@23",
+          "rect": {
+            "x": 25,
+            "y": 886.7421875,
+            "width": 325,
+            "height": 756.890625
+          }
+        },
+        {
+          "id": "table:nth-of-type(1)@24",
+          "name": "an unnamed table with id table:nth-of-type(1)@24",
+          "rect": {
+            "x": 25,
+            "y": 886.7421875,
+            "width": 680,
+            "height": 741.890625
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@44",
+          "label": "2FA",
+          "name": "2FA",
+          "rect": {
+            "x": 41,
+            "y": 1153.0078125,
+            "width": 25.3984375,
+            "height": 18
+          }
+        },
+        {
+          "id": "nav:nth-of-type(2)@68",
+          "label": "按分类浏览",
+          "name": "按分类浏览",
+          "rect": {
+            "x": 24,
+            "y": 11180.3515625,
+            "width": 327,
+            "height": 264.75
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@69",
+          "label": "Kraken、OKX 与 Bybit 地区可用性决策地图→",
+          "name": "Kraken、OKX 与 Bybit 地区可用性决策地图→",
+          "rect": {
+            "x": 24,
+            "y": 11180.3515625,
+            "width": 327,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@75",
+          "label": "稳定币与代币化信任锚风险地图→",
+          "name": "稳定币与代币化信任锚风险地图→",
+          "rect": {
+            "x": 24,
+            "y": 11272.6015625,
+            "width": 327,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@81",
+          "label": "代币化证券官方记录与钱包显示边界→",
+          "name": "代币化证券官方记录与钱包显示边界→",
+          "rect": {
+            "x": 24,
+            "y": 11364.8515625,
+            "width": 327,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "div:nth-of-type(2)@87",
+          "name": "the group holding “Bitget 档案→”, “Gate (GT)→” and 3 more",
+          "rect": {
+            "x": 43,
+            "y": 12259.4609375,
+            "width": 289,
+            "height": 398
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@88",
+          "label": "Bitget 档案→",
+          "name": "Bitget 档案→",
+          "rect": {
+            "x": 43,
+            "y": 12259.4609375,
+            "width": 289,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@93",
+          "label": "Gate (GT)→",
+          "name": "Gate (GT)→",
+          "rect": {
+            "x": 43,
+            "y": 12341.4609375,
+            "width": 289,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@99",
+          "label": "开户与账户安全教程→",
+          "name": "开户与账户安全教程→",
+          "rect": {
+            "x": 43,
+            "y": 12423.4609375,
+            "width": 289,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(4)@105",
+          "label": "资金费率矩阵→",
+          "name": "资金费率矩阵→",
+          "rect": {
+            "x": 43,
+            "y": 12505.4609375,
+            "width": 289,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(5)@111",
+          "label": "牌照→",
+          "name": "牌照→",
+          "rect": {
+            "x": 43,
+            "y": 12587.4609375,
+            "width": 289,
+            "height": 70
+          }
+        }
+      ]
+    }
+  ],
+  "capturedWidths": [
+    390
+  ],
+  "missingWidths": [
+    1440,
+    1728
+  ],
+  "rubric": [],
+  "rubricStatus": "unavailable",
+  "nextStep": "Before you finish this review, call `find-design-system` with the product's description and list its top matches in your report, so the person can pick a style. Restyle the screen only with the one they pick."
+}

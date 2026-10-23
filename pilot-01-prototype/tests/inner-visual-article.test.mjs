@@ -98,6 +98,82 @@ test('figure-free articles do not invent a facts panel', () => {
   assert.ok(!html.includes('class="news-detail__figures"'));
 });
 
+test('every chronological reading-neighbor link has visual art and retains its title and URL', () => {
+  const article = makeArticle('en', '## The short answer\n\nBoundary.');
+  const peers = Array.from({ length: 4 }, (_, index) => ({ ...article, slug: `neighbor-${index}`, title: { en: `Neighbor ${index}` }, publishedAt: `2026-10-${String(18 + index).padStart(2, '0')}T12:00:00Z` }));
+  const html = render(article, 'en', peers);
+  const nav = html.match(/<nav class="news-detail__decision-links"[^>]*data-news-reading-neighbors="">([\s\S]*?)<\/nav>/)?.[1];
+  assert.ok(nav, 'same-category neighbors render');
+  const links = [...nav.matchAll(/<a href="([^"]+)">([\s\S]*?)<\/a>/g)];
+  assert.ok(links.length > 0);
+  for (const [, href, content] of links) {
+    const peer = peers.find(item => href === `/news/${item.slug}`);
+    assert.ok(peer, 'original neighbor destination retained');
+    assert.ok(content.includes(`<span>${peer.title.en}</span>`));
+    assert.match(content, /news-detail__resource-art[^>]*aria-hidden="true"[\s\S]*?<svg/);
+  }
+});
+
+for (const locale of ['en', 'zh-Hans', 'ar']) {
+  test(`${locale}: partner and cluster groups give every tracked link an art card and named navigation`, () => {
+    const article = makeArticle(locale, '## The short answer\n\nBinance and OKX publish separate schedules.');
+    const html = render(article, locale);
+    for (const [group, id] of [['related-partners', 'news-related-partners-label'], ['cluster-links', 'news-cluster-links-label']]) {
+      const nav = html.match(new RegExp(`<nav class="news-detail__${group} news-detail__decision-links"[^>]*aria-labelledby="${id}"[^>]*data-news-${group}="">([\\s\\S]*?)<\\/nav>`))?.[1];
+      assert.ok(nav, `${group}: named card navigation renders`);
+      assert.ok(nav.includes(`id="${id}"`));
+      const links = [...nav.matchAll(/<a ([^>]+)>([\s\S]*?)<\/a>/g)];
+      assert.ok(links.length > 0);
+      for (const [, attrs, content] of links) {
+        assert.match(attrs, /href="\//);
+        assert.match(attrs, /data-cta-kind="research"/);
+        assert.ok(attrs.includes(`data-cta-placement="news-detail-${group}"`));
+        assert.match(content, /news-detail__resource-art/);
+        assert.match(content, /<span>[^<]+<\/span>/);
+      }
+    }
+  });
+}
+
+for (const locale of ['en', 'zh-Hans', 'ar']) {
+  test(`${locale}: authored resource lists preserve links, labels and boundary notes in logo cards`, () => {
+    const body = '## The short answer\n\nKeep the source boundary.\n\n## Continue reading\n\n- [Compare **Binance and OKX**](/compare/binance-vs-okx): product eligibility remains unknown.\n- [OKX account profile](/exchanges/okx)\n- [Primary evidence](https://example.com/evidence) — recheck before acting.\n\n- An ordinary checklist item.\n- Another ordinary checklist item.';
+    const html = render(makeArticle(locale, body), locale);
+    const prefix = locale === 'en' ? '' : locale === 'zh-Hans' ? '/zh-hans' : '/ar';
+    assert.match(html, /<ul class="news-detail__resource-list">/);
+    assert.ok(html.includes(`href="${prefix}/compare/binance-vs-okx"`));
+    assert.match(html, /Compare <strong>Binance and OKX<\/strong>/);
+    assert.match(html, /product eligibility remains unknown\./);
+    assert.match(html, /href="https:\/\/example.com\/evidence" target="_blank" rel="noopener noreferrer"/);
+    assert.match(html, /recheck before acting\./);
+    assert.match(html, /news-detail__resource-art[^>]*aria-hidden="true"[\s\S]*?data-brand-slug="binance"[\s\S]*?data-brand-slug="okx"/);
+    assert.match(html, /<ul><li>An ordinary checklist item\.<\/li><li>Another ordinary checklist item\.<\/li><\/ul>/);
+  });
+}
+
+test('ordered resource lists preserve order and start; unsafe targets remain plain prose', () => {
+  const body = '## The short answer\n\nBoundary.\n\n## More\n\n3. [Evidence A](https://example.com/a)\n4. [Evidence B](https://example.com/b)\n\n- [Unsafe](javascript:alert)\n- [Unknown](/private/settings)';
+  const html = render(makeArticle('en', body), 'en');
+  assert.match(html, /<ol class="news-detail__resource-list" start="3">/);
+  assert.ok(!html.includes('href="javascript:'));
+  assert.ok(!html.includes('href="/private/settings"'));
+  assert.equal((html.match(/class="news-detail__resource-list"/g) || []).length, 1);
+});
+
+test('long evidence tables preserve all columns and rows inside the labeled scroll panel', () => {
+  const headings = ['Product', 'Role', 'Eligibility', 'Recordkeeper', 'Redemption', 'Unknowns'];
+  const rows = Array.from({ length: 18 }, (_, index) => `| Product ${index} | Issuer | Check region | Official record | Read terms | Private account state |`).join('\n');
+  const body = `## The short answer\n\nA source-bound answer.\n\n## Evidence matrix\n\n| ${headings.join(' | ')} |\n| ${headings.map(() => '---').join(' | ')} |\n${rows}`;
+  const html = render(makeArticle('zh-Hans', body), 'zh-Hans');
+  assert.match(html, /news-detail__table-scroll" role="region" aria-labelledby="news-table-hint-\d+" tabindex="0"/);
+  assert.match(html, /<table style="--news-table-columns:6">/);
+  for (const heading of headings) assert.ok(html.includes(`<th scope="col">${heading}</th>`));
+  for (let index = 0; index < 18; index += 1) assert.ok(html.includes(`<td>Product ${index}</td>`));
+  const css = readFileSync(new URL('../src/styles/v9/news9.src.css', import.meta.url), 'utf8');
+  assert.match(css, /news-detail__table-scroll\{[^}]*min-inline-size:0[^}]*overflow-x:auto[^}]*overscroll-behavior-inline:contain/);
+  assert.match(css, /news-detail__resource-list,\.news-detail__decision-links\)\{grid-template-columns:minmax\(0,1fr\)/);
+});
+
 test('article art and panels remain route-owned with reserved sizes and logical layout', () => {
   const source = readFileSync(new URL('../src/components/v3/news/NewsDetailPage.jsx', import.meta.url), 'utf8');
   const css = readFileSync(new URL('../src/styles/v9/news9.src.css', import.meta.url), 'utf8');

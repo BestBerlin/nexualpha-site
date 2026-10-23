@@ -77,7 +77,9 @@ import "./venue-popular-coins.css";
 import { VenueTokenizedStocks } from "../tokenized-stocks/VenueTokenizedStocks.jsx";
 import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 import CardArt from "../shared/CardArt.jsx";
-import { VenueVisualIcon, venueFactIcon } from "./VenueDetailPageVisuals.jsx";
+import { VenueVisualIcon, venueFactIcon, VenueAudienceCard } from "./VenueDetailPageVisuals.jsx";
+import { ResearchComparisonCard } from "../shared/ResearchComparisonCard.jsx";
+import { localizedHref } from "../../data/locale-routing.js";
 
 const VENUE_COINS_COPY = {
   en: { title: "Popular coins on {venue}", all: "All coins" },
@@ -863,7 +865,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
             {strikingH1 && referralHeadline && <p className="v3-partner-relationship">{text.relationship}</p>}
           </div>
           {venue.slug === "bitget" && bitgetGuideAvailable(locale, effectiveMarket) ? <p><LocalLink locale={locale} href={BITGET_GUIDE_PATH}>{bitgetGuideLabel(locale)}</LocalLink></p> : null}
-          <ReferralNativeAnswers slug={venue.slug} locale={locale} market={effectiveMarket} hideShortAnswer={Boolean(strikingLead || moneyShortAnswer)} />
+          <ReferralNativeAnswers slug={venue.slug} locale={locale} market={effectiveMarket} hideShortAnswer={Boolean(strikingLead || moneyShortAnswer)} disclosure={text.relationship} />
           {nativeReferral && <div className="referral-native-campaigns">{venueCampaignBanners}</div>}
         </div>
 
@@ -879,14 +881,12 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
         </div>
         <div className="v3-profile-reading-overview">
-        {!priorityAnswer && !venueDirectAnswer && <div className="v3-venue-context">
-          <p className="v3-venue-summary" lang={reviewedDecision?.contentLocale ?? locale} dir={reviewedDecision ? textDirectionForLocale(reviewedDecision.contentLocale) : undefined}>{venueHeroSummary}</p>
-        </div>}
+        {!priorityAnswer && !venueDirectAnswer && <VenueAudienceCard summary={venueHeroSummary} label={text.verdictBestFor} locale={reviewedDecision?.contentLocale ?? locale} dir={reviewedDecision ? textDirectionForLocale(reviewedDecision.contentLocale) : undefined} />}
 
 
         {strikingComparisons && <nav aria-label={locale === "zh-Hans" ? "相关手续费对比" : "Related fee comparisons"} data-venue-compare-links="">
           <h2>{locale === "zh-Hans" ? "对比手续费与账户要求" : "Compare fees and account requirements"}</h2>
-          <ul>{strikingComparisons.map(pair => <li key={pair}><LocalLink locale={locale} href={`/compare/${pair}`}>{pair.split("-vs-").map(slug => getLocalizedVenueName(venues.find(v => v.slug === slug), locale) || slug).join(" vs ")}</LocalLink></li>)}</ul>
+          <ul>{strikingComparisons.map(pair => <li key={pair}><ResearchComparisonCard href={localizedHref(`/compare/${pair}`, { locale })} pair={pair.split("-vs-")} label={pair.split("-vs-").map(slug => getLocalizedVenueName(venues.find(v => v.slug === slug), locale) || slug).join(" vs ")} /></li>)}</ul>
         </nav>}
         <VenueFeeLedger slug={profile.slug} locale={locale} />
         <VenueRoute domain={officialDomain} code={hasReferral ? inviteCode : null} locale={locale} />

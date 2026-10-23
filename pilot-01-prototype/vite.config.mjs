@@ -180,6 +180,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // Shared art must never be absorbed by the deferred home or a route graph.
           // Reuse an existing deferred helper chunk: no new home preload-map filename.
           if (id.endsWith("/src/components/shared/CardArt.jsx")) return "shared-registration-helpers";
+          if (id.endsWith("/src/components/shared/ResearchComparisonCard.jsx")) return "shared-registration-helpers";
           if (id.endsWith("/src/components/v3/VenueDetailPageVisuals.jsx")) return "shared-registration-helpers";
           // Read by the venue, compare and news route chunks, which all load the registration helpers already (no new
           // chunk, so the entry's preload map does not grow).

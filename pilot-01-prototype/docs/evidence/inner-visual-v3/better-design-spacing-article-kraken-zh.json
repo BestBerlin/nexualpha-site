@@ -1,0 +1,2831 @@
+{
+  "status": "completed",
+  "score": 80,
+  "summary": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 4,
+    "total": 4
+  },
+  "findings": [
+    {
+      "ruleId": "spacing/off-scale-value",
+      "state": "article-kraken-zh-390",
+      "severity": "moderate",
+      "message": "article-kraken-zh-390 uses 2 off-scale spacing values across 1 element: 35px, 42px.",
+      "fix": "Replace the measured values with the nearest project spacing token. Active scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px.",
+      "elementIds": [
+        "div:nth-of-type(1)@1"
+      ],
+      "evidence": [
+        {
+          "label": "div:nth-of-type(1)@1 margin top",
+          "value": 35,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@1 margin bottom",
+          "value": 42,
+          "unit": "px"
+        }
+      ],
+      "id": "spacing-1"
+    },
+    {
+      "ruleId": "spacing/off-scale-value",
+      "state": "article-kraken-zh-768",
+      "severity": "moderate",
+      "message": "article-kraken-zh-768 uses 3 off-scale spacing values across 45 elements: 14px, 35px, 42px.",
+      "fix": "Replace the measured values with the nearest project spacing token. Active scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px.",
+      "elementIds": [
+        "div:nth-of-type(1)@1",
+        "th:nth-of-type(1)@7",
+        "th:nth-of-type(2)@8",
+        "th:nth-of-type(3)@9",
+        "th:nth-of-type(4)@10",
+        "td:nth-of-type(1)@13",
+        "td:nth-of-type(2)@14",
+        "td:nth-of-type(3)@15",
+        "td:nth-of-type(4)@16",
+        "td:nth-of-type(1)@18",
+        "td:nth-of-type(2)@19",
+        "td:nth-of-type(3)@20",
+        "td:nth-of-type(4)@21",
+        "td:nth-of-type(1)@23",
+        "td:nth-of-type(2)@24",
+        "td:nth-of-type(3)@25",
+        "td:nth-of-type(4)@26",
+        "td:nth-of-type(1)@28",
+        "td:nth-of-type(2)@29",
+        "td:nth-of-type(3)@30",
+        "td:nth-of-type(4)@31",
+        "td:nth-of-type(1)@33",
+        "td:nth-of-type(2)@35",
+        "td:nth-of-type(3)@36",
+        "td:nth-of-type(4)@37",
+        "td:nth-of-type(1)@39",
+        "td:nth-of-type(2)@40",
+        "td:nth-of-type(3)@41",
+        "td:nth-of-type(4)@42",
+        "td:nth-of-type(1)@44",
+        "td:nth-of-type(2)@45",
+        "td:nth-of-type(3)@46",
+        "td:nth-of-type(4)@47",
+        "td:nth-of-type(1)@49",
+        "td:nth-of-type(2)@50",
+        "td:nth-of-type(3)@51",
+        "td:nth-of-type(4)@52",
+        "td:nth-of-type(1)@54",
+        "td:nth-of-type(2)@55",
+        "td:nth-of-type(3)@56",
+        "td:nth-of-type(4)@57",
+        "td:nth-of-type(1)@59",
+        "td:nth-of-type(2)@60",
+        "td:nth-of-type(3)@61",
+        "td:nth-of-type(4)@62"
+      ],
+      "evidence": [
+        {
+          "label": "div:nth-of-type(1)@1 margin top",
+          "value": 35,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@1 margin bottom",
+          "value": 42,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(1)@7 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(1)@7 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(2)@8 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(2)@8 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(3)@9 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(3)@9 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(4)@10 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(4)@10 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@13 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@13 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(2)@14 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(2)@14 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(3)@15 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(3)@15 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(4)@16 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(4)@16 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@18 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@18 padding bottom",
+          "value": 14,
+          "unit": "px"
+        }
+      ],
+      "id": "spacing-2"
+    },
+    {
+      "ruleId": "spacing/off-scale-value",
+      "state": "article-kraken-zh-1440",
+      "severity": "moderate",
+      "message": "article-kraken-zh-1440 uses 3 off-scale spacing values across 45 elements: 14px, 35px, 42px.",
+      "fix": "Replace the measured values with the nearest project spacing token. Active scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px.",
+      "elementIds": [
+        "div:nth-of-type(1)@1",
+        "th:nth-of-type(1)@7",
+        "th:nth-of-type(2)@8",
+        "th:nth-of-type(3)@9",
+        "th:nth-of-type(4)@10",
+        "td:nth-of-type(1)@13",
+        "td:nth-of-type(2)@14",
+        "td:nth-of-type(3)@15",
+        "td:nth-of-type(4)@16",
+        "td:nth-of-type(1)@18",
+        "td:nth-of-type(2)@19",
+        "td:nth-of-type(3)@20",
+        "td:nth-of-type(4)@21",
+        "td:nth-of-type(1)@23",
+        "td:nth-of-type(2)@24",
+        "td:nth-of-type(3)@25",
+        "td:nth-of-type(4)@26",
+        "td:nth-of-type(1)@28",
+        "td:nth-of-type(2)@29",
+        "td:nth-of-type(3)@30",
+        "td:nth-of-type(4)@31",
+        "td:nth-of-type(1)@33",
+        "td:nth-of-type(2)@35",
+        "td:nth-of-type(3)@36",
+        "td:nth-of-type(4)@37",
+        "td:nth-of-type(1)@39",
+        "td:nth-of-type(2)@40",
+        "td:nth-of-type(3)@41",
+        "td:nth-of-type(4)@42",
+        "td:nth-of-type(1)@44",
+        "td:nth-of-type(2)@45",
+        "td:nth-of-type(3)@46",
+        "td:nth-of-type(4)@47",
+        "td:nth-of-type(1)@49",
+        "td:nth-of-type(2)@50",
+        "td:nth-of-type(3)@51",
+        "td:nth-of-type(4)@52",
+        "td:nth-of-type(1)@54",
+        "td:nth-of-type(2)@55",
+        "td:nth-of-type(3)@56",
+        "td:nth-of-type(4)@57",
+        "td:nth-of-type(1)@59",
+        "td:nth-of-type(2)@60",
+        "td:nth-of-type(3)@61",
+        "td:nth-of-type(4)@62"
+      ],
+      "evidence": [
+        {
+          "label": "div:nth-of-type(1)@1 margin top",
+          "value": 35,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@1 margin bottom",
+          "value": 42,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(1)@7 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(1)@7 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(2)@8 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(2)@8 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(3)@9 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(3)@9 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(4)@10 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(4)@10 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@13 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@13 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(2)@14 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(2)@14 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(3)@15 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(3)@15 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(4)@16 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(4)@16 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@18 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@18 padding bottom",
+          "value": 14,
+          "unit": "px"
+        }
+      ],
+      "id": "spacing-3"
+    },
+    {
+      "ruleId": "spacing/off-scale-value",
+      "state": "article-kraken-zh-1728",
+      "severity": "moderate",
+      "message": "article-kraken-zh-1728 uses 3 off-scale spacing values across 45 elements: 14px, 35px, 42px.",
+      "fix": "Replace the measured values with the nearest project spacing token. Active scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px.",
+      "elementIds": [
+        "div:nth-of-type(1)@1",
+        "th:nth-of-type(1)@7",
+        "th:nth-of-type(2)@8",
+        "th:nth-of-type(3)@9",
+        "th:nth-of-type(4)@10",
+        "td:nth-of-type(1)@13",
+        "td:nth-of-type(2)@14",
+        "td:nth-of-type(3)@15",
+        "td:nth-of-type(4)@16",
+        "td:nth-of-type(1)@18",
+        "td:nth-of-type(2)@19",
+        "td:nth-of-type(3)@20",
+        "td:nth-of-type(4)@21",
+        "td:nth-of-type(1)@23",
+        "td:nth-of-type(2)@24",
+        "td:nth-of-type(3)@25",
+        "td:nth-of-type(4)@26",
+        "td:nth-of-type(1)@28",
+        "td:nth-of-type(2)@29",
+        "td:nth-of-type(3)@30",
+        "td:nth-of-type(4)@31",
+        "td:nth-of-type(1)@33",
+        "td:nth-of-type(2)@35",
+        "td:nth-of-type(3)@36",
+        "td:nth-of-type(4)@37",
+        "td:nth-of-type(1)@39",
+        "td:nth-of-type(2)@40",
+        "td:nth-of-type(3)@41",
+        "td:nth-of-type(4)@42",
+        "td:nth-of-type(1)@44",
+        "td:nth-of-type(2)@45",
+        "td:nth-of-type(3)@46",
+        "td:nth-of-type(4)@47",
+        "td:nth-of-type(1)@49",
+        "td:nth-of-type(2)@50",
+        "td:nth-of-type(3)@51",
+        "td:nth-of-type(4)@52",
+        "td:nth-of-type(1)@54",
+        "td:nth-of-type(2)@55",
+        "td:nth-of-type(3)@56",
+        "td:nth-of-type(4)@57",
+        "td:nth-of-type(1)@59",
+        "td:nth-of-type(2)@60",
+        "td:nth-of-type(3)@61",
+        "td:nth-of-type(4)@62"
+      ],
+      "evidence": [
+        {
+          "label": "div:nth-of-type(1)@1 margin top",
+          "value": 35,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@1 margin bottom",
+          "value": 42,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(1)@7 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(1)@7 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(2)@8 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(2)@8 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(3)@9 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(3)@9 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(4)@10 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(4)@10 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@13 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@13 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(2)@14 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(2)@14 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(3)@15 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(3)@15 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(4)@16 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(4)@16 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@18 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@18 padding bottom",
+          "value": 14,
+          "unit": "px"
+        }
+      ],
+      "id": "spacing-4"
+    }
+  ],
+  "states": [
+    {
+      "name": "article-kraken-zh-390",
+      "viewport": {
+        "width": 390,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "elements": [
+        {
+          "id": "div:nth-of-type(1)@1",
+          "name": "an unnamed group with id div:nth-of-type(1)@1",
+          "rect": {
+            "x": 24,
+            "y": 288.7578125,
+            "width": 327,
+            "height": 985.0625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@3",
+          "label": "CheckWhat it meansPractical actionUnknown to keep explicitAssetwhich cryptocurre",
+          "name": "an unnamed control with id div:nth-of-type(1)@3",
+          "rect": {
+            "x": 25,
+            "y": 298.7578125,
+            "width": 325,
+            "height": 974.0625
+          }
+        },
+        {
+          "id": "nav:nth-of-type(2)@63",
+          "name": "the navigation holding “对比 Binance 与 Kraken→”",
+          "rect": {
+            "x": 24,
+            "y": 12870.59375,
+            "width": 327,
+            "height": 119.6953125
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@65",
+          "label": "对比 Binance 与 Kraken→",
+          "name": "对比 Binance 与 Kraken→",
+          "rect": {
+            "x": 24,
+            "y": 12920.2890625,
+            "width": 327,
+            "height": 70
+          }
+        },
+        {
+          "id": "nav:nth-of-type(2)@71",
+          "label": "按分类浏览",
+          "name": "按分类浏览",
+          "rect": {
+            "x": 24,
+            "y": 14517.03125,
+            "width": 327,
+            "height": 264.75
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@72",
+          "label": "OKX 与 Kraken 储备证明披露范围清单→",
+          "name": "OKX 与 Kraken 储备证明披露范围清单→",
+          "rect": {
+            "x": 24,
+            "y": 14517.03125,
+            "width": 327,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@78",
+          "label": "储备证明用户自助验证披露雷达→",
+          "name": "储备证明用户自助验证披露雷达→",
+          "rect": {
+            "x": 24,
+            "y": 14609.28125,
+            "width": 327,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@84",
+          "label": "Superstate USTB 代币化国债记录边界→",
+          "name": "Superstate USTB 代币化国债记录边界→",
+          "rect": {
+            "x": 24,
+            "y": 14701.53125,
+            "width": 327,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "div:nth-of-type(2)@90",
+          "name": "the group holding “Kraken 档案→”, “资金费率矩阵→” and 2 more",
+          "rect": {
+            "x": 43,
+            "y": 16126.265625,
+            "width": 289,
+            "height": 316
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@91",
+          "label": "Kraken 档案→",
+          "name": "Kraken 档案→",
+          "rect": {
+            "x": 43,
+            "y": 16126.265625,
+            "width": 289,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@96",
+          "label": "资金费率矩阵→",
+          "name": "资金费率矩阵→",
+          "rect": {
+            "x": 43,
+            "y": 16208.265625,
+            "width": 289,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@102",
+          "label": "兑换工具→",
+          "name": "兑换工具→",
+          "rect": {
+            "x": 43,
+            "y": 16290.265625,
+            "width": 289,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(4)@108",
+          "label": "牌照→",
+          "name": "牌照→",
+          "rect": {
+            "x": 43,
+            "y": 16372.265625,
+            "width": 289,
+            "height": 70
+          }
+        }
+      ]
+    },
+    {
+      "name": "article-kraken-zh-768",
+      "viewport": {
+        "width": 768,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "elements": [
+        {
+          "id": "div:nth-of-type(1)@1",
+          "name": "an unnamed group with id div:nth-of-type(1)@1",
+          "rect": {
+            "x": 24,
+            "y": 292.7890625,
+            "width": 705,
+            "height": 970.0625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@3",
+          "label": "CheckWhat it meansPractical actionUnknown to keep explicitAssetwhich cryptocurre",
+          "name": "an unnamed control with id div:nth-of-type(1)@3",
+          "rect": {
+            "x": 25,
+            "y": 302.7890625,
+            "width": 703,
+            "height": 959.0625
+          }
+        },
+        {
+          "id": "table:nth-of-type(1)@4",
+          "name": "an unnamed table with id table:nth-of-type(1)@4",
+          "rect": {
+            "x": 25,
+            "y": 302.7890625,
+            "width": 703,
+            "height": 959.0625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@6",
+          "name": "an unnamed group with id tr:nth-of-type(1)@6",
+          "rect": {
+            "x": 25,
+            "y": 302.7890625,
+            "width": 703,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@7",
+          "name": "an unnamed group with id th:nth-of-type(1)@7",
+          "rect": {
+            "x": 25,
+            "y": 302.7890625,
+            "width": 175.75,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(2)@8",
+          "name": "an unnamed group with id th:nth-of-type(2)@8",
+          "rect": {
+            "x": 200.75,
+            "y": 302.7890625,
+            "width": 175.75,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(3)@9",
+          "name": "an unnamed group with id th:nth-of-type(3)@9",
+          "rect": {
+            "x": 376.5,
+            "y": 302.7890625,
+            "width": 175.75,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(4)@10",
+          "name": "an unnamed group with id th:nth-of-type(4)@10",
+          "rect": {
+            "x": 552.25,
+            "y": 302.7890625,
+            "width": 175.75,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@12",
+          "name": "an unnamed group with id tr:nth-of-type(1)@12",
+          "rect": {
+            "x": 25,
+            "y": 364.8828125,
+            "width": 703,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@13",
+          "name": "an unnamed group with id td:nth-of-type(1)@13",
+          "rect": {
+            "x": 25,
+            "y": 364.8828125,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@14",
+          "name": "an unnamed group with id td:nth-of-type(2)@14",
+          "rect": {
+            "x": 200.75,
+            "y": 364.8828125,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@15",
+          "name": "an unnamed group with id td:nth-of-type(3)@15",
+          "rect": {
+            "x": 376.5,
+            "y": 364.8828125,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@16",
+          "name": "an unnamed group with id td:nth-of-type(4)@16",
+          "rect": {
+            "x": 552.25,
+            "y": 364.8828125,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@17",
+          "name": "an unnamed group with id tr:nth-of-type(2)@17",
+          "rect": {
+            "x": 25,
+            "y": 458.96875,
+            "width": 703,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@18",
+          "name": "an unnamed group with id td:nth-of-type(1)@18",
+          "rect": {
+            "x": 25,
+            "y": 458.96875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@19",
+          "name": "an unnamed group with id td:nth-of-type(2)@19",
+          "rect": {
+            "x": 200.75,
+            "y": 458.96875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@20",
+          "name": "an unnamed group with id td:nth-of-type(3)@20",
+          "rect": {
+            "x": 376.5,
+            "y": 458.96875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@21",
+          "name": "an unnamed group with id td:nth-of-type(4)@21",
+          "rect": {
+            "x": 552.25,
+            "y": 458.96875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@22",
+          "name": "an unnamed group with id tr:nth-of-type(3)@22",
+          "rect": {
+            "x": 25,
+            "y": 553.0546875,
+            "width": 703,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@23",
+          "name": "an unnamed group with id td:nth-of-type(1)@23",
+          "rect": {
+            "x": 25,
+            "y": 553.0546875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@24",
+          "name": "an unnamed group with id td:nth-of-type(2)@24",
+          "rect": {
+            "x": 200.75,
+            "y": 553.0546875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@25",
+          "name": "an unnamed group with id td:nth-of-type(3)@25",
+          "rect": {
+            "x": 376.5,
+            "y": 553.0546875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@26",
+          "name": "an unnamed group with id td:nth-of-type(4)@26",
+          "rect": {
+            "x": 552.25,
+            "y": 553.0546875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(4)@27",
+          "name": "an unnamed group with id tr:nth-of-type(4)@27",
+          "rect": {
+            "x": 25,
+            "y": 647.140625,
+            "width": 703,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@28",
+          "name": "an unnamed group with id td:nth-of-type(1)@28",
+          "rect": {
+            "x": 25,
+            "y": 647.140625,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@29",
+          "name": "an unnamed group with id td:nth-of-type(2)@29",
+          "rect": {
+            "x": 200.75,
+            "y": 647.140625,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@30",
+          "name": "an unnamed group with id td:nth-of-type(3)@30",
+          "rect": {
+            "x": 376.5,
+            "y": 647.140625,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@31",
+          "name": "an unnamed group with id td:nth-of-type(4)@31",
+          "rect": {
+            "x": 552.25,
+            "y": 647.140625,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(5)@32",
+          "name": "the group holding “2FA”",
+          "rect": {
+            "x": 25,
+            "y": 719.53125,
+            "width": 703,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@33",
+          "name": "the group holding “2FA”",
+          "rect": {
+            "x": 25,
+            "y": 719.53125,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@34",
+          "label": "2FA",
+          "name": "2FA",
+          "rect": {
+            "x": 97.1484375,
+            "y": 735.53125,
+            "width": 25.3984375,
+            "height": 18
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@35",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(2)@35)",
+          "rect": {
+            "x": 200.75,
+            "y": 719.53125,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@36",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(3)@36)",
+          "rect": {
+            "x": 376.5,
+            "y": 719.53125,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@37",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(4)@37)",
+          "rect": {
+            "x": 552.25,
+            "y": 719.53125,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(6)@38",
+          "name": "an unnamed group with id tr:nth-of-type(6)@38",
+          "rect": {
+            "x": 25,
+            "y": 791.921875,
+            "width": 703,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@39",
+          "name": "an unnamed group with id td:nth-of-type(1)@39",
+          "rect": {
+            "x": 25,
+            "y": 791.921875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@40",
+          "name": "an unnamed group with id td:nth-of-type(2)@40",
+          "rect": {
+            "x": 200.75,
+            "y": 791.921875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@41",
+          "name": "an unnamed group with id td:nth-of-type(3)@41",
+          "rect": {
+            "x": 376.5,
+            "y": 791.921875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@42",
+          "name": "an unnamed group with id td:nth-of-type(4)@42",
+          "rect": {
+            "x": 552.25,
+            "y": 791.921875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(7)@43",
+          "name": "an unnamed group with id tr:nth-of-type(7)@43",
+          "rect": {
+            "x": 25,
+            "y": 886.0078125,
+            "width": 703,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@44",
+          "name": "an unnamed group with id td:nth-of-type(1)@44",
+          "rect": {
+            "x": 25,
+            "y": 886.0078125,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@45",
+          "name": "an unnamed group with id td:nth-of-type(2)@45",
+          "rect": {
+            "x": 200.75,
+            "y": 886.0078125,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@46",
+          "name": "an unnamed group with id td:nth-of-type(3)@46",
+          "rect": {
+            "x": 376.5,
+            "y": 886.0078125,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@47",
+          "name": "an unnamed group with id td:nth-of-type(4)@47",
+          "rect": {
+            "x": 552.25,
+            "y": 886.0078125,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(8)@48",
+          "name": "an unnamed group with id tr:nth-of-type(8)@48",
+          "rect": {
+            "x": 25,
+            "y": 958.3984375,
+            "width": 703,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@49",
+          "name": "an unnamed group with id td:nth-of-type(1)@49",
+          "rect": {
+            "x": 25,
+            "y": 958.3984375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@50",
+          "name": "an unnamed group with id td:nth-of-type(2)@50",
+          "rect": {
+            "x": 200.75,
+            "y": 958.3984375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@51",
+          "name": "an unnamed group with id td:nth-of-type(3)@51",
+          "rect": {
+            "x": 376.5,
+            "y": 958.3984375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@52",
+          "name": "an unnamed group with id td:nth-of-type(4)@52",
+          "rect": {
+            "x": 552.25,
+            "y": 958.3984375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(9)@53",
+          "name": "an unnamed group with id tr:nth-of-type(9)@53",
+          "rect": {
+            "x": 25,
+            "y": 1052.484375,
+            "width": 703,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@54",
+          "name": "an unnamed group with id td:nth-of-type(1)@54",
+          "rect": {
+            "x": 25,
+            "y": 1052.484375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@55",
+          "name": "an unnamed group with id td:nth-of-type(2)@55",
+          "rect": {
+            "x": 200.75,
+            "y": 1052.484375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@56",
+          "name": "an unnamed group with id td:nth-of-type(3)@56",
+          "rect": {
+            "x": 376.5,
+            "y": 1052.484375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@57",
+          "name": "an unnamed group with id td:nth-of-type(4)@57",
+          "rect": {
+            "x": 552.25,
+            "y": 1052.484375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(10)@58",
+          "name": "an unnamed group with id tr:nth-of-type(10)@58",
+          "rect": {
+            "x": 25,
+            "y": 1146.5703125,
+            "width": 703,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@59",
+          "name": "an unnamed group with id td:nth-of-type(1)@59",
+          "rect": {
+            "x": 25,
+            "y": 1146.5703125,
+            "width": 175.75,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@60",
+          "name": "an unnamed group with id td:nth-of-type(2)@60",
+          "rect": {
+            "x": 200.75,
+            "y": 1146.5703125,
+            "width": 175.75,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@61",
+          "name": "an unnamed group with id td:nth-of-type(3)@61",
+          "rect": {
+            "x": 376.5,
+            "y": 1146.5703125,
+            "width": 175.75,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@62",
+          "name": "an unnamed group with id td:nth-of-type(4)@62",
+          "rect": {
+            "x": 552.25,
+            "y": 1146.5703125,
+            "width": 175.75,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "nav:nth-of-type(2)@63",
+          "name": "the navigation holding “对比 Binance 与 Kraken→”",
+          "rect": {
+            "x": 24,
+            "y": 8631.296875,
+            "width": 705,
+            "height": 119.6953125
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@65",
+          "label": "对比 Binance 与 Kraken→",
+          "name": "对比 Binance 与 Kraken→",
+          "rect": {
+            "x": 24,
+            "y": 8680.9921875,
+            "width": 346.5,
+            "height": 70
+          }
+        },
+        {
+          "id": "nav:nth-of-type(2)@71",
+          "label": "按分类浏览",
+          "name": "按分类浏览",
+          "rect": {
+            "x": 24,
+            "y": 10020.71875,
+            "width": 705,
+            "height": 172.5
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@72",
+          "label": "OKX 与 Kraken 储备证明披露范围清单→",
+          "name": "OKX 与 Kraken 储备证明披露范围清单→",
+          "rect": {
+            "x": 24,
+            "y": 10020.71875,
+            "width": 346.5,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@78",
+          "label": "储备证明用户自助验证披露雷达→",
+          "name": "储备证明用户自助验证披露雷达→",
+          "rect": {
+            "x": 382.5,
+            "y": 10020.71875,
+            "width": 346.5,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@84",
+          "label": "Superstate USTB 代币化国债记录边界→",
+          "name": "Superstate USTB 代币化国债记录边界→",
+          "rect": {
+            "x": 24,
+            "y": 10112.96875,
+            "width": 346.5,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "div:nth-of-type(2)@90",
+          "name": "the group holding “Kraken 档案→”, “资金费率矩阵→” and 2 more",
+          "rect": {
+            "x": 50,
+            "y": 11489.234375,
+            "width": 653,
+            "height": 152
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@91",
+          "label": "Kraken 档案→",
+          "name": "Kraken 档案→",
+          "rect": {
+            "x": 50,
+            "y": 11489.234375,
+            "width": 320.5,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@96",
+          "label": "资金费率矩阵→",
+          "name": "资金费率矩阵→",
+          "rect": {
+            "x": 382.5,
+            "y": 11489.234375,
+            "width": 320.5,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@102",
+          "label": "兑换工具→",
+          "name": "兑换工具→",
+          "rect": {
+            "x": 50,
+            "y": 11571.234375,
+            "width": 320.5,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(4)@108",
+          "label": "牌照→",
+          "name": "牌照→",
+          "rect": {
+            "x": 382.5,
+            "y": 11571.234375,
+            "width": 320.5,
+            "height": 70
+          }
+        }
+      ]
+    },
+    {
+      "name": "article-kraken-zh-1440",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "elements": [
+        {
+          "id": "div:nth-of-type(1)@1",
+          "name": "an unnamed group with id div:nth-of-type(1)@1",
+          "rect": {
+            "x": 160.5,
+            "y": 292.953125,
+            "width": 664,
+            "height": 985.0625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@3",
+          "label": "CheckWhat it meansPractical actionUnknown to keep explicitAssetwhich cryptocurre",
+          "name": "an unnamed control with id div:nth-of-type(1)@3",
+          "rect": {
+            "x": 161.5,
+            "y": 302.953125,
+            "width": 662,
+            "height": 974.0625
+          }
+        },
+        {
+          "id": "table:nth-of-type(1)@4",
+          "name": "an unnamed table with id table:nth-of-type(1)@4",
+          "rect": {
+            "x": 161.5,
+            "y": 302.953125,
+            "width": 680,
+            "height": 959.0625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@6",
+          "name": "an unnamed group with id tr:nth-of-type(1)@6",
+          "rect": {
+            "x": 161.5,
+            "y": 302.953125,
+            "width": 680,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@7",
+          "name": "an unnamed group with id th:nth-of-type(1)@7",
+          "rect": {
+            "x": 161.5,
+            "y": 302.953125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(2)@8",
+          "name": "an unnamed group with id th:nth-of-type(2)@8",
+          "rect": {
+            "x": 331.5,
+            "y": 302.953125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(3)@9",
+          "name": "an unnamed group with id th:nth-of-type(3)@9",
+          "rect": {
+            "x": 501.5,
+            "y": 302.953125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(4)@10",
+          "name": "an unnamed group with id th:nth-of-type(4)@10",
+          "rect": {
+            "x": 671.5,
+            "y": 302.953125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@12",
+          "name": "an unnamed group with id tr:nth-of-type(1)@12",
+          "rect": {
+            "x": 161.5,
+            "y": 365.046875,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@13",
+          "name": "an unnamed group with id td:nth-of-type(1)@13",
+          "rect": {
+            "x": 161.5,
+            "y": 365.046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@14",
+          "name": "an unnamed group with id td:nth-of-type(2)@14",
+          "rect": {
+            "x": 331.5,
+            "y": 365.046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@15",
+          "name": "an unnamed group with id td:nth-of-type(3)@15",
+          "rect": {
+            "x": 501.5,
+            "y": 365.046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@16",
+          "name": "an unnamed group with id td:nth-of-type(4)@16",
+          "rect": {
+            "x": 671.5,
+            "y": 365.046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@17",
+          "name": "an unnamed group with id tr:nth-of-type(2)@17",
+          "rect": {
+            "x": 161.5,
+            "y": 459.1328125,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@18",
+          "name": "an unnamed group with id td:nth-of-type(1)@18",
+          "rect": {
+            "x": 161.5,
+            "y": 459.1328125,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@19",
+          "name": "an unnamed group with id td:nth-of-type(2)@19",
+          "rect": {
+            "x": 331.5,
+            "y": 459.1328125,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@20",
+          "name": "an unnamed group with id td:nth-of-type(3)@20",
+          "rect": {
+            "x": 501.5,
+            "y": 459.1328125,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@21",
+          "name": "an unnamed group with id td:nth-of-type(4)@21",
+          "rect": {
+            "x": 671.5,
+            "y": 459.1328125,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@22",
+          "name": "an unnamed group with id tr:nth-of-type(3)@22",
+          "rect": {
+            "x": 161.5,
+            "y": 553.21875,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@23",
+          "name": "an unnamed group with id td:nth-of-type(1)@23",
+          "rect": {
+            "x": 161.5,
+            "y": 553.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@24",
+          "name": "an unnamed group with id td:nth-of-type(2)@24",
+          "rect": {
+            "x": 331.5,
+            "y": 553.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@25",
+          "name": "an unnamed group with id td:nth-of-type(3)@25",
+          "rect": {
+            "x": 501.5,
+            "y": 553.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@26",
+          "name": "an unnamed group with id td:nth-of-type(4)@26",
+          "rect": {
+            "x": 671.5,
+            "y": 553.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(4)@27",
+          "name": "an unnamed group with id tr:nth-of-type(4)@27",
+          "rect": {
+            "x": 161.5,
+            "y": 647.3046875,
+            "width": 680,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@28",
+          "name": "an unnamed group with id td:nth-of-type(1)@28",
+          "rect": {
+            "x": 161.5,
+            "y": 647.3046875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@29",
+          "name": "an unnamed group with id td:nth-of-type(2)@29",
+          "rect": {
+            "x": 331.5,
+            "y": 647.3046875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@30",
+          "name": "an unnamed group with id td:nth-of-type(3)@30",
+          "rect": {
+            "x": 501.5,
+            "y": 647.3046875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@31",
+          "name": "an unnamed group with id td:nth-of-type(4)@31",
+          "rect": {
+            "x": 671.5,
+            "y": 647.3046875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(5)@32",
+          "name": "the group holding “2FA”",
+          "rect": {
+            "x": 161.5,
+            "y": 719.6953125,
+            "width": 680,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@33",
+          "name": "the group holding “2FA”",
+          "rect": {
+            "x": 161.5,
+            "y": 719.6953125,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@34",
+          "label": "2FA",
+          "name": "2FA",
+          "rect": {
+            "x": 233.6484375,
+            "y": 735.6953125,
+            "width": 25.3984375,
+            "height": 18
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@35",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(2)@35)",
+          "rect": {
+            "x": 331.5,
+            "y": 719.6953125,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@36",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(3)@36)",
+          "rect": {
+            "x": 501.5,
+            "y": 719.6953125,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@37",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(4)@37)",
+          "rect": {
+            "x": 671.5,
+            "y": 719.6953125,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(6)@38",
+          "name": "an unnamed group with id tr:nth-of-type(6)@38",
+          "rect": {
+            "x": 161.5,
+            "y": 792.0859375,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@39",
+          "name": "an unnamed group with id td:nth-of-type(1)@39",
+          "rect": {
+            "x": 161.5,
+            "y": 792.0859375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@40",
+          "name": "an unnamed group with id td:nth-of-type(2)@40",
+          "rect": {
+            "x": 331.5,
+            "y": 792.0859375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@41",
+          "name": "an unnamed group with id td:nth-of-type(3)@41",
+          "rect": {
+            "x": 501.5,
+            "y": 792.0859375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@42",
+          "name": "an unnamed group with id td:nth-of-type(4)@42",
+          "rect": {
+            "x": 671.5,
+            "y": 792.0859375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(7)@43",
+          "name": "an unnamed group with id tr:nth-of-type(7)@43",
+          "rect": {
+            "x": 161.5,
+            "y": 886.171875,
+            "width": 680,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@44",
+          "name": "an unnamed group with id td:nth-of-type(1)@44",
+          "rect": {
+            "x": 161.5,
+            "y": 886.171875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@45",
+          "name": "an unnamed group with id td:nth-of-type(2)@45",
+          "rect": {
+            "x": 331.5,
+            "y": 886.171875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@46",
+          "name": "an unnamed group with id td:nth-of-type(3)@46",
+          "rect": {
+            "x": 501.5,
+            "y": 886.171875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@47",
+          "name": "an unnamed group with id td:nth-of-type(4)@47",
+          "rect": {
+            "x": 671.5,
+            "y": 886.171875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(8)@48",
+          "name": "an unnamed group with id tr:nth-of-type(8)@48",
+          "rect": {
+            "x": 161.5,
+            "y": 958.5625,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@49",
+          "name": "an unnamed group with id td:nth-of-type(1)@49",
+          "rect": {
+            "x": 161.5,
+            "y": 958.5625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@50",
+          "name": "an unnamed group with id td:nth-of-type(2)@50",
+          "rect": {
+            "x": 331.5,
+            "y": 958.5625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@51",
+          "name": "an unnamed group with id td:nth-of-type(3)@51",
+          "rect": {
+            "x": 501.5,
+            "y": 958.5625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@52",
+          "name": "an unnamed group with id td:nth-of-type(4)@52",
+          "rect": {
+            "x": 671.5,
+            "y": 958.5625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(9)@53",
+          "name": "an unnamed group with id tr:nth-of-type(9)@53",
+          "rect": {
+            "x": 161.5,
+            "y": 1052.6484375,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@54",
+          "name": "an unnamed group with id td:nth-of-type(1)@54",
+          "rect": {
+            "x": 161.5,
+            "y": 1052.6484375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@55",
+          "name": "an unnamed group with id td:nth-of-type(2)@55",
+          "rect": {
+            "x": 331.5,
+            "y": 1052.6484375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@56",
+          "name": "an unnamed group with id td:nth-of-type(3)@56",
+          "rect": {
+            "x": 501.5,
+            "y": 1052.6484375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@57",
+          "name": "an unnamed group with id td:nth-of-type(4)@57",
+          "rect": {
+            "x": 671.5,
+            "y": 1052.6484375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(10)@58",
+          "name": "an unnamed group with id tr:nth-of-type(10)@58",
+          "rect": {
+            "x": 161.5,
+            "y": 1146.734375,
+            "width": 680,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@59",
+          "name": "an unnamed group with id td:nth-of-type(1)@59",
+          "rect": {
+            "x": 161.5,
+            "y": 1146.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@60",
+          "name": "an unnamed group with id td:nth-of-type(2)@60",
+          "rect": {
+            "x": 331.5,
+            "y": 1146.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@61",
+          "name": "an unnamed group with id td:nth-of-type(3)@61",
+          "rect": {
+            "x": 501.5,
+            "y": 1146.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@62",
+          "name": "an unnamed group with id td:nth-of-type(4)@62",
+          "rect": {
+            "x": 671.5,
+            "y": 1146.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "nav:nth-of-type(2)@63",
+          "name": "the navigation holding “对比 Binance 与 Kraken→”",
+          "rect": {
+            "x": 160.5,
+            "y": 9044.1796875,
+            "width": 664,
+            "height": 119.6953125
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@65",
+          "label": "对比 Binance 与 Kraken→",
+          "name": "对比 Binance 与 Kraken→",
+          "rect": {
+            "x": 160.5,
+            "y": 9093.875,
+            "width": 326,
+            "height": 70
+          }
+        },
+        {
+          "id": "nav:nth-of-type(2)@71",
+          "label": "按分类浏览",
+          "name": "按分类浏览",
+          "rect": {
+            "x": 160.5,
+            "y": 10270.6015625,
+            "width": 664,
+            "height": 172.5
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@72",
+          "label": "OKX 与 Kraken 储备证明披露范围清单→",
+          "name": "OKX 与 Kraken 储备证明披露范围清单→",
+          "rect": {
+            "x": 160.5,
+            "y": 10270.6015625,
+            "width": 326,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@78",
+          "label": "储备证明用户自助验证披露雷达→",
+          "name": "储备证明用户自助验证披露雷达→",
+          "rect": {
+            "x": 498.5,
+            "y": 10270.6015625,
+            "width": 326,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@84",
+          "label": "Superstate USTB 代币化国债记录边界→",
+          "name": "Superstate USTB 代币化国债记录边界→",
+          "rect": {
+            "x": 160.5,
+            "y": 10362.8515625,
+            "width": 326,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "div:nth-of-type(2)@90",
+          "name": "the group holding “Kraken 档案→”, “资金费率矩阵→” and 2 more",
+          "rect": {
+            "x": 186.5,
+            "y": 11713.4765625,
+            "width": 612,
+            "height": 152
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@91",
+          "label": "Kraken 档案→",
+          "name": "Kraken 档案→",
+          "rect": {
+            "x": 186.5,
+            "y": 11713.4765625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@96",
+          "label": "资金费率矩阵→",
+          "name": "资金费率矩阵→",
+          "rect": {
+            "x": 498.5,
+            "y": 11713.4765625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@102",
+          "label": "兑换工具→",
+          "name": "兑换工具→",
+          "rect": {
+            "x": 186.5,
+            "y": 11795.4765625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(4)@108",
+          "label": "牌照→",
+          "name": "牌照→",
+          "rect": {
+            "x": 498.5,
+            "y": 11795.4765625,
+            "width": 300,
+            "height": 70
+          }
+        }
+      ]
+    },
+    {
+      "name": "article-kraken-zh-1728",
+      "viewport": {
+        "width": 1728,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "elements": [
+        {
+          "id": "div:nth-of-type(1)@1",
+          "name": "an unnamed group with id div:nth-of-type(1)@1",
+          "rect": {
+            "x": 304.5,
+            "y": 292.953125,
+            "width": 664,
+            "height": 985.0625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@3",
+          "label": "CheckWhat it meansPractical actionUnknown to keep explicitAssetwhich cryptocurre",
+          "name": "an unnamed control with id div:nth-of-type(1)@3",
+          "rect": {
+            "x": 305.5,
+            "y": 302.953125,
+            "width": 662,
+            "height": 974.0625
+          }
+        },
+        {
+          "id": "table:nth-of-type(1)@4",
+          "name": "an unnamed table with id table:nth-of-type(1)@4",
+          "rect": {
+            "x": 305.5,
+            "y": 302.953125,
+            "width": 680,
+            "height": 959.0625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@6",
+          "name": "an unnamed group with id tr:nth-of-type(1)@6",
+          "rect": {
+            "x": 305.5,
+            "y": 302.953125,
+            "width": 680,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@7",
+          "name": "an unnamed group with id th:nth-of-type(1)@7",
+          "rect": {
+            "x": 305.5,
+            "y": 302.953125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(2)@8",
+          "name": "an unnamed group with id th:nth-of-type(2)@8",
+          "rect": {
+            "x": 475.5,
+            "y": 302.953125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(3)@9",
+          "name": "an unnamed group with id th:nth-of-type(3)@9",
+          "rect": {
+            "x": 645.5,
+            "y": 302.953125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(4)@10",
+          "name": "an unnamed group with id th:nth-of-type(4)@10",
+          "rect": {
+            "x": 815.5,
+            "y": 302.953125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@12",
+          "name": "an unnamed group with id tr:nth-of-type(1)@12",
+          "rect": {
+            "x": 305.5,
+            "y": 365.046875,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@13",
+          "name": "an unnamed group with id td:nth-of-type(1)@13",
+          "rect": {
+            "x": 305.5,
+            "y": 365.046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@14",
+          "name": "an unnamed group with id td:nth-of-type(2)@14",
+          "rect": {
+            "x": 475.5,
+            "y": 365.046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@15",
+          "name": "an unnamed group with id td:nth-of-type(3)@15",
+          "rect": {
+            "x": 645.5,
+            "y": 365.046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@16",
+          "name": "an unnamed group with id td:nth-of-type(4)@16",
+          "rect": {
+            "x": 815.5,
+            "y": 365.046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@17",
+          "name": "an unnamed group with id tr:nth-of-type(2)@17",
+          "rect": {
+            "x": 305.5,
+            "y": 459.1328125,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@18",
+          "name": "an unnamed group with id td:nth-of-type(1)@18",
+          "rect": {
+            "x": 305.5,
+            "y": 459.1328125,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@19",
+          "name": "an unnamed group with id td:nth-of-type(2)@19",
+          "rect": {
+            "x": 475.5,
+            "y": 459.1328125,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@20",
+          "name": "an unnamed group with id td:nth-of-type(3)@20",
+          "rect": {
+            "x": 645.5,
+            "y": 459.1328125,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@21",
+          "name": "an unnamed group with id td:nth-of-type(4)@21",
+          "rect": {
+            "x": 815.5,
+            "y": 459.1328125,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@22",
+          "name": "an unnamed group with id tr:nth-of-type(3)@22",
+          "rect": {
+            "x": 305.5,
+            "y": 553.21875,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@23",
+          "name": "an unnamed group with id td:nth-of-type(1)@23",
+          "rect": {
+            "x": 305.5,
+            "y": 553.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@24",
+          "name": "an unnamed group with id td:nth-of-type(2)@24",
+          "rect": {
+            "x": 475.5,
+            "y": 553.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@25",
+          "name": "an unnamed group with id td:nth-of-type(3)@25",
+          "rect": {
+            "x": 645.5,
+            "y": 553.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@26",
+          "name": "an unnamed group with id td:nth-of-type(4)@26",
+          "rect": {
+            "x": 815.5,
+            "y": 553.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(4)@27",
+          "name": "an unnamed group with id tr:nth-of-type(4)@27",
+          "rect": {
+            "x": 305.5,
+            "y": 647.3046875,
+            "width": 680,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@28",
+          "name": "an unnamed group with id td:nth-of-type(1)@28",
+          "rect": {
+            "x": 305.5,
+            "y": 647.3046875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@29",
+          "name": "an unnamed group with id td:nth-of-type(2)@29",
+          "rect": {
+            "x": 475.5,
+            "y": 647.3046875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@30",
+          "name": "an unnamed group with id td:nth-of-type(3)@30",
+          "rect": {
+            "x": 645.5,
+            "y": 647.3046875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@31",
+          "name": "an unnamed group with id td:nth-of-type(4)@31",
+          "rect": {
+            "x": 815.5,
+            "y": 647.3046875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(5)@32",
+          "name": "the group holding “2FA”",
+          "rect": {
+            "x": 305.5,
+            "y": 719.6953125,
+            "width": 680,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@33",
+          "name": "the group holding “2FA”",
+          "rect": {
+            "x": 305.5,
+            "y": 719.6953125,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@34",
+          "label": "2FA",
+          "name": "2FA",
+          "rect": {
+            "x": 377.6484375,
+            "y": 735.6953125,
+            "width": 25.3984375,
+            "height": 18
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@35",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(2)@35)",
+          "rect": {
+            "x": 475.5,
+            "y": 719.6953125,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@36",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(3)@36)",
+          "rect": {
+            "x": 645.5,
+            "y": 719.6953125,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@37",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(4)@37)",
+          "rect": {
+            "x": 815.5,
+            "y": 719.6953125,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(6)@38",
+          "name": "an unnamed group with id tr:nth-of-type(6)@38",
+          "rect": {
+            "x": 305.5,
+            "y": 792.0859375,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@39",
+          "name": "an unnamed group with id td:nth-of-type(1)@39",
+          "rect": {
+            "x": 305.5,
+            "y": 792.0859375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@40",
+          "name": "an unnamed group with id td:nth-of-type(2)@40",
+          "rect": {
+            "x": 475.5,
+            "y": 792.0859375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@41",
+          "name": "an unnamed group with id td:nth-of-type(3)@41",
+          "rect": {
+            "x": 645.5,
+            "y": 792.0859375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@42",
+          "name": "an unnamed group with id td:nth-of-type(4)@42",
+          "rect": {
+            "x": 815.5,
+            "y": 792.0859375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(7)@43",
+          "name": "an unnamed group with id tr:nth-of-type(7)@43",
+          "rect": {
+            "x": 305.5,
+            "y": 886.171875,
+            "width": 680,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@44",
+          "name": "an unnamed group with id td:nth-of-type(1)@44",
+          "rect": {
+            "x": 305.5,
+            "y": 886.171875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@45",
+          "name": "an unnamed group with id td:nth-of-type(2)@45",
+          "rect": {
+            "x": 475.5,
+            "y": 886.171875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@46",
+          "name": "an unnamed group with id td:nth-of-type(3)@46",
+          "rect": {
+            "x": 645.5,
+            "y": 886.171875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@47",
+          "name": "an unnamed group with id td:nth-of-type(4)@47",
+          "rect": {
+            "x": 815.5,
+            "y": 886.171875,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(8)@48",
+          "name": "an unnamed group with id tr:nth-of-type(8)@48",
+          "rect": {
+            "x": 305.5,
+            "y": 958.5625,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@49",
+          "name": "an unnamed group with id td:nth-of-type(1)@49",
+          "rect": {
+            "x": 305.5,
+            "y": 958.5625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@50",
+          "name": "an unnamed group with id td:nth-of-type(2)@50",
+          "rect": {
+            "x": 475.5,
+            "y": 958.5625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@51",
+          "name": "an unnamed group with id td:nth-of-type(3)@51",
+          "rect": {
+            "x": 645.5,
+            "y": 958.5625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@52",
+          "name": "an unnamed group with id td:nth-of-type(4)@52",
+          "rect": {
+            "x": 815.5,
+            "y": 958.5625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(9)@53",
+          "name": "an unnamed group with id tr:nth-of-type(9)@53",
+          "rect": {
+            "x": 305.5,
+            "y": 1052.6484375,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@54",
+          "name": "an unnamed group with id td:nth-of-type(1)@54",
+          "rect": {
+            "x": 305.5,
+            "y": 1052.6484375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@55",
+          "name": "an unnamed group with id td:nth-of-type(2)@55",
+          "rect": {
+            "x": 475.5,
+            "y": 1052.6484375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@56",
+          "name": "an unnamed group with id td:nth-of-type(3)@56",
+          "rect": {
+            "x": 645.5,
+            "y": 1052.6484375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@57",
+          "name": "an unnamed group with id td:nth-of-type(4)@57",
+          "rect": {
+            "x": 815.5,
+            "y": 1052.6484375,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(10)@58",
+          "name": "an unnamed group with id tr:nth-of-type(10)@58",
+          "rect": {
+            "x": 305.5,
+            "y": 1146.734375,
+            "width": 680,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@59",
+          "name": "an unnamed group with id td:nth-of-type(1)@59",
+          "rect": {
+            "x": 305.5,
+            "y": 1146.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@60",
+          "name": "an unnamed group with id td:nth-of-type(2)@60",
+          "rect": {
+            "x": 475.5,
+            "y": 1146.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@61",
+          "name": "an unnamed group with id td:nth-of-type(3)@61",
+          "rect": {
+            "x": 645.5,
+            "y": 1146.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@62",
+          "name": "an unnamed group with id td:nth-of-type(4)@62",
+          "rect": {
+            "x": 815.5,
+            "y": 1146.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "nav:nth-of-type(2)@63",
+          "name": "the navigation holding “对比 Binance 与 Kraken→”",
+          "rect": {
+            "x": 304.5,
+            "y": 9044.1796875,
+            "width": 664,
+            "height": 119.6953125
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@65",
+          "label": "对比 Binance 与 Kraken→",
+          "name": "对比 Binance 与 Kraken→",
+          "rect": {
+            "x": 304.5,
+            "y": 9093.875,
+            "width": 326,
+            "height": 70
+          }
+        },
+        {
+          "id": "nav:nth-of-type(2)@71",
+          "label": "按分类浏览",
+          "name": "按分类浏览",
+          "rect": {
+            "x": 304.5,
+            "y": 10270.6015625,
+            "width": 664,
+            "height": 172.5
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@72",
+          "label": "OKX 与 Kraken 储备证明披露范围清单→",
+          "name": "OKX 与 Kraken 储备证明披露范围清单→",
+          "rect": {
+            "x": 304.5,
+            "y": 10270.6015625,
+            "width": 326,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@78",
+          "label": "储备证明用户自助验证披露雷达→",
+          "name": "储备证明用户自助验证披露雷达→",
+          "rect": {
+            "x": 642.5,
+            "y": 10270.6015625,
+            "width": 326,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@84",
+          "label": "Superstate USTB 代币化国债记录边界→",
+          "name": "Superstate USTB 代币化国债记录边界→",
+          "rect": {
+            "x": 304.5,
+            "y": 10362.8515625,
+            "width": 326,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "div:nth-of-type(2)@90",
+          "name": "the group holding “Kraken 档案→”, “资金费率矩阵→” and 2 more",
+          "rect": {
+            "x": 330.5,
+            "y": 11713.4765625,
+            "width": 612,
+            "height": 152
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@91",
+          "label": "Kraken 档案→",
+          "name": "Kraken 档案→",
+          "rect": {
+            "x": 330.5,
+            "y": 11713.4765625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@96",
+          "label": "资金费率矩阵→",
+          "name": "资金费率矩阵→",
+          "rect": {
+            "x": 642.5,
+            "y": 11713.4765625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@102",
+          "label": "兑换工具→",
+          "name": "兑换工具→",
+          "rect": {
+            "x": 330.5,
+            "y": 11795.4765625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(4)@108",
+          "label": "牌照→",
+          "name": "牌照→",
+          "rect": {
+            "x": 642.5,
+            "y": 11795.4765625,
+            "width": 300,
+            "height": 70
+          }
+        }
+      ]
+    }
+  ],
+  "capturedWidths": [
+    390,
+    768,
+    1440,
+    1728
+  ],
+  "missingWidths": [],
+  "rubric": [],
+  "rubricStatus": "unavailable",
+  "nextStep": "Before you finish this review, call `find-design-system` with the product's description and list its top matches in your report, so the person can pick a style. Restyle the screen only with the one they pick."
+}

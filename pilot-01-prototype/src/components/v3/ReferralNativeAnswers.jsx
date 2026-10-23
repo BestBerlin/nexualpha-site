@@ -3,8 +3,9 @@ import { partnerBenefitCopy } from '../../data/partner-benefit-status.js';
 import { SourceLink } from '../shared/SourceLink.jsx';
 import { LocalLink } from './v3-pages-shared.jsx';
 import './referral-native-answers.css';
+import { VenueVisualIcon } from './VenueDetailPageVisuals.jsx';
 
-export function ReferralNativeAnswers({ slug, locale, market, hideShortAnswer = false }) {
+export function ReferralNativeAnswers({ slug, locale, market, hideShortAnswer = false, disclosure }) {
   const data = nativeReferralFor(slug, locale, market);
   if (!data) return null;
   const { copy, help } = data;
@@ -12,12 +13,12 @@ export function ReferralNativeAnswers({ slug, locale, market, hideShortAnswer = 
   const source = (href) => <SourceLink locale={locale} market={market} href={href} data-cta-kind="source" data-cta-placement="referral-verification-source">{data.slug} · {copy.labels.source}</SourceLink>;
   return <section className="referral-native-answers" id="referral-answer" aria-label={copy.labels.log}>
     {data.shortAnswer && !hideShortAnswer && <p className="referral-native-answers__short" data-short-answer=""><strong>{data.shortAnswer.label}</strong> {data.shortAnswer.text}</p>}
-    <dl>
-      {data.code && <div><dt>{copy.labels.code}</dt><dd><bdi translate="no">{data.code}</bdi></dd></div>}
-      {!data.neutral && <div><dt>{copy.labels.benefit}</dt><dd>{data.benefit}{data.partnerDate && <> · {terms.confirmed.replace('{date}', data.partnerDate)}</>}</dd></div>}
-      {!data.neutral && <div><dt>{copy.labels.entry}</dt><dd>{data.entry}</dd></div>}
-      <div><dt>{copy.labels.later}</dt><dd>{data.later}</dd></div>
-      <div><dt>{copy.labels.payout}</dt><dd>{data.payout}</dd></div>
+    <dl className="vx-registration-flow">
+      {!data.neutral && <div data-registration-stage="entry"><dt><VenueVisualIcon kind="identity" /><span><small aria-hidden="true">01</small>{copy.labels.entry}</span></dt><dd>{data.entry}</dd></div>}
+      {data.code && <div data-registration-stage="code"><dt><VenueVisualIcon kind="source" /><span><small aria-hidden="true">02</small>{copy.labels.code}</span></dt><dd><bdi translate="no">{data.code}</bdi></dd></div>}
+      <div data-registration-stage="payout"><dt><VenueVisualIcon kind="fees" /><span>{!data.neutral && <small aria-hidden="true">03</small>}{copy.labels.payout}</span></dt><dd>{data.payout}</dd></div>
+      {!data.neutral && <div className="vx-registration-benefit"><dt><VenueVisualIcon kind="shield" />{copy.labels.benefit}</dt><dd>{data.benefit}{data.partnerDate && <> · {terms.confirmed.replace('{date}', data.partnerDate)}</>}{disclosure && <small className="vx-registration-disclosure">{disclosure}</small>}</dd></div>}
+      <div className="vx-registration-later"><dt><VenueVisualIcon kind="question" />{copy.labels.later}</dt><dd>{data.later}</dd></div>
     </dl>
     <details>
       <summary>{copy.labels.log}</summary>

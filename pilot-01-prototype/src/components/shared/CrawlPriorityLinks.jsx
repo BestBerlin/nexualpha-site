@@ -2,6 +2,7 @@
 // since 2026-10-12 (build budget): SSR renders it eagerly; in the browser it sits in a Suspense boundary, so React keeps
 // the server HTML until the chunk arrives (same pattern as ToolArticleLinks). Moved unchanged from App.jsx.
 import React from "react";
+import { ResearchComparisonCard } from "./ResearchComparisonCard.jsx";
 import "./crawl-priority-layout.css";
 import { localizedHref } from "../../data/locale-routing.js";
 import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
@@ -131,13 +132,10 @@ export function CrawlPriorityLinks({ locale = "en", scope = "home" }) {
   const destination = (href, edition) => edition || href.startsWith("/br") ? href : localizedHref(href, { locale });
   const renderCard = ([href, label, edition], group) => {
     const pair = href.match(/^\/compare\/([a-z-]+)-vs-([a-z-]+)$/);
+    if (pair && !edition) return <ResearchComparisonCard key={href} href={destination(href, edition)} pair={pair.slice(1)} label={labelOverrides.get(href) || label} />;
     return <a className={`research-library__card${pair ? " research-library__card--compare" : ""}${edition ? " research-library__chip" : ""}`}
       key={href} lang={edition} hrefLang={edition} href={destination(href, edition)}>
-      {pair ? <span className="research-library__pair" aria-hidden="true" dir="ltr">
-        <img src={`/brands/tile/${pair[1]}-64.webp`} width="40" height="40" loading="lazy" alt="" />
-        <b>vs</b>
-        <img src={`/brands/tile/${pair[2]}-64.webp`} width="40" height="40" loading="lazy" alt="" />
-      </span> : !edition ? <ResearchIcon kind={group} /> : null}
+      {!edition ? <ResearchIcon kind={group} /> : null}
       <span className="research-library__card-label">{labelOverrides.get(href) || label}</span>
       {!edition && <span className="research-library__arrow" aria-hidden="true">↗</span>}
     </a>;

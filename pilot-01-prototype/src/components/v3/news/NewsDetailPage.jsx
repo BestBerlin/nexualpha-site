@@ -446,6 +446,16 @@ function relatedArticleCategory(item, locale) {
   return own || newsCategoryCopy(item.category, locale)?.label || localizedValue(item.categoryName, locale) || item.category;
 }
 
+// Use the footer's paired-logo language for known profiles/comparisons; source and topic links
+// keep a neutral document icon. The URL is only an art hint and never changes the link target.
+function ArticleResourceArt({ href = "" }) {
+  const match = String(href).match(/\/(?:compare|exchanges)\/([a-z0-9-]+)(?:[?#]|$)/);
+  const slugs = match ? match[1].split('-vs-').filter(slug => venueDatabase[slug]?.slug === slug).slice(0, 2) : [];
+  return <span className="news-detail__resource-art" aria-hidden="true">
+    {slugs.length ? slugs.map(slug => <BrandMark key={slug} slug={slug} compact />) : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h6" /></svg>}
+  </span>;
+}
+
 function RelatedResearch({ links, relatedArticles = [], locale, t, withContext, article }) {
   if (!links.length && !relatedArticles.length) return null;
   const title = newsLibraryCopy(locale).related;
@@ -486,7 +496,7 @@ function RelatedResearch({ links, relatedArticles = [], locale, t, withContext, 
             data-growth-decision={article.slug}
             data-growth-placement="news-detail-related-research"
           >
-            <span>{link.label}</span><span aria-hidden="true">→</span>
+            <ArticleResourceArt href={link.href} /><span>{link.label}</span><span className="news-detail__resource-arrow" aria-hidden="true">→</span>
           </a>
         ))}
       </div>}
@@ -648,6 +658,32 @@ function renderMarkdownBlock(block, index, t, linker = null, locale = "en") {
         </div>
       </div>
     );
+  }
+  // Authored reading/source lists retain their original inline renderer (including safe hrefs,
+  // emphasis and trailing evidence qualifications); only their presentation becomes a card list.
+  const resourceItems = lines.map(line => line.match(/^(?:[-*]|\d+[.)])\s+(.+)$/));
+  if (resourceItems.length >= 2 && resourceItems.every(Boolean)) {
+    const items = resourceItems.map(item => ({ text: item[1], tokens: tokenizeInlineMarkdown(item[1], { locale }) }));
+    const firstLink = (tokens) => {
+      for (const token of tokens) {
+        if (token.type === 'link') return token;
+        const nested = token.children && firstLink(token.children);
+        if (nested) return nested;
+      }
+      return null;
+    };
+    const linked = items.map(item => ({ ...item, link: firstLink(item.tokens) }));
+    if (linked.every(item => item.link)) {
+      const ordered = /^\d+[.)]\s/.test(lines[0]);
+      const List = ordered ? 'ol' : 'ul';
+      const start = ordered ? Number(lines[0].match(/^\d+/)[0]) : undefined;
+      return <List key={index} className="news-detail__resource-list" start={start && start !== 1 ? start : undefined}>
+        {linked.map((item, itemIndex) => <li key={itemIndex}>
+          <ArticleResourceArt href={item.link.href} />
+          <div className="news-detail__resource-copy">{renderInline(item.text, linker, locale)}</div>
+        </li>)}
+      </List>;
+    }
   }
   // A numbered Markdown block is a sequence, not a paragraph whose newlines collapse in HTML.
   // Require a marker at the start of every line so numbers in ordinary prose stay untouched.
@@ -1012,32 +1048,23 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             </div>
           </details>}
           {relatedPartners && (
-            <p className="news-detail__related-partners" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} data-news-related-partners="">
-              <span className="news-detail__related-partners-label">{relatedPartners.label}:</span>
-              {relatedPartners.profiles.map((profile, index) => (
-                <React.Fragment key={profile.slug}>
-                  {index > 0 && <span aria-hidden="true"> · </span>}
-                  <a href={withContext(profile.href)} data-related-partner={profile.slug} data-cta-kind="research" data-cta-placement="news-detail-related-partners">{profile.label}</a>
-                </React.Fragment>
+            <nav className="news-detail__related-partners news-detail__decision-links" aria-labelledby="news-related-partners-label" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} data-news-related-partners="">
+              <span id="news-related-partners-label" className="news-detail__related-partners-label">{relatedPartners.label}:</span>
+              {relatedPartners.profiles.map((profile) => (
+                  <a key={profile.slug} href={withContext(profile.href)} data-related-partner={profile.slug} data-cta-kind="research" data-cta-placement="news-detail-related-partners"><ArticleResourceArt href={profile.href} /><span>{profile.label}</span><span className="news-detail__resource-arrow" aria-hidden="true">→</span></a>
               ))}
               {relatedPartners.compare && (
-                <>
-                  <span aria-hidden="true"> · </span>
-                  <a href={withContext(relatedPartners.compare.href)} data-related-compare={relatedPartners.compare.slug} data-cta-kind="research" data-cta-placement="news-detail-related-partners">{relatedPartners.compare.label}</a>
-                </>
+                  <a href={withContext(relatedPartners.compare.href)} data-related-compare={relatedPartners.compare.slug} data-cta-kind="research" data-cta-placement="news-detail-related-partners"><ArticleResourceArt href={relatedPartners.compare.href} /><span>{relatedPartners.compare.label}</span><span className="news-detail__resource-arrow" aria-hidden="true">→</span></a>
               )}
-            </p>
+            </nav>
           )}
           {clusterLinks.length > 0 && (
-            <p className="news-detail__cluster-links" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} data-news-cluster-links="">
-              <span className="news-detail__cluster-links-label">{articleClusterLineLabel(locale)}:</span>
-              {clusterLinks.map((link, index) => (
-                <React.Fragment key={link.id}>
-                  {index > 0 && <span aria-hidden="true"> · </span>}
-                  <a href={withContext(link.href)} data-cluster-link={link.id} data-cta-kind="research" data-cta-placement="news-detail-cluster-links">{link.label}</a>
-                </React.Fragment>
+            <nav className="news-detail__cluster-links news-detail__decision-links" aria-labelledby="news-cluster-links-label" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} data-news-cluster-links="">
+              <span id="news-cluster-links-label" className="news-detail__cluster-links-label">{articleClusterLineLabel(locale)}:</span>
+              {clusterLinks.map((link) => (
+                  <a key={link.id} href={withContext(link.href)} data-cluster-link={link.id} data-cta-kind="research" data-cta-placement="news-detail-cluster-links"><ArticleResourceArt href={link.href} /><span>{link.label}</span><span className="news-detail__resource-arrow" aria-hidden="true">→</span></a>
               ))}
-            </p>
+            </nav>
           )}
           <NewsTelegramAlerts locale={locale} />
           <SponsoredSlot promotions={promotions} locale={locale} market={market} variant="end" />
@@ -1143,7 +1170,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
         )}
 
         {newsReadingNeighbors(article, visibleArticles).length > 0 && <nav className="news-detail__decision-links" aria-label={newsLibraryCopy(locale).browse} data-news-reading-neighbors="">
-          {newsReadingNeighbors(article, visibleArticles).map(item => <a key={item.slug} href={withContext(newsArticleUrl(item.slug, locale, item))}>{localizedNewsTitle(item, locale)}</a>)}
+          {newsReadingNeighbors(article, visibleArticles).map(item => <a key={item.slug} href={withContext(newsArticleUrl(item.slug, locale, item))}><ArticleResourceArt href={newsArticleUrl(item.slug, locale, item)} /><span>{localizedNewsTitle(item, locale)}</span><span className="news-detail__resource-arrow" aria-hidden="true">→</span></a>)}
         </nav>}
         <ArticleVenueResearch article={article} articles={visibleArticles} locale={locale} />
         <RelatedResearch links={relatedLinks} relatedArticles={recentEntityArticles(article, visibleArticles, 5, locale)} locale={locale} t={t} withContext={withContext} article={article} />

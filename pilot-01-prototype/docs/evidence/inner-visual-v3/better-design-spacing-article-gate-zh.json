@@ -1,0 +1,2592 @@
+{
+  "status": "completed",
+  "score": 80,
+  "summary": {
+    "critical": 0,
+    "serious": 0,
+    "moderate": 4,
+    "total": 4
+  },
+  "findings": [
+    {
+      "ruleId": "spacing/off-scale-value",
+      "state": "article-gate-zh-390",
+      "severity": "moderate",
+      "message": "article-gate-zh-390 uses 2 off-scale spacing values across 1 element: 35px, 42px.",
+      "fix": "Replace the measured values with the nearest project spacing token. Active scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px.",
+      "elementIds": [
+        "div:nth-of-type(1)@21"
+      ],
+      "evidence": [
+        {
+          "label": "div:nth-of-type(1)@21 margin top",
+          "value": 35,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@21 margin bottom",
+          "value": 42,
+          "unit": "px"
+        }
+      ],
+      "id": "spacing-1"
+    },
+    {
+      "ruleId": "spacing/off-scale-value",
+      "state": "article-gate-zh-768",
+      "severity": "moderate",
+      "message": "article-gate-zh-768 uses 4 off-scale spacing values across 34 elements: 14px, 20px, 35px, 42px.",
+      "fix": "Replace the measured values with the nearest project spacing token. Active scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px.",
+      "elementIds": [
+        "aside:nth-of-type(1)@1",
+        "div:nth-of-type(1)@21",
+        "th:nth-of-type(1)@27",
+        "th:nth-of-type(2)@28",
+        "th:nth-of-type(3)@29",
+        "th:nth-of-type(4)@30",
+        "td:nth-of-type(1)@33",
+        "td:nth-of-type(2)@34",
+        "td:nth-of-type(3)@35",
+        "td:nth-of-type(4)@36",
+        "td:nth-of-type(1)@38",
+        "td:nth-of-type(2)@39",
+        "td:nth-of-type(3)@40",
+        "td:nth-of-type(4)@41",
+        "td:nth-of-type(1)@43",
+        "td:nth-of-type(2)@45",
+        "td:nth-of-type(3)@46",
+        "td:nth-of-type(4)@47",
+        "td:nth-of-type(1)@49",
+        "td:nth-of-type(2)@50",
+        "td:nth-of-type(3)@51",
+        "td:nth-of-type(4)@52",
+        "td:nth-of-type(1)@54",
+        "td:nth-of-type(2)@55",
+        "td:nth-of-type(3)@56",
+        "td:nth-of-type(4)@57",
+        "td:nth-of-type(1)@59",
+        "td:nth-of-type(2)@60",
+        "td:nth-of-type(3)@61",
+        "td:nth-of-type(4)@62",
+        "td:nth-of-type(1)@64",
+        "td:nth-of-type(2)@65",
+        "td:nth-of-type(3)@66",
+        "td:nth-of-type(4)@67"
+      ],
+      "evidence": [
+        {
+          "label": "aside:nth-of-type(1)@1 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "aside:nth-of-type(1)@1 padding right",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "aside:nth-of-type(1)@1 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "aside:nth-of-type(1)@1 padding left",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@21 margin top",
+          "value": 35,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@21 margin bottom",
+          "value": 42,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(1)@27 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(1)@27 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(2)@28 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(2)@28 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(3)@29 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(3)@29 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(4)@30 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(4)@30 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@33 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@33 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(2)@34 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(2)@34 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(3)@35 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(3)@35 padding bottom",
+          "value": 14,
+          "unit": "px"
+        }
+      ],
+      "id": "spacing-2"
+    },
+    {
+      "ruleId": "spacing/off-scale-value",
+      "state": "article-gate-zh-1440",
+      "severity": "moderate",
+      "message": "article-gate-zh-1440 uses 4 off-scale spacing values across 34 elements: 14px, 20px, 35px, 42px.",
+      "fix": "Replace the measured values with the nearest project spacing token. Active scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px.",
+      "elementIds": [
+        "aside:nth-of-type(1)@1",
+        "div:nth-of-type(1)@21",
+        "th:nth-of-type(1)@27",
+        "th:nth-of-type(2)@28",
+        "th:nth-of-type(3)@29",
+        "th:nth-of-type(4)@30",
+        "td:nth-of-type(1)@33",
+        "td:nth-of-type(2)@34",
+        "td:nth-of-type(3)@35",
+        "td:nth-of-type(4)@36",
+        "td:nth-of-type(1)@38",
+        "td:nth-of-type(2)@39",
+        "td:nth-of-type(3)@40",
+        "td:nth-of-type(4)@41",
+        "td:nth-of-type(1)@43",
+        "td:nth-of-type(2)@45",
+        "td:nth-of-type(3)@46",
+        "td:nth-of-type(4)@47",
+        "td:nth-of-type(1)@49",
+        "td:nth-of-type(2)@50",
+        "td:nth-of-type(3)@51",
+        "td:nth-of-type(4)@52",
+        "td:nth-of-type(1)@54",
+        "td:nth-of-type(2)@55",
+        "td:nth-of-type(3)@56",
+        "td:nth-of-type(4)@57",
+        "td:nth-of-type(1)@59",
+        "td:nth-of-type(2)@60",
+        "td:nth-of-type(3)@61",
+        "td:nth-of-type(4)@62",
+        "td:nth-of-type(1)@64",
+        "td:nth-of-type(2)@65",
+        "td:nth-of-type(3)@66",
+        "td:nth-of-type(4)@67"
+      ],
+      "evidence": [
+        {
+          "label": "aside:nth-of-type(1)@1 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "aside:nth-of-type(1)@1 padding right",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "aside:nth-of-type(1)@1 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "aside:nth-of-type(1)@1 padding left",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@21 margin top",
+          "value": 35,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@21 margin bottom",
+          "value": 42,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(1)@27 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(1)@27 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(2)@28 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(2)@28 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(3)@29 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(3)@29 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(4)@30 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(4)@30 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@33 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@33 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(2)@34 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(2)@34 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(3)@35 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(3)@35 padding bottom",
+          "value": 14,
+          "unit": "px"
+        }
+      ],
+      "id": "spacing-3"
+    },
+    {
+      "ruleId": "spacing/off-scale-value",
+      "state": "article-gate-zh-1728",
+      "severity": "moderate",
+      "message": "article-gate-zh-1728 uses 4 off-scale spacing values across 34 elements: 14px, 20px, 35px, 42px.",
+      "fix": "Replace the measured values with the nearest project spacing token. Active scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px.",
+      "elementIds": [
+        "aside:nth-of-type(1)@1",
+        "div:nth-of-type(1)@21",
+        "th:nth-of-type(1)@27",
+        "th:nth-of-type(2)@28",
+        "th:nth-of-type(3)@29",
+        "th:nth-of-type(4)@30",
+        "td:nth-of-type(1)@33",
+        "td:nth-of-type(2)@34",
+        "td:nth-of-type(3)@35",
+        "td:nth-of-type(4)@36",
+        "td:nth-of-type(1)@38",
+        "td:nth-of-type(2)@39",
+        "td:nth-of-type(3)@40",
+        "td:nth-of-type(4)@41",
+        "td:nth-of-type(1)@43",
+        "td:nth-of-type(2)@45",
+        "td:nth-of-type(3)@46",
+        "td:nth-of-type(4)@47",
+        "td:nth-of-type(1)@49",
+        "td:nth-of-type(2)@50",
+        "td:nth-of-type(3)@51",
+        "td:nth-of-type(4)@52",
+        "td:nth-of-type(1)@54",
+        "td:nth-of-type(2)@55",
+        "td:nth-of-type(3)@56",
+        "td:nth-of-type(4)@57",
+        "td:nth-of-type(1)@59",
+        "td:nth-of-type(2)@60",
+        "td:nth-of-type(3)@61",
+        "td:nth-of-type(4)@62",
+        "td:nth-of-type(1)@64",
+        "td:nth-of-type(2)@65",
+        "td:nth-of-type(3)@66",
+        "td:nth-of-type(4)@67"
+      ],
+      "evidence": [
+        {
+          "label": "aside:nth-of-type(1)@1 padding top",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "aside:nth-of-type(1)@1 padding right",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "aside:nth-of-type(1)@1 padding bottom",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "aside:nth-of-type(1)@1 padding left",
+          "value": 20,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@21 margin top",
+          "value": 35,
+          "unit": "px"
+        },
+        {
+          "label": "div:nth-of-type(1)@21 margin bottom",
+          "value": 42,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(1)@27 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(1)@27 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(2)@28 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(2)@28 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(3)@29 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(3)@29 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(4)@30 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "th:nth-of-type(4)@30 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@33 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(1)@33 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(2)@34 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(2)@34 padding bottom",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(3)@35 padding top",
+          "value": 14,
+          "unit": "px"
+        },
+        {
+          "label": "td:nth-of-type(3)@35 padding bottom",
+          "value": 14,
+          "unit": "px"
+        }
+      ],
+      "id": "spacing-4"
+    }
+  ],
+  "states": [
+    {
+      "name": "article-gate-zh-390",
+      "viewport": {
+        "width": 390,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "elements": [
+        {
+          "id": "aside:nth-of-type(1)@1",
+          "name": "an unnamed sidebar with id aside:nth-of-type(1)@1",
+          "rect": {
+            "x": 24,
+            "y": 58.75,
+            "width": 327,
+            "height": 582.9921875
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@2",
+          "name": "an unnamed group with id div:nth-of-type(1)@2",
+          "rect": {
+            "x": 41,
+            "y": 75.75,
+            "width": 293,
+            "height": 18.1953125
+          }
+        },
+        {
+          "id": "ul:nth-of-type(1)@6",
+          "name": "an unnamed list with id ul:nth-of-type(1)@6",
+          "rect": {
+            "x": 41,
+            "y": 109.9453125,
+            "width": 293,
+            "height": 514.796875
+          }
+        },
+        {
+          "id": "li:nth-of-type(1)@7",
+          "name": "an unnamed list item with id li:nth-of-type(1)@7",
+          "rect": {
+            "x": 41,
+            "y": 109.9453125,
+            "width": 293,
+            "height": 216.7578125
+          }
+        },
+        {
+          "id": "li:nth-of-type(2)@14",
+          "name": "an unnamed list item with id li:nth-of-type(2)@14",
+          "rect": {
+            "x": 41,
+            "y": 338.703125,
+            "width": 293,
+            "height": 286.0390625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@21",
+          "name": "an unnamed group with id div:nth-of-type(1)@21",
+          "rect": {
+            "x": 24,
+            "y": 876.7421875,
+            "width": 327,
+            "height": 767.890625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@23",
+          "label": "CheckWhat it meansPractical actionUnknown to keep explicitOfficial routeonboardi",
+          "name": "an unnamed control with id div:nth-of-type(1)@23",
+          "rect": {
+            "x": 25,
+            "y": 886.7421875,
+            "width": 325,
+            "height": 756.890625
+          }
+        },
+        {
+          "id": "nav:nth-of-type(3)@68",
+          "name": "the navigation holding “开户与账户安全教程→”",
+          "rect": {
+            "x": 24,
+            "y": 10278.328125,
+            "width": 327,
+            "height": 119.6953125
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@70",
+          "label": "开户与账户安全教程→",
+          "name": "开户与账户安全教程→",
+          "rect": {
+            "x": 24,
+            "y": 10328.0234375,
+            "width": 327,
+            "height": 70
+          }
+        },
+        {
+          "id": "nav:nth-of-type(2)@76",
+          "label": "按分类浏览",
+          "name": "按分类浏览",
+          "rect": {
+            "x": 24,
+            "y": 11253.046875,
+            "width": 327,
+            "height": 264.75
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@77",
+          "label": "Kraken、OKX 与 Bybit 地区可用性决策地图→",
+          "name": "Kraken、OKX 与 Bybit 地区可用性决策地图→",
+          "rect": {
+            "x": 24,
+            "y": 11253.046875,
+            "width": 327,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@83",
+          "label": "稳定币与代币化信任锚风险地图→",
+          "name": "稳定币与代币化信任锚风险地图→",
+          "rect": {
+            "x": 24,
+            "y": 11345.296875,
+            "width": 327,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@89",
+          "label": "代币化证券官方记录与钱包显示边界→",
+          "name": "代币化证券官方记录与钱包显示边界→",
+          "rect": {
+            "x": 24,
+            "y": 11437.546875,
+            "width": 327,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "div:nth-of-type(2)@95",
+          "name": "the group holding “Bitget 档案→”, “Gate (GT)→” and 3 more",
+          "rect": {
+            "x": 43,
+            "y": 12332.15625,
+            "width": 289,
+            "height": 398
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@96",
+          "label": "Bitget 档案→",
+          "name": "Bitget 档案→",
+          "rect": {
+            "x": 43,
+            "y": 12332.15625,
+            "width": 289,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@101",
+          "label": "Gate (GT)→",
+          "name": "Gate (GT)→",
+          "rect": {
+            "x": 43,
+            "y": 12414.15625,
+            "width": 289,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@107",
+          "label": "开户与账户安全教程→",
+          "name": "开户与账户安全教程→",
+          "rect": {
+            "x": 43,
+            "y": 12496.15625,
+            "width": 289,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(4)@113",
+          "label": "资金费率矩阵→",
+          "name": "资金费率矩阵→",
+          "rect": {
+            "x": 43,
+            "y": 12578.15625,
+            "width": 289,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(5)@119",
+          "label": "牌照→",
+          "name": "牌照→",
+          "rect": {
+            "x": 43,
+            "y": 12660.15625,
+            "width": 289,
+            "height": 70
+          }
+        }
+      ]
+    },
+    {
+      "name": "article-gate-zh-768",
+      "viewport": {
+        "width": 768,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "elements": [
+        {
+          "id": "aside:nth-of-type(1)@1",
+          "name": "an unnamed sidebar with id aside:nth-of-type(1)@1",
+          "rect": {
+            "x": 24,
+            "y": 54.7734375,
+            "width": 705,
+            "height": 362.234375
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@2",
+          "name": "an unnamed group with id div:nth-of-type(1)@2",
+          "rect": {
+            "x": 45,
+            "y": 75.7734375,
+            "width": 663,
+            "height": 18.1953125
+          }
+        },
+        {
+          "id": "ul:nth-of-type(1)@6",
+          "name": "an unnamed list with id ul:nth-of-type(1)@6",
+          "rect": {
+            "x": 45,
+            "y": 109.96875,
+            "width": 663,
+            "height": 286.0390625
+          }
+        },
+        {
+          "id": "li:nth-of-type(1)@7",
+          "name": "an unnamed list item with id li:nth-of-type(1)@7",
+          "rect": {
+            "x": 45,
+            "y": 109.96875,
+            "width": 325.5,
+            "height": 286.0390625
+          }
+        },
+        {
+          "id": "li:nth-of-type(2)@14",
+          "name": "an unnamed list item with id li:nth-of-type(2)@14",
+          "rect": {
+            "x": 382.5,
+            "y": 109.96875,
+            "width": 325.5,
+            "height": 286.0390625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@21",
+          "name": "an unnamed group with id div:nth-of-type(1)@21",
+          "rect": {
+            "x": 24,
+            "y": 667.0078125,
+            "width": 705,
+            "height": 731.1953125
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@23",
+          "label": "CheckWhat it meansPractical actionUnknown to keep explicitOfficial routeonboardi",
+          "name": "an unnamed control with id div:nth-of-type(1)@23",
+          "rect": {
+            "x": 25,
+            "y": 677.0078125,
+            "width": 703,
+            "height": 720.1953125
+          }
+        },
+        {
+          "id": "table:nth-of-type(1)@24",
+          "name": "an unnamed table with id table:nth-of-type(1)@24",
+          "rect": {
+            "x": 25,
+            "y": 677.0078125,
+            "width": 703,
+            "height": 720.1953125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@26",
+          "name": "an unnamed group with id tr:nth-of-type(1)@26",
+          "rect": {
+            "x": 25,
+            "y": 677.0078125,
+            "width": 703,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@27",
+          "name": "an unnamed group with id th:nth-of-type(1)@27",
+          "rect": {
+            "x": 25,
+            "y": 677.0078125,
+            "width": 175.75,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(2)@28",
+          "name": "an unnamed group with id th:nth-of-type(2)@28",
+          "rect": {
+            "x": 200.75,
+            "y": 677.0078125,
+            "width": 175.75,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(3)@29",
+          "name": "an unnamed group with id th:nth-of-type(3)@29",
+          "rect": {
+            "x": 376.5,
+            "y": 677.0078125,
+            "width": 175.75,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(4)@30",
+          "name": "an unnamed group with id th:nth-of-type(4)@30",
+          "rect": {
+            "x": 552.25,
+            "y": 677.0078125,
+            "width": 175.75,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@32",
+          "name": "an unnamed group with id tr:nth-of-type(1)@32",
+          "rect": {
+            "x": 25,
+            "y": 739.1015625,
+            "width": 703,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@33",
+          "name": "an unnamed group with id td:nth-of-type(1)@33",
+          "rect": {
+            "x": 25,
+            "y": 739.1015625,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@34",
+          "name": "an unnamed group with id td:nth-of-type(2)@34",
+          "rect": {
+            "x": 200.75,
+            "y": 739.1015625,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@35",
+          "name": "an unnamed group with id td:nth-of-type(3)@35",
+          "rect": {
+            "x": 376.5,
+            "y": 739.1015625,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@36",
+          "name": "an unnamed group with id td:nth-of-type(4)@36",
+          "rect": {
+            "x": 552.25,
+            "y": 739.1015625,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@37",
+          "name": "an unnamed group with id tr:nth-of-type(2)@37",
+          "rect": {
+            "x": 25,
+            "y": 833.1875,
+            "width": 703,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@38",
+          "name": "an unnamed group with id td:nth-of-type(1)@38",
+          "rect": {
+            "x": 25,
+            "y": 833.1875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@39",
+          "name": "an unnamed group with id td:nth-of-type(2)@39",
+          "rect": {
+            "x": 200.75,
+            "y": 833.1875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@40",
+          "name": "an unnamed group with id td:nth-of-type(3)@40",
+          "rect": {
+            "x": 376.5,
+            "y": 833.1875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@41",
+          "name": "an unnamed group with id td:nth-of-type(4)@41",
+          "rect": {
+            "x": 552.25,
+            "y": 833.1875,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@42",
+          "name": "the group holding “2FA”",
+          "rect": {
+            "x": 25,
+            "y": 927.2734375,
+            "width": 703,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@43",
+          "name": "the group holding “2FA”",
+          "rect": {
+            "x": 25,
+            "y": 927.2734375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@44",
+          "label": "2FA",
+          "name": "2FA",
+          "rect": {
+            "x": 41,
+            "y": 943.2734375,
+            "width": 25.3984375,
+            "height": 18
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@45",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(2)@45)",
+          "rect": {
+            "x": 200.75,
+            "y": 927.2734375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@46",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(3)@46)",
+          "rect": {
+            "x": 376.5,
+            "y": 927.2734375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@47",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(4)@47)",
+          "rect": {
+            "x": 552.25,
+            "y": 927.2734375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(4)@48",
+          "name": "an unnamed group with id tr:nth-of-type(4)@48",
+          "rect": {
+            "x": 25,
+            "y": 1021.359375,
+            "width": 703,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@49",
+          "name": "an unnamed group with id td:nth-of-type(1)@49",
+          "rect": {
+            "x": 25,
+            "y": 1021.359375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@50",
+          "name": "an unnamed group with id td:nth-of-type(2)@50",
+          "rect": {
+            "x": 200.75,
+            "y": 1021.359375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@51",
+          "name": "an unnamed group with id td:nth-of-type(3)@51",
+          "rect": {
+            "x": 376.5,
+            "y": 1021.359375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@52",
+          "name": "an unnamed group with id td:nth-of-type(4)@52",
+          "rect": {
+            "x": 552.25,
+            "y": 1021.359375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(5)@53",
+          "name": "an unnamed group with id tr:nth-of-type(5)@53",
+          "rect": {
+            "x": 25,
+            "y": 1115.4453125,
+            "width": 703,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@54",
+          "name": "an unnamed group with id td:nth-of-type(1)@54",
+          "rect": {
+            "x": 25,
+            "y": 1115.4453125,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@55",
+          "name": "an unnamed group with id td:nth-of-type(2)@55",
+          "rect": {
+            "x": 200.75,
+            "y": 1115.4453125,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@56",
+          "name": "an unnamed group with id td:nth-of-type(3)@56",
+          "rect": {
+            "x": 376.5,
+            "y": 1115.4453125,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@57",
+          "name": "an unnamed group with id td:nth-of-type(4)@57",
+          "rect": {
+            "x": 552.25,
+            "y": 1115.4453125,
+            "width": 175.75,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(6)@58",
+          "name": "an unnamed group with id tr:nth-of-type(6)@58",
+          "rect": {
+            "x": 25,
+            "y": 1187.8359375,
+            "width": 703,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@59",
+          "name": "an unnamed group with id td:nth-of-type(1)@59",
+          "rect": {
+            "x": 25,
+            "y": 1187.8359375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@60",
+          "name": "an unnamed group with id td:nth-of-type(2)@60",
+          "rect": {
+            "x": 200.75,
+            "y": 1187.8359375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@61",
+          "name": "an unnamed group with id td:nth-of-type(3)@61",
+          "rect": {
+            "x": 376.5,
+            "y": 1187.8359375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@62",
+          "name": "an unnamed group with id td:nth-of-type(4)@62",
+          "rect": {
+            "x": 552.25,
+            "y": 1187.8359375,
+            "width": 175.75,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(7)@63",
+          "name": "an unnamed group with id tr:nth-of-type(7)@63",
+          "rect": {
+            "x": 25,
+            "y": 1281.921875,
+            "width": 703,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@64",
+          "name": "an unnamed group with id td:nth-of-type(1)@64",
+          "rect": {
+            "x": 25,
+            "y": 1281.921875,
+            "width": 175.75,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@65",
+          "name": "an unnamed group with id td:nth-of-type(2)@65",
+          "rect": {
+            "x": 200.75,
+            "y": 1281.921875,
+            "width": 175.75,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@66",
+          "name": "an unnamed group with id td:nth-of-type(3)@66",
+          "rect": {
+            "x": 376.5,
+            "y": 1281.921875,
+            "width": 175.75,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@67",
+          "name": "an unnamed group with id td:nth-of-type(4)@67",
+          "rect": {
+            "x": 552.25,
+            "y": 1281.921875,
+            "width": 175.75,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "nav:nth-of-type(3)@68",
+          "name": "the navigation holding “开户与账户安全教程→”",
+          "rect": {
+            "x": 24,
+            "y": 7195.578125,
+            "width": 705,
+            "height": 119.6953125
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@70",
+          "label": "开户与账户安全教程→",
+          "name": "开户与账户安全教程→",
+          "rect": {
+            "x": 24,
+            "y": 7245.2734375,
+            "width": 346.5,
+            "height": 70
+          }
+        },
+        {
+          "id": "nav:nth-of-type(2)@76",
+          "label": "按分类浏览",
+          "name": "按分类浏览",
+          "rect": {
+            "x": 24,
+            "y": 8118.578125,
+            "width": 705,
+            "height": 172.5
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@77",
+          "label": "Kraken、OKX 与 Bybit 地区可用性决策地图→",
+          "name": "Kraken、OKX 与 Bybit 地区可用性决策地图→",
+          "rect": {
+            "x": 24,
+            "y": 8118.578125,
+            "width": 346.5,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@83",
+          "label": "稳定币与代币化信任锚风险地图→",
+          "name": "稳定币与代币化信任锚风险地图→",
+          "rect": {
+            "x": 382.5,
+            "y": 8118.578125,
+            "width": 346.5,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@89",
+          "label": "代币化证券官方记录与钱包显示边界→",
+          "name": "代币化证券官方记录与钱包显示边界→",
+          "rect": {
+            "x": 24,
+            "y": 8210.828125,
+            "width": 346.5,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "div:nth-of-type(2)@95",
+          "name": "the group holding “Bitget 档案→”, “Gate (GT)→” and 3 more",
+          "rect": {
+            "x": 50,
+            "y": 9186.84375,
+            "width": 653,
+            "height": 234
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@96",
+          "label": "Bitget 档案→",
+          "name": "Bitget 档案→",
+          "rect": {
+            "x": 50,
+            "y": 9186.84375,
+            "width": 320.5,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@101",
+          "label": "Gate (GT)→",
+          "name": "Gate (GT)→",
+          "rect": {
+            "x": 382.5,
+            "y": 9186.84375,
+            "width": 320.5,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@107",
+          "label": "开户与账户安全教程→",
+          "name": "开户与账户安全教程→",
+          "rect": {
+            "x": 50,
+            "y": 9268.84375,
+            "width": 320.5,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(4)@113",
+          "label": "资金费率矩阵→",
+          "name": "资金费率矩阵→",
+          "rect": {
+            "x": 382.5,
+            "y": 9268.84375,
+            "width": 320.5,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(5)@119",
+          "label": "牌照→",
+          "name": "牌照→",
+          "rect": {
+            "x": 50,
+            "y": 9350.84375,
+            "width": 320.5,
+            "height": 70
+          }
+        }
+      ]
+    },
+    {
+      "name": "article-gate-zh-1440",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "elements": [
+        {
+          "id": "aside:nth-of-type(1)@1",
+          "name": "an unnamed sidebar with id aside:nth-of-type(1)@1",
+          "rect": {
+            "x": 160.5,
+            "y": 54.890625,
+            "width": 664,
+            "height": 362.234375
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@2",
+          "name": "an unnamed group with id div:nth-of-type(1)@2",
+          "rect": {
+            "x": 181.5,
+            "y": 75.890625,
+            "width": 622,
+            "height": 18.1953125
+          }
+        },
+        {
+          "id": "ul:nth-of-type(1)@6",
+          "name": "an unnamed list with id ul:nth-of-type(1)@6",
+          "rect": {
+            "x": 181.5,
+            "y": 110.0859375,
+            "width": 622,
+            "height": 286.0390625
+          }
+        },
+        {
+          "id": "li:nth-of-type(1)@7",
+          "name": "an unnamed list item with id li:nth-of-type(1)@7",
+          "rect": {
+            "x": 181.5,
+            "y": 110.0859375,
+            "width": 305,
+            "height": 286.0390625
+          }
+        },
+        {
+          "id": "li:nth-of-type(2)@14",
+          "name": "an unnamed list item with id li:nth-of-type(2)@14",
+          "rect": {
+            "x": 498.5,
+            "y": 110.0859375,
+            "width": 305,
+            "height": 286.0390625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@21",
+          "name": "an unnamed group with id div:nth-of-type(1)@21",
+          "rect": {
+            "x": 160.5,
+            "y": 651.125,
+            "width": 664,
+            "height": 767.890625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@23",
+          "label": "CheckWhat it meansPractical actionUnknown to keep explicitOfficial routeonboardi",
+          "name": "an unnamed control with id div:nth-of-type(1)@23",
+          "rect": {
+            "x": 161.5,
+            "y": 661.125,
+            "width": 662,
+            "height": 756.890625
+          }
+        },
+        {
+          "id": "table:nth-of-type(1)@24",
+          "name": "an unnamed table with id table:nth-of-type(1)@24",
+          "rect": {
+            "x": 161.5,
+            "y": 661.125,
+            "width": 680,
+            "height": 741.890625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@26",
+          "name": "an unnamed group with id tr:nth-of-type(1)@26",
+          "rect": {
+            "x": 161.5,
+            "y": 661.125,
+            "width": 680,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@27",
+          "name": "an unnamed group with id th:nth-of-type(1)@27",
+          "rect": {
+            "x": 161.5,
+            "y": 661.125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(2)@28",
+          "name": "an unnamed group with id th:nth-of-type(2)@28",
+          "rect": {
+            "x": 331.5,
+            "y": 661.125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(3)@29",
+          "name": "an unnamed group with id th:nth-of-type(3)@29",
+          "rect": {
+            "x": 501.5,
+            "y": 661.125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(4)@30",
+          "name": "an unnamed group with id th:nth-of-type(4)@30",
+          "rect": {
+            "x": 671.5,
+            "y": 661.125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@32",
+          "name": "an unnamed group with id tr:nth-of-type(1)@32",
+          "rect": {
+            "x": 161.5,
+            "y": 723.21875,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@33",
+          "name": "an unnamed group with id td:nth-of-type(1)@33",
+          "rect": {
+            "x": 161.5,
+            "y": 723.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@34",
+          "name": "an unnamed group with id td:nth-of-type(2)@34",
+          "rect": {
+            "x": 331.5,
+            "y": 723.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@35",
+          "name": "an unnamed group with id td:nth-of-type(3)@35",
+          "rect": {
+            "x": 501.5,
+            "y": 723.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@36",
+          "name": "an unnamed group with id td:nth-of-type(4)@36",
+          "rect": {
+            "x": 671.5,
+            "y": 723.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@37",
+          "name": "an unnamed group with id tr:nth-of-type(2)@37",
+          "rect": {
+            "x": 161.5,
+            "y": 817.3046875,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@38",
+          "name": "an unnamed group with id td:nth-of-type(1)@38",
+          "rect": {
+            "x": 161.5,
+            "y": 817.3046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@39",
+          "name": "an unnamed group with id td:nth-of-type(2)@39",
+          "rect": {
+            "x": 331.5,
+            "y": 817.3046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@40",
+          "name": "an unnamed group with id td:nth-of-type(3)@40",
+          "rect": {
+            "x": 501.5,
+            "y": 817.3046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@41",
+          "name": "an unnamed group with id td:nth-of-type(4)@41",
+          "rect": {
+            "x": 671.5,
+            "y": 817.3046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@42",
+          "name": "the group holding “2FA”",
+          "rect": {
+            "x": 161.5,
+            "y": 911.390625,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@43",
+          "name": "the group holding “2FA”",
+          "rect": {
+            "x": 161.5,
+            "y": 911.390625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@44",
+          "label": "2FA",
+          "name": "2FA",
+          "rect": {
+            "x": 177.5,
+            "y": 927.390625,
+            "width": 25.3984375,
+            "height": 18
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@45",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(2)@45)",
+          "rect": {
+            "x": 331.5,
+            "y": 911.390625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@46",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(3)@46)",
+          "rect": {
+            "x": 501.5,
+            "y": 911.390625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@47",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(4)@47)",
+          "rect": {
+            "x": 671.5,
+            "y": 911.390625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(4)@48",
+          "name": "an unnamed group with id tr:nth-of-type(4)@48",
+          "rect": {
+            "x": 161.5,
+            "y": 1005.4765625,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@49",
+          "name": "an unnamed group with id td:nth-of-type(1)@49",
+          "rect": {
+            "x": 161.5,
+            "y": 1005.4765625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@50",
+          "name": "an unnamed group with id td:nth-of-type(2)@50",
+          "rect": {
+            "x": 331.5,
+            "y": 1005.4765625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@51",
+          "name": "an unnamed group with id td:nth-of-type(3)@51",
+          "rect": {
+            "x": 501.5,
+            "y": 1005.4765625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@52",
+          "name": "an unnamed group with id td:nth-of-type(4)@52",
+          "rect": {
+            "x": 671.5,
+            "y": 1005.4765625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(5)@53",
+          "name": "an unnamed group with id tr:nth-of-type(5)@53",
+          "rect": {
+            "x": 161.5,
+            "y": 1099.5625,
+            "width": 680,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@54",
+          "name": "an unnamed group with id td:nth-of-type(1)@54",
+          "rect": {
+            "x": 161.5,
+            "y": 1099.5625,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@55",
+          "name": "an unnamed group with id td:nth-of-type(2)@55",
+          "rect": {
+            "x": 331.5,
+            "y": 1099.5625,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@56",
+          "name": "an unnamed group with id td:nth-of-type(3)@56",
+          "rect": {
+            "x": 501.5,
+            "y": 1099.5625,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@57",
+          "name": "an unnamed group with id td:nth-of-type(4)@57",
+          "rect": {
+            "x": 671.5,
+            "y": 1099.5625,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(6)@58",
+          "name": "an unnamed group with id tr:nth-of-type(6)@58",
+          "rect": {
+            "x": 161.5,
+            "y": 1171.953125,
+            "width": 680,
+            "height": 115.78125
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@59",
+          "name": "an unnamed group with id td:nth-of-type(1)@59",
+          "rect": {
+            "x": 161.5,
+            "y": 1171.953125,
+            "width": 170,
+            "height": 115.78125
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@60",
+          "name": "an unnamed group with id td:nth-of-type(2)@60",
+          "rect": {
+            "x": 331.5,
+            "y": 1171.953125,
+            "width": 170,
+            "height": 115.78125
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@61",
+          "name": "an unnamed group with id td:nth-of-type(3)@61",
+          "rect": {
+            "x": 501.5,
+            "y": 1171.953125,
+            "width": 170,
+            "height": 115.78125
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@62",
+          "name": "an unnamed group with id td:nth-of-type(4)@62",
+          "rect": {
+            "x": 671.5,
+            "y": 1171.953125,
+            "width": 170,
+            "height": 115.78125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(7)@63",
+          "name": "an unnamed group with id tr:nth-of-type(7)@63",
+          "rect": {
+            "x": 161.5,
+            "y": 1287.734375,
+            "width": 680,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@64",
+          "name": "an unnamed group with id td:nth-of-type(1)@64",
+          "rect": {
+            "x": 161.5,
+            "y": 1287.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@65",
+          "name": "an unnamed group with id td:nth-of-type(2)@65",
+          "rect": {
+            "x": 331.5,
+            "y": 1287.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@66",
+          "name": "an unnamed group with id td:nth-of-type(3)@66",
+          "rect": {
+            "x": 501.5,
+            "y": 1287.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@67",
+          "name": "an unnamed group with id td:nth-of-type(4)@67",
+          "rect": {
+            "x": 671.5,
+            "y": 1287.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "nav:nth-of-type(3)@68",
+          "name": "the navigation holding “开户与账户安全教程→”",
+          "rect": {
+            "x": 160.5,
+            "y": 7338.765625,
+            "width": 664,
+            "height": 119.6953125
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@70",
+          "label": "开户与账户安全教程→",
+          "name": "开户与账户安全教程→",
+          "rect": {
+            "x": 160.5,
+            "y": 7388.4609375,
+            "width": 326,
+            "height": 70
+          }
+        },
+        {
+          "id": "nav:nth-of-type(2)@76",
+          "label": "按分类浏览",
+          "name": "按分类浏览",
+          "rect": {
+            "x": 160.5,
+            "y": 8098.765625,
+            "width": 664,
+            "height": 172.5
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@77",
+          "label": "Kraken、OKX 与 Bybit 地区可用性决策地图→",
+          "name": "Kraken、OKX 与 Bybit 地区可用性决策地图→",
+          "rect": {
+            "x": 160.5,
+            "y": 8098.765625,
+            "width": 326,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@83",
+          "label": "稳定币与代币化信任锚风险地图→",
+          "name": "稳定币与代币化信任锚风险地图→",
+          "rect": {
+            "x": 498.5,
+            "y": 8098.765625,
+            "width": 326,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@89",
+          "label": "代币化证券官方记录与钱包显示边界→",
+          "name": "代币化证券官方记录与钱包显示边界→",
+          "rect": {
+            "x": 160.5,
+            "y": 8191.015625,
+            "width": 326,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "div:nth-of-type(2)@95",
+          "name": "the group holding “Bitget 档案→”, “Gate (GT)→” and 3 more",
+          "rect": {
+            "x": 186.5,
+            "y": 9228.640625,
+            "width": 612,
+            "height": 234
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@96",
+          "label": "Bitget 档案→",
+          "name": "Bitget 档案→",
+          "rect": {
+            "x": 186.5,
+            "y": 9228.640625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@101",
+          "label": "Gate (GT)→",
+          "name": "Gate (GT)→",
+          "rect": {
+            "x": 498.5,
+            "y": 9228.640625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@107",
+          "label": "开户与账户安全教程→",
+          "name": "开户与账户安全教程→",
+          "rect": {
+            "x": 186.5,
+            "y": 9310.640625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(4)@113",
+          "label": "资金费率矩阵→",
+          "name": "资金费率矩阵→",
+          "rect": {
+            "x": 498.5,
+            "y": 9310.640625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(5)@119",
+          "label": "牌照→",
+          "name": "牌照→",
+          "rect": {
+            "x": 186.5,
+            "y": 9392.640625,
+            "width": 300,
+            "height": 70
+          }
+        }
+      ]
+    },
+    {
+      "name": "article-gate-zh-1728",
+      "viewport": {
+        "width": 1728,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "elements": [
+        {
+          "id": "aside:nth-of-type(1)@1",
+          "name": "an unnamed sidebar with id aside:nth-of-type(1)@1",
+          "rect": {
+            "x": 304.5,
+            "y": 54.890625,
+            "width": 664,
+            "height": 362.234375
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@2",
+          "name": "an unnamed group with id div:nth-of-type(1)@2",
+          "rect": {
+            "x": 325.5,
+            "y": 75.890625,
+            "width": 622,
+            "height": 18.1953125
+          }
+        },
+        {
+          "id": "ul:nth-of-type(1)@6",
+          "name": "an unnamed list with id ul:nth-of-type(1)@6",
+          "rect": {
+            "x": 325.5,
+            "y": 110.0859375,
+            "width": 622,
+            "height": 286.0390625
+          }
+        },
+        {
+          "id": "li:nth-of-type(1)@7",
+          "name": "an unnamed list item with id li:nth-of-type(1)@7",
+          "rect": {
+            "x": 325.5,
+            "y": 110.0859375,
+            "width": 305,
+            "height": 286.0390625
+          }
+        },
+        {
+          "id": "li:nth-of-type(2)@14",
+          "name": "an unnamed list item with id li:nth-of-type(2)@14",
+          "rect": {
+            "x": 642.5,
+            "y": 110.0859375,
+            "width": 305,
+            "height": 286.0390625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@21",
+          "name": "an unnamed group with id div:nth-of-type(1)@21",
+          "rect": {
+            "x": 304.5,
+            "y": 651.125,
+            "width": 664,
+            "height": 767.890625
+          }
+        },
+        {
+          "id": "div:nth-of-type(1)@23",
+          "label": "CheckWhat it meansPractical actionUnknown to keep explicitOfficial routeonboardi",
+          "name": "an unnamed control with id div:nth-of-type(1)@23",
+          "rect": {
+            "x": 305.5,
+            "y": 661.125,
+            "width": 662,
+            "height": 756.890625
+          }
+        },
+        {
+          "id": "table:nth-of-type(1)@24",
+          "name": "an unnamed table with id table:nth-of-type(1)@24",
+          "rect": {
+            "x": 305.5,
+            "y": 661.125,
+            "width": 680,
+            "height": 741.890625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@26",
+          "name": "an unnamed group with id tr:nth-of-type(1)@26",
+          "rect": {
+            "x": 305.5,
+            "y": 661.125,
+            "width": 680,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(1)@27",
+          "name": "an unnamed group with id th:nth-of-type(1)@27",
+          "rect": {
+            "x": 305.5,
+            "y": 661.125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(2)@28",
+          "name": "an unnamed group with id th:nth-of-type(2)@28",
+          "rect": {
+            "x": 475.5,
+            "y": 661.125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(3)@29",
+          "name": "an unnamed group with id th:nth-of-type(3)@29",
+          "rect": {
+            "x": 645.5,
+            "y": 661.125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "th:nth-of-type(4)@30",
+          "name": "an unnamed group with id th:nth-of-type(4)@30",
+          "rect": {
+            "x": 815.5,
+            "y": 661.125,
+            "width": 170,
+            "height": 62.09375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(1)@32",
+          "name": "an unnamed group with id tr:nth-of-type(1)@32",
+          "rect": {
+            "x": 305.5,
+            "y": 723.21875,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@33",
+          "name": "an unnamed group with id td:nth-of-type(1)@33",
+          "rect": {
+            "x": 305.5,
+            "y": 723.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@34",
+          "name": "an unnamed group with id td:nth-of-type(2)@34",
+          "rect": {
+            "x": 475.5,
+            "y": 723.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@35",
+          "name": "an unnamed group with id td:nth-of-type(3)@35",
+          "rect": {
+            "x": 645.5,
+            "y": 723.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@36",
+          "name": "an unnamed group with id td:nth-of-type(4)@36",
+          "rect": {
+            "x": 815.5,
+            "y": 723.21875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(2)@37",
+          "name": "an unnamed group with id tr:nth-of-type(2)@37",
+          "rect": {
+            "x": 305.5,
+            "y": 817.3046875,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@38",
+          "name": "an unnamed group with id td:nth-of-type(1)@38",
+          "rect": {
+            "x": 305.5,
+            "y": 817.3046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@39",
+          "name": "an unnamed group with id td:nth-of-type(2)@39",
+          "rect": {
+            "x": 475.5,
+            "y": 817.3046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@40",
+          "name": "an unnamed group with id td:nth-of-type(3)@40",
+          "rect": {
+            "x": 645.5,
+            "y": 817.3046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@41",
+          "name": "an unnamed group with id td:nth-of-type(4)@41",
+          "rect": {
+            "x": 815.5,
+            "y": 817.3046875,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(3)@42",
+          "name": "the group holding “2FA”",
+          "rect": {
+            "x": 305.5,
+            "y": 911.390625,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@43",
+          "name": "the group holding “2FA”",
+          "rect": {
+            "x": 305.5,
+            "y": 911.390625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@44",
+          "label": "2FA",
+          "name": "2FA",
+          "rect": {
+            "x": 321.5,
+            "y": 927.390625,
+            "width": 25.3984375,
+            "height": 18
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@45",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(2)@45)",
+          "rect": {
+            "x": 475.5,
+            "y": 911.390625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@46",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(3)@46)",
+          "rect": {
+            "x": 645.5,
+            "y": 911.390625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@47",
+          "name": "an unnamed group inside the group holding “2FA” (id td:nth-of-type(4)@47)",
+          "rect": {
+            "x": 815.5,
+            "y": 911.390625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(4)@48",
+          "name": "an unnamed group with id tr:nth-of-type(4)@48",
+          "rect": {
+            "x": 305.5,
+            "y": 1005.4765625,
+            "width": 680,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@49",
+          "name": "an unnamed group with id td:nth-of-type(1)@49",
+          "rect": {
+            "x": 305.5,
+            "y": 1005.4765625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@50",
+          "name": "an unnamed group with id td:nth-of-type(2)@50",
+          "rect": {
+            "x": 475.5,
+            "y": 1005.4765625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@51",
+          "name": "an unnamed group with id td:nth-of-type(3)@51",
+          "rect": {
+            "x": 645.5,
+            "y": 1005.4765625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@52",
+          "name": "an unnamed group with id td:nth-of-type(4)@52",
+          "rect": {
+            "x": 815.5,
+            "y": 1005.4765625,
+            "width": 170,
+            "height": 94.0859375
+          }
+        },
+        {
+          "id": "tr:nth-of-type(5)@53",
+          "name": "an unnamed group with id tr:nth-of-type(5)@53",
+          "rect": {
+            "x": 305.5,
+            "y": 1099.5625,
+            "width": 680,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@54",
+          "name": "an unnamed group with id td:nth-of-type(1)@54",
+          "rect": {
+            "x": 305.5,
+            "y": 1099.5625,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@55",
+          "name": "an unnamed group with id td:nth-of-type(2)@55",
+          "rect": {
+            "x": 475.5,
+            "y": 1099.5625,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@56",
+          "name": "an unnamed group with id td:nth-of-type(3)@56",
+          "rect": {
+            "x": 645.5,
+            "y": 1099.5625,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@57",
+          "name": "an unnamed group with id td:nth-of-type(4)@57",
+          "rect": {
+            "x": 815.5,
+            "y": 1099.5625,
+            "width": 170,
+            "height": 72.390625
+          }
+        },
+        {
+          "id": "tr:nth-of-type(6)@58",
+          "name": "an unnamed group with id tr:nth-of-type(6)@58",
+          "rect": {
+            "x": 305.5,
+            "y": 1171.953125,
+            "width": 680,
+            "height": 115.78125
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@59",
+          "name": "an unnamed group with id td:nth-of-type(1)@59",
+          "rect": {
+            "x": 305.5,
+            "y": 1171.953125,
+            "width": 170,
+            "height": 115.78125
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@60",
+          "name": "an unnamed group with id td:nth-of-type(2)@60",
+          "rect": {
+            "x": 475.5,
+            "y": 1171.953125,
+            "width": 170,
+            "height": 115.78125
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@61",
+          "name": "an unnamed group with id td:nth-of-type(3)@61",
+          "rect": {
+            "x": 645.5,
+            "y": 1171.953125,
+            "width": 170,
+            "height": 115.78125
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@62",
+          "name": "an unnamed group with id td:nth-of-type(4)@62",
+          "rect": {
+            "x": 815.5,
+            "y": 1171.953125,
+            "width": 170,
+            "height": 115.78125
+          }
+        },
+        {
+          "id": "tr:nth-of-type(7)@63",
+          "name": "an unnamed group with id tr:nth-of-type(7)@63",
+          "rect": {
+            "x": 305.5,
+            "y": 1287.734375,
+            "width": 680,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(1)@64",
+          "name": "an unnamed group with id td:nth-of-type(1)@64",
+          "rect": {
+            "x": 305.5,
+            "y": 1287.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(2)@65",
+          "name": "an unnamed group with id td:nth-of-type(2)@65",
+          "rect": {
+            "x": 475.5,
+            "y": 1287.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(3)@66",
+          "name": "an unnamed group with id td:nth-of-type(3)@66",
+          "rect": {
+            "x": 645.5,
+            "y": 1287.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "td:nth-of-type(4)@67",
+          "name": "an unnamed group with id td:nth-of-type(4)@67",
+          "rect": {
+            "x": 815.5,
+            "y": 1287.734375,
+            "width": 170,
+            "height": 115.28125
+          }
+        },
+        {
+          "id": "nav:nth-of-type(3)@68",
+          "name": "the navigation holding “开户与账户安全教程→”",
+          "rect": {
+            "x": 304.5,
+            "y": 7338.765625,
+            "width": 664,
+            "height": 119.6953125
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@70",
+          "label": "开户与账户安全教程→",
+          "name": "开户与账户安全教程→",
+          "rect": {
+            "x": 304.5,
+            "y": 7388.4609375,
+            "width": 326,
+            "height": 70
+          }
+        },
+        {
+          "id": "nav:nth-of-type(2)@76",
+          "label": "按分类浏览",
+          "name": "按分类浏览",
+          "rect": {
+            "x": 304.5,
+            "y": 8098.765625,
+            "width": 664,
+            "height": 172.5
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@77",
+          "label": "Kraken、OKX 与 Bybit 地区可用性决策地图→",
+          "name": "Kraken、OKX 与 Bybit 地区可用性决策地图→",
+          "rect": {
+            "x": 304.5,
+            "y": 8098.765625,
+            "width": 326,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@83",
+          "label": "稳定币与代币化信任锚风险地图→",
+          "name": "稳定币与代币化信任锚风险地图→",
+          "rect": {
+            "x": 642.5,
+            "y": 8098.765625,
+            "width": 326,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@89",
+          "label": "代币化证券官方记录与钱包显示边界→",
+          "name": "代币化证券官方记录与钱包显示边界→",
+          "rect": {
+            "x": 304.5,
+            "y": 8191.015625,
+            "width": 326,
+            "height": 80.25
+          }
+        },
+        {
+          "id": "div:nth-of-type(2)@95",
+          "name": "the group holding “Bitget 档案→”, “Gate (GT)→” and 3 more",
+          "rect": {
+            "x": 330.5,
+            "y": 9228.640625,
+            "width": 612,
+            "height": 234
+          }
+        },
+        {
+          "id": "a:nth-of-type(1)@96",
+          "label": "Bitget 档案→",
+          "name": "Bitget 档案→",
+          "rect": {
+            "x": 330.5,
+            "y": 9228.640625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(2)@101",
+          "label": "Gate (GT)→",
+          "name": "Gate (GT)→",
+          "rect": {
+            "x": 642.5,
+            "y": 9228.640625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(3)@107",
+          "label": "开户与账户安全教程→",
+          "name": "开户与账户安全教程→",
+          "rect": {
+            "x": 330.5,
+            "y": 9310.640625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(4)@113",
+          "label": "资金费率矩阵→",
+          "name": "资金费率矩阵→",
+          "rect": {
+            "x": 642.5,
+            "y": 9310.640625,
+            "width": 300,
+            "height": 70
+          }
+        },
+        {
+          "id": "a:nth-of-type(5)@119",
+          "label": "牌照→",
+          "name": "牌照→",
+          "rect": {
+            "x": 330.5,
+            "y": 9392.640625,
+            "width": 300,
+            "height": 70
+          }
+        }
+      ]
+    }
+  ],
+  "capturedWidths": [
+    390,
+    768,
+    1440,
+    1728
+  ],
+  "missingWidths": [],
+  "rubric": [],
+  "rubricStatus": "unavailable",
+  "nextStep": "Before you finish this review, call `find-design-system` with the product's description and list its top matches in your report, so the person can pick a style. Restyle the screen only with the one they pick."
+}
