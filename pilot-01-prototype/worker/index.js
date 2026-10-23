@@ -1,3 +1,4 @@
+import { MARKET_ASSET_PATH, articleMarketAssets, marketAssetResponse, marketAssetSnapshot } from "../src/data/market-events-assets.js";
 import { fontUrl, localeFontStyleTag, LOCALE_FONT_STYLE_ATTR } from "../src/data/locale-font-faces.js";
 import { articleSitemapLocales } from "../src/data/article-sitemap-seo.js";
 import { recentEntityArticles, primaryVenueResearch } from '../src/data/article-related-links.js';
@@ -375,6 +376,9 @@ export default {
       return Response.redirect(`${PUBLIC_ORIGIN}/sitemap.xml`, 301);
     }
     if (url.pathname.startsWith("/api/news/article/") && request.method === "GET" && env?.ASSETS) return handleNewsArticleJson(env, url);
+    if (url.pathname === MARKET_ASSET_PATH && request.method === "GET") {
+      return marketAssetResponse(url, () => readMarketAssetFeed(env, url));
+    }
     if (url.pathname === "/api/market-events/summary" && request.method === "GET") {
       let feed = null;
       try { feed = typeof env?.MARKET_EVENTS_READ === "function" ? await env.MARKET_EVENTS_READ() : await readJsonAsset(env, url, "/intel/market-events.json"); } catch { /* unavailable, never invent data */ }
@@ -5015,10 +5019,25 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         try {
           const locale = publicRoute.locale;
           const newsArticles = [article, ...newsDetailSummaries(article, metadata.newsArticles)];
-          const appHtml = await env.NEWS_SSR_RENDER(url.href, { newsArticles });
+          // Only read for articles that render this rail. Bound cold SSR waits while the shared reader warms.
+          const marketAssets = articleMarketAssets(article, locale);
+          let marketEvents = null;
+          if (marketAssets.length) {
+            let timer;
+            try {
+              const feed = await Promise.race([
+                readMarketAssetFeed(env, url, { waitMs: 180 }),
+                new Promise(resolve => { timer = setTimeout(() => resolve(null), 200); }),
+              ]);
+              const snapshot = marketAssetSnapshot(feed, marketAssets);
+              if (snapshot) marketEvents = { ...snapshot, stale: feed.stale === true };
+            } catch { /* unavailable data stays absent in SSR and hydration */ }
+            finally { clearTimeout(timer); }
+          }
+          const appHtml = await env.NEWS_SSR_RENDER(url.href, { newsArticles, marketEvents });
           if (typeof appHtml === "string" && appHtml.includes('class="news-detail__title"')) {
             metadata.newsSsrMode = "runtime";
-            return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, routeSeoState(metadata, { newsArticles: renderedNewsDetailPool(article, newsArticles, appHtml) }), url);
+            return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, routeSeoState(metadata, { newsArticles: renderedNewsDetailPool(article, newsArticles, appHtml), marketEvents }), url);
           }
         } catch { /* Portable assets-only hosts retain their safe fallback. */ }
       }
@@ -5271,6 +5290,12 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     // /liquidations, /funding-rates and /liquidations/heatmap are in the manifest for sitemap/hreflang, but their build-time
     // body has no feed ("temporarily unavailable"); always render them at request time from the collector feed.
     if (isDataPagePath(contentPath) || contentPath === LIQUIDATION_HEATMAP_PATH) return fallback();
+    // A current article prerender still has no market seed. Relevant rails need the live snapshot in SSR,
+    // otherwise hydration would fetch and insert the block even when the article fingerprint matches.
+    if (metadata.marker === ARTICLE_ROUTE_MARKER) {
+      const article = metadata.newsArticles?.find(item => `/news/${item.slug}` === contentPath);
+      if (article && articleMarketAssets(article, routeLocale(url)).length) return fallback();
+    }
     // Topic clusters use the current publication feed, never the build-time article snapshot.
     if (contentPath === "/topics") return fallback();
     // Listing pages never come from the build-time manifest: the feed is published after the build.
@@ -5732,6 +5757,26 @@ const FLASH_TTL_MS = 60 * 1000;
 const flashCaches = new WeakMap();
 const flashCacheKey = (env) => (env?.ASSETS && typeof env.ASSETS === "object" ? env.ASSETS : flashCaches);
 const flashNow = (env) => (Number.isFinite(Number(env?.FLASH_NOW)) ? Number(env.FLASH_NOW) : Date.now());
+
+const marketAssetFeeds = new WeakMap();
+async function readMarketAssetFeed(env, url, options) {
+  if (typeof env?.MARKET_EVENTS_READ === "function") return env.MARKET_EVENTS_READ(options);
+  const scope = polledJsonScope(env);
+  let reader = marketAssetFeeds.get(scope);
+  if (!reader) {
+    reader = createStaleJsonFeed({
+      ttlMs: 60_000, timeoutMs: 8000,
+      load: async () => {
+        const feed = await readJsonAsset(env, url, "/intel/market-events.json");
+        if (!feed || !Number.isFinite(Date.parse(feed.generatedAt))) throw new Error("market feed unavailable");
+        return feed;
+      },
+      isSourceStale: (feed, now) => now - Date.parse(feed.updatedAt || feed.generatedAt) > 30 * 60_000,
+    });
+    marketAssetFeeds.set(scope, reader);
+  }
+  return reader.read({ waitForFresh: true, ...options });
+}
 
 async function readJsonAsset(env, url, path) {
   if (!env?.ASSETS) return null;

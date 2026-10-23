@@ -1,24 +1,30 @@
-// Live market context in the article rail (BTC / ETH / SOL articles). Client-only: the server and the first client
-// render output nothing, then the feed is read once after mount; a missing feed or missing figures render nothing.
+// The server and hydration start with the same small snapshot; visible tabs refresh only the detected assets.
 import React, { useEffect, useState } from "react";
-import { DATA_PAGE_NAV, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH } from "../../../data/market-data-pages-nav.js";
+import { DATA_PAGE_NAV, FUNDING_RATES_PATH, LIQUIDATIONS_PATH } from "../../../data/market-data-pages-nav.js";
 import { localizedHref } from "../../../data/locale-routing.js";
 import { DataRule, utcClock } from "../../shared/DataRule.jsx";
 import { formatSgt } from "../../../data/local-time.js";
+import { fetchArticleMarketContext } from "./article-market-context-fetch.js";
+import { MARKET_ASSET_PATH } from "../../../data/market-events-assets.js";
+import { startJsonPolling } from "../../shared/json-polling.js";
 import { formatFunding, formatPrice, formatSignedPct, formatUsdShort, marketContextCopy, marketContextSnapshot } from "./article-market-context.js";
 
-export function ArticleMarketContext({ assets = [], locale = "en" }) {
-  const [snapshot, setSnapshot] = useState(null);
+export function ArticleMarketContext({ assets = [], locale = "en", initialFeed = null }) {
   const key = assets.join(",");
+  const [current, setCurrent] = useState(() => ({ key, snapshot: marketContextSnapshot(initialFeed, assets) }));
+  const snapshot = current.key === key ? current.snapshot : marketContextSnapshot(initialFeed, assets);
   useEffect(() => {
     if (!key) return undefined;
-    let alive = true;
-    fetch(MARKET_EVENTS_PATH, { headers: { accept: "application/json" }, cache: "no-cache" })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((feed) => { if (alive) setSnapshot(marketContextSnapshot(feed, key.split(","))); })
-      .catch(() => { /* no feed: the slot stays empty */ });
-    return () => { alive = false; };
-  }, [key]);
+    return startJsonPolling({
+      request: `${MARKET_ASSET_PATH}?symbols=${encodeURIComponent(key)}`,
+      fetchImpl: (request, init) => fetchArticleMarketContext(request, init, key.split(",")),
+      intervalMs: 60_000,
+      immediate: !marketContextSnapshot(initialFeed, key.split(",")),
+      isData: feed => Boolean(marketContextSnapshot(feed, key.split(","))),
+      onData: feed => setCurrent({ key, snapshot: marketContextSnapshot(feed, key.split(",")) }),
+      onError: () => { /* retain the last good snapshot and its original data clock */ },
+    });
+  }, [key, initialFeed]);
   if (!snapshot) return null;
   const t = marketContextCopy(locale);
   const nav = DATA_PAGE_NAV[locale] || (String(locale).startsWith("zh") ? DATA_PAGE_NAV["zh-Hans"] : DATA_PAGE_NAV.en);

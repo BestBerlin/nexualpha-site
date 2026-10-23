@@ -1,3 +1,4 @@
+import { ArticleDecisionCard } from './ArticleDecisionCard.jsx';
 import { ArticleVenueResearch } from './ArticleVenueResearch.jsx';
 import { newsArticleGeoPool, newsMetadataAllowed } from "../../../data/news-geo-policy.js";
 import { articleRelatedLinks, recentEntityArticles } from '../../../data/article-related-links.js';
@@ -41,7 +42,7 @@ import CardArt from "../../shared/CardArt.jsx";
 import { DataRule, utcStamp } from "../../shared/DataRule.jsx";
 import { formatSgt } from "../../../data/local-time.js";
 import { ArticleMarketContext } from "./ArticleMarketContext.jsx";
-import { detectArticleAssets } from "./article-market-context.js";
+import { articleMarketAssets } from "./article-market-context.js";
 import "./news-detail-page.css";
 // Inner-page pass 2026-10-23: joins the page-news-signature-mid1 stylesheet (see vite.config.mjs).
 import "../../../styles/v9/news9.css";
@@ -766,7 +767,7 @@ export function ArticleByline({ article, locale = "en" }) {
   );
 }
 
-export function NewsDetailPage({ slug, locale = "en", market, product, initialArticles, glossaryLinks = null }) {
+export function NewsDetailPage({ slug, locale = "en", market, product, initialArticles, initialMarketEvents, glossaryLinks = null }) {
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
   const t = copy[locale] || copy[String(locale || "").split("-")[0]] || (isHant ? copy["zh-Hant"] : isZh ? copy["zh-Hans"] : copy.en);
@@ -915,7 +916,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   const leadNodes = leadBlocks.map((paragraph, index) => (index === 0 && leadHeading) ? null : renderMarkdownBlock(paragraph, index, t, partnerLinker, locale));
   const publishedStamp = utcStamp(article.publishedAt);
   const publishedDate = formatSgt(article.publishedAt, locale, "date");
-  const marketAssets = detectArticleAssets({ title: `${title}\n${localizedNewsTitle(article, "en")}`, summary: `${localizedSummary}\n${localizedNewsSummary(article, "en")}`, body: stripArticleEmbedDirectives(content) });
+  const marketAssets = articleMarketAssets(article, locale);
   const categoryLabel = localizedValue(article.categoryName, locale);
   const categoryHref = isNewsCategory(article.category) ? withContext(newsListingPath({ category: article.category })) : null;
   const promotions = resolvePromotions({ topicTags: [...(article.topicTags || article.tags || []), article.cta?.topic].filter(Boolean), venue: article.cta?.venue || article.relatedVenues, coin: article.cta?.coin, locale, market });
@@ -1025,6 +1026,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             />}
             {leadNodes}
           </div>
+          <ArticleDecisionCard key={`${article.slug}:${locale}`} article={article} locale={locale} market={market} product={product} />
           {numericFacts.length > 0 && <aside className="news-detail__figures" aria-labelledby="article-figures-title">
             <DataRule as="h2" label={articleFigureLabels[contentLocale] || articleFigureLabels.en} labelId="article-figures-title" stamp={String(numericFacts.length).padStart(2, "0")} />
             <ul>{numericFacts.map(fact => <li key={fact.text}>
@@ -1108,7 +1110,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
               </ol>
             </nav>}
             <SponsoredSlot promotions={promotions} locale={locale} market={market} variant="sidebar" />
-            <ArticleMarketContext assets={marketAssets} locale={locale} />
+            <ArticleMarketContext assets={marketAssets} locale={locale} initialFeed={initialMarketEvents} />
           </div>
         </div>
 

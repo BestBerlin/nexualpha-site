@@ -1,0 +1,59 @@
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+{
+  "phase": "after",
+  "fullFeed": {
+    "rawBytes": 28245,
+    "gzipBytes": 6221
+  },
+  "summary": {
+    "status": 200,
+    "rawBytes": 12880,
+    "gzipBytes": 3159
+  },
+  "assetResponses": [
+    {
+      "query": "symbol=BTC",
+      "status": 200,
+      "rawBytes": 208,
+      "gzipBytes": 184
+    },
+    {
+      "query": "symbols=BTC,ETH",
+      "status": 200,
+      "rawBytes": 354,
+      "gzipBytes": 234
+    }
+  ],
+  "pages": [
+    {
+      "path": "/news/coinbase-wallet-supported-network-transition-checklist",
+      "rawBytes": 124490,
+      "gzipBytes": 25851,
+      "hydrationErrors": 0
+    },
+    {
+      "path": "/zh-hans/news/coinbase-wallet-supported-network-transition-checklist",
+      "rawBytes": 146970,
+      "gzipBytes": 31853,
+      "hydrationErrors": 0
+    },
+    {
+      "path": "/exchanges/okx",
+      "rawBytes": 226435,
+      "gzipBytes": 43419,
+      "hydrationErrors": 0
+    },
+    {
+      "path": "/compare/binance-vs-okx",
+      "rawBytes": 219787,
+      "gzipBytes": 37180,
+      "hydrationErrors": 0
+    },
+    {
+      "path": "/coins/bitcoin",
+      "rawBytes": 87280,
+      "gzipBytes": 17470,
+      "hydrationErrors": 0
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "phase": "before",
+  "node": "v24.19.0",
+  "fixture": "tests/fixtures/market-data/market-events.live-v2-2026-10-13.json",
+  "fixtureGeneratedAt": "2026-10-13T15:56:40.750Z",
+  "fixtureSha256": "900df37f0b56854debfe16fe6a675b78d59a0b2311240fb1830a0fb582b7daee",
+  "methodology": "In-process built Worker + bundled runtime SSR; jsdom hydration observes local JSON requests for 700 ms. Body bytes only; gzipSync estimate excludes headers, TLS, caches, JS, CSS and images. Historical checked-in feed, not the reported 2.4 MB production feed. No external requests.",
+  "fullFeed": {
+    "rawBytes": 28245,
+    "gzipBytes": 6221
+  },
+  "summary": {
+    "status": 200,
+    "rawBytes": 12880,
+    "gzipBytes": 3159
+  },
+  "assetResponses": [
+    {
+      "query": "symbol=BTC",
+      "status": 404,
+      "rawBytes": 0,
+      "gzipBytes": 20
+    },
+    {
+      "query": "symbols=BTC,ETH",
+      "status": 404,
+      "rawBytes": 0,
+      "gzipBytes": 20
+    }
+  ],
+  "pages": [
+    {
+      "path": "/news/coinbase-wallet-supported-network-transition-checklist",
+      "status": 200,
+      "html": {
+        "rawBytes": 122384,
+        "gzipBytes": 25253,
+        "sha256": "5e9c11ce659bef2cff80d7d2db165a245b5f5bbf26a0e591b87d601e8147c899"
+      },
+      "marketRequests": [
+        {
+          "path": "/intel/market-events.json",
+          "status": 200,
+          "rawBytes": 28245,
+          "gzipBytes": 6221
+        }
+      ],
+      "allObservedJsonRequests": [
+        {
+          "path": "/intel/market-events.json",
+          "status": 200,
+          "rawBytes": 28245,
+          "gzipBytes": 6221
+        }
+      ],
+      "initialHtmlPlusMarketJson": {
+        "rawBytes": 150629,
+        "gzipBytes": 31474
+      },
+      "hydrationErrors": [],
+      "hasRailAfterHydration": true
+    },
+    {
+      "path": "/zh-hans/news/coinbase-wallet-supported-network-transition-checklist",
+      "status": 200,
+      "html": {
+        "rawBytes": 144856,
+        "gzipBytes": 31287,
+        "sha256": "28d1f79021b44676e0f979a3a805002acb04658292c58218292c31ecd9d46d2a"
+      },
+      "marketRequests": [
+        {
+          "path": "/intel/market-events.json",
+          "status": 200,
+          "rawBytes": 28245,
+          "gzipBytes": 6221
+        }
+      ],
+      "allObservedJsonRequests": [
+        {
+          "path": "/intel/market-events.json",
+          "status": 200,
+          "rawBytes": 28245,
+          "gzipBytes": 6221
+        },
+        {
+          "path": "/api/route-seo?path=%2Fzh-hans%2Fnews%2Fcoinbase-wallet-supported-network-transition-checklist&locale=zh-Hans",
+          "status": 200,
+          "rawBytes": 16890,
+          "gzipBytes": 4252
+        }
+      ],
+      "initialHtmlPlusMarketJson": {
+        "rawBytes": 173101,
+        "gzipBytes": 37508
+      },
+      "hydrationErrors": [],
+      "hasRailAfterHydration": true
+    },
+    {
+      "path": "/exchanges/okx",
+      "status": 200,
+      "html": {
+        "rawBytes": 226435,
+        "gzipBytes": 43420,
+        "sha256": "3327c2f407c8e6c4fa4886c315a6417aea4f2d1b137844a7b42329a953aec85d"
+      },
+      "marketRequests": [],
+      "allObservedJsonRequests": [
+        {
+          "path": "/api/route-seo?path=%2Fexchanges%2Fokx&locale=en",
+          "status": 200,
+          "rawBytes": 21016,
+          "gzipBytes": 4573
+        },
+        {
+          "path": "/intel/official-announcements.json",
+          "status": 200,
+          "rawBytes": 48774,
+          "gzipBytes": 8070
+        }
+      ],
+      "initialHtmlPlusMarketJson": {
+        "rawBytes": 226435,
+        "gzipBytes": 43420
+      },
+      "hydrationErrors": [],
+      "hasRailAfterHydration": false
+    },
+    {
+      "path": "/compare/binance-vs-okx",
+      "status": 200,
+      "html": {
+        "rawBytes": 219787,
+        "gzipBytes": 37180,
+        "sha256": "f8fffff21a9a533388810fc8e282d1e9f02b63e12f49dab1e4937d96e41f3c1b"
+      },
+      "marketRequests": [],
+      "allObservedJsonRequests": [
+        {
+          "path": "/api/route-seo?path=%2Fcompare%2Fbinance-vs-okx&locale=en",
+          "status": 200,
+          "rawBytes": 18991,
+          "gzipBytes": 3694
+        },
+        {
+          "path": "/intel/official-announcements.json",
+          "status": 200,
+          "rawBytes": 48774,
+          "gzipBytes": 8070
+        }
+      ],
+      "initialHtmlPlusMarketJson": {
+        "rawBytes": 219787,
+        "gzipBytes": 37180
+      },
+      "hydrationErrors": [],
+      "hasRailAfterHydration": false
+    },
+    {
+      "path": "/coins/bitcoin",
+      "status": 200,
+      "html": {
+        "rawBytes": 87280,
+        "gzipBytes": 17470,
+        "sha256": "aa20561ca6b29471c49b4573ff55cb2f844013d737050bf77e404cc6cf1ad01e"
+      },
+      "marketRequests": [],
+      "allObservedJsonRequests": [
+        {
+          "path": "/api/route-seo?path=%2Fcoins%2Fbitcoin&locale=en",
+          "status": 200,
+          "rawBytes": 9371,
+          "gzipBytes": 2535
+        },
+        {
+          "path": "https://www.okx.com/api/v5/market/ticker?instId=BTC-USDT",
+          "status": 404,
+          "rawBytes": 39792,
+          "gzipBytes": 7414
+        },
+        {
+          "path": "https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT",
+          "status": 404,
+          "rawBytes": 39786,
+          "gzipBytes": 7415
+        }
+      ],
+      "initialHtmlPlusMarketJson": {
+        "rawBytes": 87280,
+        "gzipBytes": 17470
+      },
+      "hydrationErrors": [],
+      "hasRailAfterHydration": false
+    }
+  ],
+  "dataPages": {
+    "/liquidations": {
+      "fullVsSummaryRenderedHtmlByteIdentical": true,
+      "fullHtmlSha256": "5b4cce667580c1bb059d5ad83f19a1e1f91de7068b833edfea490856d02c36e2",
+      "summaryHtmlSha256": "5b4cce667580c1bb059d5ad83f19a1e1f91de7068b833edfea490856d02c36e2",
+      "currentSsrProjection": {
+        "rawBytes": 12880,
+        "gzipBytes": 3159
+      }
+    },
+    "/liquidations/heatmap": {
+      "fullVsSummaryRenderedHtmlByteIdentical": true,
+      "fullHtmlSha256": "09d759c105e67ec8c7c7eeeb982ce0fbbe96a849e56bca162e03d62cdebce985",
+      "summaryHtmlSha256": "09d759c105e67ec8c7c7eeeb982ce0fbbe96a849e56bca162e03d62cdebce985",
+      "currentSsrProjection": {
+        "rawBytes": 12880,
+        "gzipBytes": 3159
+      }
+    },
+    "/funding-rates": {
+      "fullVsSummaryRenderedHtmlByteIdentical": true,
+      "fullHtmlSha256": "fd25de8feb5a3a71902871469f59e989a374a06796fc8796173d881e952440e5",
+      "summaryHtmlSha256": "fd25de8feb5a3a71902871469f59e989a374a06796fc8796173d881e952440e5",
+      "currentSsrProjection": {
+        "rawBytes": 9474,
+        "gzipBytes": 2533
+      }
+    }
+  }
+}

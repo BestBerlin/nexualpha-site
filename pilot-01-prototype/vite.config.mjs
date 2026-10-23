@@ -150,6 +150,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
             if (owner) return owner;
           }
           const legacyChunk = () => {
+          if (isSsrBuild && id.endsWith("/src/data/cta-ui-copy.js")) return "shared-cta-copy";
+          // Beginner reads this at module initialization; news must not absorb its registry-backed constants.
+          if (isSsrBuild && id.endsWith("/src/data/backup-signup.js")) return "shared-backup-signup";
           if (isSsrBuild && id.endsWith("/src/data/coins-data.generated.js")) return "shared-coin-rows";
           if (isSsrBuild && id.endsWith("/src/data/exchange-facts.js")) return "shared-exchange-facts";
           if (id.endsWith("/src/data/brazil-vasp-deadline-slugs.js")) return "shared-brazil-paths";
@@ -370,6 +373,10 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // (official-campaign-localizations, 750 KB) onto venue pages (venue-graph lane 2026-10-11).
           if (id.includes("/src/components/v3/activity/campaign-copy")) return "data-campaign-copy";
           if (id.includes("/src/components/v3/activity/")) return "route-activity";
+          // Conversion helpers are CSS-free and shared only by venue/news routes, never the home entry.
+          if (id.endsWith("/src/components/v3/conversion/venue-sticky-bar.css")) return "route-v3-pages-conversion";
+          if (id.endsWith("/src/components/v3/conversion/VenueStickyBar.jsx")) return "route-v3-venue";
+          if (id.includes("/src/components/v3/conversion/")) return "shared-conversion";
           if (id.includes("/src/components/v3/news/NewsListPage")) return "route-news-list";
           if (id.includes("/src/components/v3/news/NewsDetailPage")) return "route-news-detail";
           if (id.includes("/src/components/v3/news/")) return "route-news-shared";

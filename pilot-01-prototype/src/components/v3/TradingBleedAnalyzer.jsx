@@ -372,7 +372,7 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
               {inviteCode && (
                 <div className="bleed-code-row">
                   <span>{ui.codeLabel}</span>
-                  <button type="button" onClick={handleCopy} className="bleed-copy-code-btn font-mono">
+                  <button type="button" onClick={handleCopy} className="bleed-copy-code-btn font-mono" aria-live="polite">
                     {inviteCode} <Ico k={visibleCopyResult?.status === "copied" ? "check" : "copy"} />{visibleCopyResult?.status === "copied" ? copyFeedback.copied : ui.copyBtn}
                   </button>
                   {visibleCopyResult?.status === "failed" && <span className="bleed-copy-status" role="status" aria-live="polite">{copyFeedback.failed}</span>}

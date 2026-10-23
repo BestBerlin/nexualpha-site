@@ -1,0 +1,44 @@
+✔ poll deadline releases hung fetch, aborts and ignores its late result after recovery (5.314ms)
+✔ poll deadline releases hung body, aborts and ignores its late result after recovery (0.465083ms)
+✔ hidden deadline preserves backoff until foreground and 5xx recovery resets interval (1.62225ms)
+✔ unmount aborts active fetch, clears deadline and rejects late delivery (0.439792ms)
+✔ unmount aborts active body, clears deadline and rejects late delivery (0.616333ms)
+✔ json polling backs off exponentially up to two minutes and resets after a good payload (22.701916ms)
+✔ json polling pauses hidden tabs, resumes visible tabs, and keeps one fetch in flight (0.851458ms)
+✔ json polling can keep hidden flash-page polling only after notification opt-in (0.23675ms)
+✔ json polling preserves the due time and backoff while paused (0.245084ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ copy for the new blocks exists in all 17 locales (7273.67375ms)
+✔ day groups are SGT days in feed order; Today / Yesterday only with a reader clock (2.16775ms)
+✔ market context: assets come from the article text, figures only from the feed (2.640208ms)
+✔ article SSR: lead answer block, section index (rail + mobile disclosure), footnotes, figures, empty market slot (333.7545ms)
+✔ article route hydrates without mismatch (worker request-time SSR + jsdom hydrateRoot) (1109.3345ms)
+✔ news index SSR: a lead story, then day groups with every other row (19.493959ms)
+✔ topics hub: editorial index, localized headings (en, ar), one card link per record, hydration parity (546.394ms)
+✔ factbook hub: editorial index, localized headings (en, ar), one card link per record, hydration parity (540.074458ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ English and Chinese rails render in SSR with identical hydration and no initial market fetch (8331.247666ms)
+✔ cold SSR failure keeps the rail empty and recovery requests only the asset route (175.811666ms)
+✔ unrelated articles skip the market reader and cold reads cannot hold article SSR (247.853458ms)
+✔ a current build-time article prerender cannot bypass the live market SSR seed (39.237375ms)
+✔ asset projection preserves rail numbers and exposes only rendered fields (22.122834ms)
+✔ single and multiple symbols, five-item limit, deduplication and malformed queries (2.229625ms)
+✔ unknown and mixed unknown symbols are 404; cold outages and invalid clocks are 503 (1.40125ms)
+✔ Node reader shares 60s cache, retains original data clock on outage and recovers (1.72975ms)
+✔ assets-only Worker caches across symbols and retains stale data on outage (1.245417ms)
+✔ partial article coverage still refreshes available assets after a mixed-request 404 (3.399ms)
+✔ bounded SSR reads retain the last good frame while a slow refresh continues (6.770625ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ Turkish article sitemap URLs retain native SSR body and self canonical for informational venues (9206.942542ms)
+✔ an edition added after publication replaces the warmed feed and stale prerender snapshot (2.308167ms)
+✔ informational editions retain the promotional and unlisted-venue boundaries (0.604417ms)
+✔ dynamic article and Google News sitemaps exclude projected and non-self-canonical editions (1.904333ms)
+✔ runtime article sitemap retains eligible arrivals beyond the former 5000 article cap (95.683792ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10640.591708

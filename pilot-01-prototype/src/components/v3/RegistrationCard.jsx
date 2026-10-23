@@ -1037,6 +1037,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
               className="registration-card__copy-btn"
               onClick={handleCopy}
               data-copied={copied}
+              aria-live="polite"
               aria-label={showHomeCodeIdentity ? (copyButtonAriaLabel || copyButtonLabel) : copyButtonAriaLabel}
             >
               {showHomeCodeIdentity ? <>

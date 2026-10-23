@@ -202,6 +202,19 @@ function cleanSources(value) {
   });
 }
 
+// Preserve only explicit subject/entity identifiers, never infer partners from article prose.
+// String and {slug}/{key} entries normalize to bounded keys; unrelated object fields are discarded.
+function cleanArticleEntityMetadata(article) {
+  return Object.fromEntries(["subject", "subjects", "entityKeys", "entities"].flatMap((field) => {
+    const value = article[field];
+    const keys = [...new Set((Array.isArray(value) ? value : [value]).flatMap((entry) => {
+      const key = cleanString(isRecord(entry) ? cleanString(entry.slug) || entry.key : entry).toLowerCase();
+      return /^(?:[a-z][a-z0-9-]*:)?[a-z0-9]+(?:-[a-z0-9]+)*$/.test(key) ? [key] : [];
+    }))];
+    return keys.length ? [[field, Array.isArray(value) ? keys : keys[0]]] : [];
+  }));
+}
+
 function cleanVenueSlugs(value) {
   if (!Array.isArray(value)) return [];
   const seen = new Set();
@@ -627,6 +640,7 @@ export function normalizeNewsArticle(article) {
     content,
     sources,
     relatedVenues: cleanVenueSlugs(article.relatedVenues),
+    ...cleanArticleEntityMetadata(article),
     ...(compactResearchClaims(article).length ? { researchClaims: compactResearchClaims(article) } : {}),
     topicTags: cleanVenueSlugs(article.topicTags || article.tags),
     ...(isRecord(article.cta) ? { cta: { venue: cleanString(article.cta.venue), topic: cleanString(article.cta.topic), coin: cleanString(article.cta.coin) } } : {}),
@@ -668,6 +682,7 @@ export function normalizeNewsArticleSummary(article) {
     title,
     summary,
     relatedVenues: cleanVenueSlugs(article.relatedVenues),
+    ...cleanArticleEntityMetadata(article),
     ...(compactResearchClaims(article).length ? { researchClaims: compactResearchClaims(article) } : {}),
     topicTags: cleanVenueSlugs(article.topicTags || article.tags),
     ...(isRecord(article.cta) ? { cta: { venue: cleanString(article.cta.venue), topic: cleanString(article.cta.topic), coin: cleanString(article.cta.coin) } } : {}),
@@ -732,6 +747,7 @@ export function projectNewsArticleForLocale(article, locale = "en", { includeCon
     title: compactLocalizedRecord(article.title, locale),
     summary: compactLocalizedRecord(article.summary, locale),
     relatedVenues: Array.isArray(article.relatedVenues) ? article.relatedVenues : [],
+    ...cleanArticleEntityMetadata(article),
     topicTags: cleanVenueSlugs(article.topicTags || article.tags),
     ...(isRecord(article.cta) ? { cta: { venue: cleanString(article.cta.venue), topic: cleanString(article.cta.topic), coin: cleanString(article.cta.coin) } } : {}),
     availableLocales: Array.isArray(article.availableLocales) ? article.availableLocales : [],

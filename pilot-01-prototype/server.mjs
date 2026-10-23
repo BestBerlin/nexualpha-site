@@ -122,6 +122,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
   }
   const flashMemory = createFlashMemory({ file: flashMemoryFile, log: (m) => console.log(`[NexuAlpha] ${m}`) });
   // /liquidations and /funding-rates SSR: the collector feed, read at most once per 60 s (MARKET_EVENTS_FILE or MARKET_EVENTS_URL).
+  // The summary, asset route and article SSR share this 60 s last-good reader through MARKET_EVENTS_READ.
   const marketEvents = marketEventsReaderFromEnv(env, { log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const liquidationLevels = createLiquidationLevelsFeed({ log: (m) => console.log(`[NexuAlpha] ${m}`) });
   // /coins pages + /intel/coins.json: the host's refreshed snapshot (COINS_FILE, read-only for the server); unset = baked table.

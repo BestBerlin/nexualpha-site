@@ -1,0 +1,17 @@
+/* News route only; SSR renders this card in flow before hydration. */
+.news-detail-page .cv-decision { margin-block: 24px; padding: 16px; border: 1px solid rgb(255 255 255 / .22); border-radius: 12px; background: #18191b; color: #edeef0; }
+.cv-decision__head, .cv-decision__logos { display: flex; align-items: center; gap: 8px; }
+.cv-decision__head strong { font-size: 16px; }
+.cv-decision__fees { margin-block: 12px; display: grid; gap: 8px; }
+.cv-decision__fees :is(dt, dd) { margin: 0; font-size: 12px; line-height: 1.55; }
+.cv-decision__fees dt { color: #b0b4ba; }
+.cv-decision__fees dd > span { font-variant-numeric: tabular-nums; }
+.cv-decision__fees dd a { color: #b0b4ba; text-underline-offset: 3px; }
+.news-detail-page .cv-decision :is(.cv-decision__scope, .cv-disclosure) { color: #b0b4ba; font-size: 12px; line-height: 1.55; margin-block: 8px 0; }
+.news-detail-page .cv-decision__terms { color: #edeef0; font-size: 14px; line-height: 1.55; margin-block: 8px; }
+.cv-decision__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.news-detail-page .cv-decision .cv-code { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; justify-content: space-between; min-block-size: 44px; padding: 8px 12px; flex: 1 1 180px; border: 1px solid rgb(255 255 255 / .22); border-radius: 8px; background: transparent; color: #edeef0; font-size: 12px; text-align: start; }
+.news-detail-page .cv-decision .cv-signup { display: flex; align-items: center; justify-content: center; gap: 8px; min-block-size: 44px; padding: 8px 12px; flex: 1 1 160px; border-radius: 8px; background: #1fe0c0; color: #04130f; font-size: 14px; font-weight: 600; text-decoration: none; }
+.news-detail-page .cv-decision__compare { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; min-block-size: 44px; color: #edeef0; font-size: 16px; text-decoration: none; }
+.cv-decision :is(a, button):focus-visible { outline: 2px solid #1fe0c0; outline-offset: 3px; }
+.cv-decision code { overflow-wrap: anywhere; }

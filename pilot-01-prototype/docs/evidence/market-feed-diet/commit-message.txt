@@ -1,0 +1,9 @@
+Keep article market context off the bulk collector feed
+
+Constraint: Collector figures must remain source-bound and SSR must seed the same rail snapshot as hydration.
+Rejected: Full-feed article polling | Transfers unrelated timelines and event data.
+Confidence: high
+Scope-risk: narrow
+Tested: Full build, strict budget, typecheck, 56 related tests and five built-route offline measurements.
+Not-tested: Real-browser CLS and the absent production-sized feed.
+Co-Authored-By: Codex <noreply@openai.com>

@@ -1,3 +1,4 @@
+import { VenueStickyBar } from './conversion/VenueStickyBar.jsx';
 import { strikingDistanceVenueH1, strikingDistanceVenueLead, STRIKING_DISTANCE_VENUE_COMPARISONS } from '../../data/striking-distance-venue-copy.js';
 import { BITGET_GUIDE_PATH, bitgetGuideAvailable, bitgetGuideLabel } from "../../data/bitget-guide-routes.js";
 import { ReferralNativeAnswers } from './ReferralNativeAnswers.jsx';
@@ -47,7 +48,7 @@ import { publicCtaForVenue, venueGoHref } from "../../data/source-bound-cta.js";
 import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
 import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { buildRegistrationDecisionState } from "./registration-decision-state.js";
-import { ctaUiCopy, trackCodeCopy } from "../../data/cta-ui-copy.js";
+import { ctaUiCopy } from "../../data/cta-ui-copy.js";
 import { VenueReadinessChecklist } from "./VenueReadinessChecklist.jsx";
 import { TelegramReturnBanner } from "./TelegramReturnBanner.jsx";
 import { formatPercent } from "../../data/format-percent.js";
@@ -485,7 +486,6 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const copied = codeFeedback.state === "success";
   const [tradeVolume, setTradeVolume] = useState(50000);
   const [showAllSimilar, setShowAllSimilar] = useState(false);
-  const [mobileStickyActive, setMobileStickyActive] = useState(false);
   const [urlDecisionContext, setUrlDecisionContext] = useState(null);
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
@@ -504,11 +504,6 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const effectiveProduct = urlDecisionContext?.product ?? product;
   const effectiveAccountStage = urlDecisionContext?.accountStage ?? accountStage;
   const effectiveFunding = urlDecisionContext?.funding ?? funding;
-  const shouldShowMobileSticky = (anchorRect, isMobileViewport) => {
-    if (!isMobileViewport || !anchorRect) return false;
-    const bottom = Number(anchorRect.bottom);
-    return Number.isFinite(bottom) && bottom <= 0;
-  };
 
   const text = v3Copy(locale);
   const ui = interfaceText(locale);
@@ -672,9 +667,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   ].filter(Boolean);
 
   const handleCopyCode = () => codeFeedback.copy(inviteCode || officialDomain);
-  const handleStickyCopy = () => { handleCopyCode(); if (inviteCode) trackCodeCopy(venue.slug, "venue-mobile-sticky-code"); };
-  // The sticky bar opens the same protected partner route as the registration card's primary button (same decision
-  // state, same href). Where the card itself would not open a third-party route, the bar keeps the review link.
+  // Keep the hero rebate figure behind the registration card's existing decision gate.
   const stickyDecision = buildRegistrationDecisionState({ publicCta: publicCtaForVenue(venue.slug, locale, effectiveMarket), regionalCta: venueCta });
   const stickyOpensSignup = stickyDecision.canOpenThirdParty && stickyDecision.protectedHref === venueCta.ctaHref;
   const ctaText = ctaUiCopy(locale);
@@ -693,34 +686,6 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     return undefined;
   }, [effectiveMarket, locale, venue.slug, venueCta.ctaHref, venueCta.actionGate?.reason, venueCta.ctaState]);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return undefined;
-    const anchor = document.querySelector('[data-cta-surface="venue-profile-main-registration"]');
-    const mediaQuery = typeof window.matchMedia === "function" ? window.matchMedia("(max-width: 780px)") : null;
-    const footer = document.querySelector("footer.nx-ftr, footer");
-    const updateMobileSticky = () => {
-      // Never sit on top of the footer (disclosure, copyright): the bar steps away once the footer enters the viewport.
-      const footerVisible = Boolean(footer) && footer.getBoundingClientRect().top < window.innerHeight;
-      const isMobileViewport = (mediaQuery ? mediaQuery.matches : window.innerWidth <= 780) && !footerVisible;
-      setMobileStickyActive(shouldShowMobileSticky(anchor?.getBoundingClientRect(), isMobileViewport));
-    };
-    updateMobileSticky();
-    window.addEventListener("scroll", updateMobileSticky, { passive: true });
-    window.addEventListener("resize", updateMobileSticky);
-    mediaQuery?.addEventListener?.("change", updateMobileSticky);
-    return () => {
-      window.removeEventListener("scroll", updateMobileSticky);
-      window.removeEventListener("resize", updateMobileSticky);
-      mediaQuery?.removeEventListener?.("change", updateMobileSticky);
-    };
-  }, []);
-
-  const mobileStickyIdentityLabel = hasReferral
-    ? (locale === "zh-Hant" ? "專屬邀請碼" : isZhLocale ? "专属邀请码" : (detailLabels.codeShort || "Code"))
-    : (locale === "zh-Hant" ? "官方主網域" : isZhLocale ? "官方主域名" : runtimeUi.stickyOfficial);
-  const mobileStickyIdentityAction = hasReferral
-    ? (copyFeedbackLabel(codeFeedback.state, locale, isZhLocale ? zhText(locale, "复制", "複製") : (detailLabels.copy || "Copy")))
-    : copyFeedbackLabel(codeFeedback.state, locale, locale === "zh-Hant" ? "核對" : isZhLocale ? "核对" : runtimeUi.globalVerification);
   const registrationReviewLabel = venueCta.direct
     ? detailRegistrationReviewLabel(locale, { hasReferral })
     : (locale === "zh-Hant" ? "先核對地區資格" : isZhLocale ? "先核对地区资格" : detailCtaLabel(locale, { direct: false, hasReferral }));
@@ -1057,52 +1022,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
       )}
     </section>
 
-    {/* 移动端专属吸底快捷操作条 */}
-    <aside className={`v3-mobile-sticky-bar${mobileStickyActive ? " is-active" : ""}`} aria-label={isZhLocale ? "快捷操作" : runtimeUi.stickyQuickAction} aria-hidden={!mobileStickyActive} inert={!mobileStickyActive}>
-      <div className="v3-mobile-sticky-bar__inner">
-        <button type="button" onClick={handleStickyCopy} className="v3-mobile-sticky-bar__code" data-copied={codeFeedback.state === "success" || undefined}>
-          <span className="v3-mobile-sticky-bar__label">{mobileStickyIdentityLabel}</span>
-          <strong translate="no">{inviteCode || officialDomain}</strong>
-          <small>{mobileStickyIdentityAction}</small>
-          {codeFeedback.state !== "idle" && <CopyFeedbackStatus state={codeFeedback.state} locale={locale} />}
-        </button>
-        <div className="v3-mobile-sticky-bar__perk">
-          <span className="v3-mobile-sticky-bar__discount">{commercialClaim.status === "verified" ? `-${formatPercent(locale, rebatePercent)}` : runtimeUi.stickyOfficial}</span>
-          <span>{hasReferral ? (isZhLocale ? zhText(locale, "手续费权益", "手續費權益") : runtimeUi.stickyFeeBenefit) : (isZhLocale ? zhText(locale, "官方入口", "官方入口") : runtimeUi.stickyDirectRoute)}</span>
-        </div>
-        {stickyOpensSignup ? (
-          <a
-            href={venueGoHref(profile.slug, "venue-mobile-sticky", locale, effectiveMarket)}
-            target="_blank"
-            rel="sponsored noopener noreferrer"
-            className="v3-mobile-sticky-bar__btn v3-mobile-sticky-bar__btn--signup"
-            tabIndex={mobileStickyActive ? undefined : -1}
-            data-cta-kind="registration"
-            data-cta-platform={profile.slug}
-            data-cta-placement="venue-mobile-sticky"
-            data-cta-code={hasReferral && inviteCode ? inviteCode : undefined}
-            data-growth-decision={profile.slug}
-            data-growth-placement="venue-mobile-sticky"
-            data-growth-market={effectiveMarket}
-            data-growth-product={effectiveProduct}
-          >
-            {ctaText.open} <span aria-hidden="true">↗</span>
-          </a>
-        ) : (
-          <LocalLink
-            locale={locale}
-            href={`/exchanges/${profile.slug}?${contextSearch}#registration-path`}
-            className="v3-mobile-sticky-bar__btn"
-            data-cta-kind="research"
-            data-cta-platform={profile.slug}
-            data-cta-placement="venue-mobile-sticky"
-            data-registration-confirmation-entry="registration-card"
-          >
-            {registrationReviewLabel}
-          </LocalLink>
-        )}
-      </div>
-    </aside>
+    <VenueStickyBar slug={profile.slug} locale={locale} market={effectiveMarket} product={effectiveProduct} accountStage={effectiveAccountStage} funding={effectiveFunding} />
   </main>;
 }
 

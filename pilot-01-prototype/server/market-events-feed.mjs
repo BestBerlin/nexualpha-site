@@ -43,9 +43,18 @@ export function createMarketEventsReader({
   };
   return {
     // Resolves to the cached feed (refreshing it first when the 60 s window has passed) or null.
-    async read() {
-      if (!readAt || now() - readAt >= ttlMs) await refresh();
-      return feed && (failed || now() - goodAt > staleMs || now() - Date.parse(feed.updatedAt || feed.generatedAt) > staleMs ? { ...feed, stale: true } : feed);
+    async read({ waitMs = null } = {}) {
+      if (!readAt || now() - readAt >= ttlMs) {
+        const refreshing = refresh();
+        if (waitMs === null) await refreshing;
+        else {
+          let timer;
+          try { await Promise.race([refreshing, new Promise(resolve => { timer = setTimeout(resolve, Math.max(0, waitMs)); })]); }
+          finally { clearTimeout(timer); }
+        }
+      }
+      // Article SSR can take the last good frame without waiting on a slow source. The refresh continues in the cache.
+      return feed && (pending || failed || now() - goodAt > staleMs || now() - Date.parse(feed.updatedAt || feed.generatedAt) > staleMs ? { ...feed, stale: true } : feed);
     },
     refresh,
   };

@@ -1,0 +1,26 @@
+{
+  "build": "PASS",
+  "node": "24.19.0",
+  "strictBudget": "PASS",
+  "homeInitialGzipBytes": 316869,
+  "homeLimitGzipBytes": 350000,
+  "typecheck": "PASS",
+  "relatedTests": {
+    "passed": 139,
+    "failed": 0
+  },
+  "transportTests": {
+    "passed": 18,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "Local loopback binding unavailable (EPERM)"
+  },
+  "finalConversionAndVenueGraphTests": {
+    "passed": 15,
+    "failed": 0
+  },
+  "ssrSamples": 4,
+  "browserQa": "BLOCKED: localhost listen EPERM; browser policy rejects file URLs",
+  "gitCommit": "BLOCKED: shared worktree index.lock creation denied by sandbox",
+  "generatedPublicChangesRestored": 16
+}

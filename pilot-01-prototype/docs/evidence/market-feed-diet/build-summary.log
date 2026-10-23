@@ -1,0 +1,27 @@
+# build-before-cached.log: filtered npm run build output (exit 0)
+> pilot-01-prototype@3.0.0 build
+vite v6.4.2 building for production...
+✓ built in 5.41s
+Route CSS: 7 v6 segments -> one full inner asset / one shared home asset
+vite v6.4.2 building SSR bundle for production...
+✓ built in 3.30s
+vite v6.4.2 building SSR bundle for production...
+✓ built in 4.10s
+Prepared prerender manifest: 2590 routes, HTML split into route assets
+Route styles: 559 rendered routes, 82 manifest assets, 0 safe adjacent merges
+Critical CSS (home): 11 stylesheets, 829/6520 rules kept, 879 KB -> 117 KB (0 selectors kept unevaluated)
+Prepared Sites build: dist/server/index.js and dist/.openai/hosting.json
+
+# build-final.log: filtered npm run build output (exit 0)
+> pilot-01-prototype@3.0.0 build
+vite v6.4.2 building for production...
+✓ built in 5.48s
+Route CSS: 7 v6 segments -> one full inner asset / one shared home asset
+vite v6.4.2 building SSR bundle for production...
+✓ built in 3.31s
+vite v6.4.2 building SSR bundle for production...
+✓ built in 4.13s
+Prepared prerender manifest: 2590 routes, HTML split into route assets
+Route styles: 559 rendered routes, 82 manifest assets, 0 safe adjacent merges
+Critical CSS (home): 11 stylesheets, 829/6520 rules kept, 879 KB -> 117 KB (0 selectors kept unevaluated)
+Prepared Sites build: dist/server/index.js and dist/.openai/hosting.json
