@@ -3,7 +3,9 @@
 // a faint ocean glint, plus one lifted arc from every partner to "you" (the hub on the front of the sphere) and pulses that
 // run along the arcs toward you: rebates flowing back. Canvas 2D, no dependencies, loaded after first paint by RebateStage
 // (HomeV7.jsx); the server-rendered SVG globe and venue chips stay underneath, so nothing moves when this arrives. Draws at
-// most ~30 fps, stops while off-screen or the tab is hidden, and paints a single still frame under prefers-reduced-motion.
+// most ~30 fps for an eight-second intro, then rests until interaction; stops off-screen or in a hidden tab, and
+// paints a single still frame under prefers-reduced-motion.
+const IDLE_MS = 8000;
 const TEAL = "31,224,192", ICE = "127,231,255";
 // Partner positions on the sphere (lat, lon in degrees), by chip slot: spread so each faces the viewer in turn.
 const SPOTS = [[34, -52], [26, 58], [-20, -128], [-28, 118], [-44, 4]];
@@ -110,6 +112,8 @@ export function mountGlobe(host, stage, still) {
   // third of a degree (~17 fps at one turn a minute); arcs and pulses on top keep the ~30 fps frame. Keeps idle JS low.
   const layer = document.createElement("canvas"), lctx = layer.getContext?.("2d");
   let drawnAt = NaN;
+  const motion = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+  still = motion?.matches ?? still;
   if (!ctx) return null;
   canvas.setAttribute("aria-hidden", "true");
   canvas.style.cssText = "position:absolute;inset:0;inline-size:100%;block-size:100%;opacity:0;transition:opacity .6s cubic-bezier(.16,1,.3,1);pointer-events:none";
@@ -117,7 +121,8 @@ export function mountGlobe(host, stage, still) {
 
   let w = 0, h = 0, cx = 0, cy = 0, r = 0, dpr = 1, count = 0, pts = new Float32Array(0), shade = new Uint8Array(0), px = pts;
   // Start with Asia facing the viewer; the globe then turns west to east like the Earth (about one turn a minute).
-  let chips = [], anchors = [], selected = null, raf = 0, last = 0, visible = true, angle = -1.9;
+  let chips = [], anchors = [], selected = null, raf = 0, reveal = 0, last = 0, visible = true, angle = -1.9;
+  let disposed = false, idleAt = performance.now() + IDLE_MS;
   const spin = (v, a) => {
     // Turn about the vertical axis, then lean toward the viewer.
     const ca = Math.cos(a), sa = Math.sin(a), x = v[0] * ca + v[2] * sa, z = -v[0] * sa + v[2] * ca;
@@ -293,7 +298,7 @@ export function mountGlobe(host, stage, still) {
 
   const frame = (now) => {
     raf = 0;
-    if (!visible || document.hidden) return;
+    if (disposed || still || !visible || document.hidden || now >= idleAt) { sync(); return; }
     if (now - last >= 32) {
       angle += Math.min(64, now - (last || now)) * 0.00011; // one turn in about a minute
       last = now;
@@ -302,30 +307,64 @@ export function mountGlobe(host, stage, still) {
     raf = requestAnimationFrame(frame);
   };
   const run = () => {
-    if (still) { draw(0); return; }
-    if (!raf && visible && !document.hidden) { last = 0; raf = requestAnimationFrame(frame); }
+    if (disposed || !visible || document.hidden) return;
+    if (!raf && performance.now() < idleAt) { last = 0; raf = requestAnimationFrame(frame); }
   };
   const halt = () => { cancelAnimationFrame(raf); raf = 0; };
-  const sync = () => { stage.dataset.paused = String(!visible || document.hidden); if (stage.dataset.paused === "true") halt(); else run(); };
+  const sync = () => {
+    if (disposed) return;
+    const paused = still || !visible || document.hidden || performance.now() >= idleAt;
+    stage.dataset.paused = String(paused);
+    if (paused) {
+      halt();
+      // A hidden resize clears the bitmap; show a fresh still on return even
+      // when the animation budget has expired.
+      if (visible && !document.hidden) draw(still ? 0 : performance.now());
+    } else run();
+  };
+  // No idle interval/timeout: the final frame retires its own loop. Returning to a
+  // tab or viewport does not renew an expired intro; only meaningful interaction does.
+  const interact = () => {
+    if (disposed || still) return;
+    idleAt = performance.now() + IDLE_MS;
+    if (!raf) sync();
+  };
+  const preference = (event) => {
+    if (disposed) return;
+    still = event.matches;
+    sync();
+  };
+  const interactions = ["pointerenter", "pointermove", "pointerdown", "focusin"];
 
-  const io = typeof IntersectionObserver === "function" ? new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); }) : null;
+  const io = typeof IntersectionObserver === "function" ? new IntersectionObserver(([entry]) => { if (disposed) return; visible = entry.isIntersecting; sync(); }) : null;
   io?.observe(stage);
-  const ro = typeof ResizeObserver === "function" ? new ResizeObserver(() => { measure(); if (still || !raf) draw(performance.now()); }) : null;
+  const ro = typeof ResizeObserver === "function" ? new ResizeObserver(() => { if (disposed) return; measure(); if (visible && !document.hidden && (still || !raf)) draw(performance.now()); }) : null;
   ro?.observe(host);
   stage.querySelectorAll(".hx-stage-node").forEach((chip) => ro?.observe(chip));
   document.addEventListener("visibilitychange", sync);
+  motion?.addEventListener?.("change", preference);
+  interactions.forEach((type) => stage.addEventListener(type, interact, { passive: true }));
 
   measure();
   draw(performance.now());
   stage.setAttribute("data-live", "");
-  requestAnimationFrame(() => { canvas.style.opacity = "1"; });
+  reveal = requestAnimationFrame(() => { reveal = 0; if (!disposed) canvas.style.opacity = "1"; });
   sync();
 
   return {
-    select(slug) { selected = slug; measure(); if (still || !raf) draw(performance.now()); },
+    select(slug) {
+      if (disposed) return;
+      selected = slug; measure(); interact();
+      if (visible && !document.hidden && (still || !raf)) draw(performance.now());
+    },
     destroy() {
+      if (disposed) return;
+      disposed = true;
+      cancelAnimationFrame(reveal); reveal = 0;
       halt(); io?.disconnect(); ro?.disconnect();
       document.removeEventListener("visibilitychange", sync);
+      motion?.removeEventListener?.("change", preference);
+      interactions.forEach((type) => stage.removeEventListener(type, interact));
       stage.removeAttribute("data-live");
       canvas.remove();
     },

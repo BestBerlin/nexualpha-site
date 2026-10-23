@@ -1,5 +1,7 @@
 // Imported only by the lazy tokenized-stocks components. Never import this from the home entry/router.
 import { useEffect, useState } from "react";
+import { startJsonPolling } from "../shared/json-polling.js";
+import { scheduleVisible } from "../shared/visibility-scheduler.js";
 
 export const TS_PRICE_MAX_AGE = 15 * 60_000;
 const fresh = (value, now) => {
@@ -104,30 +106,28 @@ export function useTsPrices(tickers = null) {
   const [feed, setFeed] = useState(null);
   const [now, setNow] = useState(0);
   useEffect(() => {
-    let stopped = false, active = null;
-    const refresh = async () => {
-      if (active) return;
-      const ctrl = new AbortController();
-      active = ctrl;
-      const deadline = setTimeout(() => ctrl.abort(), 8_000);
-      try {
-        const res = await fetch(`/api/tokenized-stocks/prices${query}`, { signal: ctrl.signal, headers: { accept: "application/json" }, cache: "no-store" });
-        if (res.ok) {
-          const next = await res.json();
-          if (!stopped) setFeed(next);
-        }
-      } catch { /* Expiry continues even when the feed is unreachable. */ }
-      finally { clearTimeout(deadline); active = null; if (!stopped) setNow(Date.now()); }
+    let latest = null, shown = "[]";
+    const expire = () => {
+      const time = Date.now();
+      const next = JSON.stringify(freshTsPrices(latest, time));
+      if (next === shown) return;
+      shown = next;
+      setNow(time);
     };
+    setFeed(null);
     setNow(Date.now());
-    refresh();
-    const poll = setInterval(refresh, 60_000);
-    // Expiry is 15 min server-side; re-checking every minute (only while visible) keeps idle main-thread work near zero.
-    const expiry = setInterval(() => { if (document.visibilityState === "visible") setNow(Date.now()); }, 60_000);
-    const resume = () => { setNow(Date.now()); refresh(); };
+    const poll = startJsonPolling({
+      request: `/api/tokenized-stocks/prices${query}`, intervalMs: 60_000, timeoutMs: 8_000, cache: "no-store",
+      onData: next => { latest = next; setFeed(next); expire(); },
+      onError: expire,
+    });
+    // Expiry remains independent of network success/backoff, without rendering
+    // unchanged rows every minute or fetching in a background tab.
+    const expiry = scheduleVisible(expire, 60_000);
+    const resume = () => { if (document.visibilityState !== "hidden") { expire(); poll.sync(); } };
     window.addEventListener("focus", resume);
     document.addEventListener("visibilitychange", resume);
-    return () => { stopped = true; active?.abort(); clearInterval(poll); clearInterval(expiry); window.removeEventListener("focus", resume); document.removeEventListener("visibilitychange", resume); };
-  }, []);
+    return () => { poll(); expiry(); window.removeEventListener("focus", resume); document.removeEventListener("visibilitychange", resume); };
+  }, [query]);
   return freshTsPrices(feed, now);
 }

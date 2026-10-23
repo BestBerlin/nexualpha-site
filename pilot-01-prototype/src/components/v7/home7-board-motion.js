@@ -1,4 +1,5 @@
 import { whaleAgoLabel } from "../../data/whales-home.js";
+import { scheduleVisible } from "../shared/visibility-scheduler.js";
 
 // Minutes below one hour, then hours, then days ("394分钟前" → "6小时前").
 export const relativeWhaleTime = (at, now, locale) => whaleAgoLabel(at, now, locale);
@@ -7,21 +8,22 @@ export const relativeWhaleTime = (at, now, locale) => whaleAgoLabel(at, now, loc
 // (data-tier ≥ 1) that are actually displayed (mobile hides rows 7–8). CSS animates only transform/opacity/filter on
 // pseudo-elements, and only while the board is on screen, the tab is visible and motion is allowed (root[data-live]).
 export const WHALE_PULSE_MAX = 3;
-export function pickPulseRows(rows, max = WHALE_PULSE_MAX) {
-  const ranked = rows
-    .filter(a => Number(a.dataset?.tier) >= 1 && (a.dataset.dir === "in" || a.dataset.dir === "out") && a.offsetParent !== null)
+export function pickPulseRows(rows, max = WHALE_PULSE_MAX, visibleCount = rows.length) {
+  // CSS hides rows 7+ on narrow screens. Use that same limit instead of reading layout for each row.
+  const ranked = rows.slice(0, visibleCount)
+    .filter(a => Number(a.dataset?.tier) >= 1 && (a.dataset.dir === "in" || a.dataset.dir === "out"))
     .sort((a, b) => Number(b.dataset.usd) - Number(a.dataset.usd))
     .slice(0, max);
   for (const a of rows) {
     const rank = ranked.indexOf(a);
     if (!a.dataset) continue;
     if (rank < 0) delete a.dataset.pulse;
-    else a.dataset.pulse = String(rank + 1);
+    else if (a.dataset.pulse !== String(rank + 1)) a.dataset.pulse = String(rank + 1);
   }
   return ranked;
 }
 
-export function startBoardMotion(root, locale) {
+export function startBoardMotion(root, locale, schedule = scheduleVisible) {
   const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let keys = new Set([...root.querySelectorAll("[data-mv-key]")].map(row => row.dataset.mvKey));
   const amounts = new Map();
@@ -51,10 +53,19 @@ export function startBoardMotion(root, locale) {
     const live = onScreen && document.visibilityState !== "hidden" && !motionQuery.matches;
     if (root.dataset) live ? (root.dataset.live = "") : delete root.dataset.live;
   };
-  const repick = () => pickPulseRows([...root.querySelectorAll("[data-mv-key]")]);
+  const repick = () => pickPulseRows([...root.querySelectorAll("[data-mv-key]")], WHALE_PULSE_MAX, narrowQuery.matches ? 6 : Infinity);
+  const refreshTimes = () => {
+    if (!onScreen || document.visibilityState === "hidden") return;
+    const now = Date.now();
+    for (const time of root.querySelectorAll("time[datetime]")) {
+      const label = relativeWhaleTime(time.dateTime, now, locale);
+      if (label && time.textContent !== label) time.textContent = label;
+    }
+  };
   const seen = typeof IntersectionObserver === "function" ? new IntersectionObserver((entries) => {
     onScreen = entries.some(e => e.isIntersecting);
     syncLive();
+    if (onScreen) refreshTimes();
   }) : null;
   seen?.observe(root);
   motionQuery.addEventListener?.("change", syncLive);
@@ -63,13 +74,6 @@ export function startBoardMotion(root, locale) {
   repick();
   syncLive();
   const timers = new Set();
-  const refreshTimes = () => {
-    if (document.visibilityState === "hidden") return;
-    for (const time of root.querySelectorAll("time[datetime]")) {
-      const label = relativeWhaleTime(time.dateTime, Date.now(), locale);
-      if (label) time.textContent = label;
-    }
-  };
   const observer = new MutationObserver(() => {
     const rows = [...root.querySelectorAll("[data-mv-key]")];
     const next = new Set(rows.map(row => row.dataset.mvKey));
@@ -87,9 +91,9 @@ export function startBoardMotion(root, locale) {
   const body = root.querySelector('[data-mv="body"]');
   if (body) observer.observe(body, { childList: true });
   refreshTimes();
-  const interval = setInterval(refreshTimes, 30000);
+  const stopTimes = schedule(refreshTimes, 30000);
   return () => {
-    observer.disconnect(); clearInterval(interval); seen?.disconnect();
+    observer.disconnect(); stopTimes(); seen?.disconnect();
     motionQuery.removeEventListener?.("change", syncLive);
     narrowQuery.removeEventListener?.("change", repick);
     document.removeEventListener?.("visibilitychange", syncLive);

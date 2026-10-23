@@ -62,14 +62,15 @@ function useFunding(initialFeed) {
       cache: "no-cache",
       // An explicit unavailable snapshot must replace previously healthy rows.
       isData: isFundingSnapshot,
+      initialData: initialFeed,
       onData: setFeed,
     });
   }, []);
   return feed;
 }
 
-function useTick(renderedAt) {
-  const now = useClientNow();
+function useTick(renderedAt, target) {
+  const now = useClientNow(Boolean(target), null, target);
   return now ?? (Number.isFinite(Date.parse(renderedAt)) ? Date.parse(renderedAt) : null);
 }
 
@@ -102,13 +103,14 @@ function RateValue({ value, decimals }) {
 }
 
 export function FundingBoard({ locale, initialFeed }) {
+  const [target, setTarget] = useState(null);
   const t = copyFor(locale);
   // SSR has no media query. Adopt the reader preference only after hydration.
   const [showSeconds, setShowSeconds] = useState(true);
   useEffect(() => { setShowSeconds(!reduced()); }, []);
   const liveFeed = useFunding(initialFeed);
   const regionalFeed = useMemo(() => withoutTurkeyUnlistedVenueFeed(liveFeed, { locale }), [liveFeed, locale]);
-  const now = useTick(initialFeed?.renderedAt || initialFeed?.generatedAt);
+  const now = useTick(liveFeed?.renderedAt || liveFeed?.generatedAt, target);
   const feed = useMemo(() => fundingSnapshot(regionalFeed, now), [regionalFeed, now]);
   const health = HEALTH[locale] || HEALTH.en;
   const availableSymbols = useMemo(() => (feed ? FUNDING_SYMBOLS.filter((s) => fundingTable(feed, s).length > 0) : []), [feed]);
@@ -123,7 +125,7 @@ export function FundingBoard({ locale, initialFeed }) {
   const peakVenue = fresh.length > 1 ? fresh.reduce((x, y) => (Math.abs(y.apr) > Math.abs(x.apr) ? y : x)).venue : null;
   const asOf = formatSgt(feed.lastSuccessAt || feed.generatedAt, locale);
   return (
-    <section className="h7-in h7-fr" id="h7-funding" aria-labelledby="h7-fr-h">
+    <section className="h7-in h7-fr" id="h7-funding" aria-labelledby="h7-fr-h" ref={setTarget}>
       <div className="h7-ih"><h2 id="h7-fr-h">{t.h}</h2><p>{t.sub}</p></div>
       {feed.stale && <p role="status">{health[feed.status === "unavailable" ? 1 : 0]}</p>}
       {rows.length > 0 && <>

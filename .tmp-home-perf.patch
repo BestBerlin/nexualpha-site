@@ -1,0 +1,1608 @@
+diff --git a/pilot-01-prototype/scripts/build-critical-css.mjs b/pilot-01-prototype/scripts/build-critical-css.mjs
+index 18079ece..a4f9cacc 100644
+--- a/pilot-01-prototype/scripts/build-critical-css.mjs
++++ b/pilot-01-prototype/scripts/build-critical-css.mjs
+@@ -285,11 +285,15 @@ export function extractCriticalCss(cssTexts, documents, { postcss = loadPostcss(
+   const matchCache = new Map();
+   const stats = { rules: 0, kept: 0, unevaluable: 0, inputBytes: 0, outputBytes: 0 };
+   const index = tokenIndex(documents);
++  // Whale rows are spliced by the server after prerendering, which deliberately
++  // has an empty list when no feed is available. Keep that first-screen template
++  // even when no build-time row exists; do not invent sample market data.
++  const criticalWhales = (index.get(".h7-whales") || []).some(element => !subjects || subjects.has(element));
+   const matches = (selector) => {
+     if (matchCache.has(selector)) return matchCache.get(selector);
+     let result = false;
+     const { selector: probe } = matchableSelector(selector);
+-    if (probe === null) result = true;
++    if (probe === null || (criticalWhales && requiredTokens(probe).includes(".h7-whales"))) result = true;
+     else if (requiredTokens(probe).some((token) => !index.has(token))) result = false;
+     else {
+       try {
+@@ -370,7 +374,7 @@ const HOME_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it
+ // Telegram signal strip after it are on the first screen too. Their rules came with the deferred sheets, so the strip
+ // re-laid out ~1 s after first paint (CLS 0.25 on /ru @768, failing the release gate). They are kept in order when
+ // they directly follow; a section of any other kind ends the first-screen run.
+-const FIRST_SCREEN_FOLLOWERS = [".h7-strip", ".h7-ts", ".tg-signal-strip--home"];
++const FIRST_SCREEN_FOLLOWERS = [".h7-strip", ".h7-whales", ".h7-ts", ".tg-signal-strip--home"];
+ 
+ function nextBlock(document, after) {
+   const walker = document.createTreeWalker(document.body || document.documentElement, 1);
+diff --git a/pilot-01-prototype/src/components/data/useMarketEvents.js b/pilot-01-prototype/src/components/data/useMarketEvents.js
+index 699143e6..1d3d7908 100644
+--- a/pilot-01-prototype/src/components/data/useMarketEvents.js
++++ b/pilot-01-prototype/src/components/data/useMarketEvents.js
+@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
+ // would add ~55 KB gz to the home JS (release captain 2026-10-15).
+ import { DATA_PAGE_REFRESH_MS, MARKET_EVENTS_PATH } from "../../data/market-data-pages-nav.js";
+ import { startJsonPolling } from "../shared/json-polling.js";
++import { scheduleVisible } from "../shared/visibility-scheduler.js";
+ 
+ export function useMarketEvents(initialFeed) {
+   const [feed, setFeed] = useState(initialFeed ?? null);
+@@ -13,6 +14,7 @@ export function useMarketEvents(initialFeed) {
+       request: initialFeed?.liquidations?.timeline?.detailsDeferred ? "/api/market-events/summary" : MARKET_EVENTS_PATH,
+       intervalMs: DATA_PAGE_REFRESH_MS,
+       immediate: !initialFeed,
++      initialData: initialFeed,
+       cache: "no-cache",
+       isData: (next) => Boolean(next && typeof next === "object" && next.generatedAt),
+       onData: setFeed,
+@@ -27,30 +29,33 @@ export const prefersReducedMotion = () => typeof window !== "undefined" && typeo
+ 
+ // Second ticker that only runs after mount, so SSR and the first client render agree (no countdown on the server).
+ // With prefers-reduced-motion the clock ticks once a minute (countdowns show hh:mm), so no digits change every second.
+-export function useClientNow(enabled = true, intervalMs = null) {
++export function useClientNow(enabled = true, intervalMs = null, target = null) {
+   const [now, setNow] = useState(null);
+   useEffect(() => {
+     if (!enabled) return undefined;
+     const doc = typeof document === "undefined" ? null : document;
+     const delay = intervalMs ?? (prefersReducedMotion() ? 60 * 1000 : 1000);
+-    let id = null;
+-    const clear = () => {
+-      if (id !== null) clearInterval(id);
+-      id = null;
+-    };
++    let stop = () => {};
++    let visible = !target || typeof IntersectionObserver !== "function";
+     const tick = () => setNow(Date.now());
+     const sync = () => {
+-      clear();
+-      if (doc?.visibilityState === "hidden") return;
++      stop();
++      if (!visible || doc?.visibilityState === "hidden") return;
+       tick();
+-      id = setInterval(tick, delay);
++      stop = scheduleVisible(tick, delay);
+     };
++    const observer = target && typeof IntersectionObserver === "function" ? new IntersectionObserver(entries => {
++      visible = entries.some(entry => entry.isIntersecting);
++      sync();
++    }) : null;
++    observer?.observe(target);
+     sync();
+     doc?.addEventListener?.("visibilitychange", sync);
+     return () => {
+-      clear();
++      stop();
++      observer?.disconnect();
+       doc?.removeEventListener?.("visibilitychange", sync);
+     };
+-  }, [enabled, intervalMs]);
++  }, [enabled, intervalMs, target]);
+   return now;
+ }
+diff --git a/pilot-01-prototype/src/components/shared/CampaignBriefFacts.jsx b/pilot-01-prototype/src/components/shared/CampaignBriefFacts.jsx
+index 1347d5f2..128e248f 100644
+--- a/pilot-01-prototype/src/components/shared/CampaignBriefFacts.jsx
++++ b/pilot-01-prototype/src/components/shared/CampaignBriefFacts.jsx
+@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
+ import { localizedBriefText } from '../../data/campaign-briefs.js';
+ import { formatSgt } from '../../data/local-time.js';
+ import './campaign-brief-facts.css';
++import { scheduleVisible } from './visibility-scheduler.js';
+ export function CampaignBriefFacts({ brief, locale = 'en' }) {
+   // The first client render matches SSR. The live countdown starts only after hydration.
+   const [now, setNow] = useState(null);
+@@ -9,8 +10,7 @@ export function CampaignBriefFacts({ brief, locale = 'en' }) {
+   useEffect(() => {
+     if (!Number.isFinite(deadline)) return;
+     setNow(Date.now());
+-    const timer = setInterval(() => setNow(Date.now()), 60000);
+-    return () => clearInterval(timer);
++    return scheduleVisible(setNow, 60000);
+   }, [deadline]);
+   if (!brief) return null;
+   const who = localizedBriefText(brief.who_can_join, locale);
+diff --git a/pilot-01-prototype/src/components/shared/ReaderTime.jsx b/pilot-01-prototype/src/components/shared/ReaderTime.jsx
+index 53a01244..28652ddd 100644
+--- a/pilot-01-prototype/src/components/shared/ReaderTime.jsx
++++ b/pilot-01-prototype/src/components/shared/ReaderTime.jsx
+@@ -1,13 +1,13 @@
+ import React, { useEffect, useState } from "react";
+ import { formatReaderTime, formatSgt } from "../../data/local-time.js";
++import { scheduleVisible } from "./visibility-scheduler.js";
+ 
+ export function ReaderTime({ iso, locale = "en", style = "clock", relative = false }) {
+   const [now, setNow] = useState(null);
+   useEffect(() => {
+     if (!relative) return;
+     setNow(Date.now());
+-    const timer = setInterval(() => setNow(Date.now()), 30000);
+-    return () => clearInterval(timer);
++    return scheduleVisible(setNow, 30000);
+   }, [relative]);
+   const { title, relative: rel } = formatReaderTime(iso, locale, now);
+   return <time dateTime={iso} title={title}><bdi>{formatSgt(iso, locale, style)}</bdi>{relative && rel ? <span> · {rel}</span> : null}</time>;
+diff --git a/pilot-01-prototype/src/components/shared/json-polling.js b/pilot-01-prototype/src/components/shared/json-polling.js
+index 30968c53..d4cdf360 100644
+--- a/pilot-01-prototype/src/components/shared/json-polling.js
++++ b/pilot-01-prototype/src/components/shared/json-polling.js
+@@ -1,3 +1,5 @@
++import { visibilityScheduler } from "./visibility-scheduler.js";
++
+ export const JSON_POLL_TIMEOUT_MS = 15_000;
+ export const JSON_POLL_BACKOFF_MAX_MS = 2 * 60 * 1000;
+ 
+@@ -22,6 +24,9 @@ export function startJsonPolling({
+   now = Date.now,
+   headers = { accept: "application/json" },
+   cache,
++  initialData,
++  onSuccess = () => {},
++  scheduler = setTimer === setTimeout && clearTimer === clearTimeout && now === Date.now ? visibilityScheduler(documentRef || globalThis) : null,
+ } = {}) {
+   if (typeof request !== "function" && typeof request !== "string") throw new TypeError("startJsonPolling requires a request");
+   if (typeof onData !== "function") throw new TypeError("startJsonPolling requires onData");
+@@ -36,17 +41,22 @@ export function startJsonPolling({
+   let dueAt = null;
+   let pendingDelay = immediate ? 0 : intervalMs;
+   let nextDelay = intervalMs;
++  let fingerprint = initialData === undefined ? undefined : JSON.stringify(initialData);
++  // Explicit injected clocks retain their deterministic timers. Browser clients
++  // share one queue, including deadlines that must still expire in a hidden tab.
++  const later = scheduler ? (fn, delay) => scheduler.schedule(fn, delay, { visibleOnly: false }) : setTimer;
++  const cancel = scheduler ? (stop) => stop?.() : clearTimer;
+   const canPoll = () => (typeof shouldPoll === "function" ? shouldPoll() : !hidden(documentRef));
+ 
+   const clear = () => {
+-    if (timer != null) clearTimer(timer);
++    if (timer != null) cancel(timer);
+     timer = null;
+   };
+   const schedule = (delay) => {
+     pendingDelay = Math.max(0, delay);
+     dueAt = now() + pendingDelay;
+     if (stopped || timer != null || !canPoll()) return;
+-    timer = setTimer(run, pendingDelay);
++    timer = later(run, pendingDelay);
+   };
+   const scheduleAfterFailure = () => {
+     nextDelay = Math.min(maxBackoffMs, Math.max(intervalMs, nextDelay * 2));
+@@ -83,14 +93,24 @@ export function startJsonPolling({
+     activeRound = round;
+     const finish = (error, data) => {
+       if (stopped || activeRound !== round) return;
+-      clearTimer(round.deadline);
++      cancel(round.deadline);
+       activeRound = null;
+       inFlight = false;
+       if (error) {
++        // An error handler may have replaced healthy UI with unavailable state.
++        // Deliver the next good snapshot even if the server payload is unchanged.
++        fingerprint = undefined;
+         onError(error);
+         scheduleAfterFailure();
+       } else {
+-        try { onData(data); } catch (deliveryError) {
++        try {
++          const nextFingerprint = JSON.stringify(data);
++          if (fingerprint !== nextFingerprint) {
++            onData(data);
++            fingerprint = nextFingerprint;
++          }
++          onSuccess(data);
++        } catch (deliveryError) {
+           onError(deliveryError);
+           scheduleAfterFailure();
+           return;
+@@ -100,7 +120,7 @@ export function startJsonPolling({
+     };
+     // Keep one deadline across both fetch and body decoding. Do not depend on
+     // fetch honoring AbortSignal to release the polling loop.
+-    round.deadline = setTimer(() => {
++    round.deadline = later(() => {
+       const error = new Error("poll deadline exceeded");
+       error.name = "TimeoutError";
+       controller.abort();
+@@ -125,7 +145,7 @@ export function startJsonPolling({
+     stopped = true;
+     clear();
+     if (activeRound) {
+-      clearTimer(activeRound.deadline);
++      cancel(activeRound.deadline);
+       activeRound.controller.abort();
+       activeRound = null;
+       inFlight = false;
+diff --git a/pilot-01-prototype/src/components/shared/live-age.js b/pilot-01-prototype/src/components/shared/live-age.js
+index 775f309d..4e07c2ec 100644
+--- a/pilot-01-prototype/src/components/shared/live-age.js
++++ b/pilot-01-prototype/src/components/shared/live-age.js
+@@ -1,15 +1,12 @@
+ // One page clock, subscribed only by visible rails. No React renders per tick.
++import { scheduleVisible } from './visibility-scheduler.js';
+ const listeners = new Set();
+-let timer = null;
+-function sync() {
+-  const active = listeners.size && document.visibilityState === 'visible';
+-  if (active && timer === null) timer = setInterval(() => { const now = Date.now(); for (const fn of listeners) fn(now); }, 1000);
+-  if (!active && timer !== null) { clearInterval(timer); timer = null; }
+-}
++let stop = null;
+ export function subscribeLiveAge(fn) {
+-  if (!listeners.size) document.addEventListener('visibilitychange', sync);
+-  listeners.add(fn); fn(Date.now()); sync();
+-  return () => { listeners.delete(fn); sync(); if (!listeners.size) document.removeEventListener('visibilitychange', sync); };
++  listeners.add(fn); fn(Date.now());
++  // relativeFeedTime displays whole minutes, never seconds.
++  stop ??= scheduleVisible(now => { for (const listener of listeners) listener(now); }, 60_000);
++  return () => { listeners.delete(fn); if (!listeners.size) { stop?.(); stop = null; } };
+ }
+ export function relativeFeedTime(iso, locale, now) {
+   const age = Math.max(0, Math.floor((now - Date.parse(iso)) / 1000));
+diff --git a/pilot-01-prototype/src/components/ticker/TickerBar.jsx b/pilot-01-prototype/src/components/ticker/TickerBar.jsx
+index b8ab43c7..32abbcfa 100644
+--- a/pilot-01-prototype/src/components/ticker/TickerBar.jsx
++++ b/pilot-01-prototype/src/components/ticker/TickerBar.jsx
+@@ -1,5 +1,5 @@
+ // Hydration-stable market strip. Two accessible/hidden copies loop at every width; the idle-loaded runtime
+-// measures the list, pauses background motion and polls the cached feed (6 s visible, 30 s hidden).
++// measures the list, pauses background motion and polls the cached feed (6 s visible, paused while hidden).
+ // Feed changes tween and briefly tint digits; reduced motion keeps only the colour cue and manual scrolling.
+ import React, { useEffect, useRef, useState } from "react";
+ import { localizedHref } from "../../data/locale-routing.js";
+diff --git a/pilot-01-prototype/src/components/ticker/ticker-live.js b/pilot-01-prototype/src/components/ticker/ticker-live.js
+index e4240165..6c6aeb1c 100644
+--- a/pilot-01-prototype/src/components/ticker/ticker-live.js
++++ b/pilot-01-prototype/src/components/ticker/ticker-live.js
+@@ -1,5 +1,5 @@
+ // Ticker polling (lazy chunk, loaded by TickerBar after first paint): one shared subscription store for all live market
+-// widgets. It polls our cached endpoint with a slower hidden-tab cadence. Never an exchange URL from the browser.
++// widgets. Hidden tabs pause polling. Never an exchange URL from the browser.
+ import { tickerChanges } from "./ticker-changes.js";
+ import { startJsonPolling } from "../shared/json-polling.js";
+ 
+@@ -20,18 +20,11 @@ function publish(next) {
+ function ensurePolling({ everyMs = TICKER_REFRESH_MS, fetchImpl, documentRef, setTimer, clearTimer, now } = {}) {
+   if (stopPolling) return;
+   const doc = documentRef || (typeof document === 'undefined' ? null : document);
+-  let active = null;
+-  const restart = () => {
+-    active?.();
+-    active = startJsonPolling({
+-      request: TICKER_URL, intervalMs: doc?.visibilityState === "hidden" ? 30_000 : everyMs,
+-      shouldPoll: () => true, onData: publish, isData: validSnapshot,
+-      fetchImpl, documentRef: doc, setTimer, clearTimer, now, cache: "no-cache",
+-    });
+-  };
+-  doc?.addEventListener('visibilitychange', restart);
+-  restart();
+-  stopPolling = () => { active?.(); doc?.removeEventListener('visibilitychange', restart); };
++  stopPolling = startJsonPolling({
++    request: TICKER_URL, intervalMs: everyMs,
++    onData: publish, isData: validSnapshot, initialData: latest,
++    fetchImpl, documentRef: doc, setTimer, clearTimer, now, cache: "no-cache",
++  });
+ }
+ 
+ export function subscribe(fn, options = {}) {
+diff --git a/pilot-01-prototype/src/components/tokenized-stocks/tokenized-prices-client.js b/pilot-01-prototype/src/components/tokenized-stocks/tokenized-prices-client.js
+index 01adc604..c95eeb51 100644
+--- a/pilot-01-prototype/src/components/tokenized-stocks/tokenized-prices-client.js
++++ b/pilot-01-prototype/src/components/tokenized-stocks/tokenized-prices-client.js
+@@ -1,5 +1,7 @@
+ // Imported only by the lazy tokenized-stocks components. Never import this from the home entry/router.
+ import { useEffect, useState } from "react";
++import { startJsonPolling } from "../shared/json-polling.js";
++import { scheduleVisible } from "../shared/visibility-scheduler.js";
+ 
+ export const TS_PRICE_MAX_AGE = 15 * 60_000;
+ const fresh = (value, now) => {
+@@ -104,30 +106,28 @@ export function useTsPrices(tickers = null) {
+   const [feed, setFeed] = useState(null);
+   const [now, setNow] = useState(0);
+   useEffect(() => {
+-    let stopped = false, active = null;
+-    const refresh = async () => {
+-      if (active) return;
+-      const ctrl = new AbortController();
+-      active = ctrl;
+-      const deadline = setTimeout(() => ctrl.abort(), 8_000);
+-      try {
+-        const res = await fetch(`/api/tokenized-stocks/prices${query}`, { signal: ctrl.signal, headers: { accept: "application/json" }, cache: "no-store" });
+-        if (res.ok) {
+-          const next = await res.json();
+-          if (!stopped) setFeed(next);
+-        }
+-      } catch { /* Expiry continues even when the feed is unreachable. */ }
+-      finally { clearTimeout(deadline); active = null; if (!stopped) setNow(Date.now()); }
++    let latest = null, shown = "[]";
++    const expire = () => {
++      const time = Date.now();
++      const next = JSON.stringify(freshTsPrices(latest, time));
++      if (next === shown) return;
++      shown = next;
++      setNow(time);
+     };
++    setFeed(null);
+     setNow(Date.now());
+-    refresh();
+-    const poll = setInterval(refresh, 60_000);
+-    // Expiry is 15 min server-side; re-checking every minute (only while visible) keeps idle main-thread work near zero.
+-    const expiry = setInterval(() => { if (document.visibilityState === "visible") setNow(Date.now()); }, 60_000);
+-    const resume = () => { setNow(Date.now()); refresh(); };
++    const poll = startJsonPolling({
++      request: `/api/tokenized-stocks/prices${query}`, intervalMs: 60_000, timeoutMs: 8_000, cache: "no-store",
++      onData: next => { latest = next; setFeed(next); expire(); },
++      onError: expire,
++    });
++    // Expiry remains independent of network success/backoff, without rendering
++    // unchanged rows every minute or fetching in a background tab.
++    const expiry = scheduleVisible(expire, 60_000);
++    const resume = () => { if (document.visibilityState !== "hidden") { expire(); poll.sync(); } };
+     window.addEventListener("focus", resume);
+     document.addEventListener("visibilitychange", resume);
+-    return () => { stopped = true; active?.abort(); clearInterval(poll); clearInterval(expiry); window.removeEventListener("focus", resume); document.removeEventListener("visibilitychange", resume); };
+-  }, []);
++    return () => { poll(); expiry(); window.removeEventListener("focus", resume); document.removeEventListener("visibilitychange", resume); };
++  }, [query]);
+   return freshTsPrices(feed, now);
+ }
+diff --git a/pilot-01-prototype/src/components/v7/home7-below.jsx b/pilot-01-prototype/src/components/v7/home7-below.jsx
+index 58d8c356..ede07535 100644
+--- a/pilot-01-prototype/src/components/v7/home7-below.jsx
++++ b/pilot-01-prototype/src/components/v7/home7-below.jsx
+@@ -214,6 +214,7 @@ import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../
+ import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
+ 
+ import { announcementSnapshot, announcementStatusLabel } from "../shared/announcement-snapshot.js";
++import { scheduleVisible } from "../shared/visibility-scheduler.js";
+ 
+ const INTEL_URL = "/intel/official-announcements.json";
+ function intelView(feed, locale, now = Date.parse(feed?.renderedAt || feed?.generatedAt) || 0) {
+@@ -229,20 +230,11 @@ function useIntel(venues, locale, initialOfficialAnnouncements, renderedAt) {
+   const [feed, setFeed] = useState(() => intelView(initialOfficialAnnouncements, locale, Date.parse(initialOfficialAnnouncements?.renderedAt || renderedAt || initialOfficialAnnouncements?.generatedAt) || 0));
+   const slugs = venues.map((v) => v.slug).join(",");
+   useEffect(() => {
+-    let alive = true;
+-    const load = (first) => fetch(INTEL_URL, { headers: { accept: "application/json" }, cache: first ? "default" : "no-cache" })
+-      .then((r) => (r.ok ? r.json() : null))
+-      .then((j) => {
+-        if (!alive) return;
+-        const next = intelView(j, locale, Date.now());
+-        // null = still loading, false = unavailable (fail closed: no invented notices). A failed refresh keeps what is shown.
+-        setFeed(next);
+-      })
+-      .catch(() => { if (alive) setFeed((current) => intelView({ ...current, status: "UNAVAILABLE" }, locale, Date.now())); });
+-    load(true);
+-    // Live stream (owner 2026-10-10): refresh every 5 minutes while the page is visible.
+-    const timer = setInterval(() => { if (document.visibilityState === "visible") load(false); }, 5 * 60 * 1000);
+-    return () => { alive = false; clearInterval(timer); };
++    return startJsonPolling({
++      request: INTEL_URL, intervalMs: 5 * 60 * 1000, cache: "no-cache",
++      onData: next => setFeed(intelView(next, locale, Date.now())),
++      onError: () => setFeed(current => intelView({ ...current, status: "UNAVAILABLE" }, locale, Date.now())),
++    });
+   }, [slugs, locale]);
+   return feed;
+ }
+@@ -299,7 +291,7 @@ const fmtAsOf = (iso, locale) => formatSgt(iso, locale);
+ function useNow(snapshot, stepMs = 60 * 1000) {
+   // Deferred hydration may happen minutes after SSR. Reuse the serialized feed clock first.
+   const [now, setNow] = useState(() => Number.isFinite(Date.parse(snapshot)) ? Date.parse(snapshot) : null);
+-  useEffect(() => { setNow(Date.now()); const id = setInterval(() => setNow(Date.now()), stepMs); return () => clearInterval(id); }, [stepMs]);
++  useEffect(() => { setNow(Date.now()); return scheduleVisible(setNow, stepMs); }, [stepMs]);
+   return now;
+ }
+ function timeAgo(ms, locale) {
+diff --git a/pilot-01-prototype/src/components/v7/home7-board-motion.js b/pilot-01-prototype/src/components/v7/home7-board-motion.js
+index 6de44720..11e6bf11 100644
+--- a/pilot-01-prototype/src/components/v7/home7-board-motion.js
++++ b/pilot-01-prototype/src/components/v7/home7-board-motion.js
+@@ -1,4 +1,5 @@
+ import { whaleAgoLabel } from "../../data/whales-home.js";
++import { scheduleVisible } from "../shared/visibility-scheduler.js";
+ 
+ // Minutes below one hour, then hours, then days ("394分钟前" → "6小时前").
+ export const relativeWhaleTime = (at, now, locale) => whaleAgoLabel(at, now, locale);
+@@ -7,21 +8,22 @@ export const relativeWhaleTime = (at, now, locale) => whaleAgoLabel(at, now, loc
+ // (data-tier ≥ 1) that are actually displayed (mobile hides rows 7–8). CSS animates only transform/opacity/filter on
+ // pseudo-elements, and only while the board is on screen, the tab is visible and motion is allowed (root[data-live]).
+ export const WHALE_PULSE_MAX = 3;
+-export function pickPulseRows(rows, max = WHALE_PULSE_MAX) {
+-  const ranked = rows
+-    .filter(a => Number(a.dataset?.tier) >= 1 && (a.dataset.dir === "in" || a.dataset.dir === "out") && a.offsetParent !== null)
++export function pickPulseRows(rows, max = WHALE_PULSE_MAX, visibleCount = rows.length) {
++  // CSS hides rows 7+ on narrow screens. Use that same limit instead of reading layout for each row.
++  const ranked = rows.slice(0, visibleCount)
++    .filter(a => Number(a.dataset?.tier) >= 1 && (a.dataset.dir === "in" || a.dataset.dir === "out"))
+     .sort((a, b) => Number(b.dataset.usd) - Number(a.dataset.usd))
+     .slice(0, max);
+   for (const a of rows) {
+     const rank = ranked.indexOf(a);
+     if (!a.dataset) continue;
+     if (rank < 0) delete a.dataset.pulse;
+-    else a.dataset.pulse = String(rank + 1);
++    else if (a.dataset.pulse !== String(rank + 1)) a.dataset.pulse = String(rank + 1);
+   }
+   return ranked;
+ }
+ 
+-export function startBoardMotion(root, locale) {
++export function startBoardMotion(root, locale, schedule = scheduleVisible) {
+   const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+   let keys = new Set([...root.querySelectorAll("[data-mv-key]")].map(row => row.dataset.mvKey));
+   const amounts = new Map();
+@@ -51,10 +53,19 @@ export function startBoardMotion(root, locale) {
+     const live = onScreen && document.visibilityState !== "hidden" && !motionQuery.matches;
+     if (root.dataset) live ? (root.dataset.live = "") : delete root.dataset.live;
+   };
+-  const repick = () => pickPulseRows([...root.querySelectorAll("[data-mv-key]")]);
++  const repick = () => pickPulseRows([...root.querySelectorAll("[data-mv-key]")], WHALE_PULSE_MAX, narrowQuery.matches ? 6 : Infinity);
++  const refreshTimes = () => {
++    if (!onScreen || document.visibilityState === "hidden") return;
++    const now = Date.now();
++    for (const time of root.querySelectorAll("time[datetime]")) {
++      const label = relativeWhaleTime(time.dateTime, now, locale);
++      if (label && time.textContent !== label) time.textContent = label;
++    }
++  };
+   const seen = typeof IntersectionObserver === "function" ? new IntersectionObserver((entries) => {
+     onScreen = entries.some(e => e.isIntersecting);
+     syncLive();
++    if (onScreen) refreshTimes();
+   }) : null;
+   seen?.observe(root);
+   motionQuery.addEventListener?.("change", syncLive);
+@@ -63,13 +74,6 @@ export function startBoardMotion(root, locale) {
+   repick();
+   syncLive();
+   const timers = new Set();
+-  const refreshTimes = () => {
+-    if (document.visibilityState === "hidden") return;
+-    for (const time of root.querySelectorAll("time[datetime]")) {
+-      const label = relativeWhaleTime(time.dateTime, Date.now(), locale);
+-      if (label) time.textContent = label;
+-    }
+-  };
+   const observer = new MutationObserver(() => {
+     const rows = [...root.querySelectorAll("[data-mv-key]")];
+     const next = new Set(rows.map(row => row.dataset.mvKey));
+@@ -87,9 +91,9 @@ export function startBoardMotion(root, locale) {
+   const body = root.querySelector('[data-mv="body"]');
+   if (body) observer.observe(body, { childList: true });
+   refreshTimes();
+-  const interval = setInterval(refreshTimes, 30000);
++  const stopTimes = schedule(refreshTimes, 30000);
+   return () => {
+-    observer.disconnect(); clearInterval(interval); seen?.disconnect();
++    observer.disconnect(); stopTimes(); seen?.disconnect();
+     motionQuery.removeEventListener?.("change", syncLive);
+     narrowQuery.removeEventListener?.("change", repick);
+     document.removeEventListener?.("visibilitychange", syncLive);
+diff --git a/pilot-01-prototype/src/components/v7/home7-funding.jsx b/pilot-01-prototype/src/components/v7/home7-funding.jsx
+index 335e3ded..6a69d4bf 100644
+--- a/pilot-01-prototype/src/components/v7/home7-funding.jsx
++++ b/pilot-01-prototype/src/components/v7/home7-funding.jsx
+@@ -62,14 +62,15 @@ function useFunding(initialFeed) {
+       cache: "no-cache",
+       // An explicit unavailable snapshot must replace previously healthy rows.
+       isData: isFundingSnapshot,
++      initialData: initialFeed,
+       onData: setFeed,
+     });
+   }, []);
+   return feed;
+ }
+ 
+-function useTick(renderedAt) {
+-  const now = useClientNow();
++function useTick(renderedAt, target) {
++  const now = useClientNow(Boolean(target), null, target);
+   return now ?? (Number.isFinite(Date.parse(renderedAt)) ? Date.parse(renderedAt) : null);
+ }
+ 
+@@ -102,13 +103,14 @@ function RateValue({ value, decimals }) {
+ }
+ 
+ export function FundingBoard({ locale, initialFeed }) {
++  const [target, setTarget] = useState(null);
+   const t = copyFor(locale);
+   // SSR has no media query. Adopt the reader preference only after hydration.
+   const [showSeconds, setShowSeconds] = useState(true);
+   useEffect(() => { setShowSeconds(!reduced()); }, []);
+   const liveFeed = useFunding(initialFeed);
+   const regionalFeed = useMemo(() => withoutTurkeyUnlistedVenueFeed(liveFeed, { locale }), [liveFeed, locale]);
+-  const now = useTick(initialFeed?.renderedAt || initialFeed?.generatedAt);
++  const now = useTick(liveFeed?.renderedAt || liveFeed?.generatedAt, target);
+   const feed = useMemo(() => fundingSnapshot(regionalFeed, now), [regionalFeed, now]);
+   const health = HEALTH[locale] || HEALTH.en;
+   const availableSymbols = useMemo(() => (feed ? FUNDING_SYMBOLS.filter((s) => fundingTable(feed, s).length > 0) : []), [feed]);
+@@ -123,7 +125,7 @@ export function FundingBoard({ locale, initialFeed }) {
+   const peakVenue = fresh.length > 1 ? fresh.reduce((x, y) => (Math.abs(y.apr) > Math.abs(x.apr) ? y : x)).venue : null;
+   const asOf = formatSgt(feed.lastSuccessAt || feed.generatedAt, locale);
+   return (
+-    <section className="h7-in h7-fr" id="h7-funding" aria-labelledby="h7-fr-h">
++    <section className="h7-in h7-fr" id="h7-funding" aria-labelledby="h7-fr-h" ref={setTarget}>
+       <div className="h7-ih"><h2 id="h7-fr-h">{t.h}</h2><p>{t.sub}</p></div>
+       {feed.stale && <p role="status">{health[feed.status === "unavailable" ? 1 : 0]}</p>}
+       {rows.length > 0 && <>
+diff --git a/pilot-01-prototype/src/components/v7/home7-globe.js b/pilot-01-prototype/src/components/v7/home7-globe.js
+index e429b459..fbd661ac 100644
+--- a/pilot-01-prototype/src/components/v7/home7-globe.js
++++ b/pilot-01-prototype/src/components/v7/home7-globe.js
+@@ -3,7 +3,9 @@
+ // a faint ocean glint, plus one lifted arc from every partner to "you" (the hub on the front of the sphere) and pulses that
+ // run along the arcs toward you: rebates flowing back. Canvas 2D, no dependencies, loaded after first paint by RebateStage
+ // (HomeV7.jsx); the server-rendered SVG globe and venue chips stay underneath, so nothing moves when this arrives. Draws at
+-// most ~30 fps, stops while off-screen or the tab is hidden, and paints a single still frame under prefers-reduced-motion.
++// most ~30 fps for an eight-second intro, then rests until interaction; stops off-screen or in a hidden tab, and
++// paints a single still frame under prefers-reduced-motion.
++const IDLE_MS = 8000;
+ const TEAL = "31,224,192", ICE = "127,231,255";
+ // Partner positions on the sphere (lat, lon in degrees), by chip slot: spread so each faces the viewer in turn.
+ const SPOTS = [[34, -52], [26, 58], [-20, -128], [-28, 118], [-44, 4]];
+@@ -110,6 +112,8 @@ export function mountGlobe(host, stage, still) {
+   // third of a degree (~17 fps at one turn a minute); arcs and pulses on top keep the ~30 fps frame. Keeps idle JS low.
+   const layer = document.createElement("canvas"), lctx = layer.getContext?.("2d");
+   let drawnAt = NaN;
++  const motion = window.matchMedia?.("(prefers-reduced-motion: reduce)");
++  still = motion?.matches ?? still;
+   if (!ctx) return null;
+   canvas.setAttribute("aria-hidden", "true");
+   canvas.style.cssText = "position:absolute;inset:0;inline-size:100%;block-size:100%;opacity:0;transition:opacity .6s cubic-bezier(.16,1,.3,1);pointer-events:none";
+@@ -117,7 +121,8 @@ export function mountGlobe(host, stage, still) {
+ 
+   let w = 0, h = 0, cx = 0, cy = 0, r = 0, dpr = 1, count = 0, pts = new Float32Array(0), shade = new Uint8Array(0), px = pts;
+   // Start with Asia facing the viewer; the globe then turns west to east like the Earth (about one turn a minute).
+-  let chips = [], anchors = [], selected = null, raf = 0, last = 0, visible = true, angle = -1.9;
++  let chips = [], anchors = [], selected = null, raf = 0, reveal = 0, last = 0, visible = true, angle = -1.9;
++  let disposed = false, idleAt = performance.now() + IDLE_MS;
+   const spin = (v, a) => {
+     // Turn about the vertical axis, then lean toward the viewer.
+     const ca = Math.cos(a), sa = Math.sin(a), x = v[0] * ca + v[2] * sa, z = -v[0] * sa + v[2] * ca;
+@@ -293,7 +298,7 @@ export function mountGlobe(host, stage, still) {
+ 
+   const frame = (now) => {
+     raf = 0;
+-    if (!visible || document.hidden) return;
++    if (disposed || still || !visible || document.hidden || now >= idleAt) { sync(); return; }
+     if (now - last >= 32) {
+       angle += Math.min(64, now - (last || now)) * 0.00011; // one turn in about a minute
+       last = now;
+@@ -302,30 +307,64 @@ export function mountGlobe(host, stage, still) {
+     raf = requestAnimationFrame(frame);
+   };
+   const run = () => {
+-    if (still) { draw(0); return; }
+-    if (!raf && visible && !document.hidden) { last = 0; raf = requestAnimationFrame(frame); }
++    if (disposed || !visible || document.hidden) return;
++    if (!raf && performance.now() < idleAt) { last = 0; raf = requestAnimationFrame(frame); }
+   };
+   const halt = () => { cancelAnimationFrame(raf); raf = 0; };
+-  const sync = () => { stage.dataset.paused = String(!visible || document.hidden); if (stage.dataset.paused === "true") halt(); else run(); };
++  const sync = () => {
++    if (disposed) return;
++    const paused = still || !visible || document.hidden || performance.now() >= idleAt;
++    stage.dataset.paused = String(paused);
++    if (paused) {
++      halt();
++      // A hidden resize clears the bitmap; show a fresh still on return even
++      // when the animation budget has expired.
++      if (visible && !document.hidden) draw(still ? 0 : performance.now());
++    } else run();
++  };
++  // No idle interval/timeout: the final frame retires its own loop. Returning to a
++  // tab or viewport does not renew an expired intro; only meaningful interaction does.
++  const interact = () => {
++    if (disposed || still) return;
++    idleAt = performance.now() + IDLE_MS;
++    if (!raf) sync();
++  };
++  const preference = (event) => {
++    if (disposed) return;
++    still = event.matches;
++    sync();
++  };
++  const interactions = ["pointerenter", "pointermove", "pointerdown", "focusin"];
+ 
+-  const io = typeof IntersectionObserver === "function" ? new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); }) : null;
++  const io = typeof IntersectionObserver === "function" ? new IntersectionObserver(([entry]) => { if (disposed) return; visible = entry.isIntersecting; sync(); }) : null;
+   io?.observe(stage);
+-  const ro = typeof ResizeObserver === "function" ? new ResizeObserver(() => { measure(); if (still || !raf) draw(performance.now()); }) : null;
++  const ro = typeof ResizeObserver === "function" ? new ResizeObserver(() => { if (disposed) return; measure(); if (visible && !document.hidden && (still || !raf)) draw(performance.now()); }) : null;
+   ro?.observe(host);
+   stage.querySelectorAll(".hx-stage-node").forEach((chip) => ro?.observe(chip));
+   document.addEventListener("visibilitychange", sync);
++  motion?.addEventListener?.("change", preference);
++  interactions.forEach((type) => stage.addEventListener(type, interact, { passive: true }));
+ 
+   measure();
+   draw(performance.now());
+   stage.setAttribute("data-live", "");
+-  requestAnimationFrame(() => { canvas.style.opacity = "1"; });
++  reveal = requestAnimationFrame(() => { reveal = 0; if (!disposed) canvas.style.opacity = "1"; });
+   sync();
+ 
+   return {
+-    select(slug) { selected = slug; measure(); if (still || !raf) draw(performance.now()); },
++    select(slug) {
++      if (disposed) return;
++      selected = slug; measure(); interact();
++      if (visible && !document.hidden && (still || !raf)) draw(performance.now());
++    },
+     destroy() {
++      if (disposed) return;
++      disposed = true;
++      cancelAnimationFrame(reveal); reveal = 0;
+       halt(); io?.disconnect(); ro?.disconnect();
+       document.removeEventListener("visibilitychange", sync);
++      motion?.removeEventListener?.("change", preference);
++      interactions.forEach((type) => stage.removeEventListener(type, interact));
+       stage.removeAttribute("data-live");
+       canvas.remove();
+     },
+diff --git a/pilot-01-prototype/src/styles/v7/home7.css b/pilot-01-prototype/src/styles/v7/home7.css
+index 350e59a8..98a5261a 100644
+--- a/pilot-01-prototype/src/styles/v7/home7.css
++++ b/pilot-01-prototype/src/styles/v7/home7.css
+@@ -1039,6 +1039,19 @@
+ .h7:not(#_):not(#_):not(#_) .h7-how .h7-receipt,.h7:not(#_):not(#_):not(#_) .h7-how .h7-steps{margin-block-start:var(--h7-hg2)}
+ .h7:not(#_):not(#_):not(#_) :is(.h7-intel,.h7-tg) .h7-ih{margin-block-end:var(--h7-hg2)}
+ 
++/* Reserve the whale ledger geometry in the SSR-linked home stylesheet. Text and relative-time updates share one
++   flexible track; avoid an unused auto third track redistributing space when hydration changes the time labels. */
++.h7:not(#_):not(#_):not(#_) .h7-whales{min-inline-size:0}
++.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));list-style:none;margin:0;padding:0}
++.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li{min-inline-size:0}
++.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a{display:grid;grid-template-columns:34px minmax(0,1fr);grid-template-rows:auto auto;gap:2px 12px}
++.h7:not(#_):not(#_):not(#_) .h7-whales .h7-mv-mk{grid-column:1;grid-row:1/3}
++.h7:not(#_):not(#_):not(#_) .h7-whales :is(.h7-wh-text,.h7-wh-tag,time){grid-column:2;min-inline-size:0}
++@media(max-width:760px){
++  .h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list{grid-template-columns:minmax(0,1fr)}
++  .h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a{grid-template-columns:32px minmax(0,1fr)}
++}
++
+ /* Whale board: ledger rows under a strong rule; the amount is the only bright figure in the sentence. */
+ .h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list{border-top-color:var(--line2)}
+ .h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a{transition:background-color 140ms var(--ease)}
+diff --git a/pilot-01-prototype/src/styles/v7/home7.src.css b/pilot-01-prototype/src/styles/v7/home7.src.css
+index 41c4b2a0..405bc4a8 100644
+--- a/pilot-01-prototype/src/styles/v7/home7.src.css
++++ b/pilot-01-prototype/src/styles/v7/home7.src.css
+@@ -1038,6 +1038,19 @@
+ .h7:not(#_):not(#_):not(#_) .h7-how .h7-receipt,.h7:not(#_):not(#_):not(#_) .h7-how .h7-steps{margin-block-start:var(--h7-hg2)}
+ .h7:not(#_):not(#_):not(#_) :is(.h7-intel,.h7-tg) .h7-ih{margin-block-end:var(--h7-hg2)}
+ 
++/* Reserve the whale ledger geometry in the SSR-linked home stylesheet. Text and relative-time updates share one
++   flexible track; avoid an unused auto third track redistributing space when hydration changes the time labels. */
++.h7:not(#_):not(#_):not(#_) .h7-whales{min-inline-size:0}
++.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));list-style:none;margin:0;padding:0}
++.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li{min-inline-size:0}
++.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a{display:grid;grid-template-columns:34px minmax(0,1fr);grid-template-rows:auto auto;gap:2px 12px}
++.h7:not(#_):not(#_):not(#_) .h7-whales .h7-mv-mk{grid-column:1;grid-row:1/3}
++.h7:not(#_):not(#_):not(#_) .h7-whales :is(.h7-wh-text,.h7-wh-tag,time){grid-column:2;min-inline-size:0}
++@media(max-width:760px){
++  .h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list{grid-template-columns:minmax(0,1fr)}
++  .h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a{grid-template-columns:32px minmax(0,1fr)}
++}
++
+ /* Whale board: ledger rows under a strong rule; the amount is the only bright figure in the sentence. */
+ .h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list{border-top-color:var(--line2)}
+ .h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a{transition:background-color 140ms var(--ease)}
+diff --git a/pilot-01-prototype/tests/alive-boards.test.mjs b/pilot-01-prototype/tests/alive-boards.test.mjs
+index d01d5486..8af7f820 100644
+--- a/pilot-01-prototype/tests/alive-boards.test.mjs
++++ b/pilot-01-prototype/tests/alive-boards.test.mjs
+@@ -15,19 +15,17 @@ test('LIVE labels cover every supported locale and only the two feed headings',
+ 
+ test('whale motion detects newly inserted IDs, retains old rows and clears lifecycle resources', () => {
+   let mutation, interval, cleared = false, disconnected = false;
+-  const original = Object.fromEntries(['window','document','MutationObserver','setInterval','clearInterval'].map(k => [k, globalThis[k]]));
++  const original = Object.fromEntries(['window','document','MutationObserver'].map(k => [k, globalThis[k]]));
+   const row = id => ({ dataset: { mvKey: id }, classList: { add(name) { this.name = name; }, remove() {} } });
+   const first = row('old'), second = row('new');
+   let rows = [first];
+   globalThis.window = { matchMedia: () => ({ matches: false }) };
+   globalThis.document = { visibilityState: 'visible' };
+   globalThis.MutationObserver = class { constructor(fn) { mutation = fn; } observe() {} disconnect() { disconnected = true; } };
+-  globalThis.setInterval = (fn, ms) => { interval = [fn, ms]; return 1; };
+-  globalThis.clearInterval = () => { cleared = true; };
+   try {
+     const time = { dateTime: '2026-10-19T00:00:00Z' };
+     const root = { querySelectorAll: q => q.startsWith('time') ? [time] : rows, querySelector: () => ({}) };
+-    const stop = startBoardMotion(root, 'en');
++    const stop = startBoardMotion(root, 'en', (fn, ms) => { interval = [fn, ms]; return () => { cleared = true; }; });
+     assert.equal(first.classList.name, undefined);
+     rows = [first, second]; mutation();
+     assert.equal(first.classList.name, undefined);
+@@ -73,8 +71,31 @@ test('whale rows carry size tier and direction; at most three displayed $5M+ buy
+   const html = whalesBodyHtml({ status: 'ok', updatedAt: '2026-10-19T00:00:00Z', signals }, 'en');
+   assert.match(html, /data-mv-key="s2" data-dir="in" data-tier="2" data-usd="25000000"/);
+   assert.match(html, /data-mv-key="s0" data-dir="in" data-tier="0"/);
+-  const row = (tier, dir, usd, shown = true) => ({ dataset: { tier: String(tier), dir, usd: String(usd) }, offsetParent: shown ? {} : null });
+-  const rows = [row(1, 'in', 6e6), row(2, 'out', 30e6), row(0, 'in', 2e6), row(1, 'flat', 9e6), row(1, 'in', 7e6), row(1, 'out', 8e6), row(2, 'in', 50e6, false)];
+-  pickPulseRows(rows);
++  const row = (tier, dir, usd) => ({ dataset: { tier: String(tier), dir, usd: String(usd) }, get offsetParent() { throw new Error('pulse ranking must not read layout'); } });
++  const rows = [row(1, 'in', 6e6), row(2, 'out', 30e6), row(0, 'in', 2e6), row(1, 'flat', 9e6), row(1, 'in', 7e6), row(1, 'out', 8e6), row(2, 'in', 50e6)];
++  pickPulseRows(rows, 3, 6);
+   assert.deepEqual(rows.map(r => r.dataset.pulse), [undefined, '1', undefined, undefined, '3', '2', undefined]);
+ });
++
++
++test('relative-time work skips hidden and offscreen boards and never rewrites an unchanged label', () => {
++  const original = Object.fromEntries(['window', 'document', 'MutationObserver', 'IntersectionObserver'].map(key => [key, globalThis[key]]));
++  let intersection, refresh, label = '', writes = 0, stopped = false;
++  const time = { dateTime: new Date(Date.now() - 120_000).toISOString(), get textContent() { return label; }, set textContent(value) { label = value; writes++; } };
++  const root = { dataset: {}, querySelector: () => ({}), querySelectorAll: selector => selector.startsWith('time') ? [time] : [] };
++  globalThis.window = { matchMedia: () => ({ matches: false }) };
++  globalThis.document = { visibilityState: 'visible' };
++  globalThis.MutationObserver = class { observe() {} disconnect() {} };
++  globalThis.IntersectionObserver = class { constructor(callback) { intersection = callback; } observe() {} disconnect() {} };
++  try {
++    const stop = startBoardMotion(root, 'en', callback => { refresh = callback; return () => { stopped = true; }; });
++    refresh(); assert.equal(writes, 0, 'offscreen board does no time work');
++    intersection([{ isIntersecting: true }]); assert.equal(writes, 1, 'visible board updates once');
++    refresh(); assert.equal(writes, 1, 'same time label causes no DOM write');
++    globalThis.document.visibilityState = 'hidden'; time.dateTime = new Date(Date.now() - 600_000).toISOString();
++    refresh(); assert.equal(writes, 1, 'hidden tab does no time work');
++    globalThis.document.visibilityState = 'visible'; intersection([{ isIntersecting: false }]);
++    refresh(); assert.equal(writes, 1, 'offscreen board remains idle');
++    stop(); assert.ok(stopped, 'shared clock subscription is released');
++  } finally { Object.assign(globalThis, original); }
++});
+diff --git a/pilot-01-prototype/tests/critical-css.test.mjs b/pilot-01-prototype/tests/critical-css.test.mjs
+index bb855203..0477f627 100644
+--- a/pilot-01-prototype/tests/critical-css.test.mjs
++++ b/pilot-01-prototype/tests/critical-css.test.mjs
+@@ -73,6 +73,23 @@ test("a selector list Chrome may reject as a whole is kept as written", () => {
+   assert.equal(css, `.field::-webkit-inner-spin-button,.other{margin:0}.field{color:red}`);
+ });
+ 
++test("first-screen whale row styles survive an empty build snapshot before runtime rows are spliced", () => {
++  const sheet = `.h7-whales .h7-wh-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.h7-whales .h7-wh-list li a{grid-template-columns:34px minmax(0,1fr)}.h7-whales time{grid-column:2}.h7-how{height:500px}`;
++  for (const prefix of ["", '<section class="h7-strip"></section>']) {
++    const dom = new JSDOM(`<body><main class="h7"><section class="h7-hero"></section>${prefix}<section class="h7-whales"><ol class="h7-wh-list"></ol></section><section class="h7-how"></section></main></body>`);
++    const subjects = homeCriticalSubjects(dom.window.document);
++    assert.ok(subjects.has(dom.window.document.querySelector('.h7-whales')));
++    const { css } = extractCriticalCss([sheet], [dom.window.document], { subjects });
++    assert.match(css, /grid-template-columns:34px minmax\(0,1fr\)/, 'runtime rows use exact columns at first paint');
++    assert.match(css, /\.h7-whales time\{grid-column:2\}/);
++    assert.doesNotMatch(css, /h7-how/);
++    dom.window.close();
++  }
++  const below = new JSDOM('<body><section class="h7-hero"></section><section class="h7-how"></section><section class="h7-whales"><ol class="h7-wh-list"></ol></section></body>');
++  assert.doesNotMatch(extractCriticalCss([sheet], [below.window.document], { subjects: homeCriticalSubjects(below.window.document) }).css, /h7-whales/, 'a board below unrelated sections stays deferred');
++  below.window.close();
++});
++
+ const SHELL = (links) => `<!doctype html><html><head><title>x</title>\n    ${links.map((href) => `<link rel="stylesheet" crossorigin href="${href}">`).join("\n    ")}\n</head><body><div id="root"><main></main></div><script type="application/json" id="nexualpha-prerender-state">{}</script></body></html>`;
+ 
+ test("the Worker inlines the critical CSS and defers the same stylesheets in the same order", () => {
+diff --git a/pilot-01-prototype/tests/data-page-hydration-lifecycle.test.mjs b/pilot-01-prototype/tests/data-page-hydration-lifecycle.test.mjs
+index 7663edc7..36f060d8 100644
+--- a/pilot-01-prototype/tests/data-page-hydration-lifecycle.test.mjs
++++ b/pilot-01-prototype/tests/data-page-hydration-lifecycle.test.mjs
+@@ -26,15 +26,15 @@ test("data-page client pollers use the shared hidden-tab polling controller", ()
+   }
+ });
+ 
+-function fakeIntervalClock() {
++function fakeTimeoutClock() {
+   let now = 0, id = 0;
+   const timers = new Map();
+-  const setIntervalFake = (fn, delay) => {
++  const setTimeoutFake = (fn, delay) => {
+     const key = ++id;
+     timers.set(key, { fn, delay, next: now + delay });
+     return key;
+   };
+-  const clearIntervalFake = (key) => timers.delete(key);
++  const clearTimeoutFake = (key) => timers.delete(key);
+   const advance = async (ms) => {
+     const end = now + ms;
+     for (;;) {
+@@ -47,24 +47,23 @@ function fakeIntervalClock() {
+       }
+       if (!nextTimer) break;
+       now = nextTimer.next;
+-      nextTimer.next += nextTimer.delay;
+-      timers.set(nextKey, nextTimer);
++      timers.delete(nextKey);
+       await act(async () => { nextTimer.fn(); });
+     }
+     now = end;
+   };
+-  return { setIntervalFake, clearIntervalFake, advance, now: () => now, count: () => timers.size };
++  return { setTimeoutFake, clearTimeoutFake, advance, now: () => now, count: () => timers.size };
+ }
+ 
+ test("useClientNow clears its timer while the tab is hidden and resumes on visibility", async () => {
+   const dom = new JSDOM('<div id="root"></div>', { url: "https://nexualpha.com/funding-rates" });
+-  const clock = fakeIntervalClock();
++  const clock = fakeTimeoutClock();
+   const seen = [];
+   const saved = {
+     window: Object.getOwnPropertyDescriptor(globalThis, "window"),
+     document: Object.getOwnPropertyDescriptor(globalThis, "document"),
+-    setInterval: globalThis.setInterval,
+-    clearInterval: globalThis.clearInterval,
++    setTimeout: globalThis.setTimeout,
++    clearTimeout: globalThis.clearTimeout,
+     actEnv: Object.getOwnPropertyDescriptor(globalThis, "IS_REACT_ACT_ENVIRONMENT"),
+     dateNow: Date.now,
+   };
+@@ -82,8 +81,8 @@ test("useClientNow clears its timer while the tab is hidden and resumes on visib
+     Object.defineProperty(globalThis, "window", { value: dom.window, configurable: true, writable: true });
+     Object.defineProperty(globalThis, "document", { value: dom.window.document, configurable: true, writable: true });
+     Object.defineProperty(globalThis, "IS_REACT_ACT_ENVIRONMENT", { value: true, configurable: true, writable: true });
+-    globalThis.setInterval = clock.setIntervalFake;
+-    globalThis.clearInterval = clock.clearIntervalFake;
++    globalThis.setTimeout = clock.setTimeoutFake;
++    globalThis.clearTimeout = clock.clearTimeoutFake;
+     Date.now = clock.now;
+     setVisibility("visible");
+     root = createRoot(dom.window.document.getElementById("root"));
+@@ -100,8 +99,8 @@ test("useClientNow clears its timer while the tab is hidden and resumes on visib
+     assert.equal(seen.at(-1), 6000);
+   } finally {
+     if (root) await act(async () => root.unmount());
+-    globalThis.setInterval = saved.setInterval;
+-    globalThis.clearInterval = saved.clearInterval;
++    globalThis.setTimeout = saved.setTimeout;
++    globalThis.clearTimeout = saved.clearTimeout;
+     Date.now = saved.dateNow;
+     if (saved.actEnv) Object.defineProperty(globalThis, "IS_REACT_ACT_ENVIRONMENT", saved.actEnv); else delete globalThis.IS_REACT_ACT_ENVIRONMENT;
+     if (saved.window) Object.defineProperty(globalThis, "window", saved.window); else delete globalThis.window;
+diff --git a/pilot-01-prototype/tests/quality-sweep-v4.test.mjs b/pilot-01-prototype/tests/quality-sweep-v4.test.mjs
+index b77807e4..655f15fc 100644
+--- a/pilot-01-prototype/tests/quality-sweep-v4.test.mjs
++++ b/pilot-01-prototype/tests/quality-sweep-v4.test.mjs
+@@ -65,12 +65,12 @@ test("V5 reduced motion: global duration clamp and per-minute countdowns", async
+   const hook = await read("src/components/data/useMarketEvents.js");
+   assert.match(hook, /const delay = intervalMs \?\? \(prefersReducedMotion\(\) \? 60 \* 1000 : 1000\)/,
+     "funding countdown clock ticks once a minute under reduce (was a per-second ticker)");
+-  assert.match(hook, /setInterval\(tick, delay\)/);
+-  assert.match(hook, /if \(doc\?\.visibilityState === "hidden"\) return/);
++  assert.match(hook, /scheduleVisible\(tick, delay\)/);
++  assert.match(hook, /if \(!visible \|\| doc\?\.visibilityState === "hidden"\) return/);
+   const funding = await read("src/components/data/FundingRatesPage.jsx");
+   assert.match(funding, /formatCountdown\(remaining, \{ seconds: !prefersReducedMotion\(\) \}\)/);
+   const home = await read("src/components/v7/home7-funding.jsx");
+-  assert.match(home, /const now = useClientNow\(\)/, "home countdown reuses the tested reduced-motion and hidden-tab clock");
++  assert.match(home, /const now = useClientNow\(Boolean\(target\), null, target\)/, "home countdown reuses the tested reduced-motion, offscreen and hidden-tab clock");
+   assert.match(home, /countdown\(now === null \? null : Date\.parse\(r\.nextAt\) - now, showSeconds\)/);
+ 
+   assert.match(home, /useEffect\(\(\) => \{ setShowSeconds\(!reduced\(\)\); \}, \[\]\)/, "motion preference is read after hydration");
+diff --git a/pilot-01-prototype/tests/ticker.test.mjs b/pilot-01-prototype/tests/ticker.test.mjs
+index c5961037..61e582bb 100644
+--- a/pilot-01-prototype/tests/ticker.test.mjs
++++ b/pilot-01-prototype/tests/ticker.test.mjs
+@@ -226,10 +226,13 @@ test("polling module: fetches our endpoint, skips hidden tabs, shares one poller
+   doc.dispatch("hidden");
+   const before = seen.length;
+   await advance(60);
+-  assert.equal(seen.length, before + 1, "one immediate hidden refresh, then 30 s backoff");
++  assert.equal(seen.length, before, "no hidden-tab requests");
++  doc.dispatch("visible");
++  await advance(0);
++  assert.equal(seen.length, before + 1, "one overdue refresh on return");
+   stopSecond();
+   stop();
+-  assert.ok(got.length >= 2 && gotSecond.length >= 2 && seen.every((u) => u === "/api/ticker.json"));
++  assert.ok(got.length === 1 && gotSecond.length === 1 && seen.every((u) => u === "/api/ticker.json"));
+   assert.equal(listeners.size, 0);
+ });
+ 
+diff --git a/pilot-01-prototype/tests/tokenized-prices-client.test.mjs b/pilot-01-prototype/tests/tokenized-prices-client.test.mjs
+index 1168cb01..684d89fb 100644
+--- a/pilot-01-prototype/tests/tokenized-prices-client.test.mjs
++++ b/pilot-01-prototype/tests/tokenized-prices-client.test.mjs
+@@ -2,6 +2,9 @@ import test from "node:test";
+ import assert from "node:assert/strict";
+ import { readFile } from "node:fs/promises";
+ import vm from "node:vm";
++import { startJsonPolling } from "../src/components/shared/json-polling.js";
++import { createVisibilityScheduler } from "../src/components/shared/visibility-scheduler.js";
++import { visibilityClock } from "./helpers/visibility-clock.mjs";
+ import { freshTsPrices, listedTsPrices, tsPriceGroups, tsHomePriceSummary, tsPriceSummary, sortTsPrices, TS_PRICE_MAX_AGE, tsPriceStamp } from "../src/components/tokenized-stocks/tokenized-prices-client.js";
+ import { TS_PRICE_COPY } from "../src/components/tokenized-stocks/tokenized-prices-copy.js";
+ import { tsLive } from "../src/data/tokenized-stocks-rows.js";
+@@ -49,17 +52,38 @@ test("numeric sorts retain zero and keep missing values last in either direction
+ test("each existing locale has complete price labels and NYSE hours risk copy", () => {
+   for(const locale of Object.keys(TS_COPY)) { assert.equal(Object.keys(TS_PRICE_COPY[locale]||{}).length,10,locale);assert.ok(Object.values(TS_PRICE_COPY[locale]).every(Boolean),locale);assert.match(TS_PRICE_COPY[locale].risk,/NYSE|纽约证券交易所|紐約證券交易所/); }
+ });
+-test("open tabs refresh, expire on failed requests, resume on focus, and clean up", async () => {
+-  let effect, states=[], timers=new Map(), events=new Map(), clock=now, id=0, successful=true;
+-  const source=(await readFile(new URL("../src/components/tokenized-stocks/tokenized-prices-client.js",import.meta.url),"utf8"))
+-    .replace('import { useEffect, useState } from "react";',"").replaceAll("export ","");
+-  const context={useEffect:fn=>{effect=fn;},useState:initial=>{const index=states.length;states.push(initial);return [initial,v=>{states[index]=v;}];},Date:class extends Date{static now(){return clock;}},AbortController,Intl,setInterval:fn=>{timers.set(++id,fn);return id;},clearInterval:n=>timers.delete(n),setTimeout:()=>++id,clearTimeout:()=>{},fetch:async()=>({ok:successful,json:async()=>feed()}),window:{addEventListener:(k,fn)=>events.set(k,fn),removeEventListener:k=>events.delete(k)},document:{addEventListener:(k,fn)=>events.set(k,fn),removeEventListener:k=>events.delete(k)}};
+-  vm.createContext(context);vm.runInContext(`${source}\nuseTsPrices();`,context);
+-  const cleanup=effect();await new Promise(resolve=>setImmediate(resolve));assert.equal(freshTsPrices(states[0],states[1]).length,1);
+-  successful=false;clock+=TS_PRICE_MAX_AGE;
+-  for(const fn of timers.values())fn();await new Promise(resolve=>setImmediate(resolve));assert.equal(freshTsPrices(states[0],states[1]).length,0);
+-  clock+=10;events.get("focus")();assert.equal(states[1],clock);
+-  cleanup();assert.equal(timers.size,0);assert.equal(events.size,0);
++test("open tabs deduplicate prices, expire on failure, pause hidden and clean up", async () => {
++  let effect, states = [], writes = 0, successful = true, requests = 0;
++  const clock = visibilityClock(now), scheduler = createVisibilityScheduler(clock), events = new Map();
++  const source = (await readFile(new URL("../src/components/tokenized-stocks/tokenized-prices-client.js", import.meta.url), "utf8"))
++    .replace(/^import .*;$/gm, "").replaceAll("export ", "");
++  const context = {
++    useEffect: fn => { effect = fn; },
++    useState: initial => { const index = states.length; states.push(initial); return [initial, value => { writes++; states[index] = value; }]; },
++    Date: class extends Date { static now() { return clock.now(); } }, Intl,
++    document: clock.documentRef,
++    window: { addEventListener: (key, fn) => events.set(key, fn), removeEventListener: key => events.delete(key) },
++    scheduleVisible: (fn, delay) => scheduler.schedule(fn, delay, { repeat: delay }),
++    startJsonPolling: options => startJsonPolling({ ...options, scheduler, documentRef: clock.documentRef,
++      now: clock.now, setTimer: clock.setTimer, clearTimer: clock.clearTimer,
++      fetchImpl: async () => { requests++; return successful ? Response.json(feed()) : new Response("", { status: 503 }); },
++    }),
++  };
++  vm.createContext(context); vm.runInContext(`${source}\nuseTsPrices();`, context);
++  const cleanup = effect(); await clock.advance(0);
++  assert.equal(freshTsPrices(states[0], states[1]).length, 1);
++  const initialWrites = writes;
++  await clock.advance(60000);
++  assert.equal(writes, initialWrites, "unchanged quotes do not re-render for polling or expiry checks");
++  successful = false;
++  await clock.advance(TS_PRICE_MAX_AGE);
++  assert.equal(freshTsPrices(states[0], states[1]).length, 0);
++  clock.visibility("hidden"); const before = requests;
++  await clock.advance(60000); assert.equal(requests, before);
++  assert.equal(clock.timers.size, 0);
++  clock.visibility("visible"); await clock.advance(0);
++  events.get("focus")();
++  cleanup(); assert.equal(clock.timers.size, 0); assert.equal(clock.listeners.size, 0); assert.equal(events.size, 0);
+ });
+ 
+ test("explicit alternate token families join the snapshot; unknown or restricted symbols do not", () => {
+diff --git a/pilot-01-prototype/scripts/measure-home-idle.mjs b/pilot-01-prototype/scripts/measure-home-idle.mjs
+new file mode 100644
+index 00000000..676d3c89
+--- /dev/null
++++ b/pilot-01-prototype/scripts/measure-home-idle.mjs
+@@ -0,0 +1,86 @@
++#!/usr/bin/env node
++// Run against `HOST=127.0.0.1 PORT=4187 WEB_WORKERS=1 node server.mjs`.
++// Same ScriptDuration/TaskDuration/LayoutDuration delta and settle as qa-regression.
++// Optional CPU sampling runs in a separate window so it cannot inflate the gate.
++import { createRequire } from "node:module";
++import { writeFile } from "node:fs/promises";
++
++const options = { base: "http://127.0.0.1:4187", chrome: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", widths: [1440], profile: false };
++for (let i = 2; i < process.argv.length; i++) {
++  const arg = process.argv[i];
++  if (arg === "--profile") options.profile = true;
++  else if (["--base", "--chrome", "--out", "--widths"].includes(arg)) options[arg.slice(2)] = process.argv[++i];
++  else throw new Error(`unknown option ${arg}`);
++}
++if (typeof options.widths === "string") options.widths = options.widths.split(",").map(Number);
++const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
++const windowMs = 10000;
++const round = n => Math.round(n * 10) / 10;
++async function measure(page) {
++  const a = await page.metrics();
++  await sleep(windowMs);
++  const b = await page.metrics();
++  const per5s = key => round((((b[key] ?? 0) - (a[key] ?? 0)) * 1000) / (windowMs / 5000));
++  return { windowMs, scriptMsPer5s: per5s("ScriptDuration"), taskMsPer5s: per5s("TaskDuration"), layoutMsPer5s: per5s("LayoutDuration") };
++}
++async function settle(page) {
++  await page.waitForNetworkIdle({ idleTime: 500, timeout: 10000 }).catch(() => {});
++  await page.waitForFunction(() => {
++    const screen = document.querySelector(".hx-stage[data-demo]");
++    return !screen || screen.dataset.demo === "done" || screen.dataset.demo === "off";
++  }, { timeout: 30000, polling: 500 }).catch(() => {});
++  await page.evaluate(() => new Promise(resolve => {
++    const frames = () => requestAnimationFrame(() => requestAnimationFrame(resolve));
++    if (typeof requestIdleCallback === "function") requestIdleCallback(frames, { timeout: 3000 }); else setTimeout(frames, 200);
++  }));
++}
++let browser;
++try {
++  const puppeteer = createRequire("/Users/bestberlin/.codex/shared-tools/web-quality/package.json")("puppeteer-core");
++  browser = await puppeteer.launch({ executablePath: options.chrome, headless: true });
++  const results = [];
++  for (const path of ["/", "/zh-hans", "/tr"]) for (const width of options.widths) {
++    const page = await browser.newPage();
++    try {
++      await page.setViewport({ width, height: 900 });
++      const errors = [];
++      page.on("pageerror", error => errors.push(error.message));
++      await page.evaluateOnNewDocument(() => {
++        window.__idleCls = 0;
++        new PerformanceObserver(list => {
++          for (const entry of list.getEntries()) if (!entry.hadRecentInput) window.__idleCls += entry.value;
++        }).observe({ type: "layout-shift", buffered: true });
++      });
++      const response = await page.goto(new URL(path, options.base).href, { waitUntil: "domcontentloaded" });
++      if (!response?.ok()) throw new Error(`HTTP ${response?.status()}`);
++      await settle(page);
++      const first = await measure(page);
++      let idle = first;
++      if (idle.scriptMsPer5s > 20) { await sleep(5000); idle = await measure(page); }
++      const row = { path, width, first, idle, cls: await page.evaluate(() => window.__idleCls), errors };
++      if (options.profile) {
++        const cdp = await page.createCDPSession();
++        await cdp.send("Profiler.enable");
++        await cdp.send("Profiler.setSamplingInterval", { interval: 1000 });
++        await cdp.send("Profiler.start"); await sleep(windowMs);
++        const { profile } = await cdp.send("Profiler.stop");
++        const nodes = new Map(profile.nodes.map(node => [node.id, node.callFrame]));
++        const totals = new Map();
++        profile.samples?.forEach((id, index) => {
++          const frame = nodes.get(id);
++          const name = `${frame.functionName || "anonymous"} (${frame.url || "native"}:${frame.lineNumber})`;
++          totals.set(name, (totals.get(name) || 0) + (profile.timeDeltas[index] || 0) / 1000 / (windowMs / 5000));
++        });
++        row.profileSamplesMsPer5s = [...totals].sort((a, b) => b[1] - a[1]).slice(0, 20).map(([frame, ms]) => ({ frame, ms: round(ms) }));
++        await cdp.detach();
++      }
++      results.push(row);
++    } finally { await page.close(); }
++  }
++  const result = { method: "qa-regression page.metrics delta over 10 s normalized to 5 s", results };
++  if (options.out) await writeFile(options.out, JSON.stringify(result, null, 2) + "\n");
++  console.log(JSON.stringify(result, null, 2));
++  process.exitCode = results.every(row => row.idle.scriptMsPer5s <= 20 && !row.errors.length) ? 0 : 1;
++} catch (error) {
++  console.error(error.message); process.exitCode = 2;
++} finally { await browser?.close(); }
+diff --git a/pilot-01-prototype/src/components/shared/visibility-scheduler.js b/pilot-01-prototype/src/components/shared/visibility-scheduler.js
+new file mode 100644
+index 00000000..99c607c9
+--- /dev/null
++++ b/pilot-01-prototype/src/components/shared/visibility-scheduler.js
+@@ -0,0 +1,51 @@
++// One nearest-deadline timer for page clocks and polling. Hidden pages keep due
++// times but do not wake up for visible-only work; overdue jobs run once on return.
++export function createVisibilityScheduler({ documentRef = null, setTimer = setTimeout, clearTimer = clearTimeout, now = Date.now } = {}) {
++  const jobs = new Set();
++  let timer = null, listening = false;
++  const allowed = (job) => !job.visibleOnly || documentRef?.visibilityState !== "hidden";
++  function arm() {
++    if (timer !== null) clearTimer(timer);
++    timer = null;
++    let due = Infinity;
++    for (const job of jobs) if (allowed(job)) due = Math.min(due, job.due);
++    if (due !== Infinity) timer = setTimer(run, Math.max(0, due - now()));
++    if (!jobs.size && listening) {
++      documentRef?.removeEventListener?.("visibilitychange", arm);
++      listening = false;
++    }
++  }
++  function run() {
++    timer = null;
++    const time = now();
++    try {
++      for (const job of [...jobs]) {
++        if (!jobs.has(job) || !allowed(job) || job.due > time) continue;
++        if (job.repeat) job.due = time + job.repeat;
++        else jobs.delete(job);
++        job.callback(time);
++      }
++    } finally { arm(); }
++  }
++  return {
++    schedule(callback, delay, { repeat = 0, visibleOnly = true } = {}) {
++      const job = { callback, repeat, visibleOnly, due: now() + delay };
++      jobs.add(job);
++      if (!listening) {
++        documentRef?.addEventListener?.("visibilitychange", arm);
++        listening = true;
++      }
++      arm();
++      return () => { jobs.delete(job); arm(); };
++    },
++  };
++}
++
++const schedulers = new WeakMap();
++export function visibilityScheduler(doc = typeof document === "undefined" ? globalThis : document) {
++  if (!schedulers.has(doc)) schedulers.set(doc, createVisibilityScheduler({ documentRef: doc }));
++  return schedulers.get(doc);
++}
++export function scheduleVisible(callback, intervalMs) {
++  return visibilityScheduler().schedule(callback, intervalMs, { repeat: intervalMs });
++}
+diff --git a/pilot-01-prototype/tests/helpers/visibility-clock.mjs b/pilot-01-prototype/tests/helpers/visibility-clock.mjs
+new file mode 100644
+index 00000000..e69466de
+--- /dev/null
++++ b/pilot-01-prototype/tests/helpers/visibility-clock.mjs
+@@ -0,0 +1,27 @@
++export function visibilityClock(initialTime = 0) {
++  let time = initialTime, id = 0, callbacks = 0;
++  const timers = new Map(), listeners = new Set();
++  const documentRef = {
++    visibilityState: "visible",
++    addEventListener: (_, fn) => listeners.add(fn),
++    removeEventListener: (_, fn) => listeners.delete(fn),
++  };
++  const flush = async () => { for (let i = 0; i < 20; i++) await Promise.resolve(); };
++  return {
++    documentRef, timers, listeners, now: () => time, callbacks: () => callbacks,
++    setTimer(fn, delay) { timers.set(++id, { fn, at: time + delay }); return id; },
++    clearTimer: key => timers.delete(key),
++    visibility(state) { documentRef.visibilityState = state; for (const fn of [...listeners]) fn(); },
++    async advance(ms) {
++      const end = time + ms;
++      for (;;) {
++        const next = [...timers].filter(([, job]) => job.at <= end).sort((a, b) => a[1].at - b[1].at)[0];
++        if (!next) break;
++        time = next[1].at;
++        timers.delete(next[0]); callbacks++;
++        next[1].fn(); await flush();
++      }
++      time = end; await flush();
++    },
++  };
++}
+diff --git a/pilot-01-prototype/tests/home-funding-visibility.test.mjs b/pilot-01-prototype/tests/home-funding-visibility.test.mjs
+new file mode 100644
+index 00000000..6fa3d9c9
+--- /dev/null
++++ b/pilot-01-prototype/tests/home-funding-visibility.test.mjs
+@@ -0,0 +1,122 @@
++import assert from 'node:assert/strict';
++import test from 'node:test';
++import React, { act, useState } from 'react';
++import { createRoot } from 'react-dom/client';
++import { JSDOM } from 'jsdom';
++import { useClientNow } from '../src/components/data/useMarketEvents.js';
++import { visibilityClock } from './helpers/visibility-clock.mjs';
++
++test('late funding section clocks only while visible and survives section replacement', async (t) => {
++  const clock = visibilityClock(Date.parse('2026-10-23T00:00:00Z'));
++  const dom = new JSDOM('<div id="root"></div>', { url: 'https://nexualpha.com/' });
++  const doc = dom.window.document;
++  const saved = new Map(), observers = [], visibilityListeners = new Set();
++  const originalNow = Date.now;
++  let renders = 0, root;
++  const install = (name, value) => {
++    saved.set(name, Object.getOwnPropertyDescriptor(globalThis, name));
++    Object.defineProperty(globalThis, name, { configurable: true, writable: true, value });
++  };
++  Object.defineProperty(doc, 'visibilityState', { configurable: true, get: () => clock.documentRef.visibilityState });
++  const add = doc.addEventListener.bind(doc), remove = doc.removeEventListener.bind(doc);
++  doc.addEventListener = (type, fn, options) => {
++    if (type === 'visibilitychange') visibilityListeners.add(fn);
++    add(type, fn, options);
++  };
++  doc.removeEventListener = (type, fn, options) => {
++    if (type === 'visibilitychange') visibilityListeners.delete(fn);
++    remove(type, fn, options);
++  };
++  class Observer {
++    constructor(callback) { this.callback = callback; this.targets = new Set(); observers.push(this); }
++    observe(target) { this.targets.add(target); }
++    disconnect() { this.disconnected = true; this.targets.clear(); }
++    emit(visible) { this.callback([...this.targets].map(target => ({ target, isIntersecting: visible }))); }
++  }
++  dom.window.matchMedia = () => ({ matches: false });
++  install('window', dom.window);
++  install('document', doc);
++  install('IntersectionObserver', Observer);
++  install('setTimeout', clock.setTimer);
++  install('clearTimeout', clock.clearTimer);
++  install('IS_REACT_ACT_ENVIRONMENT', true);
++  Date.now = clock.now;
++  t.after(async () => {
++    if (root) await act(async () => { root.unmount(); });
++    Date.now = originalNow;
++    for (const [name, descriptor] of saved) {
++      if (descriptor) Object.defineProperty(globalThis, name, descriptor); else delete globalThis[name];
++    }
++    dom.window.close();
++  });
++
++  // FundingBoard's callback-ref/enable contract, with the production clock hook.
++  // Starting without a section reproduces the previously missed hydration seed.
++  function FundingClock({ available }) {
++    const [target, setTarget] = useState(null);
++    const now = useClientNow(Boolean(target), null, target);
++    renders++;
++    return available ? React.createElement('section', { id: 'funding', ref: setTarget, 'data-now': now ?? '' }) : null;
++  }
++  const render = async available => act(async () => { root.render(React.createElement(FundingClock, { available })); });
++  const advance = async ms => act(async () => { await clock.advance(ms); });
++  const visibility = async state => act(async () => {
++    clock.visibility(state);
++    doc.dispatchEvent(new dom.window.Event('visibilitychange'));
++  });
++  root = createRoot(doc.getElementById('root'));
++  await render(false);
++  assert.equal(doc.getElementById('funding'), null);
++  assert.equal(clock.timers.size, 0, 'absent funding creates no second clock');
++  assert.equal(observers.length, 0);
++  const absentRenders = renders;
++  await advance(5000);
++  assert.equal(renders, absentRenders);
++
++  await render(true);
++  assert.equal(observers.length, 1, 'late callback ref attaches an observer');
++  assert.ok(observers[0].targets.has(doc.getElementById('funding')));
++  await act(async () => { observers[0].emit(false); });
++  const offscreenRenders = renders, offscreenCallbacks = clock.callbacks();
++  await advance(5000);
++  assert.equal(clock.timers.size, 0);
++  assert.equal(clock.callbacks(), offscreenCallbacks);
++  assert.equal(renders, offscreenRenders, 'late offscreen funding does not re-render each second');
++
++  await act(async () => { observers[0].emit(true); });
++  assert.equal(clock.timers.size, 1, 'one clock starts when the section becomes visible');
++  assert.equal(Number(doc.getElementById('funding').dataset.now), clock.now());
++  const visibleCallbacks = clock.callbacks();
++  await advance(5000);
++  assert.equal(clock.callbacks() - visibleCallbacks, 5, 'one callback per second while visible');
++  assert.equal(Number(doc.getElementById('funding').dataset.now), clock.now());
++  assert.equal(clock.timers.size, 1);
++
++  await visibility('hidden');
++  assert.equal(clock.timers.size, 0, 'hidden tab removes its clock');
++  const hiddenRenders = renders, hiddenCallbacks = clock.callbacks();
++  await advance(5000);
++  assert.equal(renders, hiddenRenders);
++  assert.equal(clock.callbacks(), hiddenCallbacks);
++  await visibility('visible');
++  assert.equal(clock.timers.size, 1);
++  assert.equal(Number(doc.getElementById('funding').dataset.now), clock.now(), 'return immediately catches up the countdown');
++
++  await act(async () => { observers[0].emit(false); });
++  const stoppedRenders = renders;
++  await advance(5000);
++  assert.equal(clock.timers.size, 0);
++  assert.equal(renders, stoppedRenders);
++  await render(false);
++  assert.ok(observers[0].disconnected);
++  assert.equal(visibilityListeners.size, 0);
++  await render(true);
++  assert.equal(observers.length, 2, 'replacement section gets its own observer');
++  await act(async () => { observers[1].emit(true); });
++  assert.equal(clock.timers.size, 1);
++  await act(async () => { root.unmount(); });
++  root = null;
++  assert.ok(observers[1].disconnected);
++  assert.equal(clock.timers.size, 0);
++  assert.equal(visibilityListeners.size, 0, 'unmount removes hook and scheduler listeners');
++});
+diff --git a/pilot-01-prototype/tests/home-globe-idle.test.mjs b/pilot-01-prototype/tests/home-globe-idle.test.mjs
+new file mode 100644
+index 00000000..c40bc149
+--- /dev/null
++++ b/pilot-01-prototype/tests/home-globe-idle.test.mjs
+@@ -0,0 +1,170 @@
++import assert from 'node:assert/strict';
++import test from 'node:test';
++const { mountGlobe } = await import(process.env.GLOBE_TEST_MODULE || '../src/components/v7/home7-globe.js');
++
++// Drive actual mount/draw/lifecycle code with a deterministic browser clock. No
++// wall-clock sleeps or browser CPU measurements: callbacks and canvas paints are
++// the work this module is allowed to schedule while the page is idle.
++function browser(t, { still = false } = {}) {
++  const saved = new Map();
++  let now = 0, serial = 0, paints = 0, reads = 0, frameCalls = 0, globe;
++  const frames = new Map(), observers = [], resizeObservers = [];
++  const target = () => {
++    const handlers = new Map();
++    return {
++      addEventListener(type, fn) { if (!handlers.has(type)) handlers.set(type, new Set()); handlers.get(type).add(fn); },
++      removeEventListener(type, fn) { handlers.get(type)?.delete(fn); },
++      emit(type, event = {}) { for (const fn of handlers.get(type) || []) fn(event); },
++      get listenerCount() { return [...handlers.values()].reduce((n, fns) => n + fns.size, 0); },
++    };
++  };
++  const context = new Proxy({}, {
++    get(obj, key) {
++      if (key === 'clearRect') return () => { paints += 1; };
++      if (key === 'createRadialGradient') return () => ({ addColorStop() {} });
++      return obj[key] || (() => {});
++    },
++    set(obj, key, value) { obj[key] = value; return true; },
++  });
++  const canvases = [];
++  const doc = Object.assign(target(), {
++    hidden: false,
++    createElement() {
++      const canvas = { getContext: () => context, style: {}, setAttribute() {}, remove() { this.removed = true; } };
++      canvases.push(canvas);
++      return canvas;
++    },
++  });
++  const media = Object.assign(target(), { matches: still });
++  const stage = Object.assign(target(), {
++    dataset: {}, querySelector: () => null, querySelectorAll: () => [],
++    setAttribute(name) { this.dataset[name.replace('data-', '')] = ''; },
++    removeAttribute(name) { delete this.dataset[name.replace('data-', '')]; },
++  });
++  const host = {
++    append() {},
++    getBoundingClientRect() { reads += 1; return { width: 400, height: 400, left: 0, top: 0 }; },
++  };
++  class Observer {
++    constructor(fn) { this.fn = fn; observers.push(this); }
++    observe() {}
++    disconnect() { this.disconnected = true; }
++  }
++  class Resize extends Observer {
++    constructor(fn) { super(fn); resizeObservers.push(this); }
++  }
++  const replacements = {
++    document: doc, window: { devicePixelRatio: 1, matchMedia: () => media },
++    performance: { now: () => now },
++    requestAnimationFrame(fn) { const id = ++serial; frames.set(id, fn); return id; },
++    cancelAnimationFrame(id) { frames.delete(id); },
++    IntersectionObserver: Observer, ResizeObserver: Resize,
++  };
++  for (const [name, value] of Object.entries(replacements)) {
++    saved.set(name, Object.getOwnPropertyDescriptor(globalThis, name));
++    Object.defineProperty(globalThis, name, { configurable: true, writable: true, value });
++  }
++  t.after(() => {
++    globe?.destroy();
++    for (const [name, descriptor] of saved) {
++      if (descriptor) Object.defineProperty(globalThis, name, descriptor); else delete globalThis[name];
++    }
++  });
++  globe = mountGlobe(host, stage, still);
++  return {
++    globe, doc, stage, media, canvases, observers, resizeObservers,
++    get paints() { return paints; }, get reads() { return reads; }, get pending() { return frames.size; }, get frameCalls() { return frameCalls; },
++    advance(ms) {
++      const end = now + ms;
++      while (now < end) {
++        now = Math.min(end, now + 16);
++        const batch = [...frames];
++        frames.clear();
++        for (const [, fn] of batch) { frameCalls += 1; fn(now); }
++      }
++    },
++    intersect(visible) { observers[0].fn([{ isIntersecting: visible }]); },
++  };
++}
++
++test('globe stops after 8 s idle with zero callbacks or layout reads in the following 5 s', (t) => {
++  const b = browser(t);
++  b.advance(8100);
++  const { paints, reads, frameCalls } = b;
++  b.advance(5000);
++  t.diagnostic(`Following 5 s idle: ${b.frameCalls - frameCalls} rAF callbacks, ${b.paints - paints} canvas clears, ${b.reads - reads} layout reads`);
++  assert.equal(b.frameCalls, frameCalls);
++  assert.equal(b.stage.dataset.paused, 'true');
++  assert.equal(b.pending, 0);
++  assert.equal(b.paints, paints);
++  assert.equal(b.reads, reads);
++  b.stage.emit('pointermove');
++  assert.equal(b.pending, 1, 'moving over the globe starts one loop');
++  b.stage.emit('pointermove');
++  assert.equal(b.pending, 1, 'repeat interactions do not multiply loops');
++  b.advance(100);
++  assert.ok(b.paints > paints);
++  assert.equal(b.reads, reads, 'animation and pointer movement never measure layout');
++  b.advance(8100);
++  b.globe.select('okx');
++  assert.equal(b.pending, 1, 'calculator selection also restarts the globe');
++});
++
++test('hidden and offscreen globes cancel animation and do not revive after inactivity', (t) => {
++  const b = browser(t);
++  b.advance(100);
++  b.intersect(false);
++  assert.equal(b.pending, 0);
++  b.intersect(true);
++  assert.equal(b.pending, 1, 'still-active intro resumes when visible');
++  b.doc.hidden = true;
++  b.doc.emit('visibilitychange');
++  assert.equal(b.pending, 0);
++  const { paints } = b;
++  b.advance(9000);
++  b.resizeObservers[0].fn();
++  assert.equal(b.paints, paints, 'hidden resize does not paint');
++  b.doc.hidden = false;
++  b.doc.emit('visibilitychange');
++  assert.equal(b.pending, 0, 'expired intro stays still on tab return');
++  assert.ok(b.paints > paints, 'tab return restores the resized static bitmap');
++  b.stage.emit('focusin');
++  assert.equal(b.pending, 1, 'keyboard interaction restarts animation');
++});
++
++test('reduced motion paints still frames and reacts to preference changes', (t) => {
++  const b = browser(t, { still: true });
++  b.advance(100);
++  assert.equal(b.pending, 0);
++  const { paints } = b;
++  b.stage.emit('pointermove');
++  b.globe.select('okx');
++  assert.equal(b.pending, 0);
++  assert.ok(b.paints > paints, 'a selected partner still gets a static update');
++  b.media.matches = false;
++  b.media.emit('change', { matches: false });
++  b.stage.emit('pointerdown');
++  assert.equal(b.pending, 1);
++  b.media.matches = true;
++  b.media.emit('change', { matches: true });
++  assert.equal(b.pending, 0, 'enabling reduced motion cancels the live loop immediately');
++});
++
++test('destroy cancels every callback and disconnects observers/listeners', (t) => {
++  const b = browser(t);
++  assert.ok(b.pending > 0);
++  b.globe.destroy();
++  assert.equal(b.pending, 0, 'includes first-frame opacity callback');
++  assert.equal(b.stage.listenerCount + b.doc.listenerCount + b.media.listenerCount, 0);
++  assert.ok(b.observers.every((observer) => observer.disconnected));
++  assert.ok(b.canvases[0].removed);
++  const { paints, reads } = b;
++  b.stage.emit('pointermove');
++  b.globe.select('okx');
++  b.observers[0].fn([{ isIntersecting: true }]);
++  b.resizeObservers[0].fn();
++  b.advance(5000);
++  assert.equal(b.pending, 0);
++  assert.equal(b.paints, paints);
++  assert.equal(b.reads, reads);
++});
+diff --git a/pilot-01-prototype/tests/home-idle-scheduler.test.mjs b/pilot-01-prototype/tests/home-idle-scheduler.test.mjs
+new file mode 100644
+index 00000000..0e7e2ac1
+--- /dev/null
++++ b/pilot-01-prototype/tests/home-idle-scheduler.test.mjs
+@@ -0,0 +1,91 @@
++import assert from "node:assert/strict";
++import test from "node:test";
++import { createVisibilityScheduler } from "../src/components/shared/visibility-scheduler.js";
++import { startJsonPolling } from "../src/components/shared/json-polling.js";
++import { visibilityClock } from "./helpers/visibility-clock.mjs";
++
++test("home polls and clocks share one timer; settled unchanged feeds do not render", async () => {
++  for (const route of ["/", "/zh-hans", "/tr"]) {
++    const clock = visibilityClock();
++    const scheduler = createVisibilityScheduler(clock);
++    let renders = 0, requests = 0, clockTicks = 0;
++    const stops = [6000, 60000, 60000, 60000, 300000, 300000].map(intervalMs => startJsonPolling({
++      request: "/cached-feed", intervalMs, scheduler, documentRef: clock.documentRef,
++      fetchImpl: async () => { requests++; return Response.json({ items: [1], status: "ok" }); },
++      onData: () => { renders++; },
++      setTimer: clock.setTimer, clearTimer: clock.clearTimer, now: clock.now,
++    }));
++    for (const delay of [30000, 30000, 60000, 60000]) stops.push(scheduler.schedule(() => { clockTicks++; }, delay, { repeat: delay }));
++    await clock.advance(0);
++    assert.equal(clock.timers.size, 1, route);
++    const before = clock.callbacks();
++    await clock.advance(10000);
++    assert.equal(clock.callbacks() - before, 1, "one ticker wakeup / 10 s = 0.5 / 5 s");
++    assert.equal(requests, 7);
++    assert.equal(renders, 6, "identical ticker payload does not reach React/DOM delivery");
++    assert.equal(clockTicks, 0);
++    clock.visibility("hidden");
++    assert.equal(clock.timers.size, 0);
++    const hiddenCallbacks = clock.callbacks();
++    await clock.advance(60000);
++    assert.equal(clock.callbacks(), hiddenCallbacks, "zero hidden-page timer callbacks");
++    clock.visibility("visible"); await clock.advance(0);
++    assert.equal(requests, 11, "four overdue feeds refresh once, not once for each missed interval");
++    assert.equal(renders, 6);
++    assert.equal(clockTicks, 4);
++    assert.equal(clock.timers.size, 1);
++    stops.forEach(stop => stop());
++    assert.equal(clock.timers.size, 0);
++    assert.equal(clock.listeners.size, 0);
++    console.log(`${route}: 1 native timer, 0.5 callbacks/5s settled, 0 unchanged deliveries, 0 hidden callbacks`);
++  }
++});
++
++test("an unchanged payload still checks expiry, changed/unavailable data replaces the last snapshot", async () => {
++  const clock = visibilityClock(), scheduler = createVisibilityScheduler(clock);
++  let value = { status: "ok", price: 1 }, success = 0;
++  const received = [];
++  const stop = startJsonPolling({ request: "/feed", intervalMs: 1000, initialData: value,
++    scheduler, documentRef: clock.documentRef, now: clock.now, setTimer: clock.setTimer, clearTimer: clock.clearTimer,
++    fetchImpl: async () => Response.json(value), onData: data => received.push(data), onSuccess: () => { success++; },
++  });
++  await clock.advance(1000);
++  assert.equal(success, 2); assert.equal(received.length, 0);
++  value = { status: "unavailable" }; await clock.advance(1000);
++  assert.deepEqual(received, [{ status: "unavailable" }]);
++  stop();
++});
++
++test("hidden in-flight deadlines expire, ignore late data and retain failure backoff", async () => {
++  const clock = visibilityClock(), scheduler = createVisibilityScheduler(clock);
++  let late, errors = 0, calls = 0;
++  const received = [];
++  const stop = startJsonPolling({ request: "/feed", intervalMs: 1000, timeoutMs: 100,
++    scheduler, documentRef: clock.documentRef, now: clock.now, setTimer: clock.setTimer, clearTimer: clock.clearTimer,
++    fetchImpl: () => { calls++; return new Promise(resolve => { late = resolve; }); },
++    onData: data => received.push(data), onError: () => { errors++; },
++  });
++  await clock.advance(0); clock.visibility("hidden"); await clock.advance(100);
++  assert.equal(errors, 1); assert.equal(clock.timers.size, 0);
++  late(Response.json({ late: true })); await clock.advance(0);
++  assert.deepEqual(received, []);
++  clock.visibility("visible"); await clock.advance(1999); assert.equal(calls, 1);
++  await clock.advance(1); assert.equal(calls, 2);
++  stop(); assert.equal(clock.timers.size, 0); assert.equal(clock.listeners.size, 0);
++});
++
++test("recovery delivers an identical good payload after an error changed visible status", async () => {
++  const clock = visibilityClock(), scheduler = createVisibilityScheduler(clock);
++  const payload = { status: "ok", items: [1] };
++  let failed = false, status = "ok", deliveries = 0;
++  const stop = startJsonPolling({ request: "/feed", intervalMs: 1000, initialData: payload,
++    scheduler, documentRef: clock.documentRef, now: clock.now, setTimer: clock.setTimer, clearTimer: clock.clearTimer,
++    fetchImpl: async () => failed ? new Response("offline", { status: 503 }) : Response.json(payload),
++    onData: () => { status = "ok"; deliveries++; }, onError: () => { status = "unavailable"; },
++  });
++  await clock.advance(0); assert.equal(deliveries, 0);
++  failed = true; await clock.advance(1000); assert.equal(status, "unavailable");
++  failed = false; await clock.advance(2000);
++  assert.equal(status, "ok"); assert.equal(deliveries, 1);
++  stop();
++});
+diff --git a/pilot-01-prototype/tests/home-whale-stability.test.mjs b/pilot-01-prototype/tests/home-whale-stability.test.mjs
+new file mode 100644
+index 00000000..618584b6
+--- /dev/null
++++ b/pilot-01-prototype/tests/home-whale-stability.test.mjs
+@@ -0,0 +1,48 @@
++import assert from 'node:assert/strict';
++import { existsSync, readFileSync } from 'node:fs';
++import { mkdtemp, rm } from 'node:fs/promises';
++import { createRequire } from 'node:module';
++import test from 'node:test';
++import { whalesBodyHtml, whaleAgoLabel } from '../src/data/whales-home.js';
++
++const sharedPackage = '/Users/bestberlin/.codex/shared-tools/web-quality/package.json';
++const chromePath = [process.env.CHROME_PATH, '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/chromium'].filter(Boolean).find(existsSync);
++const browserSkip = (process.env.CODEX_SANDBOX === 'seatbelt' && 'Chrome launch is unavailable in the seatbelt sandbox; run outside sandbox for geometry evidence') || (!chromePath && 'requires Chrome or CHROME_PATH') || (!existsSync(sharedPackage) && 'requires shared puppeteer-core');
++
++// Test data only: no market feed or public claim is produced by this browser geometry regression.
++const at = '2026-10-19T00:00:00Z';
++const snapshot = { status: 'ok', updatedAt: at, signals: Array.from({ length: 8 }, (_, i) => ({ id: `s${i}`, coin: i % 2 ? 'BTC' : 'SOL', side: 'long', signalType: 'accumulation', totalUsd: 6e6 + i * 1e6, time: at })) };
++const styles = ['src/styles/v7/home7.css', 'src/styles/v7/movers-owner.css'].map(file => readFileSync(file, 'utf8')).join('\n');
++
++test('whale columns and row text retain their horizontal positions when relative-time and pulse labels activate', { skip: browserSkip }, async () => {
++  const puppeteer = createRequire(sharedPackage)('puppeteer-core');
++  const userDataDir = await mkdtemp('.tmp-home-whale-stability-');
++  let browser;
++  try {
++    browser = await puppeteer.launch({ executablePath: chromePath, headless: 'new', userDataDir, args: ['--no-first-run', '--disable-background-networking', '--disable-extensions'] });
++    for (const locale of ['en', 'zh-Hans', 'tr']) for (const width of [390, 768, 1440]) {
++      const page = await browser.newPage();
++      try {
++        await page.setViewport({ width, height: 900 });
++        await page.setContent(`<html lang="${locale}"><style>body{margin:0}${styles}</style><main class="h7"><section class="h7-in h7-mv h7-mv-owner h7-whales"><div class="h7-mv-body">${whalesBodyHtml(snapshot, locale)}</div></section></main></html>`);
++        const geometry = () => page.evaluate(() => [...document.querySelectorAll('.h7-wh-list, .h7-wh-list li a, .h7-wh-text, .h7-mv-mk, time')].filter(el => el.getClientRects().length).map(el => {
++          const { x, width } = el.getBoundingClientRect();
++          return { x, width };
++        }));
++        const before = await geometry();
++        await page.evaluate(label => {
++          document.querySelector('.h7-whales').dataset.live = '';
++          document.querySelectorAll('time').forEach(time => { time.textContent = label; });
++          document.querySelectorAll('[data-mv-key]').forEach((row, i) => { if (i < 3) row.dataset.pulse = String(i + 1); });
++        }, whaleAgoLabel(at, Date.parse(at) + 12 * 60 * 1000, locale));
++        assert.deepEqual(await geometry(), before, `${locale}/${width}: horizontal geometry stays fixed`);
++        const grid = await page.$eval('.h7-wh-list li a', el => getComputedStyle(el).gridTemplateColumns.split(' ').length);
++        assert.equal(grid, 2, `${locale}/${width}: no content-sized third column`);
++        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${locale}/${width}: no overflow`);
++      } finally { await page.close(); }
++    }
++  } finally {
++    await browser?.close();
++    await rm(userDataDir, { recursive: true, force: true });
++  }
++});

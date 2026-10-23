@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { localizedBriefText } from '../../data/campaign-briefs.js';
 import { formatSgt } from '../../data/local-time.js';
 import './campaign-brief-facts.css';
+import { scheduleVisible } from './visibility-scheduler.js';
 export function CampaignBriefFacts({ brief, locale = 'en' }) {
   // The first client render matches SSR. The live countdown starts only after hydration.
   const [now, setNow] = useState(null);
@@ -9,8 +10,7 @@ export function CampaignBriefFacts({ brief, locale = 'en' }) {
   useEffect(() => {
     if (!Number.isFinite(deadline)) return;
     setNow(Date.now());
-    const timer = setInterval(() => setNow(Date.now()), 60000);
-    return () => clearInterval(timer);
+    return scheduleVisible(setNow, 60000);
   }, [deadline]);
   if (!brief) return null;
   const who = localizedBriefText(brief.who_can_join, locale);

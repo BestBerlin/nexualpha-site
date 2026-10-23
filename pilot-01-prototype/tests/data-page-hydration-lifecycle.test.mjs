@@ -26,15 +26,15 @@ test("data-page client pollers use the shared hidden-tab polling controller", ()
   }
 });
 
-function fakeIntervalClock() {
+function fakeTimeoutClock() {
   let now = 0, id = 0;
   const timers = new Map();
-  const setIntervalFake = (fn, delay) => {
+  const setTimeoutFake = (fn, delay) => {
     const key = ++id;
     timers.set(key, { fn, delay, next: now + delay });
     return key;
   };
-  const clearIntervalFake = (key) => timers.delete(key);
+  const clearTimeoutFake = (key) => timers.delete(key);
   const advance = async (ms) => {
     const end = now + ms;
     for (;;) {
@@ -47,24 +47,23 @@ function fakeIntervalClock() {
       }
       if (!nextTimer) break;
       now = nextTimer.next;
-      nextTimer.next += nextTimer.delay;
-      timers.set(nextKey, nextTimer);
+      timers.delete(nextKey);
       await act(async () => { nextTimer.fn(); });
     }
     now = end;
   };
-  return { setIntervalFake, clearIntervalFake, advance, now: () => now, count: () => timers.size };
+  return { setTimeoutFake, clearTimeoutFake, advance, now: () => now, count: () => timers.size };
 }
 
 test("useClientNow clears its timer while the tab is hidden and resumes on visibility", async () => {
   const dom = new JSDOM('<div id="root"></div>', { url: "https://nexualpha.com/funding-rates" });
-  const clock = fakeIntervalClock();
+  const clock = fakeTimeoutClock();
   const seen = [];
   const saved = {
     window: Object.getOwnPropertyDescriptor(globalThis, "window"),
     document: Object.getOwnPropertyDescriptor(globalThis, "document"),
-    setInterval: globalThis.setInterval,
-    clearInterval: globalThis.clearInterval,
+    setTimeout: globalThis.setTimeout,
+    clearTimeout: globalThis.clearTimeout,
     actEnv: Object.getOwnPropertyDescriptor(globalThis, "IS_REACT_ACT_ENVIRONMENT"),
     dateNow: Date.now,
   };
@@ -82,8 +81,8 @@ test("useClientNow clears its timer while the tab is hidden and resumes on visib
     Object.defineProperty(globalThis, "window", { value: dom.window, configurable: true, writable: true });
     Object.defineProperty(globalThis, "document", { value: dom.window.document, configurable: true, writable: true });
     Object.defineProperty(globalThis, "IS_REACT_ACT_ENVIRONMENT", { value: true, configurable: true, writable: true });
-    globalThis.setInterval = clock.setIntervalFake;
-    globalThis.clearInterval = clock.clearIntervalFake;
+    globalThis.setTimeout = clock.setTimeoutFake;
+    globalThis.clearTimeout = clock.clearTimeoutFake;
     Date.now = clock.now;
     setVisibility("visible");
     root = createRoot(dom.window.document.getElementById("root"));
@@ -100,8 +99,8 @@ test("useClientNow clears its timer while the tab is hidden and resumes on visib
     assert.equal(seen.at(-1), 6000);
   } finally {
     if (root) await act(async () => root.unmount());
-    globalThis.setInterval = saved.setInterval;
-    globalThis.clearInterval = saved.clearInterval;
+    globalThis.setTimeout = saved.setTimeout;
+    globalThis.clearTimeout = saved.clearTimeout;
     Date.now = saved.dateNow;
     if (saved.actEnv) Object.defineProperty(globalThis, "IS_REACT_ACT_ENVIRONMENT", saved.actEnv); else delete globalThis.IS_REACT_ACT_ENVIRONMENT;
     if (saved.window) Object.defineProperty(globalThis, "window", saved.window); else delete globalThis.window;

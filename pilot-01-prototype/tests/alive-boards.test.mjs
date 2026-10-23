@@ -15,19 +15,17 @@ test('LIVE labels cover every supported locale and only the two feed headings', 
 
 test('whale motion detects newly inserted IDs, retains old rows and clears lifecycle resources', () => {
   let mutation, interval, cleared = false, disconnected = false;
-  const original = Object.fromEntries(['window','document','MutationObserver','setInterval','clearInterval'].map(k => [k, globalThis[k]]));
+  const original = Object.fromEntries(['window','document','MutationObserver'].map(k => [k, globalThis[k]]));
   const row = id => ({ dataset: { mvKey: id }, classList: { add(name) { this.name = name; }, remove() {} } });
   const first = row('old'), second = row('new');
   let rows = [first];
   globalThis.window = { matchMedia: () => ({ matches: false }) };
   globalThis.document = { visibilityState: 'visible' };
   globalThis.MutationObserver = class { constructor(fn) { mutation = fn; } observe() {} disconnect() { disconnected = true; } };
-  globalThis.setInterval = (fn, ms) => { interval = [fn, ms]; return 1; };
-  globalThis.clearInterval = () => { cleared = true; };
   try {
     const time = { dateTime: '2026-10-19T00:00:00Z' };
     const root = { querySelectorAll: q => q.startsWith('time') ? [time] : rows, querySelector: () => ({}) };
-    const stop = startBoardMotion(root, 'en');
+    const stop = startBoardMotion(root, 'en', (fn, ms) => { interval = [fn, ms]; return () => { cleared = true; }; });
     assert.equal(first.classList.name, undefined);
     rows = [first, second]; mutation();
     assert.equal(first.classList.name, undefined);
@@ -73,8 +71,31 @@ test('whale rows carry size tier and direction; at most three displayed $5M+ buy
   const html = whalesBodyHtml({ status: 'ok', updatedAt: '2026-10-19T00:00:00Z', signals }, 'en');
   assert.match(html, /data-mv-key="s2" data-dir="in" data-tier="2" data-usd="25000000"/);
   assert.match(html, /data-mv-key="s0" data-dir="in" data-tier="0"/);
-  const row = (tier, dir, usd, shown = true) => ({ dataset: { tier: String(tier), dir, usd: String(usd) }, offsetParent: shown ? {} : null });
-  const rows = [row(1, 'in', 6e6), row(2, 'out', 30e6), row(0, 'in', 2e6), row(1, 'flat', 9e6), row(1, 'in', 7e6), row(1, 'out', 8e6), row(2, 'in', 50e6, false)];
-  pickPulseRows(rows);
+  const row = (tier, dir, usd) => ({ dataset: { tier: String(tier), dir, usd: String(usd) }, get offsetParent() { throw new Error('pulse ranking must not read layout'); } });
+  const rows = [row(1, 'in', 6e6), row(2, 'out', 30e6), row(0, 'in', 2e6), row(1, 'flat', 9e6), row(1, 'in', 7e6), row(1, 'out', 8e6), row(2, 'in', 50e6)];
+  pickPulseRows(rows, 3, 6);
   assert.deepEqual(rows.map(r => r.dataset.pulse), [undefined, '1', undefined, undefined, '3', '2', undefined]);
+});
+
+
+test('relative-time work skips hidden and offscreen boards and never rewrites an unchanged label', () => {
+  const original = Object.fromEntries(['window', 'document', 'MutationObserver', 'IntersectionObserver'].map(key => [key, globalThis[key]]));
+  let intersection, refresh, label = '', writes = 0, stopped = false;
+  const time = { dateTime: new Date(Date.now() - 120_000).toISOString(), get textContent() { return label; }, set textContent(value) { label = value; writes++; } };
+  const root = { dataset: {}, querySelector: () => ({}), querySelectorAll: selector => selector.startsWith('time') ? [time] : [] };
+  globalThis.window = { matchMedia: () => ({ matches: false }) };
+  globalThis.document = { visibilityState: 'visible' };
+  globalThis.MutationObserver = class { observe() {} disconnect() {} };
+  globalThis.IntersectionObserver = class { constructor(callback) { intersection = callback; } observe() {} disconnect() {} };
+  try {
+    const stop = startBoardMotion(root, 'en', callback => { refresh = callback; return () => { stopped = true; }; });
+    refresh(); assert.equal(writes, 0, 'offscreen board does no time work');
+    intersection([{ isIntersecting: true }]); assert.equal(writes, 1, 'visible board updates once');
+    refresh(); assert.equal(writes, 1, 'same time label causes no DOM write');
+    globalThis.document.visibilityState = 'hidden'; time.dateTime = new Date(Date.now() - 600_000).toISOString();
+    refresh(); assert.equal(writes, 1, 'hidden tab does no time work');
+    globalThis.document.visibilityState = 'visible'; intersection([{ isIntersecting: false }]);
+    refresh(); assert.equal(writes, 1, 'offscreen board remains idle');
+    stop(); assert.ok(stopped, 'shared clock subscription is released');
+  } finally { Object.assign(globalThis, original); }
 });

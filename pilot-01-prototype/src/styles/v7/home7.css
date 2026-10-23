@@ -1039,6 +1039,19 @@
 .h7:not(#_):not(#_):not(#_) .h7-how .h7-receipt,.h7:not(#_):not(#_):not(#_) .h7-how .h7-steps{margin-block-start:var(--h7-hg2)}
 .h7:not(#_):not(#_):not(#_) :is(.h7-intel,.h7-tg) .h7-ih{margin-block-end:var(--h7-hg2)}
 
+/* Reserve the whale ledger geometry in the SSR-linked home stylesheet. Text and relative-time updates share one
+   flexible track; avoid an unused auto third track redistributing space when hydration changes the time labels. */
+.h7:not(#_):not(#_):not(#_) .h7-whales{min-inline-size:0}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));list-style:none;margin:0;padding:0}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li{min-inline-size:0}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a{display:grid;grid-template-columns:34px minmax(0,1fr);grid-template-rows:auto auto;gap:2px 12px}
+.h7:not(#_):not(#_):not(#_) .h7-whales .h7-mv-mk{grid-column:1;grid-row:1/3}
+.h7:not(#_):not(#_):not(#_) .h7-whales :is(.h7-wh-text,.h7-wh-tag,time){grid-column:2;min-inline-size:0}
+@media(max-width:760px){
+  .h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list{grid-template-columns:minmax(0,1fr)}
+  .h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a{grid-template-columns:32px minmax(0,1fr)}
+}
+
 /* Whale board: ledger rows under a strong rule; the amount is the only bright figure in the sentence. */
 .h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list{border-top-color:var(--line2)}
 .h7:not(#_):not(#_):not(#_) .h7-whales .h7-wh-list li a{transition:background-color 140ms var(--ease)}

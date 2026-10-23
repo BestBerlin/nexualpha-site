@@ -1,3 +1,5 @@
+import { visibilityScheduler } from "./visibility-scheduler.js";
+
 export const JSON_POLL_TIMEOUT_MS = 15_000;
 export const JSON_POLL_BACKOFF_MAX_MS = 2 * 60 * 1000;
 
@@ -22,6 +24,9 @@ export function startJsonPolling({
   now = Date.now,
   headers = { accept: "application/json" },
   cache,
+  initialData,
+  onSuccess = () => {},
+  scheduler = setTimer === setTimeout && clearTimer === clearTimeout && now === Date.now ? visibilityScheduler(documentRef || globalThis) : null,
 } = {}) {
   if (typeof request !== "function" && typeof request !== "string") throw new TypeError("startJsonPolling requires a request");
   if (typeof onData !== "function") throw new TypeError("startJsonPolling requires onData");
@@ -36,17 +41,22 @@ export function startJsonPolling({
   let dueAt = null;
   let pendingDelay = immediate ? 0 : intervalMs;
   let nextDelay = intervalMs;
+  let fingerprint = initialData === undefined ? undefined : JSON.stringify(initialData);
+  // Explicit injected clocks retain their deterministic timers. Browser clients
+  // share one queue, including deadlines that must still expire in a hidden tab.
+  const later = scheduler ? (fn, delay) => scheduler.schedule(fn, delay, { visibleOnly: false }) : setTimer;
+  const cancel = scheduler ? (stop) => stop?.() : clearTimer;
   const canPoll = () => (typeof shouldPoll === "function" ? shouldPoll() : !hidden(documentRef));
 
   const clear = () => {
-    if (timer != null) clearTimer(timer);
+    if (timer != null) cancel(timer);
     timer = null;
   };
   const schedule = (delay) => {
     pendingDelay = Math.max(0, delay);
     dueAt = now() + pendingDelay;
     if (stopped || timer != null || !canPoll()) return;
-    timer = setTimer(run, pendingDelay);
+    timer = later(run, pendingDelay);
   };
   const scheduleAfterFailure = () => {
     nextDelay = Math.min(maxBackoffMs, Math.max(intervalMs, nextDelay * 2));
@@ -83,14 +93,24 @@ export function startJsonPolling({
     activeRound = round;
     const finish = (error, data) => {
       if (stopped || activeRound !== round) return;
-      clearTimer(round.deadline);
+      cancel(round.deadline);
       activeRound = null;
       inFlight = false;
       if (error) {
+        // An error handler may have replaced healthy UI with unavailable state.
+        // Deliver the next good snapshot even if the server payload is unchanged.
+        fingerprint = undefined;
         onError(error);
         scheduleAfterFailure();
       } else {
-        try { onData(data); } catch (deliveryError) {
+        try {
+          const nextFingerprint = JSON.stringify(data);
+          if (fingerprint !== nextFingerprint) {
+            onData(data);
+            fingerprint = nextFingerprint;
+          }
+          onSuccess(data);
+        } catch (deliveryError) {
           onError(deliveryError);
           scheduleAfterFailure();
           return;
@@ -100,7 +120,7 @@ export function startJsonPolling({
     };
     // Keep one deadline across both fetch and body decoding. Do not depend on
     // fetch honoring AbortSignal to release the polling loop.
-    round.deadline = setTimer(() => {
+    round.deadline = later(() => {
       const error = new Error("poll deadline exceeded");
       error.name = "TimeoutError";
       controller.abort();
@@ -125,7 +145,7 @@ export function startJsonPolling({
     stopped = true;
     clear();
     if (activeRound) {
-      clearTimer(activeRound.deadline);
+      cancel(activeRound.deadline);
       activeRound.controller.abort();
       activeRound = null;
       inFlight = false;

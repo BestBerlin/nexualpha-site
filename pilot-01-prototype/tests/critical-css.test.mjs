@@ -73,6 +73,23 @@ test("a selector list Chrome may reject as a whole is kept as written", () => {
   assert.equal(css, `.field::-webkit-inner-spin-button,.other{margin:0}.field{color:red}`);
 });
 
+test("first-screen whale row styles survive an empty build snapshot before runtime rows are spliced", () => {
+  const sheet = `.h7-whales .h7-wh-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.h7-whales .h7-wh-list li a{grid-template-columns:34px minmax(0,1fr)}.h7-whales time{grid-column:2}.h7-how{height:500px}`;
+  for (const prefix of ["", '<section class="h7-strip"></section>']) {
+    const dom = new JSDOM(`<body><main class="h7"><section class="h7-hero"></section>${prefix}<section class="h7-whales"><ol class="h7-wh-list"></ol></section><section class="h7-how"></section></main></body>`);
+    const subjects = homeCriticalSubjects(dom.window.document);
+    assert.ok(subjects.has(dom.window.document.querySelector('.h7-whales')));
+    const { css } = extractCriticalCss([sheet], [dom.window.document], { subjects });
+    assert.match(css, /grid-template-columns:34px minmax\(0,1fr\)/, 'runtime rows use exact columns at first paint');
+    assert.match(css, /\.h7-whales time\{grid-column:2\}/);
+    assert.doesNotMatch(css, /h7-how/);
+    dom.window.close();
+  }
+  const below = new JSDOM('<body><section class="h7-hero"></section><section class="h7-how"></section><section class="h7-whales"><ol class="h7-wh-list"></ol></section></body>');
+  assert.doesNotMatch(extractCriticalCss([sheet], [below.window.document], { subjects: homeCriticalSubjects(below.window.document) }).css, /h7-whales/, 'a board below unrelated sections stays deferred');
+  below.window.close();
+});
+
 const SHELL = (links) => `<!doctype html><html><head><title>x</title>\n    ${links.map((href) => `<link rel="stylesheet" crossorigin href="${href}">`).join("\n    ")}\n</head><body><div id="root"><main></main></div><script type="application/json" id="nexualpha-prerender-state">{}</script></body></html>`;
 
 test("the Worker inlines the critical CSS and defers the same stylesheets in the same order", () => {

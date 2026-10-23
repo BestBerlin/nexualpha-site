@@ -2,6 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import vm from "node:vm";
+import { startJsonPolling } from "../src/components/shared/json-polling.js";
+import { createVisibilityScheduler } from "../src/components/shared/visibility-scheduler.js";
+import { visibilityClock } from "./helpers/visibility-clock.mjs";
 import { freshTsPrices, listedTsPrices, tsPriceGroups, tsHomePriceSummary, tsPriceSummary, sortTsPrices, TS_PRICE_MAX_AGE, tsPriceStamp } from "../src/components/tokenized-stocks/tokenized-prices-client.js";
 import { TS_PRICE_COPY } from "../src/components/tokenized-stocks/tokenized-prices-copy.js";
 import { tsLive } from "../src/data/tokenized-stocks-rows.js";
@@ -49,17 +52,38 @@ test("numeric sorts retain zero and keep missing values last in either direction
 test("each existing locale has complete price labels and NYSE hours risk copy", () => {
   for(const locale of Object.keys(TS_COPY)) { assert.equal(Object.keys(TS_PRICE_COPY[locale]||{}).length,10,locale);assert.ok(Object.values(TS_PRICE_COPY[locale]).every(Boolean),locale);assert.match(TS_PRICE_COPY[locale].risk,/NYSE|纽约证券交易所|紐約證券交易所/); }
 });
-test("open tabs refresh, expire on failed requests, resume on focus, and clean up", async () => {
-  let effect, states=[], timers=new Map(), events=new Map(), clock=now, id=0, successful=true;
-  const source=(await readFile(new URL("../src/components/tokenized-stocks/tokenized-prices-client.js",import.meta.url),"utf8"))
-    .replace('import { useEffect, useState } from "react";',"").replaceAll("export ","");
-  const context={useEffect:fn=>{effect=fn;},useState:initial=>{const index=states.length;states.push(initial);return [initial,v=>{states[index]=v;}];},Date:class extends Date{static now(){return clock;}},AbortController,Intl,setInterval:fn=>{timers.set(++id,fn);return id;},clearInterval:n=>timers.delete(n),setTimeout:()=>++id,clearTimeout:()=>{},fetch:async()=>({ok:successful,json:async()=>feed()}),window:{addEventListener:(k,fn)=>events.set(k,fn),removeEventListener:k=>events.delete(k)},document:{addEventListener:(k,fn)=>events.set(k,fn),removeEventListener:k=>events.delete(k)}};
-  vm.createContext(context);vm.runInContext(`${source}\nuseTsPrices();`,context);
-  const cleanup=effect();await new Promise(resolve=>setImmediate(resolve));assert.equal(freshTsPrices(states[0],states[1]).length,1);
-  successful=false;clock+=TS_PRICE_MAX_AGE;
-  for(const fn of timers.values())fn();await new Promise(resolve=>setImmediate(resolve));assert.equal(freshTsPrices(states[0],states[1]).length,0);
-  clock+=10;events.get("focus")();assert.equal(states[1],clock);
-  cleanup();assert.equal(timers.size,0);assert.equal(events.size,0);
+test("open tabs deduplicate prices, expire on failure, pause hidden and clean up", async () => {
+  let effect, states = [], writes = 0, successful = true, requests = 0;
+  const clock = visibilityClock(now), scheduler = createVisibilityScheduler(clock), events = new Map();
+  const source = (await readFile(new URL("../src/components/tokenized-stocks/tokenized-prices-client.js", import.meta.url), "utf8"))
+    .replace(/^import .*;$/gm, "").replaceAll("export ", "");
+  const context = {
+    useEffect: fn => { effect = fn; },
+    useState: initial => { const index = states.length; states.push(initial); return [initial, value => { writes++; states[index] = value; }]; },
+    Date: class extends Date { static now() { return clock.now(); } }, Intl,
+    document: clock.documentRef,
+    window: { addEventListener: (key, fn) => events.set(key, fn), removeEventListener: key => events.delete(key) },
+    scheduleVisible: (fn, delay) => scheduler.schedule(fn, delay, { repeat: delay }),
+    startJsonPolling: options => startJsonPolling({ ...options, scheduler, documentRef: clock.documentRef,
+      now: clock.now, setTimer: clock.setTimer, clearTimer: clock.clearTimer,
+      fetchImpl: async () => { requests++; return successful ? Response.json(feed()) : new Response("", { status: 503 }); },
+    }),
+  };
+  vm.createContext(context); vm.runInContext(`${source}\nuseTsPrices();`, context);
+  const cleanup = effect(); await clock.advance(0);
+  assert.equal(freshTsPrices(states[0], states[1]).length, 1);
+  const initialWrites = writes;
+  await clock.advance(60000);
+  assert.equal(writes, initialWrites, "unchanged quotes do not re-render for polling or expiry checks");
+  successful = false;
+  await clock.advance(TS_PRICE_MAX_AGE);
+  assert.equal(freshTsPrices(states[0], states[1]).length, 0);
+  clock.visibility("hidden"); const before = requests;
+  await clock.advance(60000); assert.equal(requests, before);
+  assert.equal(clock.timers.size, 0);
+  clock.visibility("visible"); await clock.advance(0);
+  events.get("focus")();
+  cleanup(); assert.equal(clock.timers.size, 0); assert.equal(clock.listeners.size, 0); assert.equal(events.size, 0);
 });
 
 test("explicit alternate token families join the snapshot; unknown or restricted symbols do not", () => {

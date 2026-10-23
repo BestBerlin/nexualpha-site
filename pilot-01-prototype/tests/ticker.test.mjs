@@ -226,10 +226,13 @@ test("polling module: fetches our endpoint, skips hidden tabs, shares one poller
   doc.dispatch("hidden");
   const before = seen.length;
   await advance(60);
-  assert.equal(seen.length, before + 1, "one immediate hidden refresh, then 30 s backoff");
+  assert.equal(seen.length, before, "no hidden-tab requests");
+  doc.dispatch("visible");
+  await advance(0);
+  assert.equal(seen.length, before + 1, "one overdue refresh on return");
   stopSecond();
   stop();
-  assert.ok(got.length >= 2 && gotSecond.length >= 2 && seen.every((u) => u === "/api/ticker.json"));
+  assert.ok(got.length === 1 && gotSecond.length === 1 && seen.every((u) => u === "/api/ticker.json"));
   assert.equal(listeners.size, 0);
 });
 

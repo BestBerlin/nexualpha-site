@@ -1,5 +1,5 @@
 // Hydration-stable market strip. Two accessible/hidden copies loop at every width; the idle-loaded runtime
-// measures the list, pauses background motion and polls the cached feed (6 s visible, 30 s hidden).
+// measures the list, pauses background motion and polls the cached feed (6 s visible, paused while hidden).
 // Feed changes tween and briefly tint digits; reduced motion keeps only the colour cue and manual scrolling.
 import React, { useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";

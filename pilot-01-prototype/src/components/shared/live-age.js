@@ -1,15 +1,12 @@
 // One page clock, subscribed only by visible rails. No React renders per tick.
+import { scheduleVisible } from './visibility-scheduler.js';
 const listeners = new Set();
-let timer = null;
-function sync() {
-  const active = listeners.size && document.visibilityState === 'visible';
-  if (active && timer === null) timer = setInterval(() => { const now = Date.now(); for (const fn of listeners) fn(now); }, 1000);
-  if (!active && timer !== null) { clearInterval(timer); timer = null; }
-}
+let stop = null;
 export function subscribeLiveAge(fn) {
-  if (!listeners.size) document.addEventListener('visibilitychange', sync);
-  listeners.add(fn); fn(Date.now()); sync();
-  return () => { listeners.delete(fn); sync(); if (!listeners.size) document.removeEventListener('visibilitychange', sync); };
+  listeners.add(fn); fn(Date.now());
+  // relativeFeedTime displays whole minutes, never seconds.
+  stop ??= scheduleVisible(now => { for (const listener of listeners) listener(now); }, 60_000);
+  return () => { listeners.delete(fn); if (!listeners.size) { stop?.(); stop = null; } };
 }
 export function relativeFeedTime(iso, locale, now) {
   const age = Math.max(0, Math.floor((now - Date.parse(iso)) / 1000));

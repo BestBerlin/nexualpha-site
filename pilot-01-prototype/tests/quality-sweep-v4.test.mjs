@@ -65,12 +65,12 @@ test("V5 reduced motion: global duration clamp and per-minute countdowns", async
   const hook = await read("src/components/data/useMarketEvents.js");
   assert.match(hook, /const delay = intervalMs \?\? \(prefersReducedMotion\(\) \? 60 \* 1000 : 1000\)/,
     "funding countdown clock ticks once a minute under reduce (was a per-second ticker)");
-  assert.match(hook, /setInterval\(tick, delay\)/);
-  assert.match(hook, /if \(doc\?\.visibilityState === "hidden"\) return/);
+  assert.match(hook, /scheduleVisible\(tick, delay\)/);
+  assert.match(hook, /if \(!visible \|\| doc\?\.visibilityState === "hidden"\) return/);
   const funding = await read("src/components/data/FundingRatesPage.jsx");
   assert.match(funding, /formatCountdown\(remaining, \{ seconds: !prefersReducedMotion\(\) \}\)/);
   const home = await read("src/components/v7/home7-funding.jsx");
-  assert.match(home, /const now = useClientNow\(\)/, "home countdown reuses the tested reduced-motion and hidden-tab clock");
+  assert.match(home, /const now = useClientNow\(Boolean\(target\), null, target\)/, "home countdown reuses the tested reduced-motion, offscreen and hidden-tab clock");
   assert.match(home, /countdown\(now === null \? null : Date\.parse\(r\.nextAt\) - now, showSeconds\)/);
 
   assert.match(home, /useEffect\(\(\) => \{ setShowSeconds\(!reduced\(\)\); \}, \[\]\)/, "motion preference is read after hydration");

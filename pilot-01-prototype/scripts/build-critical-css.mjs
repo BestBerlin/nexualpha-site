@@ -285,11 +285,15 @@ export function extractCriticalCss(cssTexts, documents, { postcss = loadPostcss(
   const matchCache = new Map();
   const stats = { rules: 0, kept: 0, unevaluable: 0, inputBytes: 0, outputBytes: 0 };
   const index = tokenIndex(documents);
+  // Whale rows are spliced by the server after prerendering, which deliberately
+  // has an empty list when no feed is available. Keep that first-screen template
+  // even when no build-time row exists; do not invent sample market data.
+  const criticalWhales = (index.get(".h7-whales") || []).some(element => !subjects || subjects.has(element));
   const matches = (selector) => {
     if (matchCache.has(selector)) return matchCache.get(selector);
     let result = false;
     const { selector: probe } = matchableSelector(selector);
-    if (probe === null) result = true;
+    if (probe === null || (criticalWhales && requiredTokens(probe).includes(".h7-whales"))) result = true;
     else if (requiredTokens(probe).some((token) => !index.has(token))) result = false;
     else {
       try {
@@ -370,7 +374,7 @@ const HOME_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it
 // Telegram signal strip after it are on the first screen too. Their rules came with the deferred sheets, so the strip
 // re-laid out ~1 s after first paint (CLS 0.25 on /ru @768, failing the release gate). They are kept in order when
 // they directly follow; a section of any other kind ends the first-screen run.
-const FIRST_SCREEN_FOLLOWERS = [".h7-strip", ".h7-ts", ".tg-signal-strip--home"];
+const FIRST_SCREEN_FOLLOWERS = [".h7-strip", ".h7-whales", ".h7-ts", ".tg-signal-strip--home"];
 
 function nextBlock(document, after) {
   const walker = document.createTreeWalker(document.body || document.documentElement, 1);

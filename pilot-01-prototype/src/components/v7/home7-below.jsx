@@ -214,6 +214,7 @@ import { KRAKEN_USDG_PATH, krakenUsdgPromotable, krakenUsdgTeaser } from "../../
 import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 
 import { announcementSnapshot, announcementStatusLabel } from "../shared/announcement-snapshot.js";
+import { scheduleVisible } from "../shared/visibility-scheduler.js";
 
 const INTEL_URL = "/intel/official-announcements.json";
 function intelView(feed, locale, now = Date.parse(feed?.renderedAt || feed?.generatedAt) || 0) {
@@ -229,20 +230,11 @@ function useIntel(venues, locale, initialOfficialAnnouncements, renderedAt) {
   const [feed, setFeed] = useState(() => intelView(initialOfficialAnnouncements, locale, Date.parse(initialOfficialAnnouncements?.renderedAt || renderedAt || initialOfficialAnnouncements?.generatedAt) || 0));
   const slugs = venues.map((v) => v.slug).join(",");
   useEffect(() => {
-    let alive = true;
-    const load = (first) => fetch(INTEL_URL, { headers: { accept: "application/json" }, cache: first ? "default" : "no-cache" })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((j) => {
-        if (!alive) return;
-        const next = intelView(j, locale, Date.now());
-        // null = still loading, false = unavailable (fail closed: no invented notices). A failed refresh keeps what is shown.
-        setFeed(next);
-      })
-      .catch(() => { if (alive) setFeed((current) => intelView({ ...current, status: "UNAVAILABLE" }, locale, Date.now())); });
-    load(true);
-    // Live stream (owner 2026-10-10): refresh every 5 minutes while the page is visible.
-    const timer = setInterval(() => { if (document.visibilityState === "visible") load(false); }, 5 * 60 * 1000);
-    return () => { alive = false; clearInterval(timer); };
+    return startJsonPolling({
+      request: INTEL_URL, intervalMs: 5 * 60 * 1000, cache: "no-cache",
+      onData: next => setFeed(intelView(next, locale, Date.now())),
+      onError: () => setFeed(current => intelView({ ...current, status: "UNAVAILABLE" }, locale, Date.now())),
+    });
   }, [slugs, locale]);
   return feed;
 }
@@ -299,7 +291,7 @@ const fmtAsOf = (iso, locale) => formatSgt(iso, locale);
 function useNow(snapshot, stepMs = 60 * 1000) {
   // Deferred hydration may happen minutes after SSR. Reuse the serialized feed clock first.
   const [now, setNow] = useState(() => Number.isFinite(Date.parse(snapshot)) ? Date.parse(snapshot) : null);
-  useEffect(() => { setNow(Date.now()); const id = setInterval(() => setNow(Date.now()), stepMs); return () => clearInterval(id); }, [stepMs]);
+  useEffect(() => { setNow(Date.now()); return scheduleVisible(setNow, stepMs); }, [stepMs]);
   return now;
 }
 function timeAgo(ms, locale) {

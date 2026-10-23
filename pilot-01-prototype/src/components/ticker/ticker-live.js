@@ -1,5 +1,5 @@
 // Ticker polling (lazy chunk, loaded by TickerBar after first paint): one shared subscription store for all live market
-// widgets. It polls our cached endpoint with a slower hidden-tab cadence. Never an exchange URL from the browser.
+// widgets. Hidden tabs pause polling. Never an exchange URL from the browser.
 import { tickerChanges } from "./ticker-changes.js";
 import { startJsonPolling } from "../shared/json-polling.js";
 
@@ -20,18 +20,11 @@ function publish(next) {
 function ensurePolling({ everyMs = TICKER_REFRESH_MS, fetchImpl, documentRef, setTimer, clearTimer, now } = {}) {
   if (stopPolling) return;
   const doc = documentRef || (typeof document === 'undefined' ? null : document);
-  let active = null;
-  const restart = () => {
-    active?.();
-    active = startJsonPolling({
-      request: TICKER_URL, intervalMs: doc?.visibilityState === "hidden" ? 30_000 : everyMs,
-      shouldPoll: () => true, onData: publish, isData: validSnapshot,
-      fetchImpl, documentRef: doc, setTimer, clearTimer, now, cache: "no-cache",
-    });
-  };
-  doc?.addEventListener('visibilitychange', restart);
-  restart();
-  stopPolling = () => { active?.(); doc?.removeEventListener('visibilitychange', restart); };
+  stopPolling = startJsonPolling({
+    request: TICKER_URL, intervalMs: everyMs,
+    onData: publish, isData: validSnapshot, initialData: latest,
+    fetchImpl, documentRef: doc, setTimer, clearTimer, now, cache: "no-cache",
+  });
 }
 
 export function subscribe(fn, options = {}) {
