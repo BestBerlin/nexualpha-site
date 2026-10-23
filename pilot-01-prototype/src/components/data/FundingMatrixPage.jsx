@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import React, { useEffect, useMemo, useState } from "react";
 import { feeFact, feePct } from "../../data/exchange-facts.js";
 import { buildFundingMatrix, calculateFundingArbitrage, FUNDING_MATRIX_PATH as FUNDING_MATRIX_FEED_PATH, fundingMatrixCell, venueName as modelVenueName, venueSlug } from "../../data/funding-matrix.js";
@@ -94,7 +95,7 @@ function VenueCell({ row, venue, copy, locale, market, allVenues }) {
       <span className="nxdm-next" dir="ltr">{cell.nextFundingAt ? formatUtcTime(cell.nextFundingAt) : "—"}</span>
       <span className="nxdm-actions">
         <a href={profile}>{copy.venueProfile}</a>
-          {ctaHref ? <a href={ctaHref} rel="nofollow sponsored">{copy.tradeOn(venueName(venue.slug, allVenues))}</a> : <span>{copy.neutralRoute}</span>}
+          {ctaHref ? <span data-signup-cta={venue.slug}><a href={ctaHref} rel="nofollow sponsored">{copy.tradeOn(venueName(venue.slug, allVenues))}</a><SignupEvidence slug={venue.slug} locale={locale} market={market} /></span> : <span>{copy.neutralRoute}</span>}
       </span>
     </td>
   );
@@ -163,7 +164,7 @@ function MatrixTable({ matrix, copy, locale, market }) {
 
 function ResultCta({ slug, copy, locale, market, venues }) {
   const href = venueCta(slug, locale, market);
-  return href ? <a className="nxdm-result__cta" href={href} rel="nofollow sponsored">{copy.tradeOn(venueName(slug, venues))}</a> : <span className="nxdm-result__neutral">{venueName(slug, venues)} · {copy.neutralRoute}</span>;
+  return href ? <span data-signup-cta={slug}><a className="nxdm-result__cta" href={href} rel="nofollow sponsored">{copy.tradeOn(venueName(slug, venues))}</a><SignupEvidence slug={slug} locale={locale} market={market} /></span> : <span className="nxdm-result__neutral">{venueName(slug, venues)} · {copy.neutralRoute}</span>;
 }
 
 function Calculator({ matrix, copy, locale, market }) {

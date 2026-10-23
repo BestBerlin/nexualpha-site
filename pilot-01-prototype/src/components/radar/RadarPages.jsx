@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { WHALE_COINS, coinPageForWhaleCoin, whaleCoinPath, whaleRowCoin, whaleSignalBucket } from "../../data/whale-routes.js";
 import React, { useEffect, useMemo, useState } from "react";
 import { SectionRule, UtcRuleStamp } from "../shared/DataRule.jsx";
@@ -139,7 +140,7 @@ function VenueAction({ venue, locale, market, src }) {
   const label = copy.viewVenueNamed.replace("{venue}", venueDisplayName(slug));
   // Partner locales keep the attributed /go route; neutral locales link to the exchange profile instead.
   const href = NEUTRAL_CTA_LOCALES.has(locale) ? null : venueGoHref(slug, src, locale, market);
-  if (href) return <a className="nxradar-go" href={href} rel="sponsored">{label}</a>;
+  if (href) return <span data-signup-cta={slug}><a className="nxradar-go" href={href} rel="sponsored">{label}</a><SignupEvidence slug={slug} locale={locale} market={market} /></span>;
   return <a className="nxradar-go nxradar-go--profile" href={localizedHref(`/exchanges/${slug}`, { locale })}>{label}</a>;
 }
 

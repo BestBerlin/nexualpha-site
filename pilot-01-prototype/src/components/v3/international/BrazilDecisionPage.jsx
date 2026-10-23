@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../../shared/SignupEvidence.jsx";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SourceLink } from "../../shared/SourceLink.jsx";
 import { partnerRegistry } from "../../../data/partner-registry.js";
@@ -506,7 +507,7 @@ function BrazilDecisionChain({ page, state, pageLocale, onDecision }) {
   );
 }
 
-function BrazilDecisionPath({ state, selectedVenues, mainRegistrationUrl, mainResearchUrl, globalDirectoryUrl, canRegister, onDecision, asDisclosure = false }) {
+function BrazilDecisionPath({locale = "en", market,  state, selectedVenues, mainRegistrationUrl, mainResearchUrl, globalDirectoryUrl, canRegister, onDecision, asDisclosure = false }) {
   const selectedVenue = selectedVenues.find((venue) => venue.slug === state.platform);
   const firstVenue = selectedVenues[0];
   const shortlistNames = selectedVenues.map((venue) => venue.name).join(" ou ");
@@ -552,7 +553,7 @@ function BrazilDecisionPath({ state, selectedVenues, mainRegistrationUrl, mainRe
           </a>
         </li>
         <li>
-          <a
+          <span data-signup-cta={finalKind === "registration" ? selectedVenue?.slug : undefined} className="signup-cta-block"><a
             href={ctaHref}
             target={finalIsExternal ? "_blank" : undefined}
             rel={finalIsExternal ? "sponsored noopener noreferrer" : undefined}
@@ -566,7 +567,7 @@ function BrazilDecisionPath({ state, selectedVenues, mainRegistrationUrl, mainRe
             <i className="br-node" aria-hidden="true" />
             <b>3. {finalLabel}</b>
             <span>{finalText}</span>
-          </a>
+          </a><SignupEvidence slug={finalKind === "registration" ? selectedVenue?.slug : undefined} locale={locale} market={market} /></span>
         </li>
       </ol>
   );
@@ -638,7 +639,7 @@ function BrazilEarlyNextStep({ venues, state, pageLocale, copy, onDecision }) {
             <article className="br-early-next-step__item" key={venue.slug} data-testid={`brazil-early-next-step-${venue.slug}`}>
               <span translate="no" lang="en">{venue.name}</span>
               <div>
-                <a
+                <span data-signup-cta={canRegister ? venue.slug : undefined} className="signup-cta-block"><a
                   className="br-early-next-step__primary"
                   href={primaryHref}
                   target={canRegister ? "_blank" : undefined}
@@ -654,7 +655,7 @@ function BrazilEarlyNextStep({ venues, state, pageLocale, copy, onDecision }) {
                   onClick={() => onDecision?.(canRegister ? "br_early_register" : "br_early_research", { platform: venue.slug, placement: "brazil-early-next-step" })}
                 >
                   {canRegister ? copy.register : copy.officialCheck}
-                </a>
+                </a><SignupEvidence slug={canRegister ? venue.slug : undefined} locale={pageLocale} market={state.region} /></span>
                 <a
                   href={compareHref}
                   data-cta-kind="internal"
@@ -894,9 +895,9 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
                   {isComparisonPage ? `Selecionar ${venue.name}` : `Escolher ${venue.name}`}
                 </button>
                 {canRegister ? (
-                  <a href={registrationUrl} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-status={cta.claim.status} data-cta-platform={venue.slug} data-cta-placement={`brazil-${page.slug}-${venue.slug}`} data-growth-decision={venue.slug} data-growth-placement={`brazil-${page.slug}-${venue.slug}`} data-growth-market={state.region} data-growth-product={state.product} onClick={() => emitDecision("brazil_register_click", { platform: venue.slug, placement: `brazil-${page.slug}-${venue.slug}` })}>
+                  <span data-signup-cta={venue.slug} className="signup-cta-block"><a href={registrationUrl} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-status={cta.claim.status} data-cta-platform={venue.slug} data-cta-placement={`brazil-${page.slug}-${venue.slug}`} data-growth-decision={venue.slug} data-growth-placement={`brazil-${page.slug}-${venue.slug}`} data-growth-market={state.region} data-growth-product={state.product} onClick={() => emitDecision("brazil_register_click", { platform: venue.slug, placement: `brazil-${page.slug}-${venue.slug}` })}>
                     {copy.register}
-                  </a>
+                  </a><SignupEvidence slug={venue.slug} locale={pageLocale} market={state.region} /></span>
                 ) : (
                   <a href={researchUrl} data-cta-kind="research" data-cta-status={cta.claim.status} data-cta-placement={`brazil-${page.slug}-${venue.slug}`} onClick={() => emitDecision("brazil_global_detail_click", { platform: venue.slug, placement: `brazil-${page.slug}-${venue.slug}` })}>
                     {isComparisonPage && isBrazil ? "Verificar condições" : isBrazil ? "Ver perfil e condições" : copy.openGlobal}
@@ -917,7 +918,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
       </section>
   );
   const pathBlock = (
-    <BrazilDecisionPath
+    <BrazilDecisionPath locale={pageLocale} market={state.region}
       state={state}
       selectedVenues={selectedVenues}
       mainRegistrationUrl={mainRegistrationUrl}
@@ -973,7 +974,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
                 {activeRegionalCta.inviteCode ? <small>{copy.newAccount}: <strong translate="no" lang="en">{activeRegionalCta.inviteCode}</strong></small> : <small>{copy.officialCheck}</small>}
               </div>
               {directRegistration ? (
-                <a
+                <span data-signup-cta={state.platform} className="signup-cta-block"><a
                   href={activeRegionalCta.ctaHref}
                   target="_blank"
                   rel="sponsored noopener noreferrer"
@@ -988,7 +989,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
                   onClick={() => emitDecision("brazil_register_click", { platform: state.platform, placement: "brazil-selected-registration-confirm" })}
                 >
                   {copy.register}
-                </a>
+                </a><SignupEvidence slug={state.platform} locale={pageLocale} market={state.region} /></span>
               ) : (
                 <a
                   href={isBrazil && isSpot ? mainResearchUrl : globalDirectoryUrl}
@@ -1008,9 +1009,9 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
           ) : null}
           {!isEntryPage ? pathBlock : null}
           <div className="br-decision-primary">
-            {mainRegistrationUrl ? <a href={mainRegistrationUrl} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-status={activeCta.claim.status} data-cta-platform={state.platform} data-cta-placement={`brazil-${page.slug}-primary`} data-growth-decision={state.platform} data-growth-placement={`brazil-${page.slug}-primary`} data-growth-market={state.region} data-growth-product={state.product}>
+            {mainRegistrationUrl ? <span data-signup-cta={state.platform} className="signup-cta-block"><a href={mainRegistrationUrl} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-status={activeCta.claim.status} data-cta-platform={state.platform} data-cta-placement={`brazil-${page.slug}-primary`} data-growth-decision={state.platform} data-growth-placement={`brazil-${page.slug}-primary`} data-growth-market={state.region} data-growth-product={state.product}>
               {copy.register} · {activePartner.name || state.platform.toUpperCase()}
-            </a> : <a href={isBrazil && isSpot ? mainResearchUrl : globalDirectoryUrl} data-cta-kind={isBrazil && isSpot && state.platform ? "research" : undefined} data-cta-status={activeCta?.claim.status} data-cta-placement={isBrazil && isSpot && state.platform ? `brazil-${page.slug}-primary-research` : undefined}>
+            </a><SignupEvidence slug={state.platform} locale={pageLocale} market={state.region} /></span> : <a href={isBrazil && isSpot ? mainResearchUrl : globalDirectoryUrl} data-cta-kind={isBrazil && isSpot && state.platform ? "research" : undefined} data-cta-status={activeCta?.claim.status} data-cta-placement={isBrazil && isSpot && state.platform ? `brazil-${page.slug}-primary-research` : undefined}>
               {isBrazil && isSpot && state.platform ? copy.officialCheck : (isBrazil && isSpot ? copy.compare : copy.openGlobal)}
             </a>}
           </div>

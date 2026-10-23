@@ -1,3 +1,4 @@
+import { StockLogo } from "./StockLogo.jsx";
 // "Tokenized US stocks on <exchange>" block of /exchanges/<slug> (owner 2026-10-15): the lanes the exchange lists, with
 // form, ticker count, symbols, hours and leverage from tokenized-stocks-facts.js and the official page each comes from.
 // Links to the ticker pages and to the exchange's row on /tokenized-stocks. Renders nothing for an exchange without
@@ -38,7 +39,7 @@ export function VenueTokenizedStocks({ slug, locale = "en", market }) {
               {symbols.length ? (
                 <p className="vts-syms">
                   {symbols.slice(0, 6).map((ticker) => (TS_TICKERS.includes(ticker)
-                    ? <a key={ticker} href={localizedHref(tsTickerPath(ticker), { locale })} translate="no">{tsSymbol(d, ticker)}</a>
+                    ? <a key={ticker} href={localizedHref(tsTickerPath(ticker), { locale })} translate="no"><StockLogo ticker={ticker} size={20} />{tsSymbol(d, ticker)}</a>
                     : <span key={ticker} translate="no">{tsSymbol(d, ticker)}</span>))}
                   {symbols.length > 6 ? <span className="vts-more">+{symbols.length - 6}</span> : null}
                 </p>

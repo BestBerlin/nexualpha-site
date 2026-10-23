@@ -8,6 +8,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { JSDOM } from "jsdom";
 import worker from "../worker/index.js";
 import { TS_EXCHANGES, TS_LATER_SOURCE_IDS, TS_SOURCES, TS_TICKERS, tsAllSourceIds, tsListings, tsPromo } from "../src/data/tokenized-stocks-facts.js";
 import { TS_INDEX_LOCALES, tsSignup, tsVenues } from "../src/data/tokenized-stocks.js";
@@ -37,6 +38,17 @@ const ldJson = (html) => [...html.matchAll(/<script\b[^>]*type="application\/ld\
 const mainHtml = (html) => (html.match(/<main\b[^>]*class="nxts[\s\S]*<\/main>/) || [""])[0];
 const anchors = (html) => [...html.matchAll(/<a\b[^>]*\bhref="([^"]*)"[^>]*>/g)].map((m) => ({ tag: m[0], href: m[1].replaceAll("&amp;", "&") }));
 const FINE_PRINT = [/not (?:investment|financial) advice/i, /capital (?:is )?at risk/i, /affiliate commission/i, /commission disclosure/i, /terms (?:and conditions )?apply/i, /非投资建议|不构成投资建议|资本有风险|佣金/, /we earn|our commission|我们赚|我们获得佣金/i];
+// The 2026-10-23 signup contract explicitly requires commission wording beside each CTA.
+function editorialWithoutSignupDisclosure(html) {
+  const document = new JSDOM(html).window.document;
+  for (const anchor of document.querySelectorAll('a[data-cta-kind="signup"]')) {
+    const block = anchor.closest('[data-signup-cta]');
+    assert.ok(block?.querySelector('[data-invite-code]'), `signup has visible code chip: ${anchor.outerHTML}`);
+    assert.ok(block?.querySelector('[data-commission-disclosure]'), 'signup has commission disclosure');
+  }
+  document.querySelectorAll('[data-commission-disclosure]').forEach(node => node.remove());
+  return document.body.innerHTML;
+}
 const NEUTRAL = NEUTRAL_CTA_LOCALE_LIST;
 
 test("facts: every value cites known official sources with a date", () => {
@@ -153,7 +165,7 @@ test("hub SSR (zh-Hans, en): answer first, codes via /go, every fact sourced, sc
     const faqs = main.split("<details>").slice(1);
     assert.equal(faqs.length, t.faq.length);
     for (const faq of faqs) assert.ok(faq.includes('class="nxts-src'), `${locale}: FAQ without source`);
-    for (const re of FINE_PRINT) assert.doesNotMatch(main.replace(/<[^>]+>/g, " "), re, `${locale}: ${re}`);
+    for (const re of FINE_PRINT) assert.doesNotMatch(editorialWithoutSignupDisclosure(main).replace(/<[^>]+>/g, " "), re, `${locale}: ${re}`);
     const types = ldJson(html).map((item) => item["@type"]);
     for (const type of ["ItemList", "FAQPage", "BreadcrumbList"]) assert.ok(types.includes(type), `${locale}: ${type}`);
     assert.match(html, /hreflang="zh-Hans"/);
@@ -194,7 +206,7 @@ test("ticker pages: every ticker renders live rows with a source each, CTAs via 
     if (rows.some((row) => row.includes(">Bitget<"))) assert.ok(rows[0].includes(">Bitget<"), `${ticker}: Bitget first`);
     const types = ldJson(html).map((item) => item["@type"]);
     for (const type of ["ItemList", "FAQPage", "BreadcrumbList", "Dataset"]) assert.ok(types.includes(type), `${ticker}: ${type}`);
-    for (const re of FINE_PRINT) assert.doesNotMatch(main, re, `${ticker}: ${re}`);
+    for (const re of FINE_PRINT) assert.doesNotMatch(editorialWithoutSignupDisclosure(main), re, `${ticker}: ${re}`);
   }
   assert.equal((await fetchPage("/tokenized-stocks/zzzz")).status, 404);
 });

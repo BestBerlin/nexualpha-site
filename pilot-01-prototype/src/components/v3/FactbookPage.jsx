@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { FACTBOOK_REGISTRY, FACTBOOK_SLUGS, AUDIT_DATE, AUDIT_DECLARATION, generateLlmMarkdown } from "../../data/factbook-registry.js";
@@ -1930,7 +1931,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                   </dl>
                 </div>
                 <div className="factbook-activation-cta">
-                  <a
+                  <span data-signup-cta={venue.slug} className="signup-cta-block"><a
                     href={activationCta.registrationUrl}
                     target="_blank"
                     rel="sponsored noopener noreferrer"
@@ -1944,7 +1945,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                     data-growth-product={product}
                   >
                     {activationCta.benefitVerified ? t.activateBtn : t.signupButton}
-                  </a>
+                  </a><SignupEvidence slug={venue.slug} locale={locale} market={market} /></span>
                 </div>
               </div>
             </section>

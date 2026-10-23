@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 /**
  * TradingBleedAnalyzer — 杀手级转化工具：交易成本暗亏体检仪
  * 击中人性：损失厌恶（Loss Aversion）与立即可挽回利益，促使用户立即换绑或新开专属账户。
@@ -381,7 +382,7 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
               )}
 
               <div className="bleed-action-buttons">
-                <a
+                <span data-signup-cta={selectedSlug} className="signup-cta-block"><a
                   href={regUrl}
                   target={directRoute ? "_blank" : undefined}
                   rel={directRoute ? "sponsored noopener noreferrer" : undefined}
@@ -396,7 +397,7 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
                   data-growth-product={product}
                 >
                   {directRoute ? ui.ctaReclaim : ui.reviewOfficial}
-                </a>
+                </a><SignupEvidence slug={selectedSlug} locale={locale} market={market} /></span>
 
                 {/* 核心闭环：一键带参同步至 Telegram 机器人 */}
                 <a

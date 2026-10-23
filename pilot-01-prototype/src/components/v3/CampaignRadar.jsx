@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { SourceLink } from "../shared/SourceLink.jsx";
 /**
  * CampaignRadar — 主流交易所实时活动与迎新礼包雷达
@@ -549,7 +550,7 @@ export function CampaignRadar({ locale = "en" }) {
                 </div>
               )}
 
-              <a
+              <span data-signup-cta={item.slug} className="signup-cta-block"><a
                 href={item.hasReferral && item.registrationUrl
                   ? item.registrationUrl
                   : contextualHref(`/exchanges/${item.slug}#registration-path`, { locale })}
@@ -564,7 +565,7 @@ export function CampaignRadar({ locale = "en" }) {
                 data-growth-placement="campaign-radar"
               >
                 <span>{directRegistration ? t.openRegistration : t.claimBtn}</span>
-              </a>
+              </a><SignupEvidence slug={item.slug} locale={locale} market={undefined} /></span>
             </div>
           </article>
           );

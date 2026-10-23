@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 // Binance October campaigns page (/activities/binance-october-gifts, owner 2026-10-12): the 8.8 USDT gifts campaign
 // first, then Refer2Earn and the October Referral Tournament. Each section's buttons use only that campaign's tracked
 // route (/go/binance-gifts, /go/binance-refer2earn, /go/binance-tournament) and are shown only where Binance may be
@@ -35,14 +36,14 @@ function useClock() {
   return now;
 }
 
-function Cta({ href, campaign, children, ghost = false }) {
+function Cta({locale = "en", market,  href, campaign, children, ghost = false }) {
   if (!href) return null;
   const placement = new URLSearchParams(href.split("?")[1] || "").get("src") || "page";
   return (
-    <a className={`nxbg-btn ${ghost ? "nxbg-btn--ghost" : "nxbg-btn--primary"}`} href={href} target="_blank" rel="sponsored noopener noreferrer"
+    <span data-signup-cta={"binance"} className="signup-cta-block"><a className={`nxbg-btn ${ghost ? "nxbg-btn--ghost" : "nxbg-btn--primary"}`} href={href} target="_blank" rel="sponsored noopener noreferrer"
       data-offer-link="go" data-campaign={campaign} data-cta-platform="binance" data-cta-placement={placement}>
       {children}<span aria-hidden="true" className="nxbg-arrow">→</span>
-    </a>
+    </a><SignupEvidence slug={"binance"} locale={locale} market={market} /></span>
   );
 }
 
@@ -117,7 +118,7 @@ export function BinanceOctoberPage({ locale = "en", market }) {
             </ul>
             {gifts.hero && !giftsEnded ? (
               <div className="nxbg-actions">
-                <Cta href={gifts.hero} campaign="gifts">{t.cta}</Cta>
+                <Cta locale={locale} market={market} href={gifts.hero} campaign="gifts">{t.cta}</Cta>
                 <a className="nxbg-btn nxbg-btn--ghost" href="#steps">{t.how}</a>
                 <p className="nxbg-auto">{t.auto}</p>
               </div>
@@ -144,7 +145,7 @@ export function BinanceOctoberPage({ locale = "en", market }) {
           ))}
         </ol>
         <p className="nxbg-check"><span aria-hidden="true">⏱</span>{t.checkNote}</p>
-        {gifts.steps && !giftsEnded && <div className="nxbg-actions"><Cta href={gifts.steps} campaign="gifts">{t.cta}</Cta></div>}
+        {gifts.steps && !giftsEnded && <div className="nxbg-actions"><Cta locale={locale} market={market} href={gifts.steps} campaign="gifts">{t.cta}</Cta></div>}
       </section>
 
       <section className="nxbg-shell nxbg-section" aria-labelledby="nxbg-gifts">
@@ -171,7 +172,7 @@ export function BinanceOctoberPage({ locale = "en", market }) {
             {t.tPoints.map(([task, points]) => <li key={task}><span>{task}</span><b>{points}</b></li>)}
           </ul>
           <ol className="nxbg-mini-steps">{t.tSteps.map((step) => <li key={step}>{step}</li>)}</ol>
-          {tour && <div className="nxbg-actions"><Cta href={tour} campaign="tournament">{t.tCta}</Cta></div>}
+          {tour && <div className="nxbg-actions"><Cta locale={locale} market={market} href={tour} campaign="tournament">{t.tCta}</Cta></div>}
         </div>
       </section>
 
@@ -182,7 +183,7 @@ export function BinanceOctoberPage({ locale = "en", market }) {
         <ul className="nxbg-cards">
           {t.r2eFacts.map(([title, body]) => <li key={title}><h3>{title}</h3><p>{body}</p></li>)}
         </ul>
-        {r2e && <div className="nxbg-actions"><Cta href={r2e} campaign="refer2earn" ghost>{t.r2eCta}</Cta><p className="nxbg-auto">{t.r2eChoose}</p></div>}
+        {r2e && <div className="nxbg-actions"><Cta locale={locale} market={market} href={r2e} campaign="refer2earn" ghost>{t.r2eCta}</Cta><p className="nxbg-auto">{t.r2eChoose}</p></div>}
       </section>
 
       <section className="nxbg-shell nxbg-section" aria-labelledby="nxbg-faq">
@@ -197,7 +198,7 @@ export function BinanceOctoberPage({ locale = "en", market }) {
       {gifts.final && !giftsEnded && (
         <section className="nxbg-shell nxbg-section nxbg-final" aria-label={t.cta}>
           <p className="nxbg-final__title">{t.h1}</p>
-          <div className="nxbg-actions nxbg-actions--center"><Cta href={gifts.final} campaign="gifts">{t.cta}</Cta></div>
+          <div className="nxbg-actions nxbg-actions--center"><Cta locale={locale} market={market} href={gifts.final} campaign="gifts">{t.cta}</Cta></div>
           <p className="nxbg-auto">{t.auto}</p>
         </section>
       )}

@@ -7,17 +7,20 @@ export function CodeChip({ code, slug, placement, locale = "en", className = "" 
   const [state, setState] = useState("idle");
   const timer = useRef(0);
   const t = ctaUiCopy(locale);
-  useEffect(() => () => clearTimeout(timer.current), []);
+  const currentCode = useRef(code);
+  currentCode.current = code;
+  useEffect(() => { setState("idle"); return () => clearTimeout(timer.current); }, [code]);
   if (!code) return null;
   const onCopy = async () => {
     clearTimeout(timer.current);
     const ok = await copyText(code);
+    if (currentCode.current !== code) return;
     setState(ok ? "done" : "fail");
     if (ok) trackCodeCopy(slug, placement);
     timer.current = setTimeout(() => setState("idle"), ok ? 2200 : 6000);
   };
   return (
-    <span className={`cro-code ${className}`.trim()} data-state={state === "idle" ? undefined : state}>
+    <span className={`cro-code ${className}`.trim()} data-state={state === "idle" ? undefined : state} data-invite-code={code}>
       <button type="button" className="cro-code__btn" onClick={onCopy} aria-label={`${t.copy}: ${code}`} data-cta-kind="code-copy" data-cta-platform={slug} data-cta-placement={placement}>
         <span className="cro-code__lab" aria-hidden="true">{t.code}</span>
         <strong className="cro-code__code" translate="no" lang="en" dir="ltr">{code}</strong>

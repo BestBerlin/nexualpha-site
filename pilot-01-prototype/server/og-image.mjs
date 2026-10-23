@@ -22,9 +22,11 @@ import { brandSlogan, brandSloganSecondary } from "../src/data/brand-slogan.js";
 import { trPercentDative } from "../src/data/tr-percent.js";
 import { publicCtaForVenue } from "../src/data/public-cta.js";
 import { dataPageCopy, readFunding, readLiquidationCoverage } from "../src/data/market-data-pages.js";
+import { STOCK_LOGOS } from "../src/components/tokenized-stocks/stock-logo-manifest.js";
+import { tsArticleTickers } from "../src/data/tokenized-stocks-news.js";
 export { socialImagePathForRoute } from "../src/data/social-image.js";
 
-export const OG_CARD_VERSION = "cards-v2";
+export const OG_CARD_VERSION = "cards-v3-stock-logos";
 export const OG_WIDTH = 1200;
 export const OG_HEIGHT = 630;
 export const OG_PATH_PREFIX = "/og/";
@@ -228,7 +230,8 @@ const LOGO_ACCENTS = Object.freeze({
 function logoImage(locale, logoPng, x, y, size, { tile = false, slug } = {}) {
   if (!logoPng) return "";
   const xx = RTL_LOCALES.has(locale) ? OG_WIDTH - x - size : x;
-  const image = `<image href="data:image/png;base64,${logoPng.toString("base64")}" x="${xx}" y="${y}" width="${size}" height="${size}"/>`;
+  const mime = logoPng.toString("utf8", 0, 256).includes("<svg") ? "image/svg+xml" : "image/png";
+  const image = `<image href="data:${mime};base64,${logoPng.toString("base64")}" x="${xx}" y="${y}" width="${size}" height="${size}"/>`;
   if (!tile) return image;
   const id = `logo-${xx}-${y}-${size}`;
   const accent = LOGO_ACCENTS[slug] || COLOR.blueText;
@@ -460,6 +463,11 @@ function tileFile(root, slug) {
   const original = path.join(root, "brands", `${slug}.png`);
   return existsSync(tile) ? tile : existsSync(original) ? original : null;
 }
+async function readStockLogo(root, article) {
+  const ticker = tsArticleTickers(article).find((symbol) => STOCK_LOGOS[symbol]);
+  if (!ticker) return null;
+  return readFile(path.join(root, STOCK_LOGOS[ticker].src.replace(/^\//, ""))).catch(() => null);
+}
 async function readLogo(root, slug) {
   const file = tileFile(root, slug);
   return file ? readFile(file).catch(() => null) : null;
@@ -600,7 +608,7 @@ export function createOgImageRoute({ clientRoot, buildId = "dev", cacheDir = nul
       if (!article) return null;
       const category = article.categoryName?.[locale] || newsCategoryCopy(article.category, locale)?.label || article.categoryName?.en || "";
       const title = localizedNewsTitle(article, locale) || article.seo?.title || id;
-      return { svg: newsCardSvg({ title, category, categoryId: article.category, logoPng: await readLogo(clientRoot, articleLogoSlug(article, clientRoot)), date: isoDay(article.publishedAt), locale }), cacheKey: `${feed.fingerprint}:${isoDay(article.updatedAt) || ""}`, cacheControl: CACHE_CONTROL, persist: true };
+      return { svg: newsCardSvg({ title, category, categoryId: article.category, logoPng: await readStockLogo(clientRoot, article) || await readLogo(clientRoot, articleLogoSlug(article, clientRoot)), date: isoDay(article.publishedAt), locale }), cacheKey: `${feed.fingerprint}:${isoDay(article.updatedAt) || ""}`, cacheControl: CACHE_CONTROL, persist: true };
     }
     if (kind === "venue") {
       const data = venueCardData(id, clientRoot, locale);

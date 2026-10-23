@@ -1,5 +1,6 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 // Home "代币化美股" strip (owner 2026-10-15; card grid 2026-10-23, owner: the matrix of dash pairs was unreadable).
-// Six popular tickers as cards: a monogram tile (no company trademarks), the live last price with its 24h change, a
+// Six popular tickers as cards: a local company-logo tile, the live last price with its 24h change, a
 // change-magnitude bar, the venue with the lowest last price, and which of the first six exchanges (owner order) list the
 // stock as a token and/or a perpetual (lit logo + chips; dimmed = not listed), then max leverage and the lowest standard
 // perpetual taker fee. Listing values come from tsMatrix (the exchanges' public market data + sourced facts); prices are
@@ -9,6 +10,7 @@
 // strip reads the host's fresher snapshot (/intel/tokenized-stocks.json) and keeps the baked one when that read fails.
 // One primary action (sign-up of the first exchange that may show one, via tsSignup -> /go/<venue>) plus the hub link.
 // Card styles live in home7.src.css (.h7-ts / .h7-tsc) so the server HTML is styled before this lazy chunk arrives.
+import { StockLogo } from "./StockLogo.jsx";
 import React, { useEffect, useRef, useState } from "react";
 import { TS_TEASER } from "../../data/tokenized-stocks-teaser.js";
 import { TS_TICKERS } from "../../data/tokenized-stocks-facts.js";
@@ -81,7 +83,7 @@ function StockCard({ row, t, mx, pt, locale, venues, summary, flash }) {
   return (
     <li className="h7-tsc" style={{ "--h": hueOf(row.ticker) }} data-dir={dir}>
       <div className="h7-tsc-top">
-        <span className="h7-tsc-mono" aria-hidden="true">{row.ticker.slice(0, 1)}</span>
+        <StockLogo ticker={row.ticker} size={40} />
         <a className="h7-tsc-name" href={localizedHref(tsTickerPath(row.ticker), { locale })}>
           <b translate="no">{row.ticker}</b><small>{name}</small>
         </a>
@@ -157,10 +159,10 @@ export function HomeTokenizedStrip({ locale = "en", market }) {
         </div>
         <div className="h7-ts-go">
           {go ? (
-            <a className="h7-btn h7-sm h7-ts-cta" href={go.signup.href} target="_blank" rel="sponsored noopener noreferrer"
+            <span data-signup-cta={go.ex.slug} className="signup-cta-block"><a className="h7-btn h7-sm h7-ts-cta" href={go.signup.href} target="_blank" rel="sponsored noopener noreferrer"
               data-offer-link="go" data-cta-kind="signup" data-cta-platform={go.ex.slug} data-cta-placement="tokenized-stocks-home-strip">
               {fillTs(t.cta, { name: go.ex.name })}<span aria-hidden="true" className="h7-ts-arrow">→</span>
-            </a>
+            </a><SignupEvidence slug={go.ex.slug} locale={locale} market={market} /></span>
           ) : null}
           <a className="h7-ln h7-ts-all" href={hub}>{fillTs(mx.homeMore, { n: TS_TICKERS.length })}</a>
         </div>

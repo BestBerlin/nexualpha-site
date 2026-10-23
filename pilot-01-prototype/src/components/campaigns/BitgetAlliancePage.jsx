@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 // Bitget Alliance campaign landing page (/activities/bitget-alliance, owner 2026-10-13). Every fact is from Bitget's own
 // announcement and campaign page (see src/data/bitget-alliance.js). The CTA uses the campaign code through the tracked
 // /go/bitget-alliance route and is shown only where Bitget may be promoted (bitgetAllianceSignup); neutral and restricted
@@ -77,20 +78,20 @@ function CodeChip({ code, t }) {
   );
 }
 
-function JoinButton({ signup, t, placement }) {
+function JoinButton({locale = "en", market,  signup, t, placement }) {
   return (
-    <a className="nxba-btn nxba-btn--primary" href={signup.href} target="_blank" rel="sponsored noopener noreferrer"
+    <span data-signup-cta={"bitget"} className="signup-cta-block"><a className="nxba-btn nxba-btn--primary" href={signup.href} target="_blank" rel="sponsored noopener noreferrer"
       data-offer-link="go" data-campaign="bitget-alliance" data-cta-platform="bitget" data-cta-placement={`alliance-${placement}`}>
       {fill(t.cta, { code: signup.code })}<span aria-hidden="true" className="nxba-arrow">→</span>
-    </a>
+    </a><SignupEvidence slug={"bitget"} locale={locale} market={market} /></span>
   );
 }
 
-function Join({ signup, t, placement, center = false }) {
+function Join({ locale, market, signup, t, placement, center = false }) {
   if (!signup) return null;
   return (
     <div className={`nxba-actions${center ? " nxba-actions--center" : ""}`}>
-      <JoinButton signup={signup} t={t} placement={placement} />
+      <JoinButton locale={locale} market={market} signup={signup} t={t} placement={placement} />
       <CodeChip code={signup.code} t={t} />
     </div>
   );
@@ -174,7 +175,7 @@ export function BitgetAlliancePage({ locale = "en", market }) {
             <h1 className="nxba-title">{t.h1}</h1>
             <p className="nxba-sub">{t.sub}</p>
             <ul className="nxba-deal">{t.dealChips.map((chip) => <li key={chip}><span aria-hidden="true">✓</span>{chip}</li>)}</ul>
-            {hero ? <Join signup={hero} t={t} placement="hero" /> : (
+            {hero ? <Join locale={locale} market={market} signup={hero} t={t} placement="hero" /> : (
               <div className="nxba-actions">
                 <p className="nxba-neutral">{t.neutralLead}</p>
                 <a className="nxba-btn nxba-btn--ghost" href="#how">{t.how}</a>
@@ -195,7 +196,7 @@ export function BitgetAlliancePage({ locale = "en", market }) {
             </li>
           ))}
         </ol>
-        <Join signup={signupFor("steps")} t={t} placement="steps" />
+        <Join locale={locale} market={market} signup={signupFor("steps")} t={t} placement="steps" />
       </section>
 
       <section className="nxba-shell nxba-section" aria-labelledby="nxba-mech">
@@ -228,7 +229,7 @@ export function BitgetAlliancePage({ locale = "en", market }) {
           <Estimator pool={pool} t={t} locale={locale} />
         </div>
         <p className="nxba-total">{fill(t.exampleTotal, { t: fmtUsdt(exampleTotal) })}</p>
-        <Join signup={signupFor("example")} t={t} placement="example" />
+        <Join locale={locale} market={market} signup={signupFor("example")} t={t} placement="example" />
       </section>
 
       <section className="nxba-box" aria-labelledby="nxba-box">
@@ -281,7 +282,7 @@ export function BitgetAlliancePage({ locale = "en", market }) {
           <>
             <h2 id="nxba-final">{t.finalH}</h2>
             <p>{fill(t.finalBody, { code: hero.code })}</p>
-            <Join signup={signupFor("final")} t={t} placement="final" center />
+            <Join locale={locale} market={market} signup={signupFor("final")} t={t} placement="final" center />
           </>
         ) : (
           <>

@@ -1732,3 +1732,19 @@
   .h7:not(#_):not(#_):not(#_) .h7-lt a:hover .h7-lt-art{transform:none}
 }
 .h7:not(#_):not(#_):not(#_) .h7-data:not([data-inview]) .h7-coins-head h2::after{animation-play-state:paused}
+
+/* Signup evidence stays beside its action; the mobile dock reserves its measured height. */
+.h7:not(#_):not(#_) .signup-cta{align-items:stretch}
+.h7:not(#_):not(#_) .signup-cta>.h7-btn{flex:1}
+.h7:not(#_):not(#_) .signup-cta>.signup-evidence{flex-basis:100%}
+@media(max-width:767px){
+.h7:not(#_):not(#_) .h7-dock{display:grid;grid-template-columns:minmax(0,1fr) minmax(112px,.65fr);gap:4px 8px;padding:8px;background:#0e1014;max-height:calc(100dvh - 24px);overflow-y:auto}
+.h7:not(#_):not(#_) .h7-dock-pick{grid-column:1;grid-row:1;min-width:0}
+.h7:not(#_):not(#_) .h7-dock-pick select{width:100%;max-width:100%;font-size:15px;min-height:44px;padding-inline-start:8px}
+.h7:not(#_):not(#_) .h7-dock>.signup-cta,.h7:not(#_):not(#_) .h7-dock .signup-evidence{display:contents}
+.h7:not(#_):not(#_) .h7-dock .h7-dock-go{grid-column:2;grid-row:1 / span 2;min-width:0;white-space:normal;text-align:center;min-height:92px}
+.h7:not(#_):not(#_) .h7-dock .cro-code{grid-column:1;grid-row:2;min-width:0}
+.h7:not(#_):not(#_) .h7-dock .cro-code__btn{width:100%;justify-content:center;padding-inline:8px;gap:6px}
+.h7:not(#_):not(#_) .h7-dock .signup-code-help,.h7:not(#_):not(#_) .h7-dock .commission-disclosure-line{grid-column:1 / -1;font-size:15px;line-height:1.35}
+body:has(.h7-dock){padding-block-end:calc(var(--signup-dock-height,320px) + env(safe-area-inset-bottom) + 24px)}
+}

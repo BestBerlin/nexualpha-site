@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 // Deposit & withdraw (出入金, 2026-10-15): the hub (/<localized slug>), country pages (/<slug>/<country>) and the
 import { DataUpdatedStamp } from "../shared/DataUpdatedStamp.jsx";
 // crypto-card comparison (/crypto-cards). Every figure comes from src/data/fiat-rails.generated.js with its official
@@ -38,11 +39,11 @@ function Answer({ label, text, stamp }) {
   </div>;
 }
 
-function SignupButton({ href: target, slug, label, placement }) {
+function SignupButton({locale = "en", market,  href: target, slug, label, placement }) {
   if (!target) return null;
-  return <a className="nxd-btn" href={target} rel="sponsored nofollow noopener" target="_blank" data-cta-kind="registration" data-cta-platform={slug} data-cta-placement={placement}>
+  return <span data-signup-cta={slug} className="signup-cta-block"><a className="nxd-btn" href={target} rel="sponsored nofollow noopener" target="_blank" data-cta-kind="registration" data-cta-platform={slug} data-cta-placement={placement}>
     <BrandMark slug={slug} compact /><span>{label}</span><span className="nxd-btn__arrow" aria-hidden="true">→</span>
-  </a>;
+  </a><SignupEvidence slug={slug} locale={locale} market={market} /></span>;
 }
 
 function SourceList({ notes, t, locale }) {
@@ -94,7 +95,7 @@ function MethodTable({ model, t, locale }) {
         <tbody>
           {model.exchanges.map((entry) => <tr key={entry.slug} data-exchange={entry.slug}>
             <th scope="row"><ExchangeName entry={entry} locale={locale} />
-              {entry.signup ? <a className="nxd-row-cta" href={entry.signup} rel="sponsored nofollow noopener" target="_blank" data-cta-kind="registration" data-cta-platform={entry.slug} data-cta-placement="deposit-table">{fillDeposit(t.cta, { ex: entry.name })}</a> : null}
+              {entry.signup ? <span data-signup-cta={entry.slug} className="signup-cta-block"><a className="nxd-row-cta" href={entry.signup} rel="sponsored nofollow noopener" target="_blank" data-cta-kind="registration" data-cta-platform={entry.slug} data-cta-placement="deposit-table">{fillDeposit(t.cta, { ex: entry.name })}</a><SignupEvidence slug={entry.slug} locale={locale} market={undefined} /></span> : null}
             </th>
             {cols.map((key) => <td key={key} data-label={t.col[key]}><RouteCell items={entry.cells[key]} /></td>)}
           </tr>)}
@@ -207,7 +208,7 @@ export function DepositCountryPage({ slug, locale = "en" }) {
         <h1>{title}</h1>
         <DataUpdatedStamp at={FIAT_CHECKED} locale={locale} />
         <Answer label={t.shortAnswer} text={model.answer} stamp={FIAT_CHECKED} />
-        {model.cta ? <div className="nxd-head__cta"><SignupButton href={model.cta.href} slug={model.cta.slug} label={fillDeposit(t.cta, { ex: model.cta.name })} placement="deposit-country-hero" /></div> : null}
+        {model.cta ? <div className="nxd-head__cta"><SignupButton locale={locale} market={undefined} href={model.cta.href} slug={model.cta.slug} label={fillDeposit(t.cta, { ex: model.cta.name })} placement="deposit-country-hero" /></div> : null}
       </header>
 
       {model.steps.length ? <section className="nxd-section" aria-labelledby="nxd-steps-h">
@@ -278,7 +279,7 @@ export function CryptoCardsPage({ locale = "en" }) {
               {card.feeList.length ? <div><dt>{t.cardCol.fees}</dt><dd><ul className="nxd-card__fees">{card.feeList.map((fee) => <li key={fee.name}><span>{fee.name}</span><b>{fee.text}</b></li>)}</ul></dd></div> : null}
               {card.steps.length ? <div><dt>{t.cardCol.apply}</dt><dd><ol className="nxd-card__apply">{card.steps.map((step) => <li key={step}>{step}</li>)}</ol></dd></div> : null}
             </dl>
-            {card.signup ? <a className="nxd-btn nxd-btn--ghost" href={card.signup} rel="sponsored nofollow noopener" target="_blank" data-cta-kind="registration" data-cta-platform={card.x} data-cta-placement="crypto-cards">{fillDeposit(t.cardCta, { ex: card.exchangeName })}</a> : null}
+            {card.signup ? <span data-signup-cta={card.x} className="signup-cta-block"><a className="nxd-btn nxd-btn--ghost" href={card.signup} rel="sponsored nofollow noopener" target="_blank" data-cta-kind="registration" data-cta-platform={card.x} data-cta-placement="crypto-cards">{fillDeposit(t.cardCta, { ex: card.exchangeName })}</a><SignupEvidence slug={card.x} locale={locale} market={undefined} /></span> : null}
           </li>)}
         </ul>
       </section>

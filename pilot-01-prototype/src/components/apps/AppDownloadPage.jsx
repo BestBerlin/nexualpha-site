@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import React, { useState } from "react";
 import { binanceProStep } from "../../data/binance-pro-step.js";
 import { SourceLink } from "../shared/SourceLink.jsx";
@@ -30,7 +31,7 @@ export function AppDownloadPage({ slug, locale = "en", market, contextSearch = "
     {signupAllowed && <section aria-labelledby="app-register" data-app-registration>
       <h2 id="app-register">{copy.register}</h2><p>{text("registerBody")}</p>
       <p>{copy.code}: <strong dir="ltr" translate="no">{cta.inviteCode}</strong> <CodeCopy code={cta.inviteCode} locale={locale} /></p>
-      <a className="nx-app-download__button nx-app-download__button--primary" href={`/go/${slug}?src=app-${encodeURIComponent(locale)}`} data-cta-platform={slug} data-cta-kind="register" data-cta-placement="app-download">{text("signup")}</a>
+      <span data-signup-cta={slug} className="signup-cta-block"><a className="nx-app-download__button nx-app-download__button--primary" href={`/go/${slug}?src=app-${encodeURIComponent(locale)}`} data-cta-platform={slug} data-cta-kind="register" data-cta-placement="app-download">{text("signup")}</a><SignupEvidence slug={slug} locale={locale} market={market} /></span>
     </section>}
     <section aria-labelledby="app-stores"><h2 id="app-stores">{copy.stores}</h2>
       <div className="nx-app-download__actions">

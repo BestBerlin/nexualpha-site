@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 /**
  * KolLandingPage — C3. KOL 专属落地页系统
  * 路由：/ref/:kol
@@ -125,7 +126,7 @@ export function KolLandingPage({ kolHandle = "crypto-zhang", locale = "en", mark
 
                 {benefit && <p className="kol-venue-card__benefit">{benefit}</p>}
 
-                <a
+                <span data-signup-cta={slug} className="signup-cta-block"><a
                   href={routeHref}
                   target={directRoute ? "_blank" : undefined}
                   rel={directRoute ? "sponsored noopener noreferrer" : undefined}
@@ -139,7 +140,7 @@ export function KolLandingPage({ kolHandle = "crypto-zhang", locale = "en", mark
                   data-growth-product={product}
                 >
                   {directRoute ? (isZh ? "前往官方注册开户 ↗" : ctaCopy[0]) : (isZh ? "先查看官方条件 ↗" : ctaCopy[1])}
-                </a>
+                </a><SignupEvidence slug={slug} locale={locale} market={market} /></span>
               </article>
             );
           })}

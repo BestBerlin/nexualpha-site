@@ -300,3 +300,25 @@ test("the production server serves /og cards before the worker and keeps HEAD/tr
     await f.close();
   }
 });
+
+test('stock news cards embed the same local SVG used by stock identities', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'stock-news-og-'));
+  try {
+    await mkdir(path.join(root, 'content'));
+    await mkdir(path.join(root, 'brands/stocks'), { recursive: true });
+    await copyFile(new URL('../public/brands/stocks/aapl.svg', import.meta.url), path.join(root, 'brands/stocks/aapl.svg'));
+    await writeFile(path.join(root, 'content/news-feed.json'), JSON.stringify({ articles: [{
+      slug: 'apple-tokenized-stocks', status: 'PUBLISHED', title: { en: 'Apple tokenized stocks' },
+      category: 'research', publishedAt: '2026-10-23T00:00:00Z',
+    }, { slug: 'ordinary-news', status: 'PUBLISHED', title: { en: 'Exchange research' }, category: 'research', publishedAt: '2026-10-23T00:00:00Z' }] }));
+    const handler = createOgImageRoute({ clientRoot: root });
+    const svg = await handler.svgFor('news', 'apple-tokenized-stocks');
+    assert.match(svg, /data:image\/svg\+xml;base64,/);
+    assert.doesNotMatch(svg, /href="\/brands\/stocks/);
+    const embedded = svg.match(/data:image\/svg\+xml;base64,([^"\s]+)/)[1];
+    assert.match(Buffer.from(embedded, 'base64').toString(), /<svg/);
+    const unrelated = await handler.svgFor('news', 'ordinary-news');
+    assert.doesNotMatch(unrelated, /data:image\/svg\+xml;base64,/);
+    assert.match(unrelated, /Exchange research/);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});

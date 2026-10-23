@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 // V6 Act 4: the Directory. A fixed-grid, identical-rhythm list of every venue.
 // Registration / detail / verify hrefs, rel, data-* and referral codes are produced by the same helpers the legacy
 // compact rows used (publicCtaForVenue, regionalCtaState, localizedHref), in the same DOM order, so the link graph is unchanged.
@@ -472,7 +473,7 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
                     </div>
 
                     {r.canOpenRegistration ? (
-                      <a
+                      <span data-signup-cta={r.slug} className="signup-cta-block"><a
                         href={r.registrationUrl}
                         target="_blank"
                         rel="sponsored noopener noreferrer"
@@ -487,7 +488,7 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
                         data-growth-product={context.product}
                       >
                         <span>{mc.signup}</span><span className="dir6-sr"> {r.name}</span><Icon name="arrow" />
-                      </a>
+                      </a><SignupEvidence slug={r.slug} locale={locale} market={undefined} /></span>
                     ) : (
                       <a
                         href={localizedHref(`/exchanges/${r.slug}?${contextSearch}#registration-path`, { locale })}

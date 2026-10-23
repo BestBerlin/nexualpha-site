@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { registrationEntryContext } from "./registration-entry-context.js";
 import { BackupSignupLink } from "../shared/BackupSignupLink.jsx";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -953,7 +954,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
       <>
       {binanceProNote}
       <div className="registration-card__signup-actions">
-      <a
+      <span data-signup-cta={venueSlug} className="signup-cta-block"><a
         href={primaryRegistrationHref}
         target="_blank"
         rel="sponsored noopener noreferrer"
@@ -972,7 +973,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
         data-growth-decision-state={registrationDecision.state}
       >
         {compactInviteTask ? (compactSignupLabel || compactInviteTask.action) : (visiblePartner.hasReferral ? copy.openSignup : copy.openApp)}
-      </a>
+      </a><SignupEvidence slug={venueSlug} locale={locale} market={market} /></span>
       {visiblePartner.hasReferral ? <BackupSignupLink venue={venueSlug} locale={locale} market={context.market} placement="registration-card-primary" /> : null}
       </div>
       </>

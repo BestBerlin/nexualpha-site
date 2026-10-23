@@ -175,54 +175,6 @@ function useVenues(locale, product, market, banned) {
   }), [locale, product, market, banned]);
 }
 
-function CopyCode({ code, t }) {
-  const [done, setDone] = useState(false);
-  const timer = useRef(null);
-  const currentCode = useRef(code);
-  currentCode.current = code;
-  useEffect(() => { setDone(false); return () => clearTimeout(timer.current); }, [code]);
-  const copy = () => {
-    const ok = () => {
-      if (currentCode.current !== code) return;
-      clearTimeout(timer.current); setDone(true); timer.current = setTimeout(() => setDone(false), 2000);
-    };
-    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(code).then(ok, () => {});
-    else {
-      const input = document.createElement("textarea");
-      input.value = code; input.style.cssText = "position:fixed;opacity:0;pointer-events:none";
-      document.body.append(input); input.select();
-      try { if (document.execCommand?.("copy")) ok(); } finally { input.remove(); }
-    }
-  };
-  return <button type="button" className={`h7-cc${done ? " done" : ""}`} onClick={copy} aria-live="polite">{done ? t.copied : t.copy}</button>;
-}
-
-// The invite code under the hero button: travels with the sign-up link, shown for reassurance, copy is one tap. Only
-// CTA locales reach it (neutral locales render no code); a locale without its own line reads the English one.
-const CODE_AUTO = Object.freeze({
-  en: "Code {code} applied automatically", "zh-Hans": "邀请码 {code} 已自动填写", es: "Código {code} aplicado automáticamente",
-  "pt-BR": "Código {code} aplicado automaticamente", fr: "Code {code} appliqué automatiquement", de: "Code {code} wird automatisch übernommen",
-  it: "Codice {code} applicato in automatico", ja: "招待コード {code} は自動で適用", ko: "초대 코드 {code} 자동 적용",
-  tr: "{code} kodu otomatik uygulanır", id: "Kode {code} otomatis terpasang",
-});
-// "Applied automatically" only when the sign-up URL itself carries the shown code (2026-10-22: Bitget's partner short
-// link resolves to a different vipCode, so its line must not claim nexu888 is pre-filled).
-const CODE_PLAIN = Object.freeze({
-  en: "Invite code {code}", "zh-Hans": "邀请码 {code}", es: "Código {code}", "pt-BR": "Código {code}", fr: "Code {code}",
-  de: "Code {code}", it: "Codice {code}", ja: "招待コード {code}", ko: "초대 코드 {code}", tr: "Kod {code}", id: "Kode {code}",
-});
-const codeInUrl = (venue) => Boolean(venue.code && venue.url && venue.url.toLowerCase().includes(String(venue.code).toLowerCase()));
-function HeroCode({ locale, venue, t }) {
-  const auto = codeInUrl(venue);
-  const lines = auto ? CODE_AUTO : CODE_PLAIN;
-  const [before, after = ""] = (lines[h7IsFallback(locale) ? "en" : locale] || lines.en).split("{code}");
-  return <p className="hx-code">
-    {auto ? <svg className="hx-code-ok" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" /></svg> : null}
-    <span className="hx-code-t"><span className="h7-sr">{venue.name} </span>{before}<code>{venue.code}</code>{after}</span>
-    <CopyCode code={venue.code} t={t} />
-  </p>;
-}
-
 const reducedMotion = () => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 const HERO_EASE = "cubic-bezier(.16,1,.3,1)";
 // Brand tint (RGB triplet) for the indicator, the dial thumb halo and the glow behind the figure.
@@ -546,8 +498,18 @@ function HeroExchangeSwitcher({ locale, market, venues, rebated, selectedSlug, o
 }
 
 // Phones: once the hero has scrolled away, a dock keeps the exchange pick and its sign-up link one tap away.
-function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
+export function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
   const [on, setOn] = useState(false);
+  const dockRef = useRef(null);
+  useEffect(() => {
+    const dock = dockRef.current, page = document.documentElement;
+    if (!dock || !page) return undefined;
+    const measure = () => page.style.setProperty("--signup-dock-height", `${dock.getBoundingClientRect().height}px`);
+    measure();
+    const observer = typeof ResizeObserver !== "undefined" ? new ResizeObserver(measure) : null;
+    observer?.observe(dock);
+    return () => { observer?.disconnect(); page.style.removeProperty("--signup-dock-height"); };
+  }, [sel?.slug]);
   useEffect(() => {
     const h = heroRef.current; if (!h || typeof IntersectionObserver === "undefined") return undefined;
     const io = new IntersectionObserver(([e]) => setOn(!e.isIntersecting && e.boundingClientRect.top < 0), { threshold: 0 });
@@ -556,7 +518,7 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
   if (!sel?.open) return null;
   // React 19 treats `inert` as a boolean prop: an empty-string value renders nothing and left the hidden dock in the Tab order.
   return (
-    <div className={`h7-dock${on ? " on" : ""}`} {...(on ? {} : { inert: true, "aria-hidden": "true" })}>
+    <div ref={dockRef} data-signup-cta={sel.slug} className={`h7-dock${on ? " on" : ""}`} {...(on ? {} : { inert: true, "aria-hidden": "true" })}>
       <label className="h7-dock-pick"><span className="h7-sr">{t.lgPick}</span>
         <select value={sel.slug} onChange={(e) => setPick(e.target.value)}>{rebated.map((r) => <option key={r.slug} value={r.slug}>{r.name} · {formatPercent(locale, Math.round(r.share * 100))}</option>)}</select>
       </label>
@@ -691,7 +653,6 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
           {/* Hero CTA simplification (2026-10-22): one dominant button straight under the promise, the code as a quiet
               confirmation line under it (the sign-up link carries it; copy is one tap), the exchange switch last and light. */}
           <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go hx-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span></Cta>
-          {sel.code && <HeroCode locale={locale} venue={sel} t={t} />}
           <HeroExchangeSwitcher locale={locale} market={market} venues={venues} rebated={heroPicks} selectedSlug={sel.slug} onPick={pickVenue} t={t} />
         </aside>
         )}
@@ -727,7 +688,7 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
       <AcademyTeaser locale={locale} />
 
       <StableHomeBelowFold renderedAt={renderedAt} t={t} locale={locale} market={market} whales={whales} fundingFeed={fundingFeed} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} homeLatest={homeLatest} />
-      {/* Owner 2026-10-13: no fine print or commission wording in the page body; disclosures live in the site footer. */}
+      {/* Signup disclosures travel with each action, including the dock. */}
       <MobileDock heroRef={heroRef} sel={sel} rebated={rebated.some((r) => r.slug === sel.slug) ? rebated : [...rebated, sel]} setPick={setPick} t={t} locale={locale} />
     </div>
   );

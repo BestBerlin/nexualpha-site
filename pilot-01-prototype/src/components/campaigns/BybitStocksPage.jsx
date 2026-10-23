@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 // Bybit Stocks campaign landing page (/activities/bybit-stocks, owner 2026-10-12). Every fact is from Bybit's Help Center,
 // its announcement feed or its own launch press releases (see src/data/bybit-stocks.js). The sign-up uses the registry
 // invite code through /go/bybit and is shown only where Bybit Stocks may be promoted (bybitStocksSignup); neutral and
@@ -67,12 +68,12 @@ function CodeChip({ code, t }) {
   );
 }
 
-function SignupButton({ signup, t, className = "" }) {
+function SignupButton({locale = "en", market,  signup, t, className = "" }) {
   return (
-    <a className={`nxbs-btn nxbs-btn--primary ${className}`} href={signup.href} target="_blank" rel="sponsored noopener noreferrer"
+    <span data-signup-cta={"bybit"} className="signup-cta-block"><a className={`nxbs-btn nxbs-btn--primary ${className}`} href={signup.href} target="_blank" rel="sponsored noopener noreferrer"
       data-offer-link="go" data-cta-platform="bybit" data-cta-placement={signup.href.split("src=")[1]}>
       {fill(t.cta, { code: signup.code })}<span aria-hidden="true" className="nxbs-arrow">→</span>
-    </a>
+    </a><SignupEvidence slug={"bybit"} locale={locale} market={market} /></span>
   );
 }
 
@@ -124,7 +125,7 @@ export function BybitStocksPage({ locale = "en", market }) {
             </ul>
             {hero ? (
               <div className="nxbs-actions">
-                <SignupButton signup={hero} t={t} />
+                <SignupButton locale={locale} market={market} signup={hero} t={t} />
                 <a className="nxbs-btn nxbs-btn--ghost" href="#how">{t.how}</a>
                 <CodeChip code={hero.code} t={t} />
               </div>
@@ -166,7 +167,7 @@ export function BybitStocksPage({ locale = "en", market }) {
             </li>
           ))}
         </ol>
-        {stepsSignup && <div className="nxbs-actions nxbs-inline-cta"><SignupButton signup={stepsSignup} t={t} /><CodeChip code={stepsSignup.code} t={t} /></div>}
+        {stepsSignup && <div className="nxbs-actions nxbs-inline-cta"><SignupButton locale={locale} market={market} signup={stepsSignup} t={t} /><CodeChip code={stepsSignup.code} t={t} /></div>}
       </section>
 
       <section className="nxbs-shell nxbs-section" aria-labelledby="nxbs-sessions">
@@ -214,7 +215,7 @@ export function BybitStocksPage({ locale = "en", market }) {
             <p>{t.who}</p>
             <a href={hrefFor(BYBIT_STOCKS_UPDATE_PATH, locale, market)}>{t.officialLink} →</a>
           </div>
-          {campaignSignup && <div className="nxbs-actions"><SignupButton signup={campaignSignup} t={t} /><CodeChip code={campaignSignup.code} t={t} /></div>}
+          {campaignSignup && <div className="nxbs-actions"><SignupButton locale={locale} market={market} signup={campaignSignup} t={t} /><CodeChip code={campaignSignup.code} t={t} /></div>}
         </div>
       </section>
 
@@ -258,7 +259,7 @@ export function BybitStocksPage({ locale = "en", market }) {
           <>
             <h2 id="nxbs-final">{t.finalH}</h2>
             <p>{fill(t.finalBody, { code: final.code })}</p>
-            <div className="nxbs-actions nxbs-actions--center"><SignupButton signup={final} t={t} /><CodeChip code={final.code} t={t} /></div>
+            <div className="nxbs-actions nxbs-actions--center"><SignupButton locale={locale} market={market} signup={final} t={t} /><CodeChip code={final.code} t={t} /></div>
           </>
         ) : (
           <>

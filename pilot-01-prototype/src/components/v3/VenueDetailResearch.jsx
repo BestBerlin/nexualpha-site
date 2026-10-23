@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { GlossaryTooltip } from "../shared/GlossaryTooltip.jsx";
 import { SourceLink } from "../shared/SourceLink.jsx";
 // Venue detail "Sources" hub: account and costs (quick registration, rebate card, metrics, calculator, fee matrix,
@@ -436,7 +437,7 @@ function EditorialList({ title, items, fallback }) {
   </article>;
 }
 
-function VenueTieredFeeMatrix({ venue, locale, db, rebatePercent, inviteCode, registrationUrl, registrationDirect = true, localizedVenueName, claimsVerified = false, researchActions = [] }) {
+function VenueTieredFeeMatrix({market,  venue, locale, db, rebatePercent, inviteCode, registrationUrl, registrationDirect = true, localizedVenueName, claimsVerified = false, researchActions = [] }) {
   const ui = detailUi(locale);
   const isZh = locale && (locale.startsWith("zh") || locale === "zh-Hans" || locale === "zh-Hant");
   const venueCategory = String(venue.category || db.category || "").toLowerCase();
@@ -497,9 +498,9 @@ function VenueTieredFeeMatrix({ venue, locale, db, rebatePercent, inviteCode, re
                 </SourceLink>
               )}
               {safeRegistrationUrl ? (
-                <a href={safeRegistrationUrl} target={registrationDirect ? "_blank" : undefined} rel={registrationDirect ? "sponsored noopener noreferrer" : undefined} className="v3-fee-lock-btn">
+                <span data-signup-cta={venue.slug}><a href={safeRegistrationUrl} target={registrationDirect ? "_blank" : undefined} rel={registrationDirect ? "sponsored noopener noreferrer" : undefined} className="v3-fee-lock-btn">
                   {registrationDirect ? compactUi.route : compactUi.blocked}
-                </a>
+                </a><SignupEvidence slug={venue.slug} locale={locale} market={market} /></span>
               ) : (
                 <span className="v3-fee-lock-btn v3-fee-lock-btn--disabled" aria-disabled="true">
                   {compactUi.unavailable}
@@ -589,9 +590,9 @@ function VenueTieredFeeMatrix({ venue, locale, db, rebatePercent, inviteCode, re
           </div>
           <div className="v3-fee-cta-inline">
             {inviteCode && <span className="v3-fee-tip">{ui.code}: <strong translate="no">{inviteCode}</strong></span>}
-            {registrationUrl && <a href={registrationUrl} target={registrationDirect ? "_blank" : undefined} rel={registrationDirect ? "sponsored noopener noreferrer" : undefined} className="v3-fee-lock-btn" data-cta-kind={registrationDirect ? "registration" : "research"} data-cta-platform={venue.slug} data-cta-placement="fee-summary" data-growth-decision={venue.slug} data-growth-placement="fee-summary">
+            {registrationUrl && <span data-signup-cta={venue.slug} className="signup-cta-block"><a href={registrationUrl} target={registrationDirect ? "_blank" : undefined} rel={registrationDirect ? "sponsored noopener noreferrer" : undefined} className="v3-fee-lock-btn" data-cta-kind={registrationDirect ? "registration" : "research"} data-cta-platform={venue.slug} data-cta-placement="fee-summary" data-growth-decision={venue.slug} data-growth-placement="fee-summary">
               {registrationDirect ? feeText.registration : ui.verifyRegional} ↗
-            </a>}
+            </a><SignupEvidence slug={venue.slug} locale={locale} market={undefined} /></span>}
           </div>
         </div>
       </div>
@@ -1031,7 +1032,7 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
           {annualSavings != null && <strong className="text-green" translate="no">{`+${annualSavings} USDT`}</strong>}
         </div>
       </div>
-      <VenueTieredFeeMatrix
+      <VenueTieredFeeMatrix market={market}
         venue={venue}
         locale={locale}
         db={db}
