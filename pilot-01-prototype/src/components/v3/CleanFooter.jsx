@@ -1,4 +1,4 @@
-import { SignupEvidence } from "../shared/SignupEvidence.jsx";
+import { CommissionDisclosureLine, SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { CLOSE_COPY } from "./LeanHeroCopyV6.js";
 import { organizationDescription } from "../../data/brand-definition.js";
 import { beginnerPath } from "../../data/beginner-routes.js";
@@ -507,13 +507,7 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
               {socialItems.map(([key, href, label, Glyph]) => <li key={key}><a className={`nx-ftr__social nx-ftr__social--${key}`} href={href} target="_blank" rel="noopener" data-cta-kind={key.startsWith("tg") ? "telegram" : "social"} data-cta-placement={`footer-follow-${key}`}><Glyph size={20} /><span>{label}</span></a></li>)}
             </ul>
           </nav>
-          {partnerLinks.length ? <nav className="nx-ftr__entry" aria-labelledby="nx-ftr-entry" data-footer-partner-links>
-            <h2 className="nx-ftr__heading" id="nx-ftr-entry">{partnerGroupLabel}</h2>
-            <ul>
-              {partnerLinks.map((link) => <li key={link.key}><span data-signup-cta={link.slug} className="signup-cta-block"><a href={link.href} target="_blank" rel="sponsored noopener noreferrer" data-footer-partner-link={link.slug} data-cta-kind="registration" data-cta-platform={link.slug} data-cta-placement="footer"><BrandMark slug={link.slug} /><span>{link.name}</span></a><SignupEvidence slug={link.slug} locale={locale} market={market} /></span></li>)}
-            </ul>
-            <p className="nx-ftr__definition" data-footer-disclosure>{organizationDescription(locale)}</p>
-          </nav> : <p className="nx-ftr__definition" data-footer-disclosure>{organizationDescription(locale)}</p>}
+          {partnerLinks.length ? null : <p className="nx-ftr__definition" data-footer-disclosure>{organizationDescription(locale)}</p>}
         </div>
 
         <nav className="nx-ftr__columns" aria-label={labels.navAria}>
@@ -525,9 +519,18 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
           </section>)}
         </nav>
 
+        {partnerLinks.length ? <nav className="nx-ftr__entry" aria-labelledby="nx-ftr-entry" data-footer-partner-links>
+            <h2 className="nx-ftr__heading" id="nx-ftr-entry">{partnerGroupLabel}</h2>
+            <ul>
+            {partnerLinks.map((link) => <li key={link.key}><span data-signup-cta={link.slug} className="signup-cta-block"><a href={link.href} target="_blank" rel="sponsored noopener noreferrer" data-footer-partner-link={link.slug} data-cta-kind="registration" data-cta-platform={link.slug} data-cta-placement="footer"><BrandMark slug={link.slug} /><span>{link.name}</span></a><SignupEvidence slug={link.slug} locale={locale} market={market} placement="footer" compact /></span></li>)}
+            </ul>
+            <p className="nx-ftr__entry-note"><CommissionDisclosureLine locale={locale} /></p>
+            <p className="nx-ftr__definition" data-footer-disclosure>{organizationDescription(locale)}</p>
+          </nav> : null}
+
         <nav className="nx-ftr__discovery" aria-label={columnLabels.exchanges} data-footer-fee-links>
-          <ul className="nx-ftr__logo-strip">
-            {feeVenues.map((slug) => <li key={slug}><a href={href(`/exchanges/${slug}`)} aria-label={venueDatabase[slug]?.name || slug} title={venueDatabase[slug]?.name || slug}><BrandMark slug={slug} compact /></a></li>)}
+          <ul className="nx-ftr__venue-links">
+            {feeVenues.map((slug) => <li key={slug}><a href={href(`/exchanges/${slug}`)}>{venueDatabase[slug]?.name || slug}</a></li>)}
           </ul>
           <details className="nx-ftr__pairs">
             <summary>{comparisonLabel}<span aria-hidden="true">＋</span></summary>

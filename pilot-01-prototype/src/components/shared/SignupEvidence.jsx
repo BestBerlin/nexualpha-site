@@ -10,12 +10,13 @@ export function CommissionDisclosureLine({ locale = "en" }) {
 }
 
 // Resolve the displayed value through the same policy gate as the signup action.
-export function SignupEvidence({ slug, locale = "en", market, placement = "signup" }) {
+// compact: code chip only, for rows of tiles that carry one shared disclosure line (footer).
+export function SignupEvidence({ slug, locale = "en", market, placement = "signup", compact = false }) {
   const cta = publicCtaForVenue(slug, locale, market);
   if (!cta.hasReferral || !cta.inviteCode) return null;
   return <span className="signup-evidence" data-signup-evidence={slug}>
     <CodeChip code={cta.inviteCode} slug={slug} locale={locale} placement={placement} />
-    {(slug === "binance" || slug === "okx") && <span className="signup-code-help">{referralHelp(locale, cta.inviteCode)}</span>}
-    <CommissionDisclosureLine locale={locale} />
+    {!compact && (slug === "binance" || slug === "okx") && <span className="signup-code-help">{referralHelp(locale, cta.inviteCode)}</span>}
+    {compact ? null : <CommissionDisclosureLine locale={locale} />}
   </span>;
 }

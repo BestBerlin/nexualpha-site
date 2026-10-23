@@ -700,7 +700,7 @@ export function HomeV7({ locale, market, whales, fundingFeed, venues: _catalog, 
           <HeroVolumeDial locale={locale} step={heroStep} onStep={pickStep} dragRef={dragRef} onTouch={stopCycle} />
           {/* Hero CTA simplification (2026-10-22): one dominant button straight under the promise, the code as a quiet
               confirmation line under it (the sign-up link carries it; copy is one tap), the exchange switch last and light. */}
-          <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go hx-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span></Cta>
+          <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go hx-go h7-go--${sel.slug}`} placement="home-v7-hero" evidence={false}><span className="h7-go-l">{t.lgGo(sel.name)}</span></Cta>
           {sel.code && <HeroCode locale={locale} venue={sel} t={t} />}
           <HeroExchangeSwitcher locale={locale} market={market} venues={venues} rebated={heroPicks} selectedSlug={sel.slug} onPick={pickVenue} t={t} />
         </aside>

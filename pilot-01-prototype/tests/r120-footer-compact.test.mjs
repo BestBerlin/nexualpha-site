@@ -35,7 +35,7 @@ for (const locale of locales) {
     const legal = html.slice(html.indexOf('<div class="nx-ftr__legal-row"'));
     assert.doesNotMatch(legal, /<details\b|\shidden(?:=|\s|>)/, 'legal navigation needs no expansion');
     assert.match(html, /nx-ftr__languages/);
-    assert.match(html, /nx-ftr__logo-strip/);
+    assert.match(html, /nx-ftr__venue-links/);
     assert.match(html, /data-footer-disclosure/);
   });
 }
