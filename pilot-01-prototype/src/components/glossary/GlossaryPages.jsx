@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 // Crypto glossary (/glossary, /glossary/<slug>), 2026-10-13. Term page: the one-sentence definition first (featured
 // snippet), then how it works (with links to other terms), a worked example, common mistakes, the next step (Academy
 // lesson, data tool, coin page, and on trading terms a soft partner sign-up), FAQ and related terms. Hub: search,
@@ -65,7 +66,7 @@ function NextSteps({ term, locale, market, t }) {
       </div>
       <div className="nxg-cta__actions">
         {signup.code ? <CopyCode code={signup.code} t={t} /> : null}
-        <a className="nxg-btn" href={signup.href} target="_blank" rel="sponsored noopener noreferrer" data-offer-link="go" data-cta-platform={signup.venue} data-cta-placement={`glossary-${term.slug}`}>{fill(t.ctaButton, { venue: signup.name })}</a>
+        <span data-signup-cta={signup.venue} className="signup-cta-block"><a className="nxg-btn" href={signup.href} target="_blank" rel="sponsored noopener noreferrer" data-offer-link="go" data-cta-platform={signup.venue} data-cta-placement={`glossary-${term.slug}`}>{fill(t.ctaButton, { venue: signup.name })}</a><SignupEvidence slug={signup.venue} locale={locale} market={market} /></span>
       </div>
     </div> : null}
   </section>;

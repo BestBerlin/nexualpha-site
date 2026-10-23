@@ -93,3 +93,8 @@ for (const name of comparePairFiles) copyFileSync(path.join(root, "src", "data",
 copyFileSync(hosting, path.join(dist, ".openai", "hosting.json"));
 
 console.log("Prepared Sites build: dist/server/index.js and dist/.openai/hosting.json");
+
+// Stock social-card renderer shares the local identity manifest with React.
+const stockLogoDir = path.join(dist, "src", "components", "tokenized-stocks");
+mkdirSync(stockLogoDir, { recursive: true });
+copyFileSync(path.join(root, "src", "components", "tokenized-stocks", "stock-logo-manifest.js"), path.join(stockLogoDir, "stock-logo-manifest.js"));

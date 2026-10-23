@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { compareVenuePriority } from "../../data/venue-priority.js";
 import { directoryShortAnswer } from "../../data/answer-first.js";
 import { ShortAnswer } from "../shared/ShortAnswer.jsx";
@@ -1332,9 +1333,9 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
                     </span>
                   )}
                   {canOpenRegistration ? (
-                    <a href={registrationUrl} target="_blank" rel="sponsored noopener noreferrer" className="yellow-card__btn-register" data-cta-kind="registration" data-cta-platform={venue.slug} data-cta-placement="directory-card" data-growth-decision={venue.slug} data-growth-placement="directory-card" data-growth-market={context.market} data-growth-product={context.product} data-growth-campaign={growthCampaign}>
+                    <span data-signup-cta={venue.slug} className="signup-cta-block"><a href={registrationUrl} target="_blank" rel="sponsored noopener noreferrer" className="yellow-card__btn-register" data-cta-kind="registration" data-cta-platform={venue.slug} data-cta-placement="directory-card" data-growth-decision={venue.slug} data-growth-placement="directory-card" data-growth-market={context.market} data-growth-product={context.product} data-growth-campaign={growthCampaign}>
                       {hasReferral ? ui.openSignup : ui.openApp}
-                    </a>
+                    </a><SignupEvidence slug={venue.slug} locale={locale} market={market} /></span>
                   ) : (
                     <a href={localizedHref(`/exchanges/${venue.slug}?${contextSearch}#registration-path`, { locale })} className="yellow-card__btn-register yellow-card__btn-register--verify" data-cta-placement="directory-card-eligibility" data-growth-decision="regional_eligibility" data-growth-placement="directory-card-eligibility" data-growth-market={context.market} data-growth-product={context.product} data-growth-campaign={growthCampaign}>
                       {isZhLocale ? "先核对地区资格" : (dc.verifyEligibility || ui.verifyEligibility)}

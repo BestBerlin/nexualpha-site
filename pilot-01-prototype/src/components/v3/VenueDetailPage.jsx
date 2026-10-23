@@ -1,4 +1,5 @@
 import { VenueStickyBar } from './conversion/VenueStickyBar.jsx';
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { strikingDistanceVenueH1, strikingDistanceVenueLead, STRIKING_DISTANCE_VENUE_COMPARISONS } from '../../data/striking-distance-venue-copy.js';
 import { BITGET_GUIDE_PATH, bitgetGuideAvailable, bitgetGuideLabel } from "../../data/bitget-guide-routes.js";
 import { ReferralNativeAnswers } from './ReferralNativeAnswers.jsx';
@@ -892,7 +893,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
                   <LocalLink key={href} locale={locale} href={venueDirectAnswerInternalHref(href)} data-cta-kind="research" data-cta-placement="venue-direct-answer-internal">{label}</LocalLink>
                 ))}
                 {venueDirectAnswerCta && (
-                  <a
+                  <span data-signup-cta={venueDirectAnswer.registrationSlug} className="signup-cta-block"><a
                     href={venueDirectAnswerCta.direct ? venueGoHref(venueDirectAnswer.registrationSlug, "venue-direct-answer-protected-cta", locale, effectiveMarket) : venueDirectAnswerCta.ctaHref}
                     target={venueDirectAnswerCta.direct ? "_blank" : undefined}
                     rel={venueDirectAnswerCta.direct ? "sponsored noopener noreferrer" : undefined}
@@ -903,7 +904,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
                     data-growth-placement="venue-direct-answer-protected-cta"
                   >
                     {venueDirectAnswerCta.direct ? detailCtaLabel(locale, { direct: true, hasReferral: venueDirectAnswerCta.hasReferral }) : detailCtaLabel(locale, { direct: false, hasReferral: venueDirectAnswerCta.hasReferral })}
-                  </a>
+                  </a><SignupEvidence slug={venueDirectAnswer.registrationSlug} locale={locale} market={market} /></span>
                 )}
               </div>
             )}

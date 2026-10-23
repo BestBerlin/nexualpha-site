@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { ratesShortAnswer } from "../../data/answer-first.js";
 import { ShortAnswer } from "../shared/ShortAnswer.jsx";
@@ -658,7 +659,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
   const hasBenefit = rows.some((r) => r.rebateDisplay || r.netDisplay);
   const colCount = 5 + (hasBenefit ? 2 : 0) + (hasTrend ? 1 : 0);
   const venueLink = (row) => <a href={contextHref(`/exchanges/${row.slug}#registration-path`)} data-cta-kind="research" data-cta-placement="rate-benchmark-detail" data-growth-decision={row.slug} data-growth-placement="rate-benchmark-detail" data-growth-market={market} data-growth-product={product} data-growth-account-stage={safeAccountStage} data-growth-funding={safeFunding} translate="no">{getLocalizedVenueName(row, locale)}</a>;
-  const ctaLink = (row) => <a
+  const ctaLink = (row) => <span data-signup-cta={row.slug} className="signup-cta-block"><a
     href={row.ctaHref}
     target={row.ctaDirect ? "_blank" : undefined}
     rel={row.ctaDirect ? "sponsored noopener noreferrer" : undefined}
@@ -678,7 +679,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
   // l10n: needs native review
   ur: "علاقائی اہلیت چیک کریں",
   // l10n: needs native review
-  uk: "Перевірити регіональну доступність" }[locale] || (isZh ? "先核对地区资格" : "Verify eligibility"))}</a>;
+  uk: "Перевірити регіональну доступність" }[locale] || (isZh ? "先核对地区资格" : "Verify eligibility"))}</a><SignupEvidence slug={row.slug} locale={locale} market={market} /></span>;
   return (
     <section className="fee-terminal-section v2-shell" id="rate-terminal" dir={normalizedLocale === "ar" || normalizedLocale === "ur" ? "rtl" : undefined}>
       <div className="rt-tool rt-panel">

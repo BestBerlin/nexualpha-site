@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 /**
  * TopIntelligenceHub — 首页最上方：活动与上币中心 + 实时新闻与研报双栏并排大板块
  * 完全响应用户需求：在活动与上币中心旁边，增加实时新闻与 SEO 文章模块。
@@ -284,7 +285,7 @@ export function TopIntelligenceHub({ locale = "en" }) {
 
                 <p className="hub-campaign-card__perk">{item.perkText}</p>
 
-                <a
+                <span data-signup-cta={item.slug} className="signup-cta-block"><a
                   href={item.registrationUrl}
                   target="_blank"
                   rel="sponsored noopener noreferrer"
@@ -294,7 +295,7 @@ export function TopIntelligenceHub({ locale = "en" }) {
                   data-cta-placement="hub-campaign-card"
                 >
                   {t.claimBtn}
-                </a>
+                </a><SignupEvidence slug={item.slug} locale={locale} market={undefined} /></span>
               </article>
             ))}
           </div>

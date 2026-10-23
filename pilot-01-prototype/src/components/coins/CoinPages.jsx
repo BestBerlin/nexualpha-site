@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { radarCopy } from "../../data/radar.js";
 import { whalePathForCoinSlug } from "../../data/whale-routes.js";
 // "Where to buy <coin>" (owner 2026-10-12): /coins hub and /coins/<slug> per locale. The answer comes first (which of the
@@ -179,7 +180,7 @@ function VenueTable({ coin, locale, market, t }) {
             <td data-label={neutral ? t.openProfile : t.colAction} className="nxc-action">
               {signup ? <div className="nxc-action__stack">
                 {signup.code ? <CopyCode code={signup.code} t={t} /> : null}
-                <a className="nxc-btn nxc-btn--small nxc-btn--ghost" href={signup.href} target="_blank" rel="sponsored noopener noreferrer" data-offer-link="go" data-cta-platform={venue.slug} data-cta-placement={`coin-table-${coin.slug}`}>{fill(t.go, { venue: signup.name })}</a>
+                <span data-signup-cta={venue.slug} className="signup-cta-block"><a className="nxc-btn nxc-btn--small nxc-btn--ghost" href={signup.href} target="_blank" rel="sponsored noopener noreferrer" data-offer-link="go" data-cta-platform={venue.slug} data-cta-placement={`coin-table-${coin.slug}`}>{fill(t.go, { venue: signup.name })}</a><SignupEvidence slug={venue.slug} locale={locale} market={market} /></span>
               </div> : <a className="nxc-link" href={hrefFor(`/exchanges/${venue.slug}`, locale, market)}>{t.openProfile}</a>}
             </td>
           </tr>;
@@ -278,7 +279,7 @@ export function CoinPage({ locale = "en", content, slug, market, overlay, initia
             <ul>{coin.venues.map((venue) => <li key={venue.slug}><a href={`#venue-${venue.slug}`} title={venue.name}><BrandMark slug={venue.slug} compact /><span className="nxc-visually-hidden">{venue.name}</span></a></li>)}</ul>
           </div> : null}
           {primary ? <div className="nxc-primary" data-coin-primary={primary.venue}>
-            <a className="nxc-btn" href={primary.href} target="_blank" rel="sponsored noopener noreferrer" data-offer-link="go" data-cta-platform={primary.venue} data-cta-placement={`coin-hero-${coin.slug}`}>{fill(t.buyOn, { symbol: coin.symbol, venue: primary.name })}</a>
+            <span data-signup-cta={primary.venue} className="signup-cta-block"><a className="nxc-btn" href={primary.href} target="_blank" rel="sponsored noopener noreferrer" data-offer-link="go" data-cta-platform={primary.venue} data-cta-placement={`coin-hero-${coin.slug}`}>{fill(t.buyOn, { symbol: coin.symbol, venue: primary.name })}</a><SignupEvidence slug={primary.venue} locale={locale} market={market} /></span>
             {primary.code ? <CopyCode code={primary.code} t={t2} /> : null}
           </div> : null}
         </div>

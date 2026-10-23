@@ -1,3 +1,4 @@
+import { StockLogo } from "./StockLogo.jsx";
 // /tokenized-stocks hub, stock-by-stock sections (2026-10-22): the sortable stock table, the newest listings and the
 // risks list. Numbers come from tsMatrix / tsNewestListings (exchanges' public market data + sourced facts); nothing is
 // estimated. Live prices load after mount and expire independently of polling. SSR renders the default sort
@@ -82,7 +83,7 @@ export function StockMatrix({ t, locale, market, live, venues }) {
               return (
                 <tr key={row.ticker}>
                   <th scope="row" className="nxts-mx__stock">
-                    <a href={hrefFor(tsTickerPath(row.ticker), locale, market)}><b translate="no">{row.ticker}</b><span>{t.names?.[row.ticker] || row.ticker}</span></a>
+                    <a href={hrefFor(tsTickerPath(row.ticker), locale, market)}><StockLogo ticker={row.ticker} size={28} /><b translate="no">{row.ticker}</b><span>{t.names?.[row.ticker] || row.ticker}</span></a>
                   </th>
                   {prices.length ? <>
                     <td className="is-num"><b><bdi dir="ltr">{tsPriceNumber(price?.lastPrice)}{price ? ` ${price.quoteCurrency}` : ""}</bdi></b>{price ? <small>{names[price.venueId]} · <bdi dir="ltr">{price.instrument}</bdi></small> : null}</td>

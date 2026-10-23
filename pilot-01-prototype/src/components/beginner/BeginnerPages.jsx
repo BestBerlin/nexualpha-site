@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { BITGET_GUIDE_PATH, bitgetGuideAvailable, bitgetGuideLabel } from "../../data/bitget-guide-routes.js";
 import { binanceProStep } from '../../data/binance-pro-step.js';
 import { BEGINNER_COUNTRIES as COUNTRIES, BEGINNER_COUNTRY_LABELS } from "../../data/beginner-countries.js";
@@ -23,9 +24,9 @@ function Signup({ choice, locale, market, copy }) {
   return <section className="nxb-signup" aria-label={copy.labels.register}>
     {choice.benefitVerified ? <p>{choice.benefit}</p> : null}
     {choice.slug === 'binance' && choice.inviteCode ? <p className="nxb-step-pro" data-registration-step="binance-pro">{binanceProStep(locale)}</p> : null}
-    <a className="nxb-action" href={beginnerSignupHref(choice.slug, locale, market)} rel="nofollow sponsored" data-cta-kind="registration" data-cta-platform={choice.slug} data-cta-placement="beginner-step-2">{ui.openN.replace('{n}', choice.name)}</a>
+    <span data-signup-cta={choice.slug} className="signup-cta-block"><a className="nxb-action" href={beginnerSignupHref(choice.slug, locale, market)} rel="nofollow sponsored" data-cta-kind="registration" data-cta-platform={choice.slug} data-cta-placement="beginner-step-2">{ui.openN.replace('{n}', choice.name)}</a><SignupEvidence slug={choice.slug} locale={locale} market={market} /></span>
     {choice.inviteCode ? <p>{ui.code}: <code>{choice.inviteCode}</code><br />{ui.check.replace('{c}', choice.inviteCode)}</p> : null}
-    {BACKUP_SIGNUP_URLS[choice.slug] ? <a href={beginnerSignupHref(choice.slug, locale, market, true)} rel="nofollow sponsored">{backupSignupLabel(locale)}</a> : null}
+    {BACKUP_SIGNUP_URLS[choice.slug] ? <span data-signup-cta={choice.slug}><a href={beginnerSignupHref(choice.slug, locale, market, true)} rel="nofollow sponsored">{backupSignupLabel(locale)}</a><SignupEvidence slug={choice.slug} locale={locale} market={market} /></span> : null}
   </section>;
 }
 export function BeginnerPage({ locale = 'en', market, route, copy }) {

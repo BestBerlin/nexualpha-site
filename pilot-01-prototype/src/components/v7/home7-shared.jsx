@@ -1,5 +1,6 @@
 // Helpers shared by the home first screen (HomeV7.jsx) and its scroll-loaded lower half (home7-below.jsx).
 import { useEffect, useRef, useState } from "react";
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
 import { brandsBySlug } from "../../content/brand-manifest";
 
@@ -36,9 +37,9 @@ function homeGoHref(slug, locale, placement) {
   return `/go/${encodeURIComponent(slug)}${search ? `?${search}` : ""}`;
 }
 
-export function Cta({ v, locale, children, className, placement }) {
+export function Cta({ v, locale, children, className, placement, evidence = true }) {
   if (v.open) {
-    return <a className={className} href={homeGoHref(v.slug, locale, placement)} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-platform={v.slug} data-cta-placement={placement} data-cta-code={v.code || undefined}>{children}{v.code ? <span className="h7-sr"> {v.code}</span> : null}</a>;
+    return <span className="signup-cta" data-signup-cta={v.slug}><a className={className} href={homeGoHref(v.slug, locale, placement)} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-platform={v.slug} data-cta-placement={placement} data-cta-code={v.code || undefined}>{children}{v.code ? <span className="h7-sr"> {v.code}</span> : null}</a>{evidence && <SignupEvidence slug={v.slug} locale={locale} placement={placement} />}</span>;
   }
   return <a className={className} href={localizedHref(`/exchanges/${v.slug}#registration-path`, { locale })} data-cta-placement={`${placement}-eligibility`}>{children}</a>;
 }

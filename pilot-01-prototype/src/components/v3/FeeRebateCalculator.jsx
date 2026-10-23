@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 /**
  * FeeRebateCalculator — 手续费节省计算器（承重柱二：留存与转化）
  * 用户输入月交易量，对比各平台年度基础手续费支出；已核验的用户权益才进入节省测算。
@@ -299,7 +300,7 @@ export function FeeRebateCalculator({ locale = "en" }) {
 
               <div className="frc__col-action" role="cell">
                 {row.hasReferral && row.registrationUrl ? (
-                  <a
+                  <span data-signup-cta={row.slug} className="signup-cta-block"><a
                     href={row.registrationUrl}
                     target="_blank"
                     rel="sponsored noopener noreferrer"
@@ -312,7 +313,7 @@ export function FeeRebateCalculator({ locale = "en" }) {
                     data-growth-placement="fee-rebate-calculator"
                   >
                     {t.openBtn}
-                  </a>
+                  </a><SignupEvidence slug={row.slug} locale={locale} market={undefined} /></span>
                 ) : (
                   <a href={row.profileHref} className="frc__cta-btn frc__cta-btn--research" data-cta-kind="research" data-cta-status={row.claimStatus} data-cta-platform={row.slug} data-cta-placement="fee-rebate-calculator">
                     {t.reviewTerms}

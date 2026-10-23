@@ -23,6 +23,8 @@ const T = {
   it: { open: "Apri la registrazione ufficiale", openN: "Apri la registrazione ufficiale {n}", signupN: "Registrazione {n}", code: "Codice", copy: "Copia codice", copied: "Copiato", copiedHint: "Codice copiato. Incollalo se il campo del modulo è vuoto.", copyFail: "Copia bloccata. Seleziona il codice e copialo manualmente.", opening: "Registrazione ufficiale {n} aperta in una nuova scheda.", check: "Controlla che il codice {c} sia inserito prima di inviare.", close: "Chiudi", caption: "Registrazione ufficiale", next: "Passo successivo", lower: "Commissione spot verificata più bassa: {n}", neutral: "Nessuna differenza di commissione verificata decide questa coppia. Scegli per prodotto e account.", directory: "Scegli nella directory" },
 };
 
+const REFERRAL_HELP = {"en": "Code not applied? Enter {c} in the sign-up form’s referral field.", "zh-Hans": "邀请码未生效？请在注册表单的推荐码栏填写 {c}。", "zh-Hant": "邀請碼未生效？請在註冊表單的推薦碼欄填寫 {c}。", "es": "¿No se aplicó el código? Introduce {c} en el campo de referido del registro.", "pt-BR": "Código não aplicado? Insira {c} no campo de indicação do cadastro.", "fr": "Code non appliqué ? Saisissez {c} dans le champ de parrainage du formulaire.", "de": "Code nicht übernommen? Gib {c} im Empfehlungsfeld des Anmeldeformulars ein.", "it": "Codice non applicato? Inserisci {c} nel campo referral del modulo di registrazione.", "ja": "コードが適用されない場合は、登録フォームの紹介コード欄に {c} を入力してください。", "ko": "코드가 적용되지 않았나요? 가입 양식의 추천 코드 칸에 {c}를 입력하세요.", "tr": "Kod uygulanmadı mı? Kayıt formunun referans alanına {c} yazın.", "ru": "Код не применён? Введите {c} в поле реферального кода при регистрации.", "ar": "لم يُطبّق الرمز؟ أدخل {c} في حقل الإحالة بنموذج التسجيل.", "id": "Kode belum diterapkan? Masukkan {c} pada kolom referral formulir pendaftaran.", "vi": "Mã chưa được áp dụng? Nhập {c} vào ô giới thiệu trong biểu mẫu đăng ký.", "ur": "کوڈ لاگو نہیں ہوا؟ سائن اپ فارم کے ریفرل خانے میں {c} درج کریں۔", "uk": "Код не застосовано? Введіть {c} у поле реферального коду під час реєстрації."};
+
 export function ctaUiCopy(locale = "en") {
   const l = String(locale || "en");
   if (l === "zh-TW" || l === "zh-HK") return T["zh-Hant"];
@@ -47,12 +49,17 @@ export async function copyText(text) {
   try {
     if (navigator.clipboard?.writeText) { await navigator.clipboard.writeText(text); return true; }
   } catch { /* fall through to the legacy path */ }
+  let ta, focus;
   try {
-    const ta = document.createElement("textarea");
+    focus = document.activeElement;
+    ta = document.createElement("textarea");
     ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
     document.body.appendChild(ta); ta.select();
-    const ok = document.execCommand("copy") === true;
-    ta.remove();
-    return ok;
+    return document.execCommand("copy") === true;
   } catch { return false; }
+  finally { ta?.remove(); focus?.focus?.({ preventScroll: true }); }
+}
+
+export function referralHelp(locale, code) {
+  return fillCta(REFERRAL_HELP[locale] || REFERRAL_HELP.en, { c: code });
 }

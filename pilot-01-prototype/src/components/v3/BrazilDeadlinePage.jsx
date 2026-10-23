@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 // Brazil BCB 30-Oct-2026 deadline topic (owner plan 2026-10-12): /pt-br/topics/<pt slug> (Portuguese) and
 // /topics/<en slug> (English). Other locales get translated chrome around the English article, with noindex.
 // Data and copy: src/data/brazil-vasp-deadline.js (article) and src/data/brazil-vasp-status.js (per-exchange status).
@@ -77,7 +78,7 @@ export function BrazilDeadlinePage({ locale = "en" }) {
                   <td className="brazil-deadline-actions">
                     {row.profile ? <a href={localizedHref(row.profile, { locale })} data-cta-kind="research" data-cta-placement="brazil-deadline-profile">{chrome.profile}</a> : null}
                     {row.registrationUrl ? (
-                      <a href={row.registrationUrl} target="_blank" rel={row.sponsored ? "sponsored noopener noreferrer" : "noopener noreferrer"} data-cta-kind="registration" data-cta-platform={row.slug} data-cta-placement="brazil-deadline-table">{chrome.register}</a>
+                      <span data-signup-cta={row.slug} className="signup-cta-block"><a href={row.registrationUrl} target="_blank" rel={row.sponsored ? "sponsored noopener noreferrer" : "noopener noreferrer"} data-cta-kind="registration" data-cta-platform={row.slug} data-cta-placement="brazil-deadline-table">{chrome.register}</a><SignupEvidence slug={row.slug} locale={locale} market={undefined} /></span>
                     ) : null}
                   </td>
                 </tr>

@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { CodeChip } from "../v6/CodeChip.jsx";
 import { BrandMark } from "../brand/BrandMark";
@@ -188,7 +189,7 @@ export function CompareHeroActions({ directAnswer, profiles, locale, market, pro
       {verdict && <p className="v3-compare-hero-actions__verdict">{verdict}</p>}
       <div className="v3-compare-hero-actions__row" role="group" aria-label={compareDetailPhrase(locale, "accountTerms", "Check official account terms and sources")}>
         {ctas.map(({ profile, access, cta }) => (
-          <a
+          <span key={profile.slug} data-signup-cta={profile.slug} className="signup-cta-block"><a
             key={profile.slug}
             href={cta.ctaHref}
             target={cta.direct ? "_blank" : undefined}
@@ -211,7 +212,7 @@ export function CompareHeroActions({ directAnswer, profiles, locale, market, pro
             </span>
             {lower === profile.slug && <span className="v3-compare-hero-actions__lower">{lowerLabel}</span>}
             <span aria-hidden="true">{cta.direct ? "↗" : "→"}</span>
-          </a>
+          </a><SignupEvidence slug={profile.slug} locale={locale} market={market} /></span>
         ))}
       </div>
     </div>
@@ -255,7 +256,7 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
               </dl>
               <div className="v3-compare-final-choice-card__action-row" role="group" aria-label={compareDetailPhrase(locale, "accountTerms", "Check official account terms and sources")}>
                 {access.inviteCode && <CodeChip code={access.inviteCode} slug={profile.slug} placement="compare-final-choice-code" locale={locale} />}
-                <a
+                <span data-signup-cta={profile.slug} className="signup-cta-block"><a
                   href={cta.ctaHref}
                   target={cta.direct ? "_blank" : undefined}
                   rel={cta.direct ? "sponsored noopener noreferrer" : undefined}
@@ -270,7 +271,7 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
                   data-growth-product={product}
                 >
                   {detailCtaLabel(locale, { direct: cta.direct, hasReferral: access.hasReferral })} {cta.direct ? "↗" : "→"}
-                </a>
+                </a><SignupEvidence slug={profile.slug} locale={locale} market={market} /></span>
               </div>
             </section>
           );

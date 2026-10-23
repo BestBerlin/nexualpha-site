@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { LatestResearch } from "../research/LatestResearch.jsx";
 import { SourceLink } from "../shared/SourceLink.jsx";
 import { compareShortAnswer } from "../../data/answer-first.js";
@@ -2224,7 +2225,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
 
                 <div className="v3-versus-side__footer">
                   {pCode && <span className="v3-versus-code">{codeLabelByLocale[textLocaleKey(locale)] || codeLabelByLocale.en}: <strong translate="no">{pCode}</strong></span>}
-                  <a
+                  <span data-signup-cta={p.slug} className="signup-cta-block"><a
                     href={pCta.ctaHref}
                     target={pCta.direct ? "_blank" : undefined}
                     rel={pCta.direct ? "sponsored noopener noreferrer" : undefined}
@@ -2239,7 +2240,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
                     data-growth-campaign={growthCampaign}
                   >
                     {pCta.direct ? (locale === "zh-Hant" ? `進入 ${p.name} 官網 ↗` : isZhLoc ? `进入 ${p.name} 官网 ↗` : `${compareLabels.visit || "Visit"} ${p.name} ↗`) : detailCtaLabel(locale, { direct: false, hasReferral: pAccess.hasReferral })}
-                  </a>
+                  </a><SignupEvidence slug={p.slug} locale={locale} market={market} /></span>
                 </div>
 
                 {/* 来源证据保留，但按需展开，避免首屏与后续研究模块重复占据滚动路径。 */}
@@ -2312,7 +2313,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
             <div key={p.slug} className="v3-compare-sticky-bar__col">
               <BrandMark slug={p.slug} compact />
               <strong translate="no" lang={isZhLoc ? "zh-Hans" : "en"}>{locName}</strong>
-              <a
+              <span data-signup-cta={p.slug} className="signup-cta-block"><a
                 href={pCta.ctaHref}
                 target={pCta.direct ? "_blank" : undefined}
                 rel={pCta.direct ? "sponsored noopener noreferrer" : undefined}
@@ -2331,7 +2332,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
                 {pCta.direct
                   ? <>{fillCta(ctaUiCopy(locale).signupN, { n: p.name })} <span aria-hidden="true">↗</span></>
                   : <>{detailCtaLabel(locale, { direct: pCta.direct, hasReferral: pCta.hasReferral })} →</>}
-              </a>
+              </a><SignupEvidence slug={p.slug} locale={locale} market={market} /></span>
             </div>
           );
         })}

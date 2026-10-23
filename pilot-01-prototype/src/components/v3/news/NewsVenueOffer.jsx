@@ -1,7 +1,8 @@
+import { SignupEvidence } from "../../shared/SignupEvidence.jsx";
 // News → sign-up (owner 2026-10-10): a reader of an exchange's news sees that exchange's sign-up with our invite code.
 // Owner placement: under the article, in the side rail on desktop, and (where there is no rail, i.e. phones and
 // tablets) a light card that slides in after 15 seconds of reading (never an interstitial; one tap closes it for the session; skipped while the inline card is on screen).
-// Only venues with a real invite route are offered; the commission disclosure lives in the footer only.
+// Only venues with a real invite route are offered; each offer includes its code and commission disclosure.
 import React, { useEffect, useRef, useState } from "react";
 import { BackupSignupLink } from "../../shared/BackupSignupLink.jsx";
 import { pickNewsOfferVenue } from "../../../data/news-offer.js";
@@ -40,7 +41,6 @@ const READ_DELAY_MS = 15000;
 // and forwards to the registry link, code included) and show a display name (Bitget as "Bitget.com"). Without them the
 // card keeps the registry link and the site click beacon (data-cta-kind="registration").
 function OfferBody({ slug, cta, locale, market, t, placement, linkFor, nameFor }) {
-  const [copied, setCopied] = useState(false);
   const name = (nameFor && nameFor(slug, cta)) || cta.name || slug;
   const href = linkFor ? linkFor(slug, cta) : venueGoHref(slug, placement, locale, market);
   if (!href) return null;
@@ -48,20 +48,17 @@ function OfferBody({ slug, cta, locale, market, t, placement, linkFor, nameFor }
     ? { "data-offer-link": "go", "data-cta-platform": slug, "data-cta-placement": placement }
     : { "data-cta-kind": "registration", "data-cta-platform": slug, "data-cta-placement": placement, "data-cta-code": cta.inviteCode || undefined };
   const terms = ownerRebateLine(slug, locale, name) || t.fallback;
-  const doCopy = async () => { try { await navigator.clipboard.writeText(cta.inviteCode); setCopied(true); setTimeout(() => setCopied(false), 1800); } catch { /* clipboard blocked: the code stays visible */ } };
   return (
     <>
       <div className="news-offer__head">
         <span className="news-offer__logo"><BrandMark slug={slug} compact /></span>
         <div><b>{t.lead(name)}</b><small>{terms}</small></div>
       </div>
-      <div className="news-offer__act">
-        {cta.inviteCode && (
-          <div className="news-offer__code"><span>{t.code}</span><code translate="no">{cta.inviteCode}</code><button type="button" onClick={doCopy} aria-live="polite">{copied ? t.copied : t.copy}</button></div>
-        )}
+      <div className="news-offer__act" data-signup-cta={slug}>
         <a className="news-offer__go" href={href} target="_blank" rel="sponsored noopener noreferrer" {...tracking}>
           {t.go(name)} <span aria-hidden="true">→</span>
         </a>
+        <SignupEvidence slug={slug} locale={locale} market={market} />
         <BackupSignupLink venue={slug} locale={locale} market={market} placement={placement} />
       </div>
     </>

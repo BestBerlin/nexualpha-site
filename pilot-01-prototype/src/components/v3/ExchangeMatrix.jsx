@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { compareVenuePriority, orderVenues } from "../../data/venue-priority.js";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BrandMark } from "../brand/BrandMark";
@@ -439,7 +440,7 @@ export function ExchangeMatrix({
                     </td>
                     <td role="cell" className="mx-td mx-td--cta">
                       {r.canOpenRegistration ? (
-                        <a
+                        <span data-signup-cta={r.slug} className="signup-cta-block"><a
                           href={venueGoHref(r.slug, "directory-card", locale, context.market)}
                           target="_blank"
                           rel="sponsored noopener noreferrer"
@@ -453,7 +454,7 @@ export function ExchangeMatrix({
                           data-growth-product={context.product}
                         >
                           <span>{mc.signup}</span><span className="mx-sr"> {r.name}</span><ArrowIcon />
-                        </a>
+                        </a><SignupEvidence slug={r.slug} locale={locale} market={market} /></span>
                       ) : (
                         <a
                           href={localizedHref(`/exchanges/${r.slug}?${contextSearch}#registration-path`, { locale })}

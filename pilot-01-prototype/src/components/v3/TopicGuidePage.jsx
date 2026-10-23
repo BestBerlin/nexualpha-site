@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { nextDecisionBridgeCopy } from "../../data/next-decision-bridge.js";
 import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
 import { SourceLink } from "../shared/SourceLink.jsx";
@@ -3503,7 +3504,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
                       <div style={{ fontSize: "0.75rem", color: "#94a3b8", marginTop: "2px" }}>{topicFactsVerified ? zhCopy(isHant, p.barrier, p.barrierZhHant) : (isZh ? zhCopy(isHant, "地区与 KYC 条件待核验") : (topicUiResolved.regionalKyc || "Regional and KYC terms to verify"))}</div>
                     </td>
                     <td style={{ textAlign: "center" }}>
-                      <a
+                      <span data-signup-cta={p.slug} className="signup-cta-block"><a
                         href={usePartnerRoute ? p.affiliateUrl : profileHref(p.slug)}
                         target={usePartnerRoute ? "_blank" : undefined}
                         rel={usePartnerRoute ? (p.hasReferral ? "sponsored noopener noreferrer" : "noopener noreferrer") : undefined}
@@ -3517,7 +3518,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
                       >
                         <span>{usePartnerRoute ? (isZh ? zhCopy(isHant, "直达官方开户") : ({ ja: "公式口座開設へ", ko: "공식 가입 페이지 열기", tr: "Resmi hesap açma sayfası", ru: "Открыть официальный аккаунт", ar: "فتح الحساب الرسمي", id: "Buka akun resmi", vi: "Mở tài khoản chính thức", "pt-BR": "Abrir conta oficial", es: "Abrir cuenta oficial", fr: "Ouvrir le compte officiel", de: "Offizielles Konto öffnen", it: "Apri il conto ufficiale" }[locale] || "Open official account")) : (isZh ? zhCopy(isHant, "先核对平台档案", "先核對平台檔案") : ({ ja: "サービスプロフィールを確認", ko: "플랫폼 프로필 확인", tr: "Platform profilini incele", ru: "Открыть профиль площадки", ar: "مراجعة ملف المنصة", id: "Tinjau profil platform", vi: "Xem hồ sơ nền tảng", "pt-BR": "Revisar perfil da plataforma", es: "Revisar perfil de la plataforma", fr: "Vérifier le profil de la plateforme", de: "Plattformprofil prüfen", it: "Controlla il profilo della piattaforma" }[locale] || "Review venue profile"))}</span>
                         <span>→</span>
-                      </a>
+                      </a><SignupEvidence slug={p.slug} locale={locale} market={market} /></span>
                       {usePartnerRoute && p.inviteCode && p.inviteCode !== "N/A" && (
                         <div style={{ fontSize: "0.75rem", color: "#94a3b8", marginTop: "4px" }}>
                           {isZh ? `${zhCopy(isHant, "邀请码")}: ${p.inviteCode}` : `Code: ${p.inviteCode}`}

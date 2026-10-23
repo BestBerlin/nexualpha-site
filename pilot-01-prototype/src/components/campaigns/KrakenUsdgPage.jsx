@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 // Kraken 5M USDG Futures Challenge landing page (/activities/kraken-usdg-challenge, owner 2026-10-13). Every fact is from
 // Kraken's official rules and challenge page (see src/data/kraken-usdg.js). Funnel: step 1 = Kraken account with our
 // registry code through /go/kraken (primary CTA + copy button), step 2 = register on Kraken's challenge page through
@@ -80,12 +81,12 @@ function CodeChip({ code, t }) {
   );
 }
 
-function SignupButton({ signup, t, placement }) {
+function SignupButton({locale = "en", market,  signup, t, placement }) {
   return (
-    <a className="nxku-btn nxku-btn--primary" href={signup.href} target="_blank" rel="sponsored noopener noreferrer"
+    <span data-signup-cta={"kraken"} className="signup-cta-block"><a className="nxku-btn nxku-btn--primary" href={signup.href} target="_blank" rel="sponsored noopener noreferrer"
       data-offer-link="go" data-campaign="kraken-usdg" data-cta-platform="kraken" data-cta-placement={`kraken-usdg-${placement}`}>
       <span className="nxku-btn__n" aria-hidden="true">1</span>{fill(t.step1Cta, { code: signup.code })}<span aria-hidden="true" className="nxku-arrow">→</span>
-    </a>
+    </a><SignupEvidence slug={"kraken"} locale={locale} market={market} /></span>
   );
 }
 
@@ -98,12 +99,12 @@ function RegisterButton({ signup, t, placement }) {
   );
 }
 
-function Join({ signup, t, placement, center = false, register = true }) {
+function Join({ locale, market, signup, t, placement, center = false, register = true }) {
   if (!signup) return null;
   return (
     <div className={`nxku-actions${center ? " nxku-actions--center" : ""}`}>
       <div className="nxku-actions__row">
-        <SignupButton signup={signup} t={t} placement={placement} />
+        <SignupButton locale={locale} market={market} signup={signup} t={t} placement={placement} />
         <CodeChip code={signup.code} t={t} />
       </div>
       {register ? (
@@ -275,7 +276,7 @@ export function KrakenUsdgPage({ locale = "en", market }) {
             <h1 className="nxku-title">{t.h1}</h1>
             <p className="nxku-sub">{t.sub}</p>
             <ul className="nxku-deal">{t.dealChips.map((chip) => <li key={chip}><span aria-hidden="true">✓</span>{chip}</li>)}</ul>
-            {hero ? <Join signup={hero} t={t} placement="hero" /> : (
+            {hero ? <Join locale={locale} market={market} signup={hero} t={t} placement="hero" /> : (
               <div className="nxku-actions">
                 <p className="nxku-neutral">{t.neutralLead}</p>
                 <a className="nxku-btn nxku-btn--ghost" href="#how">{t.how}</a>
@@ -295,7 +296,7 @@ export function KrakenUsdgPage({ locale = "en", market }) {
               <div>
                 <h3>{fill(title, { code })}</h3>
                 <p>{fill(body, { code })}</p>
-                {stepSignup && index === 0 ? <div className="nxku-step__act"><SignupButton signup={stepSignup} t={t} placement="steps" /><CodeChip code={stepSignup.code} t={t} /></div> : null}
+                {stepSignup && index === 0 ? <div className="nxku-step__act"><SignupButton locale={locale} market={market} signup={stepSignup} t={t} placement="steps" /><CodeChip code={stepSignup.code} t={t} /></div> : null}
                 {stepSignup && index === 1 ? <div className="nxku-step__act"><RegisterButton signup={stepSignup} t={t} placement="steps" /></div> : null}
               </div>
             </li>
@@ -346,7 +347,7 @@ export function KrakenUsdgPage({ locale = "en", market }) {
           </table>
         </div>
         <p className="nxku-total">{t.exampleNote}</p>
-        <Join signup={signupFor("example")} t={t} placement="example" />
+        <Join locale={locale} market={market} signup={signupFor("example")} t={t} placement="example" />
       </section>
 
       <section className="nxku-shell nxku-section nxku-facts" aria-labelledby="nxku-dates">
@@ -389,7 +390,7 @@ export function KrakenUsdgPage({ locale = "en", market }) {
           <>
             <h2 id="nxku-final">{t.finalH}</h2>
             <p>{fill(t.finalBody, { code: hero.code })}</p>
-            <Join signup={signupFor("final")} t={t} placement="final" center />
+            <Join locale={locale} market={market} signup={signupFor("final")} t={t} placement="final" center />
           </>
         ) : (
           <>

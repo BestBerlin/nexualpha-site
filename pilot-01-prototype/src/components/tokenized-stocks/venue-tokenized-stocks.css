@@ -27,3 +27,6 @@
   .vts:not(#_):not(#_):not(#_) .vts-lanes > li { grid-template-columns: 1fr; gap: 4px; }
   .vts:not(#_):not(#_):not(#_) .vts-syms a, .vts:not(#_):not(#_):not(#_) .vts-syms span { display: inline-flex; align-items: center; min-block-size: 44px; }
 }
+
+.vts:not(#_):not(#_):not(#_) .vts-syms a { display: inline-flex; align-items: center; gap: 5px; }
+.vts:not(#_):not(#_):not(#_) .vts-syms .stock-logo { min-block-size: 0; }

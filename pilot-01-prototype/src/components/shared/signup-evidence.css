@@ -1,0 +1,9 @@
+.signup-cta,.signup-evidence{display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-inline-size:0;max-inline-size:100%}
+.signup-evidence{margin-block:8px;font-size:15px;line-height:1.45;text-align:start}
+.signup-code-help,.commission-disclosure-line{display:block;flex-basis:100%;overflow-wrap:anywhere;color:var(--ink-2,#b0b4ba);font-size:15px;line-height:1.45}
+.signup-evidence .cro-code__btn{min-block-size:44px;min-inline-size:44px;font-size:15px}
+.signup-evidence .cro-code__code{overflow-wrap:anywhere}
+.signup-evidence .cro-code__pop{font-size:15px}
+
+.signup-cta-block{display:inline-flex;flex-direction:column;align-items:stretch;max-width:100%;min-width:0}
+.signup-cta-block>a{min-block-size:44px}

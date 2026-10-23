@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 /**
  * TraderWizardModal — 30 秒“专属交易所智能匹配向导”
  * 3 个极简高转化问题定位用户画像，输出可解释的条件匹配结果，并支持一键带码直达。
@@ -745,7 +746,7 @@ export function TraderWizardModal({ isOpen, onClose, locale = "en", market, prod
               </div>
 
               <div className="wizard-result__actions">
-                <a
+                <span data-signup-cta={matchResult.slug} className="signup-cta-block"><a
                   href={matchResult.regUrl}
                   target={matchResult.directRoute ? "_blank" : undefined}
                   rel={matchResult.directRoute ? "sponsored noopener noreferrer" : undefined}
@@ -758,7 +759,7 @@ export function TraderWizardModal({ isOpen, onClose, locale = "en", market, prod
                   data-growth-placement="wizard-result-primary"
                 >
                   {matchResult.directRoute ? t.result.openBtn : t.result.reviewTerms}
-                </a>
+                </a><SignupEvidence slug={matchResult.slug} locale={locale} market={market} /></span>
 	                <a
 	                  href={contextualHref(`/exchanges/${matchResult.slug}`, wizardContext)}
 	                  className="wizard-result__secondary"

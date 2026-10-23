@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import { VENUE_PRIORITY, orderVenues } from "../../data/venue-priority.js";
 // V6 Act 2: Compare Lab. Paired ledger of verified fee figures that morphs between two chosen venues.
 // Only values present in EXCHANGE_FACTS are shown; anything else reads "Not yet checked". No ranking, no verdicts.
@@ -100,7 +101,7 @@ function normalize(selected, locale) {
   return out.slice(0, 2);
 }
 
-export function CompareLab({ locale = "en", venues = [], selected, onSelectionChange, feeCheck, store }) {
+export function CompareLab({market,  locale = "en", venues = [], selected, onSelectionChange, feeCheck, store }) {
   const t = labText(locale);
   const ui = getUi(locale);
   const ctx = directoryContext({ locale });
@@ -473,7 +474,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
             </p>
             {leaderHref ? (
               <div className="cl-next__act">
-                <a
+                <span data-signup-cta={leader} className="signup-cta-block"><a
                   className="cl-next__cta"
                   href={leaderCta.registrationUrl}
                   target="_blank"
@@ -487,7 +488,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
                   data-growth-product="spot"
                 >
                   <span>{fillCta(tc.openN, { n: nameOf(leader) })}</span><span aria-hidden="true">{"\u2197"}</span>
-                </a>
+                </a><SignupEvidence slug={leader} locale={locale} market={undefined} /></span>
                 <CodeChip code={leaderCta.inviteCode} slug={leader} placement="compare-lab-next-code" locale={locale} />
               </div>
             ) : (

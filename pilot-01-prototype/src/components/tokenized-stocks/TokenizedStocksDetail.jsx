@@ -1,3 +1,5 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
+import { StockLogo } from "./StockLogo.jsx";
 import { LatestResearch } from "../research/LatestResearch.jsx";
 import { tokenizedResearchArticles } from "../research/hub-research.js";
 // Tokenized US stocks: ticker pages (/tokenized-stocks/<ticker>) and exchange-product pages
@@ -62,12 +64,12 @@ function CodeChip({ code, t }) {
   );
 }
 
-function SignupButton({ ex, signup, t, label }) {
+function SignupButton({locale = "en", market,  ex, signup, t, label }) {
   return (
-    <a className="nxts-btn" href={signup.href} target="_blank" rel="sponsored noopener noreferrer"
+    <span data-signup-cta={ex.slug} className="signup-cta-block"><a className="nxts-btn" href={signup.href} target="_blank" rel="sponsored noopener noreferrer"
       data-offer-link="go" data-cta-kind="signup" data-cta-platform={ex.slug} data-cta-placement={new URLSearchParams(signup.href.split("?")[1]).get("src")}>
       <span>{label || fillTs(t.cta, { name: ex.name })}</span><span aria-hidden="true" className="nxts-arrow">→</span>
-    </a>
+    </a><SignupEvidence slug={ex.slug} locale={locale} market={market} /></span>
   );
 }
 
@@ -123,7 +125,7 @@ function TickerRow({ row, ticker, t, tk, locale, market }) {
       <span role="cell" data-k={tk.cols.hours}>{hoursText(row.hours, t) || "—"}</span>
       <span role="cell" data-k={tk.cols.dividends}>{div || "—"}</span>
       <span role="cell" className="nxts-tk__go">
-        {signup ? <><CodeChip code={signup.code} t={t} /><SignupButton ex={row.exchange} signup={signup} t={t} /></> : null}
+        {signup ? <><CodeChip code={signup.code} t={t} /><SignupButton locale={locale} market={market} ex={row.exchange} signup={signup} t={t} /></> : null}
         <SourceList sources={tsRowSources(row, locale, market)} locale={locale} market={market} t={t} />
       </span>
     </div>
@@ -164,7 +166,7 @@ function Campaigns({ items: all, venues, t, tk, locale, market }) {
                 {c.href ? <a href={hrefFor(c.href, locale, market)}>{c.key ? t.promos[c.key] : c.label}</a> : <span>{c.key ? t.promos[c.key] : c.label}</span>}
                 {c.key ? <small>{fillTs(t.promoEnds, { date: formatSgt(c.endAt, locale, "end") })}</small> : null}
               </p>
-              {signup ? <SignupButton ex={{ slug: c.venue, name: names.get(c.venue) || c.venue }} signup={signup} t={t} /> : null}
+              {signup ? <SignupButton locale={locale} market={market} ex={{ slug: c.venue, name: names.get(c.venue) || c.venue }} signup={signup} t={t} /> : null}
               <SourceList sources={c.s ? tsCitable(c.s, locale, market) : [{ id: c.url, url: c.url, title: c.url, date: readerDayKey(c.startAt || c.endAt), dateKind: "published" }]} locale={locale} market={market} t={t} />
             </li>
           );
@@ -204,7 +206,7 @@ function TickerLinks({ t, locale, market, except, live }) {
         return (
           <li key={ticker}>
             <a href={hrefFor(tsTickerPath(ticker), locale, market)}>
-              <b translate="no">{ticker}</b><span>{t.names[ticker] || ticker}</span><small>{fillTs(t.tickerVenues, { n })}</small>
+              <StockLogo ticker={ticker} size={28} /><b translate="no">{ticker}</b><span>{t.names[ticker] || ticker}</span><small>{fillTs(t.tickerVenues, { n })}</small>
             </a>
           </li>
         );
@@ -228,7 +230,7 @@ export function TokenizedStocksTickerPage({ locale = "en", market, ticker, live,
       <section className="nxts-hero nxts-hero--ticker">
         <div className="nxts-shell">
           <Crumbs items={[[t.breadcrumb, TS_PATH], [preipo ? name : ticker, null]]} locale={locale} market={market} t={t} />
-          <h1 className="nxts-h1">{h1}{TS_ETFS.has(ticker) ? <span className="nxts-etf">{t.etf}</span> : null}{preipo ? <span className="nxts-etf" data-lane="preipo">{tk.preipoBadge}</span> : null}</h1>
+          <h1 className="nxts-h1 nxts-h1--stock"><StockLogo ticker={ticker} size={48} loading="eager" />{h1}{TS_ETFS.has(ticker) ? <span className="nxts-etf">{t.etf}</span> : null}{preipo ? <span className="nxts-etf" data-lane="preipo">{tk.preipoBadge}</span> : null}</h1>
           <Updated at={data.generatedAt} t={t} />
           <p className="nxts-lead">{preipo ? fillTs(tk.preLead, { name }) : fillTs(t.tickerLead, { name })}</p>
           <div className="nxts-answer" role="note" aria-label={t.answerLabel}>
@@ -345,7 +347,7 @@ export function TokenizedStocksExchangePage({ locale = "en", market, slug, live,
           </div>
           {signup ? (
             <div className="nxts-exgo">
-              <SignupButton ex={ex} signup={signup} t={t} label={fillTs(t.cta, { name: exName })} /><CodeChip code={signup.code} t={t} />
+              <SignupButton locale={locale} market={market} ex={ex} signup={signup} t={t} label={fillTs(t.cta, { name: exName })} /><CodeChip code={signup.code} t={t} />
             </div>
           ) : null}
         </div>
@@ -374,7 +376,7 @@ export function TokenizedStocksExchangePage({ locale = "en", market, slug, live,
           </div>
           {tickers.map((row) => (
             <div className="nxts-ext__row" role="row" key={row.ticker}>
-              <span role="cell" className="nxts-ext__stock"><a href={hrefFor(tsTickerPath(row.ticker), locale, market)}><b translate="no">{row.ticker}</b><span>{t.names[row.ticker] || row.ticker}</span></a></span>
+              <span role="cell" className="nxts-ext__stock"><a href={hrefFor(tsTickerPath(row.ticker), locale, market)}><StockLogo ticker={row.ticker} size={28} /><b translate="no">{row.ticker}</b><span>{t.names[row.ticker] || row.ticker}</span></a></span>
               <span role="cell" data-k={t.ex.cols.token}>{row.spot ? <code translate="no">{row.spot.sym}</code> : "—"}</span>
               <span role="cell" data-k={t.ex.cols.perp}>{row.perp ? <code translate="no">{row.perp.sym}</code> : "—"}{row.preipo && row.perp ? <small className="nxts-cell__lane" data-lane="preipo"> {t.tk.preipoBadge}</small> : null}</span>
               <span role="cell" data-k={t.ex.cols.lev}>{row.perp?.lev != null ? fillTs(t.levUpTo, { x: row.perp.lev }) : "—"}</span>

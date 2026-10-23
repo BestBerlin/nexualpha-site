@@ -1,3 +1,5 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
+import { StockLogo } from "./StockLogo.jsx";
 import { LatestResearch } from "../research/LatestResearch.jsx";
 import { tokenizedResearchArticles } from "../research/hub-research.js";
 // Tokenized US stocks: hub (/tokenized-stocks) and ticker pages (/tokenized-stocks/<ticker>), owner 2026-10-15.
@@ -58,12 +60,12 @@ function CodeChip({ code, t }) {
   );
 }
 
-function SignupButton({ ex, signup, t, className = "" }) {
+function SignupButton({locale = "en", market,  ex, signup, t, className = "" }) {
   return (
-    <a className={`nxts-btn ${className}`} href={signup.href} target="_blank" rel="sponsored noopener noreferrer"
+    <span data-signup-cta={ex.slug} className="signup-cta-block"><a className={`nxts-btn ${className}`} href={signup.href} target="_blank" rel="sponsored noopener noreferrer"
       data-offer-link="go" data-cta-kind="signup" data-cta-platform={ex.slug} data-cta-placement={new URLSearchParams(signup.href.split("?")[1]).get("src")}>
       <span>{fillTs(t.cta, { name: ex.name })}</span><span aria-hidden="true" className="nxts-arrow">→</span>
-    </a>
+    </a><SignupEvidence slug={ex.slug} locale={locale} market={market} /></span>
   );
 }
 
@@ -95,7 +97,7 @@ function TickerLine({ d, t, locale, market }) {
       {symbols.slice(0, TICKERS_SHOWN).map((ticker) => {
         const sym = tsSymbol(d, ticker);
         return TS_TICKERS.includes(ticker)
-          ? <a key={ticker} href={hrefFor(tsTickerPath(ticker), locale, market)} translate="no">{sym}</a>
+          ? <a key={ticker} href={hrefFor(tsTickerPath(ticker), locale, market)} translate="no"><StockLogo ticker={ticker} size={20} />{sym}</a>
           : <span key={ticker} translate="no">{sym}</span>;
       })}
       {symbols.length > TICKERS_SHOWN ? <span className="nxts-syms__more">+{symbols.length - TICKERS_SHOWN}</span> : null}
@@ -143,7 +145,7 @@ function ExchangeRow({ ex, t, locale, market, now }) {
     <article className="nxts-row" id={`ts-${ex.slug}`} aria-labelledby={`ts-${ex.slug}-h`}>
       <div className="nxts-row__id">
         <h3 id={`ts-${ex.slug}-h`}><BrandMark slug={ex.slug} compact /><span>{ex.name}</span></h3>
-        {signup ? <div className="nxts-row__go"><SignupButton ex={ex} signup={signup} t={t} /><CodeChip code={signup.code} t={t} /></div> : null}
+        {signup ? <div className="nxts-row__go"><SignupButton locale={locale} market={market} ex={ex} signup={signup} t={t} /><CodeChip code={signup.code} t={t} /></div> : null}
         {promo ? (
           <p className="nxts-promo">
             <span className="nxts-promo__k">{t.cols.promo}</span>
@@ -200,7 +202,7 @@ function TickerBoard({ venues, t, locale, market, live }) {
         return (
           <li key={ticker}>
             <a href={hrefFor(tsTickerPath(ticker), locale, market)}>
-              <b translate="no">{ticker}</b>
+              <StockLogo ticker={ticker} size={28} loading="eager" /><b translate="no">{ticker}</b>
               <span className="nxts-board__name">{t.names[ticker]}</span>
               <span className="nxts-board__lanes" aria-hidden="true">{["spot", "perp"].map((lane) => <i key={lane} data-lane={lane} data-on={lanes.has(lane) ? "" : undefined} />)}</span>
               <span className="nxts-board__n">{fillTs(t.tickerVenues, { n })}</span>
@@ -221,7 +223,7 @@ function TickerChips({ t, locale, market, venues, except, live }) {
         return (
           <li key={ticker}>
             <a href={hrefFor(tsTickerPath(ticker), locale, market)}>
-              <b translate="no">{ticker}</b><span>{t.names[ticker] || ticker}</span><small>{fillTs(t.tickerVenues, { n })}</small>
+              <StockLogo ticker={ticker} size={28} /><b translate="no">{ticker}</b><span>{t.names[ticker] || ticker}</span><small>{fillTs(t.tickerVenues, { n })}</small>
             </a>
           </li>
         );

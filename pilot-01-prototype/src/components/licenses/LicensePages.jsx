@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import React, { useState } from 'react';
 import { LICENSE_COUNTRIES, LICENSE_INDEX_LOCALES, licenseRecords, licenseTitle, licenseAnswer, licensePath, licenseResearchForCountry, venueDisplayName } from '../../data/licenses.js';
 import { licenseSignup } from '../../data/licenses-cta.js';
@@ -26,7 +27,7 @@ export function LicenseTable({ records, locale, market }) {
   });
   // Türkiye pages state the SPK fact for an unlisted venue as plain text, never as a link to it (tr-bitget-sweep).
   const exchangeLink = ({ record, name }) => isTurkeyUnlistedVenue(record.exchange, { locale, market }) ? name : <a href={link(`/exchanges/${record.exchange}`, locale)}>{name}</a>;
-  const signupLink = ({ record, signup }) => signup && <a className="nx-license-cta" href={signup} data-cta-kind="registration" data-cta-platform={record.exchange} data-cta-placement="license-directory" rel="sponsored nofollow">{t.open}</a>;
+  const signupLink = ({ record, signup }) => signup && <span data-signup-cta={record.exchange} className="signup-cta-block"><a className="nx-license-cta" href={signup} data-cta-kind="registration" data-cta-platform={record.exchange} data-cta-placement="license-directory" rel="sponsored nofollow">{t.open}</a><SignupEvidence slug={record.exchange} locale={locale} market={market} /></span>;
   const countryLink = ({ country }) => country && <a href={link(licensePath(country.slug), locale)}>{countryName(country, locale)}</a>;
   return <div className="nx-license-table"><table><thead><tr>{[t.exchange, t.country, t.entity, t.regulator, t.type, t.status, t.source, t.lastChecked].map((label, i) => <th key={i} scope="col">{label}</th>)}</tr></thead><tbody>
     {rows.map(item => {

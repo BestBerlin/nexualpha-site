@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 // /etf-flows — US spot crypto ETF daily flows from issuer-published fund data (src/data/etf-flows.js). Every number is
 // read from the snapshot; a fund that has not published a day shows "—", nothing is estimated.
 import React, { useState } from "react";
@@ -184,7 +185,7 @@ export function EtfFlowsPage({ locale = "en", market, initial }) {
                 <h2>{fill(page.ctaTitle, { asset: assetName })}</h2>
                 <p>{page.ctaBody}</p>
               </div>
-              <a className="nxi-cta__btn" href={signup.href} target="_blank" rel="sponsored noopener" data-offer-link="go" data-cta-platform={signup.venue} data-cta-placement="etf-flows">{fill(page.ctaButton, { asset: assetName, venue: signup.name })}</a>
+              <span data-signup-cta={signup.venue} className="signup-cta-block"><a className="nxi-cta__btn" href={signup.href} target="_blank" rel="sponsored noopener" data-offer-link="go" data-cta-platform={signup.venue} data-cta-placement="etf-flows">{fill(page.ctaButton, { asset: assetName, venue: signup.name })}</a><SignupEvidence slug={signup.venue} locale={locale} market={market} /></span>
             </aside>
           ) : null}
         </>

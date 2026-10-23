@@ -1,3 +1,4 @@
+import { SignupEvidence } from "../shared/SignupEvidence.jsx";
 import React, { useEffect, useState } from "react";
 import { useCoinData, useLivePrice } from "../coins/CoinPages.jsx";
 import { COINS_GENERATED_AT, coinLesson, fill, formatChange, utcStamp } from "../../data/coins.js";
@@ -62,7 +63,7 @@ export function ConverterPage({ locale = "en", symbol, fiat, market, overlay, fx
       <section><h2>{text("buyTitle")}</h2>{t.methods[fiat] ? <p>{t.methods[fiat]}</p> : null}
         <ol className="nxconvert-steps">
           <li><p>{text("step1")}</p><a href={href(coinPath(coin.slug))}>{text("detail")}</a>
-            {venues.length > 0 && <ul className="nxconvert-venues">{venues.map((venue) => <li key={venue.slug}><a className="nxconvert-cta" href={venue.signup.href} rel="nofollow sponsored" data-offer-link="go" data-cta-platform={venue.slug} data-cta-placement={`convert-${symbol}-${fiat.toLowerCase()}`}>{fill(t.signup, { venue: venue.signup.name })}</a> <a href={venue.guide}>{venue.name} · {fiat}</a></li>)}</ul>}
+            {venues.length > 0 && <ul className="nxconvert-venues">{venues.map((venue) => <li key={venue.slug}><span data-signup-cta={venue.slug} className="signup-cta-block"><a className="nxconvert-cta" href={venue.signup.href} rel="nofollow sponsored" data-offer-link="go" data-cta-platform={venue.slug} data-cta-placement={`convert-${symbol}-${fiat.toLowerCase()}`}>{fill(t.signup, { venue: venue.signup.name })}</a><SignupEvidence slug={venue.slug} locale={locale} market={market} /></span> <a href={venue.guide}>{venue.name} · {fiat}</a></li>)}</ul>}
           </li>
           <li><p>{text("step2")}</p></li><li><p>{text("step3")}</p><a href={href(coinLesson("E07")?.path || "/academy")}>{t.academy}</a></li>
         </ol>
