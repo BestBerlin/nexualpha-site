@@ -3,54 +3,9 @@
 // feed /liquidations and /funding-rates render from). Pure helpers: asset detection is deterministic from the article
 // text; the snapshot is read only from the feed and returns null when a figure is missing (nothing is invented).
 
-export const MARKET_CONTEXT_ASSETS = Object.freeze([
-  { symbol: "BTC", pattern: /\bBTC\b|\bbitcoin\b|比特币|比特幣|ビットコイン|비트코인|биткоин|بيتكوين/i },
-  { symbol: "ETH", pattern: /\bETH\b|\bethereum\b|\bether\b|以太坊|イーサリアム|이더리움|эфириум|إيثريوم/i },
-  { symbol: "SOL", pattern: /\bSOL\b|\bsolana\b|ソラナ|솔라나|солана|سولانا/i },
-]);
+export { MARKET_CONTEXT_ASSETS, detectArticleAssets, articleMarketAssets } from "../../../data/market-events-assets.js";
 
-const countMatches = (text, pattern) => (String(text || "").match(new RegExp(pattern.source, "gi")) || []).length;
-
-/** Up to `limit` assets: those named in the title or summary first, then those mentioned at least twice in the body. */
-export function detectArticleAssets({ title = "", summary = "", body = "" } = {}, limit = 2) {
-  const head = `${title}\n${summary}`;
-  const scored = MARKET_CONTEXT_ASSETS.map(({ symbol, pattern }, order) => {
-    const inHead = countMatches(head, pattern);
-    const inBody = countMatches(body, pattern);
-    return { symbol, order, inHead, inBody };
-  }).filter((a) => a.inHead > 0 || a.inBody >= 2);
-  scored.sort((a, b) => (b.inHead > 0) - (a.inHead > 0) || b.inBody - a.inBody || a.order - b.order);
-  return scored.slice(0, limit).map((a) => a.symbol);
-}
-
-const num = (v) => { const n = typeof v === "number" ? v : Number.parseFloat(v); return Number.isFinite(n) ? n : null; };
-const baseOf = (symbol) => String(symbol || "").replace(/^[A-Z]+:/i, "").replace(/(USDT|USDC|USD|BUSD)$/i, "").toUpperCase();
-
-/** One row per detected asset with the figures the feed actually has; null when the feed has none of them. */
-export function marketContextSnapshot(feed, assets) {
-  if (!feed || typeof feed !== "object" || !Array.isArray(assets) || !assets.length) return null;
-  const generatedAt = Number.isFinite(Date.parse(feed.generatedAt)) ? new Date(Date.parse(feed.generatedAt)).toISOString() : null;
-  if (!generatedAt) return null;
-  const majors = Array.isArray(feed.market?.majors) ? feed.market.majors : [];
-  const fundingRows = Array.isArray(feed.funding?.rows) ? feed.funding.rows : [];
-  const top24 = Array.isArray(feed.liquidations?.h24?.topSymbols) ? feed.liquidations.h24.topSymbols : [];
-  const rows = assets.map((symbol) => {
-    const major = majors.find((m) => baseOf(m?.symbol) === symbol);
-    const funding = fundingRows.find((r) => baseOf(r?.symbol) === symbol);
-    const liqHits = top24.filter((t) => baseOf(t?.symbol) === symbol && num(t?.usd) > 0);
-    const row = {
-      symbol,
-      price: num(major?.price),
-      change24hPct: num(major?.change24hPct),
-      fundingBinance: num(funding?.binanceRate),
-      fundingOkx: num(funding?.okxRate),
-      liquidations24hUsd: liqHits.length ? liqHits.reduce((sum, t) => sum + num(t.usd), 0) : null,
-    };
-    const has = row.price != null || row.fundingBinance != null || row.fundingOkx != null || row.liquidations24hUsd != null;
-    return has ? row : null;
-  }).filter(Boolean);
-  return rows.length ? { generatedAt, rows } : null;
-}
+export { marketAssetSnapshot as marketContextSnapshot } from "../../../data/market-events-assets.js";
 
 // Deterministic number formatting (no Intl: same output in every runtime).
 const group = (s) => s.replace(/\B(?=(\d{3})+(?!\d))/g, ",");

@@ -1,0 +1,19 @@
+/* Venue route only: fixed overlay has no in-flow reservation or layout shift. */
+.cv-sticky { display: none; }
+@media (max-width: 767px) {
+  .v3-profile-page .cv-sticky { display: block; position: fixed; inset-inline: 0; inset-block-end: 0; z-index: 80; padding: 8px 16px max(8px, env(safe-area-inset-bottom)); background: #18191b; border-block-start: 1px solid rgb(255 255 255 / .22); visibility: hidden; transform: translateY(100%); transition: transform 140ms ease-out, visibility 140ms; }
+  .v3-profile-page .cv-sticky[data-active="true"] { visibility: visible; transform: none; }
+  .cv-sticky__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; }
+  .cv-sticky__venue { display: flex; align-items: center; gap: 8px; min-inline-size: 0; }
+  .cv-sticky__venue > div { min-inline-size: 0; }
+  .cv-sticky__venue strong { color: #edeef0; font-size: 14px; }
+  .cv-sticky__venue small { display: block; color: #b0b4ba; font-size: 12px; overflow-wrap: anywhere; }
+  .cv-sticky__venue .brand-mark { inline-size: 28px; block-size: 28px; flex-shrink: 0; }
+  .v3-profile-page .cv-sticky__close { grid-column: 2; grid-row: 1; min-inline-size: 44px; min-block-size: 44px; color: #b0b4ba; background: transparent; border: 0; font-size: 20px; }
+  .v3-profile-page .cv-sticky .cv-code { grid-column: 1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 8px; padding: 8px; min-block-size: 44px; border: 1px solid rgb(255 255 255 / .22); border-radius: 8px; background: transparent; color: #edeef0; font-size: 12px; text-align: start; }
+  .cv-sticky .cv-code code { font-weight: 600; }
+  .v3-profile-page .cv-sticky .cv-signup { grid-column: 2; display: flex; align-items: center; justify-content: center; min-block-size: 44px; max-inline-size: 160px; padding: 8px 12px; border-radius: 8px; background: #1fe0c0; color: #04130f; font-size: 12px; font-weight: 600; text-align: center; text-decoration: none; }
+  .v3-profile-page .cv-sticky .cv-disclosure { margin: 4px 0 0; color: #b0b4ba; font-size: 12px; line-height: 1.4; }
+  .cv-sticky :is(a, button):focus-visible { outline: 2px solid #1fe0c0; outline-offset: 2px; }
+}
+@media (prefers-reduced-motion: reduce) { .v3-profile-page .cv-sticky { transition: none; } }

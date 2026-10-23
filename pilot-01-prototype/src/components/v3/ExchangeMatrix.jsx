@@ -429,7 +429,7 @@ export function ExchangeMatrix({
                           >
                             <strong translate="no" lang="en">{r.inviteCode}</strong>
                             <span className="mx-code__icon"><CopyIcon done={copiedToast === r.inviteCode} /></span>
-                            <span className="mx-code__state mx-sr" role="status">{copiedToast === r.inviteCode ? mc.copied : ""}</span>
+                            <span className="mx-code__state mx-sr" role="status" aria-live="polite">{copiedToast === r.inviteCode ? mc.copied : ""}</span>
                           </button>
                           {renderCopyFeedback(`${r.slug}-compact`)}
                         </>

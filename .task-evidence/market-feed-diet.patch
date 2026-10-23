@@ -1,0 +1,4701 @@
+diff --git a/pilot-01-prototype/scripts/prepare-sites-build.mjs b/pilot-01-prototype/scripts/prepare-sites-build.mjs
+index 8a7505dd..486799f2 100644
+--- a/pilot-01-prototype/scripts/prepare-sites-build.mjs
++++ b/pilot-01-prototype/scripts/prepare-sites-build.mjs
+@@ -48,7 +48,7 @@ const bitgetAllianceData = ["bitget-alliance.js", "bitget-alliance-path.js", "bi
+ // Kraken 5M USDG Challenge page (2026-10-13): the Worker head imports its route, SEO helper and copy.
+ const krakenUsdgData = ["kraken-usdg.js", "kraken-usdg-path.js", "kraken-usdg-seo.js", "kraken-usdg-copy.js"];
+ const optionalSharedSchemaData = ["radar.js", "radar-ui-copy.js", "whale-routes.js"];
+-const sharedSchemaData = ["money-topic-hubs.js", "article-sitemap-seo.js", "article-related-links.js", "dataset-schema.js", "bitget-guide-routes.js", "bitget-guide.js", "bitget-guide-seo.js", "bitget-guide-copy-zh-en.js", "bitget-guide-copy-id.js", "bitget-guide-copy-es-pt.js", "referral-native.js", "binance-pro-step.js", "beginner-routes.js", "beginner-seo.js", "beginner-content-all.js", "partner-program-copy.js", "campaign-autodraft.js", "campaign-autodraft.generated.js", "campaign-locale-policy.js", "promotions.js", "promotions.generated.js", "promotion-copy.js", "activity-update-path.js", "activity-update.js", "campaign-briefs.js", "generated-official-activities.js", "owner-campaigns.js", "legal-pages.js", "brand-slogan.js", "home-search-copy.js", "format-percent.js", "news-library.js", "news-geo-policy.js", "news-listing-path.js", "topic-clusters.js", "tokenized-stocks-news.js", "news-content-repair.js", "news-search-state.js", "news-search-state.generated.js", "home-hero-experiment.js", "experiment-registry.js", "article-embeds.js", "news-list-copy.js", "announcement-intel.js", "announcement-archive.js", "official-research-route.js", "event-source.js", "home-cta-label.js", "venue-faq-fallback.js", "referral-seo.js", "striking-distance-venue-copy.js", "serp-ctr-news-overrides.js", "partner-geo-restrictions.js", "partner-geo-policy.js", "partner-geo-policy.generated.js", "locale-policy.js", "neutral-referral-topic.js", "neutral-article.js", "campaign-codes.js", "referral-partners.generated.js", "partner-venue-faq.js", "exchange-quick-answers.js", "exchange-quick-answer-schema.js", "priority-venue-answers.js", "topic-reviewed-faqs.js", "topic-source-registry.js", "topic-guides-data.js", "exchange-research.js", "tokenized-assets-cluster.js", "venue-alternatives.js", "venue-alternative-slugs.js", "brazil-vasp-deadline.js", "brazil-vasp-deadline-chrome.js", "brazil-vasp-deadline-slugs.js", "brazil-vasp-status.js", "news-feed-client.js", "hub-entity-news.js", "locale-routing.js", "social-image.js", "market-data-pages.js", "market-data-pages-nav.js", "meta-description.js", "brand-entity.js", "brand-definition.js", "brand-social.js", "page-schemas.js", "compare-generated.js", "reviewed-base-fees.js", "exchange-facts.js", "exchange-key-facts.js", "exchange-key-facts.generated.js", "article-inline-markdown.js", "exchange-outbound.js", "backup-signup.js", "onchain-guide.js", "radar-seo.js", "venue-database.js", "partner-registry.js", "format-fee.js", "factbook-dates.js", "partner-benefit-status.js", "home-rebate-tiers.js", "news-read-time.js", "tr-percent.js", "article-empty-headings.js", "no-kyc-meta-title.js", "app-download-path.js", "app-downloads.js", "app-download-copy.js", "exchange-apk.js", ...appCtaData, ...academyData, ...licenseData, ...depositData, ...flashData, ...bybitStocksData, ...tokenizedStocksData, ...bitgetAllianceData, ...krakenUsdgData, ...coinData, ...glossaryData, ...converterData, ...optionalSharedSchemaData.filter((name) => existsSync(path.join(root, "src", "data", name))), "funding-rates.js", "funding-matrix.js", "funding-matrix-seo.js", "funding-matrix-copy.js", ...intelToolData, ...dataAssetsData, "heatmap-copy.js", "heatmap-view.js", "liquidation-levels.js", "venue-priority.js", "striking-page-overrides.js", "answer-first.js", "seo-autopilot.js", "seo-autopilot-overrides.json"];
++const sharedSchemaData = ["market-events-assets.js", "money-topic-hubs.js", "article-sitemap-seo.js", "article-related-links.js", "dataset-schema.js", "bitget-guide-routes.js", "bitget-guide.js", "bitget-guide-seo.js", "bitget-guide-copy-zh-en.js", "bitget-guide-copy-id.js", "bitget-guide-copy-es-pt.js", "referral-native.js", "binance-pro-step.js", "beginner-routes.js", "beginner-seo.js", "beginner-content-all.js", "partner-program-copy.js", "campaign-autodraft.js", "campaign-autodraft.generated.js", "campaign-locale-policy.js", "promotions.js", "promotions.generated.js", "promotion-copy.js", "activity-update-path.js", "activity-update.js", "campaign-briefs.js", "generated-official-activities.js", "owner-campaigns.js", "legal-pages.js", "brand-slogan.js", "home-search-copy.js", "format-percent.js", "news-library.js", "news-geo-policy.js", "news-listing-path.js", "topic-clusters.js", "tokenized-stocks-news.js", "news-content-repair.js", "news-search-state.js", "news-search-state.generated.js", "home-hero-experiment.js", "experiment-registry.js", "article-embeds.js", "news-list-copy.js", "announcement-intel.js", "announcement-archive.js", "official-research-route.js", "event-source.js", "home-cta-label.js", "venue-faq-fallback.js", "referral-seo.js", "striking-distance-venue-copy.js", "serp-ctr-news-overrides.js", "partner-geo-restrictions.js", "partner-geo-policy.js", "partner-geo-policy.generated.js", "locale-policy.js", "neutral-referral-topic.js", "neutral-article.js", "campaign-codes.js", "referral-partners.generated.js", "partner-venue-faq.js", "exchange-quick-answers.js", "exchange-quick-answer-schema.js", "priority-venue-answers.js", "topic-reviewed-faqs.js", "topic-source-registry.js", "topic-guides-data.js", "exchange-research.js", "tokenized-assets-cluster.js", "venue-alternatives.js", "venue-alternative-slugs.js", "brazil-vasp-deadline.js", "brazil-vasp-deadline-chrome.js", "brazil-vasp-deadline-slugs.js", "brazil-vasp-status.js", "news-feed-client.js", "hub-entity-news.js", "locale-routing.js", "social-image.js", "market-data-pages.js", "market-data-pages-nav.js", "meta-description.js", "brand-entity.js", "brand-definition.js", "brand-social.js", "page-schemas.js", "compare-generated.js", "reviewed-base-fees.js", "exchange-facts.js", "exchange-key-facts.js", "exchange-key-facts.generated.js", "article-inline-markdown.js", "exchange-outbound.js", "backup-signup.js", "onchain-guide.js", "radar-seo.js", "venue-database.js", "partner-registry.js", "format-fee.js", "factbook-dates.js", "partner-benefit-status.js", "home-rebate-tiers.js", "news-read-time.js", "tr-percent.js", "article-empty-headings.js", "no-kyc-meta-title.js", "app-download-path.js", "app-downloads.js", "app-download-copy.js", "exchange-apk.js", ...appCtaData, ...academyData, ...licenseData, ...depositData, ...flashData, ...bybitStocksData, ...tokenizedStocksData, ...bitgetAllianceData, ...krakenUsdgData, ...coinData, ...glossaryData, ...converterData, ...optionalSharedSchemaData.filter((name) => existsSync(path.join(root, "src", "data", name))), "funding-rates.js", "funding-matrix.js", "funding-matrix-seo.js", "funding-matrix-copy.js", ...intelToolData, ...dataAssetsData, "heatmap-copy.js", "heatmap-view.js", "liquidation-levels.js", "venue-priority.js", "striking-page-overrides.js", "answer-first.js", "seo-autopilot.js", "seo-autopilot-overrides.json"];
+ const serverRuntimeFiles = ["liquidation-levels-feed.mjs", "stale-json-feed.mjs", "source-freshness.mjs"];
+ // Comparison pairs (2026-10-10): worker/index.js imports compare-direct-answers.js, which pulls the per-pair copy from
+ // src/data/compare-pairs/. These ship under the same relative paths so the server can resolve them.
+diff --git a/pilot-01-prototype/server.mjs b/pilot-01-prototype/server.mjs
+index 5053b0e8..890db3d0 100644
+--- a/pilot-01-prototype/server.mjs
++++ b/pilot-01-prototype/server.mjs
+@@ -122,6 +122,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
+   }
+   const flashMemory = createFlashMemory({ file: flashMemoryFile, log: (m) => console.log(`[NexuAlpha] ${m}`) });
+   // /liquidations and /funding-rates SSR: the collector feed, read at most once per 60 s (MARKET_EVENTS_FILE or MARKET_EVENTS_URL).
++  // The summary, asset route and article SSR share this 60 s last-good reader through MARKET_EVENTS_READ.
+   const marketEvents = marketEventsReaderFromEnv(env, { log: (m) => console.log(`[NexuAlpha] ${m}`) });
+   const liquidationLevels = createLiquidationLevelsFeed({ log: (m) => console.log(`[NexuAlpha] ${m}`) });
+   // /coins pages + /intel/coins.json: the host's refreshed snapshot (COINS_FILE, read-only for the server); unset = baked table.
+diff --git a/pilot-01-prototype/server/market-events-feed.mjs b/pilot-01-prototype/server/market-events-feed.mjs
+index 00a84b1d..82e8d0a3 100644
+--- a/pilot-01-prototype/server/market-events-feed.mjs
++++ b/pilot-01-prototype/server/market-events-feed.mjs
+@@ -43,9 +43,18 @@ export function createMarketEventsReader({
+   };
+   return {
+     // Resolves to the cached feed (refreshing it first when the 60 s window has passed) or null.
+-    async read() {
+-      if (!readAt || now() - readAt >= ttlMs) await refresh();
+-      return feed && (failed || now() - goodAt > staleMs || now() - Date.parse(feed.updatedAt || feed.generatedAt) > staleMs ? { ...feed, stale: true } : feed);
++    async read({ waitMs = null } = {}) {
++      if (!readAt || now() - readAt >= ttlMs) {
++        const refreshing = refresh();
++        if (waitMs === null) await refreshing;
++        else {
++          let timer;
++          try { await Promise.race([refreshing, new Promise(resolve => { timer = setTimeout(resolve, Math.max(0, waitMs)); })]); }
++          finally { clearTimeout(timer); }
++        }
++      }
++      // Article SSR can take the last good frame without waiting on a slow source. The refresh continues in the cache.
++      return feed && (pending || failed || now() - goodAt > staleMs || now() - Date.parse(feed.updatedAt || feed.generatedAt) > staleMs ? { ...feed, stale: true } : feed);
+     },
+     refresh,
+   };
+diff --git a/pilot-01-prototype/src/App.jsx b/pilot-01-prototype/src/App.jsx
+index 60f05d3b..3828e193 100644
+--- a/pilot-01-prototype/src/App.jsx
++++ b/pilot-01-prototype/src/App.jsx
+@@ -1108,7 +1108,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
+   </main>, { crawlScope: "rates" });
+   if (route.name === "onchainBoard") return pageShell(<main className="v6 v2-page v3-page" id="top"><OnChainLiquidityBoard locale={locale} headingLevel={1} /></main>);
+   if (route.name === "newsList") return pageShell(<NewsListPage locale={locale} market={route.market} product={route.product} category={route.category} page={route.page} initialArticles={initialNewsArticles} listing={initialNewsListing} />);
+-  if (route.name === "newsDetail") return pageShell(<NewsDetailPage slug={route.slug} locale={locale} market={route.market} product={route.product} initialArticles={initialNewsArticles} glossaryLinks={readGlossaryLinks(locale)} />);
++  if (route.name === "newsDetail") return pageShell(<NewsDetailPage slug={route.slug} locale={locale} market={route.market} product={route.product} initialArticles={initialNewsArticles} initialMarketEvents={initialMarketEvents} glossaryLinks={readGlossaryLinks(locale)} />);
+   if (route.name === "venue" && !routedVenue) return pageShell(<NotFoundPage locale={locale} />);
+   if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={sharedOfficialEvents} market={route.market || (decisionPassport.market !== "unknown" ? decisionPassport.market : undefined)} product={route.product} accountStage={route.accountStage} funding={route.funding} researchComponent={VenueDetailResearch} prefetchResearch={prefetchVenueResearch} feeScenarioComponent={VenueFeeScenario} prefetchFeeScenario={prefetchVenueFeeScenario} initialNewsArticles={initialNewsArticles} />);
+   if (route.name === "compareHub") return pageShell(<CompareHubPage locale={locale} venues={command.venueCatalog} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });
+diff --git a/pilot-01-prototype/src/components/v3/news/ArticleMarketContext.jsx b/pilot-01-prototype/src/components/v3/news/ArticleMarketContext.jsx
+index 2df1d630..60a8a4ef 100644
+--- a/pilot-01-prototype/src/components/v3/news/ArticleMarketContext.jsx
++++ b/pilot-01-prototype/src/components/v3/news/ArticleMarketContext.jsx
+@@ -1,24 +1,30 @@
+-// Live market context in the article rail (BTC / ETH / SOL articles). Client-only: the server and the first client
+-// render output nothing, then the feed is read once after mount; a missing feed or missing figures render nothing.
++// The server and hydration start with the same small snapshot; visible tabs refresh only the detected assets.
+ import React, { useEffect, useState } from "react";
+-import { DATA_PAGE_NAV, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH } from "../../../data/market-data-pages-nav.js";
++import { DATA_PAGE_NAV, FUNDING_RATES_PATH, LIQUIDATIONS_PATH } from "../../../data/market-data-pages-nav.js";
+ import { localizedHref } from "../../../data/locale-routing.js";
+ import { DataRule, utcClock } from "../../shared/DataRule.jsx";
+ import { formatSgt } from "../../../data/local-time.js";
++import { fetchArticleMarketContext } from "./article-market-context-fetch.js";
++import { MARKET_ASSET_PATH } from "../../../data/market-events-assets.js";
++import { startJsonPolling } from "../../shared/json-polling.js";
+ import { formatFunding, formatPrice, formatSignedPct, formatUsdShort, marketContextCopy, marketContextSnapshot } from "./article-market-context.js";
+ 
+-export function ArticleMarketContext({ assets = [], locale = "en" }) {
+-  const [snapshot, setSnapshot] = useState(null);
++export function ArticleMarketContext({ assets = [], locale = "en", initialFeed = null }) {
+   const key = assets.join(",");
++  const [current, setCurrent] = useState(() => ({ key, snapshot: marketContextSnapshot(initialFeed, assets) }));
++  const snapshot = current.key === key ? current.snapshot : marketContextSnapshot(initialFeed, assets);
+   useEffect(() => {
+     if (!key) return undefined;
+-    let alive = true;
+-    fetch(MARKET_EVENTS_PATH, { headers: { accept: "application/json" }, cache: "no-cache" })
+-      .then((r) => (r.ok ? r.json() : null))
+-      .then((feed) => { if (alive) setSnapshot(marketContextSnapshot(feed, key.split(","))); })
+-      .catch(() => { /* no feed: the slot stays empty */ });
+-    return () => { alive = false; };
+-  }, [key]);
++    return startJsonPolling({
++      request: `${MARKET_ASSET_PATH}?symbols=${encodeURIComponent(key)}`,
++      fetchImpl: (request, init) => fetchArticleMarketContext(request, init, key.split(",")),
++      intervalMs: 60_000,
++      immediate: !marketContextSnapshot(initialFeed, key.split(",")),
++      isData: feed => Boolean(marketContextSnapshot(feed, key.split(","))),
++      onData: feed => setCurrent({ key, snapshot: marketContextSnapshot(feed, key.split(",")) }),
++      onError: () => { /* retain the last good snapshot and its original data clock */ },
++    });
++  }, [key, initialFeed]);
+   if (!snapshot) return null;
+   const t = marketContextCopy(locale);
+   const nav = DATA_PAGE_NAV[locale] || (String(locale).startsWith("zh") ? DATA_PAGE_NAV["zh-Hans"] : DATA_PAGE_NAV.en);
+diff --git a/pilot-01-prototype/src/components/v3/news/NewsDetailPage.jsx b/pilot-01-prototype/src/components/v3/news/NewsDetailPage.jsx
+index bf7bd6fd..5d19fccb 100644
+--- a/pilot-01-prototype/src/components/v3/news/NewsDetailPage.jsx
++++ b/pilot-01-prototype/src/components/v3/news/NewsDetailPage.jsx
+@@ -41,7 +41,7 @@ import CardArt from "../../shared/CardArt.jsx";
+ import { DataRule, utcStamp } from "../../shared/DataRule.jsx";
+ import { formatSgt } from "../../../data/local-time.js";
+ import { ArticleMarketContext } from "./ArticleMarketContext.jsx";
+-import { detectArticleAssets } from "./article-market-context.js";
++import { articleMarketAssets } from "./article-market-context.js";
+ import "./news-detail-page.css";
+ // Inner-page pass 2026-10-23: joins the page-news-signature-mid1 stylesheet (see vite.config.mjs).
+ import "../../../styles/v9/news9.css";
+@@ -730,7 +730,7 @@ export function ArticleByline({ article, locale = "en" }) {
+   );
+ }
+ 
+-export function NewsDetailPage({ slug, locale = "en", market, product, initialArticles, glossaryLinks = null }) {
++export function NewsDetailPage({ slug, locale = "en", market, product, initialArticles, initialMarketEvents, glossaryLinks = null }) {
+   const isZh = locale.startsWith("zh");
+   const isHant = locale === "zh-Hant" || locale === "zh-TW";
+   const t = copy[locale] || copy[String(locale || "").split("-")[0]] || (isHant ? copy["zh-Hant"] : isZh ? copy["zh-Hans"] : copy.en);
+@@ -879,7 +879,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
+   const leadNodes = leadBlocks.map((paragraph, index) => (index === 0 && leadHeading) ? null : renderMarkdownBlock(paragraph, index, t, partnerLinker, locale));
+   const publishedStamp = utcStamp(article.publishedAt);
+   const publishedDate = formatSgt(article.publishedAt, locale, "date");
+-  const marketAssets = detectArticleAssets({ title: `${title}\n${localizedNewsTitle(article, "en")}`, summary: `${localizedSummary}\n${localizedNewsSummary(article, "en")}`, body: stripArticleEmbedDirectives(content) });
++  const marketAssets = articleMarketAssets(article, locale);
+   const categoryLabel = localizedValue(article.categoryName, locale);
+   const categoryHref = isNewsCategory(article.category) ? withContext(newsListingPath({ category: article.category })) : null;
+   const promotions = resolvePromotions({ topicTags: [...(article.topicTags || article.tags || []), article.cta?.topic].filter(Boolean), venue: article.cta?.venue || article.relatedVenues, coin: article.cta?.coin, locale, market });
+@@ -1081,7 +1081,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
+               </ol>
+             </nav>}
+             <SponsoredSlot promotions={promotions} locale={locale} market={market} variant="sidebar" />
+-            <ArticleMarketContext assets={marketAssets} locale={locale} />
++            <ArticleMarketContext assets={marketAssets} locale={locale} initialFeed={initialMarketEvents} />
+           </div>
+         </div>
+ 
+diff --git a/pilot-01-prototype/src/components/v3/news/article-market-context.js b/pilot-01-prototype/src/components/v3/news/article-market-context.js
+index 85544c2e..d89dc82c 100644
+--- a/pilot-01-prototype/src/components/v3/news/article-market-context.js
++++ b/pilot-01-prototype/src/components/v3/news/article-market-context.js
+@@ -3,54 +3,9 @@
+ // feed /liquidations and /funding-rates render from). Pure helpers: asset detection is deterministic from the article
+ // text; the snapshot is read only from the feed and returns null when a figure is missing (nothing is invented).
+ 
+-export const MARKET_CONTEXT_ASSETS = Object.freeze([
+-  { symbol: "BTC", pattern: /\bBTC\b|\bbitcoin\b|比特币|比特幣|ビットコイン|비트코인|биткоин|بيتكوين/i },
+-  { symbol: "ETH", pattern: /\bETH\b|\bethereum\b|\bether\b|以太坊|イーサリアム|이더리움|эфириум|إيثريوم/i },
+-  { symbol: "SOL", pattern: /\bSOL\b|\bsolana\b|ソラナ|솔라나|солана|سولانا/i },
+-]);
++export { MARKET_CONTEXT_ASSETS, detectArticleAssets, articleMarketAssets } from "../../../data/market-events-assets.js";
+ 
+-const countMatches = (text, pattern) => (String(text || "").match(new RegExp(pattern.source, "gi")) || []).length;
+-
+-/** Up to `limit` assets: those named in the title or summary first, then those mentioned at least twice in the body. */
+-export function detectArticleAssets({ title = "", summary = "", body = "" } = {}, limit = 2) {
+-  const head = `${title}\n${summary}`;
+-  const scored = MARKET_CONTEXT_ASSETS.map(({ symbol, pattern }, order) => {
+-    const inHead = countMatches(head, pattern);
+-    const inBody = countMatches(body, pattern);
+-    return { symbol, order, inHead, inBody };
+-  }).filter((a) => a.inHead > 0 || a.inBody >= 2);
+-  scored.sort((a, b) => (b.inHead > 0) - (a.inHead > 0) || b.inBody - a.inBody || a.order - b.order);
+-  return scored.slice(0, limit).map((a) => a.symbol);
+-}
+-
+-const num = (v) => { const n = typeof v === "number" ? v : Number.parseFloat(v); return Number.isFinite(n) ? n : null; };
+-const baseOf = (symbol) => String(symbol || "").replace(/^[A-Z]+:/i, "").replace(/(USDT|USDC|USD|BUSD)$/i, "").toUpperCase();
+-
+-/** One row per detected asset with the figures the feed actually has; null when the feed has none of them. */
+-export function marketContextSnapshot(feed, assets) {
+-  if (!feed || typeof feed !== "object" || !Array.isArray(assets) || !assets.length) return null;
+-  const generatedAt = Number.isFinite(Date.parse(feed.generatedAt)) ? new Date(Date.parse(feed.generatedAt)).toISOString() : null;
+-  if (!generatedAt) return null;
+-  const majors = Array.isArray(feed.market?.majors) ? feed.market.majors : [];
+-  const fundingRows = Array.isArray(feed.funding?.rows) ? feed.funding.rows : [];
+-  const top24 = Array.isArray(feed.liquidations?.h24?.topSymbols) ? feed.liquidations.h24.topSymbols : [];
+-  const rows = assets.map((symbol) => {
+-    const major = majors.find((m) => baseOf(m?.symbol) === symbol);
+-    const funding = fundingRows.find((r) => baseOf(r?.symbol) === symbol);
+-    const liqHits = top24.filter((t) => baseOf(t?.symbol) === symbol && num(t?.usd) > 0);
+-    const row = {
+-      symbol,
+-      price: num(major?.price),
+-      change24hPct: num(major?.change24hPct),
+-      fundingBinance: num(funding?.binanceRate),
+-      fundingOkx: num(funding?.okxRate),
+-      liquidations24hUsd: liqHits.length ? liqHits.reduce((sum, t) => sum + num(t.usd), 0) : null,
+-    };
+-    const has = row.price != null || row.fundingBinance != null || row.fundingOkx != null || row.liquidations24hUsd != null;
+-    return has ? row : null;
+-  }).filter(Boolean);
+-  return rows.length ? { generatedAt, rows } : null;
+-}
++export { marketAssetSnapshot as marketContextSnapshot } from "../../../data/market-events-assets.js";
+ 
+ // Deterministic number formatting (no Intl: same output in every runtime).
+ const group = (s) => s.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+diff --git a/pilot-01-prototype/worker/index.js b/pilot-01-prototype/worker/index.js
+index 2c53de7b..ab0be47d 100644
+--- a/pilot-01-prototype/worker/index.js
++++ b/pilot-01-prototype/worker/index.js
+@@ -1,3 +1,4 @@
++import { MARKET_ASSET_PATH, articleMarketAssets, marketAssetResponse, marketAssetSnapshot } from "../src/data/market-events-assets.js";
+ import { fontUrl, localeFontStyleTag, LOCALE_FONT_STYLE_ATTR } from "../src/data/locale-font-faces.js";
+ import { articleSitemapLocales } from "../src/data/article-sitemap-seo.js";
+ import { recentEntityArticles, primaryVenueResearch } from '../src/data/article-related-links.js';
+@@ -375,6 +376,9 @@ export default {
+       return Response.redirect(`${PUBLIC_ORIGIN}/sitemap.xml`, 301);
+     }
+     if (url.pathname.startsWith("/api/news/article/") && request.method === "GET" && env?.ASSETS) return handleNewsArticleJson(env, url);
++    if (url.pathname === MARKET_ASSET_PATH && request.method === "GET") {
++      return marketAssetResponse(url, () => readMarketAssetFeed(env, url));
++    }
+     if (url.pathname === "/api/market-events/summary" && request.method === "GET") {
+       let feed = null;
+       try { feed = typeof env?.MARKET_EVENTS_READ === "function" ? await env.MARKET_EVENTS_READ() : await readJsonAsset(env, url, "/intel/market-events.json"); } catch { /* unavailable, never invent data */ }
+@@ -5015,10 +5019,25 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
+         try {
+           const locale = publicRoute.locale;
+           const newsArticles = [article, ...newsDetailSummaries(article, metadata.newsArticles)];
+-          const appHtml = await env.NEWS_SSR_RENDER(url.href, { newsArticles });
++          // Only read for articles that render this rail. Bound cold SSR waits while the shared reader warms.
++          const marketAssets = articleMarketAssets(article, locale);
++          let marketEvents = null;
++          if (marketAssets.length) {
++            let timer;
++            try {
++              const feed = await Promise.race([
++                readMarketAssetFeed(env, url, { waitMs: 180 }),
++                new Promise(resolve => { timer = setTimeout(() => resolve(null), 200); }),
++              ]);
++              const snapshot = marketAssetSnapshot(feed, marketAssets);
++              if (snapshot) marketEvents = { ...snapshot, stale: feed.stale === true };
++            } catch { /* unavailable data stays absent in SSR and hydration */ }
++            finally { clearTimeout(timer); }
++          }
++          const appHtml = await env.NEWS_SSR_RENDER(url.href, { newsArticles, marketEvents });
+           if (typeof appHtml === "string" && appHtml.includes('class="news-detail__title"')) {
+             metadata.newsSsrMode = "runtime";
+-            return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, routeSeoState(metadata, { newsArticles: renderedNewsDetailPool(article, newsArticles, appHtml) }), url);
++            return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, routeSeoState(metadata, { newsArticles: renderedNewsDetailPool(article, newsArticles, appHtml), marketEvents }), url);
+           }
+         } catch { /* Portable assets-only hosts retain their safe fallback. */ }
+       }
+@@ -5271,6 +5290,12 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
+     // /liquidations, /funding-rates and /liquidations/heatmap are in the manifest for sitemap/hreflang, but their build-time
+     // body has no feed ("temporarily unavailable"); always render them at request time from the collector feed.
+     if (isDataPagePath(contentPath) || contentPath === LIQUIDATION_HEATMAP_PATH) return fallback();
++    // A current article prerender still has no market seed. Relevant rails need the live snapshot in SSR,
++    // otherwise hydration would fetch and insert the block even when the article fingerprint matches.
++    if (metadata.marker === ARTICLE_ROUTE_MARKER) {
++      const article = metadata.newsArticles?.find(item => `/news/${item.slug}` === contentPath);
++      if (article && articleMarketAssets(article, routeLocale(url)).length) return fallback();
++    }
+     // Topic clusters use the current publication feed, never the build-time article snapshot.
+     if (contentPath === "/topics") return fallback();
+     // Listing pages never come from the build-time manifest: the feed is published after the build.
+@@ -5733,6 +5758,26 @@ const flashCaches = new WeakMap();
+ const flashCacheKey = (env) => (env?.ASSETS && typeof env.ASSETS === "object" ? env.ASSETS : flashCaches);
+ const flashNow = (env) => (Number.isFinite(Number(env?.FLASH_NOW)) ? Number(env.FLASH_NOW) : Date.now());
+ 
++const marketAssetFeeds = new WeakMap();
++async function readMarketAssetFeed(env, url, options) {
++  if (typeof env?.MARKET_EVENTS_READ === "function") return env.MARKET_EVENTS_READ(options);
++  const scope = polledJsonScope(env);
++  let reader = marketAssetFeeds.get(scope);
++  if (!reader) {
++    reader = createStaleJsonFeed({
++      ttlMs: 60_000, timeoutMs: 8000,
++      load: async () => {
++        const feed = await readJsonAsset(env, url, "/intel/market-events.json");
++        if (!feed || !Number.isFinite(Date.parse(feed.generatedAt))) throw new Error("market feed unavailable");
++        return feed;
++      },
++      isSourceStale: (feed, now) => now - Date.parse(feed.updatedAt || feed.generatedAt) > 30 * 60_000,
++    });
++    marketAssetFeeds.set(scope, reader);
++  }
++  return reader.read({ waitForFresh: true, ...options });
++}
++
+ async function readJsonAsset(env, url, path) {
+   if (!env?.ASSETS) return null;
+   try {
+diff --git a/pilot-01-prototype/docs/evidence/market-feed-diet/README.md b/pilot-01-prototype/docs/evidence/market-feed-diet/README.md
+new file mode 100644
+index 00000000..d321acfe
+--- /dev/null
++++ b/pilot-01-prototype/docs/evidence/market-feed-diet/README.md
+@@ -0,0 +1,88 @@
++# Market feed diet evidence
++
++Baseline: `b381f232` on `codex/market-feed-diet`. Measurements were taken on the baseline build, then on the changed build, using the same checked-in feed and installed dependencies.
++
++## Method and limits
++
++Feed: `tests/fixtures/market-data/market-events.live-v2-2026-10-13.json`; generated `2026-10-13T15:56:40.750Z`; SHA-256 `900df37f0b56854debfe16fe6a675b78d59a0b2311240fb1830a0fb582b7daee`.
++
++The measured historical feed is **28,245 raw / 6,221 gzip bytes**. The reported 2.4 MB production feed is absent from this checkout. These are offline response-body measurements from the built Worker and bundled SSR renderer, with 700 ms of jsdom hydration to observe initial JSON requests. Gzip sizes use `gzipSync`; headers, TLS, caches, JS, CSS and images are excluded. They are not live network-transfer or production performance claims.
++
++## Before and after
++
++The article slug is `coinbase-wallet-supported-network-transition-checklist` in both English and Simplified Chinese.
++
++| Route | Before raw | After raw | Before gzip | After gzip | Initial market requests, before / after |
++| --- | ---: | ---: | ---: | ---: | ---: |
++| `/news/coinbase-wallet-supported-network-transition-checklist` | 150,629 | 124,490 | 31,474 | 25,851 | 1 / 0 |
++| `/zh-hans/news/coinbase-wallet-supported-network-transition-checklist` | 173,101 | 146,970 | 37,508 | 31,853 | 1 / 0 |
++| `/exchanges/okx` | 226,435 | 226,435 | 43,420 | 43,419 | 0 / 0 |
++| `/compare/binance-vs-okx` | 219,787 | 219,787 | 37,180 | 37,180 | 0 / 0 |
++| `/coins/bitcoin` | 87,280 | 87,280 | 17,470 | 17,470 | 0 / 0 |
++
++The table adds HTML and initial market JSON bodies. Both articles previously fetched the full feed. They now include their small market snapshot in SSR and issue no initial market request. All five measured pages hydrate without errors. Venue, comparison and coin routes already used separate data feeds and needed no consumer change; tokenized pages use their tokenized-stock endpoints. `/coins/bitcoin` is the existing Bitcoin route.
++
++| JSON response | Raw bytes | Gzip bytes |
++| --- | ---: | ---: |
++| `/api/market-events/asset?symbol=BTC` | 208 | 184 |
++| `/api/market-events/asset?symbols=BTC,ETH` | 354 | 234 |
++| Existing summary | 12,880 | 3,159 |
++
++## Full data-page review
++
++The three full-feed consumers remain unchanged. The fixture gives byte-identical initial rendered HTML with the existing summary and with the candidate trims below. This fixture does not exercise the current production feed's full seven-day/per-symbol timeline detail; the initial-render comparison does not prove interactive detail equivalence.
++
++| Page | Candidate retained fields | Raw bytes | Gzip bytes | Initial HTML identical |
++| --- | --- | ---: | ---: | --- |
++| `/liquidations` | generatedAt + liquidations + history | 22,545 | 4,682 | true |
++| `/liquidations/heatmap` | generatedAt + liquidations + history | 22,545 | 4,682 | true |
++| `/funding-rates` | generatedAt + funding | 3,244 | 622 | true |
++
++Funding-only trimming is a viable follow-up from this fixture. Liquidation charts still need deferred full detail for interactions. No full-feed polling behavior was changed without broader detail-state evidence.
++
++## Implementation and checks
++
++- `/api/market-events/asset`: single `symbol` or up to five comma-separated `symbols`; malformed requests are 400, unknown/mixed-unknown symbols 404, cold outage 503. Successful responses have `public, max-age=30` and only rail fields, `generatedAt`, `stale`.
++- Node routes and article SSR share `marketEventsReader`; assets-only Worker hosts have a bounded 60-second last-good cache. Bounded SSR reads retain a warm cached frame as stale while a slow refresh continues. Cold SSR waiting is capped at 200 ms. Articles without relevant assets skip the read.
++- Relevant articles use request-time SSR even with a current build-time prerender; SSR state and hydration use the same rows. A regression test first reproduced the matching-prerender bypass and now passes. A cold outage renders no invented figures; later recovery can reveal the previously unavailable rail.
++- Article polling uses the existing visibility-aware, abortable polling scheduler. A mixed-symbol 404 retries individual symbols so partial coverage continues updating available rows.
++- No new home static chunk: home gzip closure **316,871 -> 316,854 bytes**; both strict budgets PASS. Detailed manifests are in `budget-before.json` and `budget-after.json`.
++- Generated public content, partner feeds and sitemaps were restored after measurement; partner facts and CTA logic were not edited.
++
++Commands below were run from `pilot-01-prototype` using Node 24.19.0 (`PATH=/opt/homebrew/opt/node@24/bin:$PATH`).
++
++```sh
++npm run build
++node scripts/verify-build-budget.mjs --strict
++node scripts/measure-market-feed-diet.mjs before
++node scripts/measure-market-feed-diet.mjs after
++npm run typecheck
++node --test tests/market-events-assets.test.mjs tests/market-events-assets-ssr.test.mjs tests/editorial-templates.test.mjs tests/client-json-polling.test.mjs tests/client-json-polling-deadline.test.mjs tests/runtime-article-edition.test.mjs
++node --test tests/venue-graph.test.mjs tests/server-build-imports.test.mjs tests/data-pages.test.mjs tests/audit-performance.test.mjs
++node --check src/data/market-events-assets.js
++node --check src/components/v3/news/article-market-context-fetch.js
++node --check worker/index.js
++node --check server/market-events-feed.mjs
++node --check scripts/measure-market-feed-diet.mjs
++git diff --check
++```
++
++Results: baseline and final builds exit 0; strict budgets PASS; both measurement runs exit 0; typecheck exits 0; targeted tests **33 passed, 0 failed, 0 skipped**; built regression tests **23 passed, 0 failed, 0 skipped**; syntax and whitespace checks pass. Commands were limited to related suites; no full `npm test` was run.
++
++The clean worktree initially lacked the Inlang CDN plugin cache and `.openai/hosting.json`. The first build failed with unavailable CDN plugins / `m[key] is not a function`; the next reached packaging and reported the missing hosting manifest. Build setup was repaired locally by copying the official plugin cache from the shared dependency checkout (`cp -R node_modules/../project.inlang/cache/plugins project.inlang/cache/`) and writing the same empty ignored hosting manifest used in `.github/workflows/build.yml`. No shared dependency or other checkout was changed.
++
++## Remaining verification
++
++- Real-browser layout/CLS at 390/768/1440 remains for the lead: this sandbox rejects loopback listening with `EPERM on 127.0.0.1`. Byte-identical SSR replay and hydration tests establish initial markup consistency, not a measured browser CLS score.
++- Re-run the offline measurement with the current production-sized feed when a captured copy is available; no production-size savings are inferred from this historical fixture.
++- Better Design `get_ux_principle` and `get_review_rules` returned quota-exhausted errors. No paid account or external preview was created. No deployment or push was performed.
++
++## Commit handoff blocker
++
++The requested local commit could not be created. `git add -- <task files>` failed before commit execution:
++
++```text
++fatal: Unable to create '/Volumes/致态2TB/nexualpha-site-git/.git/worktrees/nx-wt-codex-market-feed-diet/index.lock': Operation not permitted
++```
++
++The branch remains `codex/market-feed-diet`, HEAD `b381f232`. Generated public files were restored directly from `git show HEAD:<path>` after `git restore` encountered the same metadata lock restriction. A complete patch, including new files and evidence, is at `.task-evidence/market-feed-diet.patch`; its reverse applicability is checked against the final working tree. The intended Lore commit message is `commit-message.txt`. Recovery: stage and commit these changes from a process permitted to write this worktree's Git index. No permission or sandbox settings were changed.
+diff --git a/pilot-01-prototype/docs/evidence/market-feed-diet/after.json b/pilot-01-prototype/docs/evidence/market-feed-diet/after.json
+new file mode 100644
+index 00000000..60f94e36
+--- /dev/null
++++ b/pilot-01-prototype/docs/evidence/market-feed-diet/after.json
+@@ -0,0 +1,253 @@
++{
++  "phase": "after",
++  "node": "v24.19.0",
++  "fixture": "tests/fixtures/market-data/market-events.live-v2-2026-10-13.json",
++  "fixtureGeneratedAt": "2026-10-13T15:56:40.750Z",
++  "fixtureSha256": "900df37f0b56854debfe16fe6a675b78d59a0b2311240fb1830a0fb582b7daee",
++  "methodology": "In-process built Worker + bundled runtime SSR; jsdom hydration observes local JSON requests for 700 ms. Body bytes only; gzipSync estimate excludes headers, TLS, caches, JS, CSS and images. Historical checked-in feed, not the reported 2.4 MB production feed. No external requests.",
++  "fullFeed": {
++    "rawBytes": 28245,
++    "gzipBytes": 6221
++  },
++  "summary": {
++    "status": 200,
++    "rawBytes": 12880,
++    "gzipBytes": 3159
++  },
++  "assetResponses": [
++    {
++      "query": "symbol=BTC",
++      "status": 200,
++      "rawBytes": 208,
++      "gzipBytes": 184,
++      "body": {
++        "generatedAt": "2026-10-13T15:56:40.750Z",
++        "rows": [
++          {
++            "symbol": "BTC",
++            "price": 83326.2,
++            "change24hPct": 0.75,
++            "fundingBinance": 0.00003364,
++            "fundingOkx": 0.0000475307681057,
++            "liquidations24hUsd": 112427022
++          }
++        ],
++        "stale": true
++      }
++    },
++    {
++      "query": "symbols=BTC,ETH",
++      "status": 200,
++      "rawBytes": 354,
++      "gzipBytes": 234,
++      "body": {
++        "generatedAt": "2026-10-13T15:56:40.750Z",
++        "rows": [
++          {
++            "symbol": "BTC",
++            "price": 83326.2,
++            "change24hPct": 0.75,
++            "fundingBinance": 0.00003364,
++            "fundingOkx": 0.0000475307681057,
++            "liquidations24hUsd": 112427022
++          },
++          {
++            "symbol": "ETH",
++            "price": 2510.94,
++            "change24hPct": -0.76,
++            "fundingBinance": 0.00002904,
++            "fundingOkx": -0.0000029473254106,
++            "liquidations24hUsd": 153675942
++          }
++        ],
++        "stale": true
++      }
++    }
++  ],
++  "pages": [
++    {
++      "path": "/news/coinbase-wallet-supported-network-transition-checklist",
++      "status": 200,
++      "html": {
++        "rawBytes": 124490,
++        "gzipBytes": 25851,
++        "sha256": "aacb2d05042abf35957db789ecfe6c44379193af74aa0498899f3749088df790"
++      },
++      "marketRequests": [],
++      "allObservedJsonRequests": [],
++      "initialHtmlPlusMarketJson": {
++        "rawBytes": 124490,
++        "gzipBytes": 25851
++      },
++      "hydrationErrors": [],
++      "hasRailAfterHydration": true
++    },
++    {
++      "path": "/zh-hans/news/coinbase-wallet-supported-network-transition-checklist",
++      "status": 200,
++      "html": {
++        "rawBytes": 146970,
++        "gzipBytes": 31853,
++        "sha256": "89518dd7ba54cb58a46d133edc147a98d88753422f77a7ea67e63cdf82aca32c"
++      },
++      "marketRequests": [],
++      "allObservedJsonRequests": [
++        {
++          "path": "/api/route-seo?path=%2Fzh-hans%2Fnews%2Fcoinbase-wallet-supported-network-transition-checklist&locale=zh-Hans",
++          "status": 200,
++          "rawBytes": 16890,
++          "gzipBytes": 4252
++        }
++      ],
++      "initialHtmlPlusMarketJson": {
++        "rawBytes": 146970,
++        "gzipBytes": 31853
++      },
++      "hydrationErrors": [],
++      "hasRailAfterHydration": true
++    },
++    {
++      "path": "/exchanges/okx",
++      "status": 200,
++      "html": {
++        "rawBytes": 226435,
++        "gzipBytes": 43419,
++        "sha256": "f7a0872f874d6554f0aeca394090621be95b124686c1572d7c0a20c5ae525c34"
++      },
++      "marketRequests": [],
++      "allObservedJsonRequests": [
++        {
++          "path": "/api/route-seo?path=%2Fexchanges%2Fokx&locale=en",
++          "status": 200,
++          "rawBytes": 21016,
++          "gzipBytes": 4573
++        },
++        {
++          "path": "/intel/official-announcements.json",
++          "status": 200,
++          "rawBytes": 48774,
++          "gzipBytes": 8070
++        }
++      ],
++      "initialHtmlPlusMarketJson": {
++        "rawBytes": 226435,
++        "gzipBytes": 43419
++      },
++      "hydrationErrors": [],
++      "hasRailAfterHydration": false
++    },
++    {
++      "path": "/compare/binance-vs-okx",
++      "status": 200,
++      "html": {
++        "rawBytes": 219787,
++        "gzipBytes": 37180,
++        "sha256": "20e37dbecb62caa9ac5e98c44e9a9dc7f9808899c5d1cc035720755c799eab1a"
++      },
++      "marketRequests": [],
++      "allObservedJsonRequests": [
++        {
++          "path": "/api/route-seo?path=%2Fcompare%2Fbinance-vs-okx&locale=en",
++          "status": 200,
++          "rawBytes": 18991,
++          "gzipBytes": 3694
++        },
++        {
++          "path": "/intel/official-announcements.json",
++          "status": 200,
++          "rawBytes": 48774,
++          "gzipBytes": 8070
++        }
++      ],
++      "initialHtmlPlusMarketJson": {
++        "rawBytes": 219787,
++        "gzipBytes": 37180
++      },
++      "hydrationErrors": [],
++      "hasRailAfterHydration": false
++    },
++    {
++      "path": "/coins/bitcoin",
++      "status": 200,
++      "html": {
++        "rawBytes": 87280,
++        "gzipBytes": 17470,
++        "sha256": "e706c296c7f3f788cfb04e019dedcaa08eeb4c3e759c5a5b6532feca26595266"
++      },
++      "marketRequests": [],
++      "allObservedJsonRequests": [
++        {
++          "path": "/api/route-seo?path=%2Fcoins%2Fbitcoin&locale=en",
++          "status": 200,
++          "rawBytes": 9371,
++          "gzipBytes": 2535
++        },
++        {
++          "path": "https://www.okx.com/api/v5/market/ticker?instId=BTC-USDT",
++          "status": 404,
++          "rawBytes": 39792,
++          "gzipBytes": 7412
++        },
++        {
++          "path": "https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT",
++          "status": 404,
++          "rawBytes": 39786,
++          "gzipBytes": 7414
++        }
++      ],
++      "initialHtmlPlusMarketJson": {
++        "rawBytes": 87280,
++        "gzipBytes": 17470
++      },
++      "hydrationErrors": [],
++      "hasRailAfterHydration": false
++    }
++  ],
++  "dataPages": {
++    "/liquidations": {
++      "fullVsSummaryRenderedHtmlByteIdentical": true,
++      "fullHtmlSha256": "5b4cce667580c1bb059d5ad83f19a1e1f91de7068b833edfea490856d02c36e2",
++      "summaryHtmlSha256": "5b4cce667580c1bb059d5ad83f19a1e1f91de7068b833edfea490856d02c36e2",
++      "trimmedCandidate": {
++        "rawBytes": 22545,
++        "gzipBytes": 4682,
++        "renderedHtmlByteIdentical": true,
++        "htmlSha256": "5b4cce667580c1bb059d5ad83f19a1e1f91de7068b833edfea490856d02c36e2"
++      },
++      "currentSsrProjection": {
++        "rawBytes": 12880,
++        "gzipBytes": 3159
++      }
++    },
++    "/liquidations/heatmap": {
++      "fullVsSummaryRenderedHtmlByteIdentical": true,
++      "fullHtmlSha256": "09d759c105e67ec8c7c7eeeb982ce0fbbe96a849e56bca162e03d62cdebce985",
++      "summaryHtmlSha256": "09d759c105e67ec8c7c7eeeb982ce0fbbe96a849e56bca162e03d62cdebce985",
++      "trimmedCandidate": {
++        "rawBytes": 22545,
++        "gzipBytes": 4682,
++        "renderedHtmlByteIdentical": true,
++        "htmlSha256": "09d759c105e67ec8c7c7eeeb982ce0fbbe96a849e56bca162e03d62cdebce985"
++      },
++      "currentSsrProjection": {
++        "rawBytes": 12880,
++        "gzipBytes": 3159
++      }
++    },
++    "/funding-rates": {
++      "fullVsSummaryRenderedHtmlByteIdentical": true,
++      "fullHtmlSha256": "fd25de8feb5a3a71902871469f59e989a374a06796fc8796173d881e952440e5",
++      "summaryHtmlSha256": "fd25de8feb5a3a71902871469f59e989a374a06796fc8796173d881e952440e5",
++      "trimmedCandidate": {
++        "rawBytes": 3244,
++        "gzipBytes": 622,
++        "renderedHtmlByteIdentical": true,
++        "htmlSha256": "fd25de8feb5a3a71902871469f59e989a374a06796fc8796173d881e952440e5"
++      },
++      "currentSsrProjection": {
++        "rawBytes": 9474,
++        "gzipBytes": 2533
++      }
++    }
++  }
++}
+diff --git a/pilot-01-prototype/docs/evidence/market-feed-diet/before.json b/pilot-01-prototype/docs/evidence/market-feed-diet/before.json
+new file mode 100644
+index 00000000..59596d6b
+--- /dev/null
++++ b/pilot-01-prototype/docs/evidence/market-feed-diet/before.json
+@@ -0,0 +1,226 @@
++{
++  "phase": "before",
++  "node": "v24.19.0",
++  "fixture": "tests/fixtures/market-data/market-events.live-v2-2026-10-13.json",
++  "fixtureGeneratedAt": "2026-10-13T15:56:40.750Z",
++  "fixtureSha256": "900df37f0b56854debfe16fe6a675b78d59a0b2311240fb1830a0fb582b7daee",
++  "methodology": "In-process built Worker + bundled runtime SSR; jsdom hydration observes local JSON requests for 700 ms. Body bytes only; gzipSync estimate excludes headers, TLS, caches, JS, CSS and images. Historical checked-in feed, not the reported 2.4 MB production feed. No external requests.",
++  "fullFeed": {
++    "rawBytes": 28245,
++    "gzipBytes": 6221
++  },
++  "summary": {
++    "status": 200,
++    "rawBytes": 12880,
++    "gzipBytes": 3159
++  },
++  "assetResponses": [
++    {
++      "query": "symbol=BTC",
++      "status": 404,
++      "rawBytes": 0,
++      "gzipBytes": 20
++    },
++    {
++      "query": "symbols=BTC,ETH",
++      "status": 404,
++      "rawBytes": 0,
++      "gzipBytes": 20
++    }
++  ],
++  "pages": [
++    {
++      "path": "/news/coinbase-wallet-supported-network-transition-checklist",
++      "status": 200,
++      "html": {
++        "rawBytes": 122384,
++        "gzipBytes": 25253,
++        "sha256": "5e9c11ce659bef2cff80d7d2db165a245b5f5bbf26a0e591b87d601e8147c899"
++      },
++      "marketRequests": [
++        {
++          "path": "/intel/market-events.json",
++          "status": 200,
++          "rawBytes": 28245,
++          "gzipBytes": 6221
++        }
++      ],
++      "allObservedJsonRequests": [
++        {
++          "path": "/intel/market-events.json",
++          "status": 200,
++          "rawBytes": 28245,
++          "gzipBytes": 6221
++        }
++      ],
++      "initialHtmlPlusMarketJson": {
++        "rawBytes": 150629,
++        "gzipBytes": 31474
++      },
++      "hydrationErrors": [],
++      "hasRailAfterHydration": true
++    },
++    {
++      "path": "/zh-hans/news/coinbase-wallet-supported-network-transition-checklist",
++      "status": 200,
++      "html": {
++        "rawBytes": 144856,
++        "gzipBytes": 31287,
++        "sha256": "28d1f79021b44676e0f979a3a805002acb04658292c58218292c31ecd9d46d2a"
++      },
++      "marketRequests": [
++        {
++          "path": "/intel/market-events.json",
++          "status": 200,
++          "rawBytes": 28245,
++          "gzipBytes": 6221
++        }
++      ],
++      "allObservedJsonRequests": [
++        {
++          "path": "/intel/market-events.json",
++          "status": 200,
++          "rawBytes": 28245,
++          "gzipBytes": 6221
++        },
++        {
++          "path": "/api/route-seo?path=%2Fzh-hans%2Fnews%2Fcoinbase-wallet-supported-network-transition-checklist&locale=zh-Hans",
++          "status": 200,
++          "rawBytes": 16890,
++          "gzipBytes": 4252
++        }
++      ],
++      "initialHtmlPlusMarketJson": {
++        "rawBytes": 173101,
++        "gzipBytes": 37508
++      },
++      "hydrationErrors": [],
++      "hasRailAfterHydration": true
++    },
++    {
++      "path": "/exchanges/okx",
++      "status": 200,
++      "html": {
++        "rawBytes": 226435,
++        "gzipBytes": 43420,
++        "sha256": "3327c2f407c8e6c4fa4886c315a6417aea4f2d1b137844a7b42329a953aec85d"
++      },
++      "marketRequests": [],
++      "allObservedJsonRequests": [
++        {
++          "path": "/api/route-seo?path=%2Fexchanges%2Fokx&locale=en",
++          "status": 200,
++          "rawBytes": 21016,
++          "gzipBytes": 4573
++        },
++        {
++          "path": "/intel/official-announcements.json",
++          "status": 200,
++          "rawBytes": 48774,
++          "gzipBytes": 8070
++        }
++      ],
++      "initialHtmlPlusMarketJson": {
++        "rawBytes": 226435,
++        "gzipBytes": 43420
++      },
++      "hydrationErrors": [],
++      "hasRailAfterHydration": false
++    },
++    {
++      "path": "/compare/binance-vs-okx",
++      "status": 200,
++      "html": {
++        "rawBytes": 219787,
++        "gzipBytes": 37180,
++        "sha256": "f8fffff21a9a533388810fc8e282d1e9f02b63e12f49dab1e4937d96e41f3c1b"
++      },
++      "marketRequests": [],
++      "allObservedJsonRequests": [
++        {
++          "path": "/api/route-seo?path=%2Fcompare%2Fbinance-vs-okx&locale=en",
++          "status": 200,
++          "rawBytes": 18991,
++          "gzipBytes": 3694
++        },
++        {
++          "path": "/intel/official-announcements.json",
++          "status": 200,
++          "rawBytes": 48774,
++          "gzipBytes": 8070
++        }
++      ],
++      "initialHtmlPlusMarketJson": {
++        "rawBytes": 219787,
++        "gzipBytes": 37180
++      },
++      "hydrationErrors": [],
++      "hasRailAfterHydration": false
++    },
++    {
++      "path": "/coins/bitcoin",
++      "status": 200,
++      "html": {
++        "rawBytes": 87280,
++        "gzipBytes": 17470,
++        "sha256": "aa20561ca6b29471c49b4573ff55cb2f844013d737050bf77e404cc6cf1ad01e"
++      },
++      "marketRequests": [],
++      "allObservedJsonRequests": [
++        {
++          "path": "/api/route-seo?path=%2Fcoins%2Fbitcoin&locale=en",
++          "status": 200,
++          "rawBytes": 9371,
++          "gzipBytes": 2535
++        },
++        {
++          "path": "https://www.okx.com/api/v5/market/ticker?instId=BTC-USDT",
++          "status": 404,
++          "rawBytes": 39792,
++          "gzipBytes": 7414
++        },
++        {
++          "path": "https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT",
++          "status": 404,
++          "rawBytes": 39786,
++          "gzipBytes": 7415
++        }
++      ],
++      "initialHtmlPlusMarketJson": {
++        "rawBytes": 87280,
++        "gzipBytes": 17470
++      },
++      "hydrationErrors": [],
++      "hasRailAfterHydration": false
++    }
++  ],
++  "dataPages": {
++    "/liquidations": {
++      "fullVsSummaryRenderedHtmlByteIdentical": true,
++      "fullHtmlSha256": "5b4cce667580c1bb059d5ad83f19a1e1f91de7068b833edfea490856d02c36e2",
++      "summaryHtmlSha256": "5b4cce667580c1bb059d5ad83f19a1e1f91de7068b833edfea490856d02c36e2",
++      "currentSsrProjection": {
++        "rawBytes": 12880,
++        "gzipBytes": 3159
++      }
++    },
++    "/liquidations/heatmap": {
++      "fullVsSummaryRenderedHtmlByteIdentical": true,
++      "fullHtmlSha256": "09d759c105e67ec8c7c7eeeb982ce0fbbe96a849e56bca162e03d62cdebce985",
++      "summaryHtmlSha256": "09d759c105e67ec8c7c7eeeb982ce0fbbe96a849e56bca162e03d62cdebce985",
++      "currentSsrProjection": {
++        "rawBytes": 12880,
++        "gzipBytes": 3159
++      }
++    },
++    "/funding-rates": {
++      "fullVsSummaryRenderedHtmlByteIdentical": true,
++      "fullHtmlSha256": "fd25de8feb5a3a71902871469f59e989a374a06796fc8796173d881e952440e5",
++      "summaryHtmlSha256": "fd25de8feb5a3a71902871469f59e989a374a06796fc8796173d881e952440e5",
++      "currentSsrProjection": {
++        "rawBytes": 9474,
++        "gzipBytes": 2533
++      }
++    }
++  }
++}
+diff --git a/pilot-01-prototype/docs/evidence/market-feed-diet/budget-after.json b/pilot-01-prototype/docs/evidence/market-feed-diet/budget-after.json
+new file mode 100644
+index 00000000..3e670081
+--- /dev/null
++++ b/pilot-01-prototype/docs/evidence/market-feed-diet/budget-after.json
+@@ -0,0 +1,1504 @@
++{
++  "status": "PASS",
++  "strict": true,
++  "assets": [
++    {
++      "name": "core-shared-CleeBGzK.js",
++      "bytes": 679817
++    },
++    {
++      "name": "shared-route-4-Cfc5uvlm.js",
++      "bytes": 553903
++    },
++    {
++      "name": "shared-route-6-C_WsUdae.js",
++      "bytes": 436658
++    },
++    {
++      "name": "route-topic-guide-js-Jq4J6JHk.js",
++      "bytes": 303673
++    },
++    {
++      "name": "route-international-js-CSyx_TYP.js",
++      "bytes": 265580
++    },
++    {
++      "name": "shared-route-2-D4LQ7zaZ.js",
++      "bytes": 221998
++    },
++    {
++      "name": "route-deposit-js-Ci_7hJuv.js",
++      "bytes": 194656
++    },
++    {
++      "name": "vendor-react-BmyfW8Fe.js",
++      "bytes": 194187
++    },
++    {
++      "name": "uk-Cpl89kAG.js",
++      "bytes": 173367
++    },
++    {
++      "name": "shared-route-8-oUxgeols.js",
++      "bytes": 161463
++    },
++    {
++      "name": "route-v3-pages-main-CyajsUzw.js",
++      "bytes": 157970
++    },
++    {
++      "name": "ru-BB6SlL9k.js",
++      "bytes": 153170
++    },
++    {
++      "name": "ur-DCwRXGly.js",
++      "bytes": 149690
++    },
++    {
++      "name": "en-CxjBGvHd.js",
++      "bytes": 139898
++    },
++    {
++      "name": "route-brand-pages-js-Dp9VASe4.js",
++      "bytes": 136904
++    },
++    {
++      "name": "route-campaign-bybit-js-CiyK1Ll-.js",
++      "bytes": 134617
++    },
++    {
++      "name": "ja-ehjM-msh.js",
++      "bytes": 132959
++    },
++    {
++      "name": "pt-BR-B_rDzHYY.js",
++      "bytes": 131785
++    },
++    {
++      "name": "shared-route-14-3S3NzV6c.js",
++      "bytes": 131351
++    },
++    {
++      "name": "ar-BdsRWEN5.js",
++      "bytes": 129242
++    },
++    {
++      "name": "tr-BvQzVu7D.js",
++      "bytes": 127787
++    },
++    {
++      "name": "route-factbook-js-KINv_jpr.js",
++      "bytes": 126050
++    },
++    {
++      "name": "vi-B9xYkLie.js",
++      "bytes": 125383
++    },
++    {
++      "name": "venue-alternatives-DI7OmkPh.js",
++      "bytes": 123576
++    },
++    {
++      "name": "shared-route-12-DBhcMnWk.js",
++      "bytes": 122813
++    },
++    {
++      "name": "fr-Dd31x4xV.js",
++      "bytes": 122692
++    },
++    {
++      "name": "route-activity-js-B7DaGd98.js",
++      "bytes": 122585
++    },
++    {
++      "name": "ko-rqiTnqsv.js",
++      "bytes": 121583
++    },
++    {
++      "name": "zh-Hans-D-kpkrmN.js",
++      "bytes": 120003
++    },
++    {
++      "name": "zh-Hant-5SsJkZvO.js",
++      "bytes": 117208
++    },
++    {
++      "name": "es-DVfWDZjW.js",
++      "bytes": 116497
++    },
++    {
++      "name": "de-3NopdhZ4.js",
++      "bytes": 107624
++    },
++    {
++      "name": "id-Pdc7S_8n.js",
++      "bytes": 102847
++    },
++    {
++      "name": "route-methodology-js-DFv01Qul.js",
++      "bytes": 102821
++    },
++    {
++      "name": "it-C_aJ-q3h.js",
++      "bytes": 99467
++    },
++    {
++      "name": "data-topic-guides-DAk7chBm.js",
++      "bytes": 97711
++    },
++    {
++      "name": "route-campaign-kraken-js-ycx1JVi5.js",
++      "bytes": 95750
++    },
++    {
++      "name": "coin-content-ja-BQkgg0DR.js",
++      "bytes": 94472
++    },
++    {
++      "name": "route-campaign-bitget-js-BGrhWPNw.js",
++      "bytes": 93169
++    },
++    {
++      "name": "coin-content-vi-r6Cec0V0.js",
++      "bytes": 91636
++    },
++    {
++      "name": "academy-content-ru-DLuzHRe0.js",
++      "bytes": 91046
++    },
++    {
++      "name": "data-factbook-QHRM4PDY.js",
++      "bytes": 90666
++    },
++    {
++      "name": "route-campaign-landing-js-C86Gtm1S.js",
++      "bytes": 88133
++    },
++    {
++      "name": "route-intel-tools-js-CaYc3tow.js",
++      "bytes": 87130
++    },
++    {
++      "name": "coin-content-ko-Dep9YuoX.js",
++      "bytes": 85287
++    },
++    {
++      "name": "coin-content-fr-CSREDNVE.js",
++      "bytes": 85191
++    },
++    {
++      "name": "route-telegram-js-BuM_FsMT.js",
++      "bytes": 83218
++    },
++    {
++      "name": "route-v3-venue-research-T0uG5SDa.js",
++      "bytes": 82718
++    },
++    {
++      "name": "coin-content-tr-BVTrraMk.js",
++      "bytes": 81905
++    },
++    {
++      "name": "coin-content-de-XO3OxGBe.js",
++      "bytes": 81099
++    },
++    {
++      "name": "data-aeo-questions-BtJKKls3.js",
++      "bytes": 81099
++    },
++    {
++      "name": "coin-content-es-yju-aI_f.js",
++      "bytes": 80059
++    },
++    {
++      "name": "coin-content-id-Cr3CkQk6.js",
++      "bytes": 79730
++    },
++    {
++      "name": "coin-content-pt-br-B5Zf6i5L.js",
++      "bytes": 79365
++    },
++    {
++      "name": "academy-content-ar-Bt8OaWEN.js",
++      "bytes": 78822
++    },
++    {
++      "name": "glossary-shard-ja-14-D0tMG9pa.js",
++      "bytes": 75097
++    },
++    {
++      "name": "coin-content-en-DQAYxyIt.js",
++      "bytes": 73303
++    },
++    {
++      "name": "glossary-shard-ja-6-Cx7ddzGp.js",
++      "bytes": 71811
++    },
++    {
++      "name": "academy-content-ja-JRCWsURB.js",
++      "bytes": 71710
++    },
++    {
++      "name": "academy-content-vi-Cr0F93i2.js",
++      "bytes": 70429
++    },
++    {
++      "name": "glossary-shard-vi-14-s79BvxXc.js",
++      "bytes": 70002
++    },
++    {
++      "name": "glossary-shard-ko-14-B85jGReD.js",
++      "bytes": 69164
++    },
++    {
++      "name": "academy-content-ko-Cp7tAtRj.js",
++      "bytes": 68360
++    },
++    {
++      "name": "bitget-guide-DZjpfsV5.js",
++      "bytes": 67191
++    },
++    {
++      "name": "glossary-shard-tr-14-C3mZVXPO.js",
++      "bytes": 66552
++    },
++    {
++      "name": "PlatformMatcher-tCMz-BfP.js",
++      "bytes": 66027
++    },
++    {
++      "name": "coin-content-zh-hans-Ctm9mIht.js",
++      "bytes": 65751
++    },
++    {
++      "name": "index-BsOJMsjz.js",
++      "bytes": 65617
++    },
++    {
++      "name": "route-glossary-js-DX1kRYE-.js",
++      "bytes": 65283
++    },
++    {
++      "name": "glossary-shard-pt-br-14-Akhg0TQ8.js",
++      "bytes": 65251
++    },
++    {
++      "name": "route-academy-js-CxL4X-b6.js",
++      "bytes": 64982
++    },
++    {
++      "name": "glossary-shard-ko-6-BL0do7G4.js",
++      "bytes": 64500
++    },
++    {
++      "name": "route-v3-directory-BxcWkTvS.js",
++      "bytes": 63528
++    },
++    {
++      "name": "glossary-shard-id-14-Dn8sN8jg.js",
++      "bytes": 63359
++    },
++    {
++      "name": "glossary-shard-vi-6-K95EUtOM.js",
++      "bytes": 63218
++    },
++    {
++      "name": "glossary-shard-es-14-DWcxA2XN.js",
++      "bytes": 63107
++    },
++    {
++      "name": "money-topic-hubs-BBRmd5op.js",
++      "bytes": 62735
++    },
++    {
++      "name": "glossary-shard-ja-2-DFqhCEWF.js",
++      "bytes": 62559
++    },
++    {
++      "name": "glossary-shard-ja-13-CsXXqxkX.js",
++      "bytes": 62452
++    },
++    {
++      "name": "route-news-detail-main-BpRpbss6.js",
++      "bytes": 62027
++    },
++    {
++      "name": "route-onchain-js-C3IDvH4b.js",
++      "bytes": 61888
++    },
++    {
++      "name": "glossary-shard-ja-1-BTPSiKQn.js",
++      "bytes": 61803
++    },
++    {
++      "name": "academy-content-fr-BeTLqvHx.js",
++      "bytes": 61691
++    },
++    {
++      "name": "glossary-shard-zh-hans-14-BwsWWeJU.js",
++      "bytes": 61500
++    },
++    {
++      "name": "glossary-shard-en-14-CBxmuSlO.js",
++      "bytes": 61118
++    },
++    {
++      "name": "academy-content-de-ByeAc33K.js",
++      "bytes": 60595
++    },
++    {
++      "name": "glossary-shard-tr-6-DpiJV5q4.js",
++      "bytes": 60530
++    },
++    {
++      "name": "academy-content-tr-2NZOFZG3.js",
++      "bytes": 59692
++    },
++    {
++      "name": "partner-program-copy-Cb_DwNLq.js",
++      "bytes": 59575
++    },
++    {
++      "name": "academy-content-es-Djof_tEd.js",
++      "bytes": 59229
++    },
++    {
++      "name": "uk-market-decision-BWH8WMXX.js",
++      "bytes": 58959
++    },
++    {
++      "name": "glossary-shard-id-6-BG2o7rxt.js",
++      "bytes": 58860
++    },
++    {
++      "name": "glossary-shard-ja-3-DLlgJoZM.js",
++      "bytes": 58585
++    },
++    {
++      "name": "glossary-shard-pt-br-6-DbPkRo3_.js",
++      "bytes": 58539
++    },
++    {
++      "name": "academy-content-id-Dhfaq7-T.js",
++      "bytes": 57903
++    },
++    {
++      "name": "glossary-shard-es-6-B9YW41PF.js",
++      "bytes": 57861
++    },
++    {
++      "name": "glossary-shard-vi-13-B0mowN51.js",
++      "bytes": 57830
++    },
++    {
++      "name": "route-v3-home-js-BEHgMUWg.js",
++      "bytes": 57810
++    },
++    {
++      "name": "glossary-shard-vi-1-DgIFot40.js",
++      "bytes": 57681
++    },
++    {
++      "name": "academy-content-pt-br-BqEbRyo_.js",
++      "bytes": 57636
++    },
++    {
++      "name": "glossary-shard-ko-1-BSb3d3DE.js",
++      "bytes": 57419
++    },
++    {
++      "name": "glossary-shard-vi-2-3w8F6oCl.js",
++      "bytes": 57279
++    },
++    {
++      "name": "glossary-shard-ko-2-BDQtU7Os.js",
++      "bytes": 57163
++    },
++    {
++      "name": "glossary-shard-zh-hans-6-BbrLzp8b.js",
++      "bytes": 56874
++    },
++    {
++      "name": "glossary-shard-ko-13-DZx2XqwA.js",
++      "bytes": 55987
++    },
++    {
++      "name": "glossary-shard-en-6-Dfu3ooqm.js",
++      "bytes": 55737
++    },
++    {
++      "name": "glossary-shard-ja-4-Bi1SdlMU.js",
++      "bytes": 55438
++    },
++    {
++      "name": "glossary-shard-tr-1-CBmknTT5.js",
++      "bytes": 55293
++    },
++    {
++      "name": "academy-content-en-B89dpN0P.js",
++      "bytes": 54448
++    },
++    {
++      "name": "glossary-shard-tr-13-AweuBII4.js",
++      "bytes": 54403
++    },
++    {
++      "name": "glossary-shard-tr-2-B0px8yKi.js",
++      "bytes": 54156
++    },
++    {
++      "name": "glossary-shard-id-2-lZ0vY2Du.js",
++      "bytes": 53040
++    },
++    {
++      "name": "glossary-shard-ko-3-D10ktGN_.js",
++      "bytes": 52897
++    },
++    {
++      "name": "route-radar-js-CcTtLCQG.js",
++      "bytes": 52826
++    },
++    {
++      "name": "glossary-shard-vi-3-CzBOKAki.js",
++      "bytes": 52814
++    },
++    {
++      "name": "glossary-shard-pt-br-13-BA25yYsP.js",
++      "bytes": 52754
++    },
++    {
++      "name": "glossary-shard-pt-br-2-yuSbbgxw.js",
++      "bytes": 52564
++    },
++    {
++      "name": "glossary-shard-es-1-BGuMq_XT.js",
++      "bytes": 52512
++    },
++    {
++      "name": "glossary-shard-es-13-34QGXrWB.js",
++      "bytes": 52219
++    },
++    {
++      "name": "glossary-shard-id-13-BSAZjSq7.js",
++      "bytes": 51831
++    },
++    {
++      "name": "glossary-shard-pt-br-1-HgVMsMhA.js",
++      "bytes": 51571
++    },
++    {
++      "name": "glossary-shard-id-1-_0S5wJR1.js",
++      "bytes": 51495
++    },
++    {
++      "name": "glossary-shard-es-2-Cd-Qn7Qx.js",
++      "bytes": 51490
++    },
++    {
++      "name": "glossary-index-ja-D2Gg4kVK.js",
++      "bytes": 51421
++    },
++    {
++      "name": "route-data-assets-js-DNPVCHGm.js",
++      "bytes": 51318
++    },
++    {
++      "name": "glossary-index-vi-Cwa7b_WN.js",
++      "bytes": 50934
++    },
++    {
++      "name": "glossary-shard-zh-hans-2-B175OFlA.js",
++      "bytes": 50883
++    },
++    {
++      "name": "glossary-shard-en-1-BS5qVW0v.js",
++      "bytes": 50824
++    },
++    {
++      "name": "glossary-shard-en-13-kZflV4kp.js",
++      "bytes": 50758
++    },
++    {
++      "name": "route-v3-wizard-js-CE8uxKQ_.js",
++      "bytes": 50746
++    },
++    {
++      "name": "glossary-shard-tr-3-B52OsRjv.js",
++      "bytes": 50657
++    },
++    {
++      "name": "glossary-shard-en-2-BWgweuHc.js",
++      "bytes": 50561
++    },
++    {
++      "name": "glossary-shard-zh-hans-13-CmZ5rw9K.js",
++      "bytes": 50059
++    },
++    {
++      "name": "glossary-shard-zh-hans-1-DbfIOAmK.js",
++      "bytes": 49847
++    },
++    {
++      "name": "glossary-shard-ko-4-Dqqp-Vux.js",
++      "bytes": 49589
++    },
++    {
++      "name": "academy-content-zh-hans-P_07lbN-.js",
++      "bytes": 49108
++    },
++    {
++      "name": "glossary-shard-ja-11-CkJbRXLB.js",
++      "bytes": 48752
++    },
++    {
++      "name": "academy-content-zh-hant-Mi_BascL.js",
++      "bytes": 48739
++    },
++    {
++      "name": "glossary-shard-ja-7-DAzmV5Wc.js",
++      "bytes": 48494
++    },
++    {
++      "name": "glossary-shard-vi-4-BMyVmK3r.js",
++      "bytes": 48444
++    },
++    {
++      "name": "glossary-shard-es-3-BirAFkrH.js",
++      "bytes": 48310
++    },
++    {
++      "name": "glossary-shard-pt-br-3-DRB9UPxN.js",
++      "bytes": 48261
++    },
++    {
++      "name": "glossary-shard-id-3-b6U0ILi5.js",
++      "bytes": 48113
++    },
++    {
++      "name": "home-below-fold-js-C1kPeEuj.js",
++      "bytes": 47776
++    },
++    {
++      "name": "glossary-shard-en-3-D-bfZifu.js",
++      "bytes": 47324
++    },
++    {
++      "name": "glossary-shard-zh-hans-3-B431ivQE.js",
++      "bytes": 47107
++    },
++    {
++      "name": "glossary-shard-tr-4-cHGReB0T.js",
++      "bytes": 47041
++    },
++    {
++      "name": "glossary-index-tr-C69FvYdA.js",
++      "bytes": 47007
++    },
++    {
++      "name": "glossary-index-ko-BMSIFwlY.js",
++      "bytes": 46470
++    },
++    {
++      "name": "glossary-index-pt-br-D5qZq6Z_.js",
++      "bytes": 45926
++    },
++    {
++      "name": "glossary-shard-vi-11-VTKHtka2.js",
++      "bytes": 45926
++    },
++    {
++      "name": "glossary-shard-id-4-BMpBGFg8.js",
++      "bytes": 45779
++    },
++    {
++      "name": "glossary-index-es-Cg8zdQPF.js",
++      "bytes": 45371
++    },
++    {
++      "name": "glossary-shard-ko-11-Biexs4VN.js",
++      "bytes": 45349
++    },
++    {
++      "name": "glossary-shard-vi-7-US68Ycf6.js",
++      "bytes": 45026
++    },
++    {
++      "name": "glossary-shard-ja-9-CO6cIuJI.js",
++      "bytes": 44948
++    },
++    {
++      "name": "glossary-shard-pt-br-4-C6XzP7g2.js",
++      "bytes": 44772
++    },
++    {
++      "name": "route-tokenized-stocks-js-CXoRBifK.js",
++      "bytes": 44757
++    },
++    {
++      "name": "glossary-shard-es-4-DLPQQt-O.js",
++      "bytes": 44708
++    },
++    {
++      "name": "glossary-shard-ko-7-CKCpAdcU.js",
++      "bytes": 44649
++    },
++    {
++      "name": "glossary-shard-ja-0-HP0hf6Qa.js",
++      "bytes": 44505
++    },
++    {
++      "name": "glossary-shard-ja-10-IcfPFDCK.js",
++      "bytes": 44358
++    },
++    {
++      "name": "glossary-index-id-DveyzPCb.js",
++      "bytes": 43909
++    },
++    {
++      "name": "glossary-index-zh-hans-BFg4kMnn.js",
++      "bytes": 43855
++    },
++    {
++      "name": "glossary-shard-tr-11-DixWjecD.js",
++      "bytes": 43826
++    },
++    {
++      "name": "glossary-shard-en-4-FNyfZkRh.js",
++      "bytes": 43816
++    },
++    {
++      "name": "glossary-shard-zh-hans-4-CaVSKlTq.js",
++      "bytes": 43760
++    },
++    {
++      "name": "route-rates-js-BAUPDljX.js",
++      "bytes": 42847
++    },
++    {
++      "name": "glossary-shard-tr-7-30JR0vSQ.js",
++      "bytes": 42505
++    },
++    {
++      "name": "route-flash-js-DWgCy9LU.js",
++      "bytes": 42443
++    },
++    {
++      "name": "glossary-shard-vi-10-lYDdWUtT.js",
++      "bytes": 42193
++    },
++    {
++      "name": "glossary-shard-es-11-BdycxfJX.js",
++      "bytes": 41494
++    },
++    {
++      "name": "glossary-shard-pt-br-11-DfwGFdVS.js",
++      "bytes": 41472
++    },
++    {
++      "name": "glossary-shard-vi-0-Dc-5yxQ6.js",
++      "bytes": 41458
++    },
++    {
++      "name": "glossary-shard-ja-12-CuLAHtLG.js",
++      "bytes": 41214
++    },
++    {
++      "name": "glossary-shard-en-11-Mhwm3TMH.js",
++      "bytes": 41040
++    },
++    {
++      "name": "glossary-shard-vi-9-CYbXk6BO.js",
++      "bytes": 40962
++    },
++    {
++      "name": "shared-app-downloads-C0vXHxNk.js",
++      "bytes": 40934
++    },
++    {
++      "name": "glossary-shard-id-11-Pe42kOwF.js",
++      "bytes": 40932
++    },
++    {
++      "name": "glossary-shard-ko-9-iP7B08Sq.js",
++      "bytes": 40869
++    },
++    {
++      "name": "glossary-shard-ko-10-BBz6qMek.js",
++      "bytes": 40817
++    },
++    {
++      "name": "glossary-shard-pt-br-7-CcIgiUgY.js",
++      "bytes": 40808
++    },
++    {
++      "name": "glossary-index-en-lGKKEBKm.js",
++      "bytes": 40614
++    },
++    {
++      "name": "glossary-shard-ko-0-DCZcU_bg.js",
++      "bytes": 40395
++    },
++    {
++      "name": "glossary-shard-id-7-BYKhzXDV.js",
++      "bytes": 40127
++    },
++    {
++      "name": "data-brazil-market-BRxbxNLh.js",
++      "bytes": 40098
++    },
++    {
++      "name": "glossary-shard-es-7-Cg5fQrIm.js",
++      "bytes": 39959
++    },
++    {
++      "name": "glossary-shard-zh-hans-11-CIIHxeRQ.js",
++      "bytes": 39549
++    },
++    {
++      "name": "glossary-shard-tr-10-i2NaAliC.js",
++      "bytes": 39471
++    },
++    {
++      "name": "glossary-shard-zh-hans-7-Z4aZq4s-.js",
++      "bytes": 39374
++    },
++    {
++      "name": "glossary-shard-tr-9-ClKjmdTM.js",
++      "bytes": 39189
++    },
++    {
++      "name": "glossary-shard-tr-0-ibS0TxIz.js",
++      "bytes": 38880
++    },
++    {
++      "name": "glossary-shard-en-7-DKH2vulO.js",
++      "bytes": 38795
++    },
++    {
++      "name": "TelegramAlertsHero-DTIuzVBx.js",
++      "bytes": 38776
++    },
++    {
++      "name": "CostDecision-Vst5UBFI.js",
++      "bytes": 38698
++    },
++    {
++      "name": "glossary-shard-es-9-ByVcNFYH.js",
++      "bytes": 37908
++    },
++    {
++      "name": "glossary-shard-pt-br-9-CeWM0UCa.js",
++      "bytes": 37516
++    },
++    {
++      "name": "glossary-shard-es-10-Cq-qIrzi.js",
++      "bytes": 37356
++    },
++    {
++      "name": "glossary-shard-es-0-BywDogew.js",
++      "bytes": 37290
++    },
++    {
++      "name": "glossary-shard-id-9-Dzzx45rl.js",
++      "bytes": 37290
++    },
++    {
++      "name": "glossary-shard-pt-br-10-BU7u0LwW.js",
++      "bytes": 37224
++    },
++    {
++      "name": "glossary-shard-ko-12-CfQJFTK5.js",
++      "bytes": 37061
++    },
++    {
++      "name": "glossary-shard-en-0-Cc82efJf.js",
++      "bytes": 36704
++    },
++    {
++      "name": "glossary-shard-id-10-DllGNcBa.js",
++      "bytes": 36650
++    },
++    {
++      "name": "glossary-shard-en-9-BkdiqP0s.js",
++      "bytes": 36496
++    },
++    {
++      "name": "glossary-shard-pt-br-0-xQelUEB8.js",
++      "bytes": 36312
++    },
++    {
++      "name": "glossary-shard-en-10-DrVjTi2b.js",
++      "bytes": 36126
++    },
++    {
++      "name": "glossary-shard-zh-hans-10-bMD1KImB.js",
++      "bytes": 35955
++    },
++    {
++      "name": "whale-sentences-DrejsFql.js",
++      "bytes": 35950
++    },
++    {
++      "name": "glossary-shard-vi-12-BGFrq3gx.js",
++      "bytes": 35787
++    },
++    {
++      "name": "glossary-shard-zh-hans-9-B4UeuVKj.js",
++      "bytes": 35681
++    },
++    {
++      "name": "glossary-shard-id-0-DW7bTv7s.js",
++      "bytes": 35514
++    },
++    {
++      "name": "shared-route-10-CJFu2uzz.js",
++      "bytes": 35396
++    },
++    {
++      "name": "uk-CalxTbI4.js",
++      "bytes": 35300
++    },
++    {
++      "name": "glossary-shard-zh-hans-0-BK8O3XLq.js",
++      "bytes": 35149
++    },
++    {
++      "name": "ru-DbX6Qh17.js",
++      "bytes": 35058
++    },
++    {
++      "name": "route-v3-venue-main-Dzp9bod3.js",
++      "bytes": 34961
++    },
++    {
++      "name": "glossary-shard-tr-12-BfSjhvVc.js",
++      "bytes": 34896
++    },
++    {
++      "name": "glossary-shard-id-12-CB6-kknw.js",
++      "bytes": 34080
++    },
++    {
++      "name": "glossary-shard-es-12-JSKyP9u9.js",
++      "bytes": 33641
++    },
++    {
++      "name": "glossary-shard-pt-br-12-DPrxEj6e.js",
++      "bytes": 33439
++    },
++    {
++      "name": "glossary-shard-ja-15-DuI8s9kL.js",
++      "bytes": 33368
++    },
++    {
++      "name": "route-v3-social-proof-js-DZzPRifm.js",
++      "bytes": 33231
++    },
++    {
++      "name": "ts-copy-ru-DdBY6xK0.js",
++      "bytes": 33104
++    },
++    {
++      "name": "route-news-list-DO2c6kxU.js",
++      "bytes": 32810
++    },
++    {
++      "name": "ts-copy-uk-CSWvSEVp.js",
++      "bytes": 32580
++    },
++    {
++      "name": "glossary-shard-zh-hans-12-DdPmQ4QD.js",
++      "bytes": 32498
++    },
++    {
++      "name": "glossary-shard-en-12-DpnCMTQB.js",
++      "bytes": 31810
++    },
++    {
++      "name": "ts-copy-ur-B7XPJ3B-.js",
++      "bytes": 31707
++    },
++    {
++      "name": "glossary-shard-ja-5-DsYSMXfn.js",
++      "bytes": 31664
++    },
++    {
++      "name": "glossary-shard-vi-15-DLpY46rL.js",
++      "bytes": 30353
++    },
++    {
++      "name": "trading-bleed-copy-DnVlqZeT.js",
++      "bytes": 30005
++    },
++    {
++      "name": "ts-copy-ar-CIkhBbod.js",
++      "bytes": 29917
++    },
++    {
++      "name": "glossary-shard-ko-15-DeED7qPn.js",
++      "bytes": 29700
++    },
++    {
++      "name": "shared-tokenized-stocks-live-DfU_pokK.js",
++      "bytes": 29448
++    },
++    {
++      "name": "glossary-shard-tr-15-fvKTwNfx.js",
++      "bytes": 28638
++    },
++    {
++      "name": "glossary-shard-ko-5-nyLJFso8.js",
++      "bytes": 28422
++    },
++    {
++      "name": "ar-DfnKRM4c.js",
++      "bytes": 28406
++    },
++    {
++      "name": "ur-CJ67qXvf.js",
++      "bytes": 28368
++    },
++    {
++      "name": "glossary-shard-vi-5-Do4mC3lB.js",
++      "bytes": 27966
++    },
++    {
++      "name": "glossary-shard-pt-br-15-CDefFNch.js",
++      "bytes": 27714
++    },
++    {
++      "name": "glossary-shard-es-15-UxcY-Ikg.js",
++      "bytes": 27641
++    },
++    {
++      "name": "glossary-shard-id-15-VM-Imv-Y.js",
++      "bytes": 27270
++    },
++    {
++      "name": "glossary-shard-tr-5-DuX1tNFe.js",
++      "bytes": 27150
++    },
++    {
++      "name": "glossary-shard-zh-hans-15-C3NyZ0Io.js",
++      "bytes": 26578
++    },
++    {
++      "name": "glossary-shard-ja-8-CMpQEWod.js",
++      "bytes": 26473
++    },
++    {
++      "name": "glossary-shard-en-15-wmGX0S4w.js",
++      "bytes": 26383
++    },
++    {
++      "name": "ts-copy-vi-pmTiYP4e.js",
++      "bytes": 26094
++    },
++    {
++      "name": "glossary-shard-id-5-jnK6aIiT.js",
++      "bytes": 25972
++    },
++    {
++      "name": "ts-copy-ja-CdhSw6kY.js",
++      "bytes": 25866
++    },
++    {
++      "name": "glossary-shard-pt-br-5-BzAsAXBG.js",
++      "bytes": 25516
++    },
++    {
++      "name": "glossary-shard-es-5-C5wttk_p.js",
++      "bytes": 25288
++    },
++    {
++      "name": "glossary-shard-zh-hans-5-qq7DlPCL.js",
++      "bytes": 25062
++    },
++    {
++      "name": "shared-route-16-Bub_VYAv.js",
++      "bytes": 25033
++    },
++    {
++      "name": "glossary-shard-en-5-BM5hrmPU.js",
++      "bytes": 24879
++    },
++    {
++      "name": "ja-BDg57chl.js",
++      "bytes": 24653
++    },
++    {
++      "name": "glossary-shard-vi-8-CvHW1QdC.js",
++      "bytes": 24341
++    },
++    {
++      "name": "glossary-shard-ko-8-BMMu9NOM.js",
++      "bytes": 24266
++    },
++    {
++      "name": "ts-copy-ko-CKhbmM3o.js",
++      "bytes": 24170
++    },
++    {
++      "name": "ko-DgG2llxq.js",
++      "bytes": 24018
++    },
++    {
++      "name": "glossary-links-ja-Ck07mUjc.js",
++      "bytes": 23932
++    },
++    {
++      "name": "route-v3-pages-copy-jJUOIF6W.js",
++      "bytes": 23870
++    },
++    {
++      "name": "ts-copy-fr-CGAr0FeC.js",
++      "bytes": 23829
++    },
++    {
++      "name": "de-C4OgUBg-.js",
++      "bytes": 23535
++    },
++    {
++      "name": "glossary-shard-tr-8-DGbIBbnY.js",
++      "bytes": 23256
++    },
++    {
++      "name": "ts-copy-es-D6stBVB8.js",
++      "bytes": 22964
++    },
++    {
++      "name": "ts-copy-pt-br-BS8bBhBZ.js",
++      "bytes": 22910
++    },
++    {
++      "name": "ts-copy-tr-BW430Wht.js",
++      "bytes": 22831
++    },
++    {
++      "name": "en-qi6rJxuA.js",
++      "bytes": 22432
++    },
++    {
++      "name": "ts-copy-de-CTDp8Ksj.js",
++      "bytes": 22245
++    },
++    {
++      "name": "id-B18BoU7n.js",
++      "bytes": 22098
++    },
++    {
++      "name": "glossary-shard-es-8-tR35Qdlt.js",
++      "bytes": 22022
++    },
++    {
++      "name": "glossary-shard-pt-br-8-CDEwI_YA.js",
++      "bytes": 21984
++    },
++    {
++      "name": "pt-BR--V5KDQXq.js",
++      "bytes": 21967
++    },
++    {
++      "name": "ts-copy-it-CsQ3gTe2.js",
++      "bytes": 21923
++    },
++    {
++      "name": "shared-whales-Dl6xLjgt.js",
++      "bytes": 21700
++    },
++    {
++      "name": "CampaignRadar-Cv_9XCzz.js",
++      "bytes": 21680
++    },
++    {
++      "name": "glossary-links-vi-DhcuT1aT.js",
++      "bytes": 21600
++    },
++    {
++      "name": "glossary-shard-en-8-CZ48cdAg.js",
++      "bytes": 21546
++    },
++    {
++      "name": "ts-copy-id-CeofQfDu.js",
++      "bytes": 21457
++    },
++    {
++      "name": "glossary-shard-id-8-DTGmh30V.js",
++      "bytes": 21450
++    },
++    {
++      "name": "zh-Hans-BRk6_H8D.js",
++      "bytes": 21281
++    },
++    {
++      "name": "glossary-shard-zh-hans-8-0ZrKnSOY.js",
++      "bytes": 21094
++    },
++    {
++      "name": "shared-route-22-BkAkPht7.js",
++      "bytes": 20864
++    },
++    {
++      "name": "ts-copy-zh-hans-C9QUF7F4.js",
++      "bytes": 20725
++    },
++    {
++      "name": "glossary-links-tr-DGmzXJUd.js",
++      "bytes": 20680
++    },
++    {
++      "name": "ts-copy-zh-hant-BoDosdCW.js",
++      "bytes": 20662
++    },
++    {
++      "name": "ts-copy-en-JB9o36dn.js",
++      "bytes": 20601
++    },
++    {
++      "name": "fr-NDrTdT0H.js",
++      "bytes": 20538
++    },
++    {
++      "name": "route-coins-js-BDh-E0zE.js",
++      "bytes": 20424
++    },
++    {
++      "name": "es-DFPjBmK6.js",
++      "bytes": 20414
++    },
++    {
++      "name": "glossary-links-ko-CJddU3jM.js",
++      "bytes": 20246
++    },
++    {
++      "name": "vi-BBxU1KpV.js",
++      "bytes": 19921
++    },
++    {
++      "name": "glossary-links-es-B1QjkOuN.js",
++      "bytes": 19227
++    },
++    {
++      "name": "tr-BKXtn8LP.js",
++      "bytes": 19072
++    },
++    {
++      "name": "glossary-links-zh-hans-C_kL9342.js",
++      "bytes": 18752
++    },
++    {
++      "name": "route-tokenized-assets-js-BTs6e88x.js",
++      "bytes": 18692
++    },
++    {
++      "name": "glossary-links-pt-br-QIpAUPys.js",
++      "bytes": 18537
++    },
++    {
++      "name": "home7-movers-Djhwb9QZ.js",
++      "bytes": 18462
++    },
++    {
++      "name": "ExchangeMatrix-YCSZpr1x.js",
++      "bytes": 18242
++    },
++    {
++      "name": "it-dfqk3Ah1.js",
++      "bytes": 18095
++    },
++    {
++      "name": "route-data-js-DMY17kdL.js",
++      "bytes": 17799
++    },
++    {
++      "name": "glossary-links-id-Dl-MoJLs.js",
++      "bytes": 17769
++    },
++    {
++      "name": "radar-ui-copy-L2vsg1pr.js",
++      "bytes": 16689
++    },
++    {
++      "name": "zh-Hant-UETjuVne.js",
++      "bytes": 15386
++    },
++    {
++      "name": "glossary-content-loader-QgVD9-2-.js",
++      "bytes": 14323
++    },
++    {
++      "name": "tokenized-prices-copy-BniZzDvE.js",
++      "bytes": 14316
++    },
++    {
++      "name": "glossary-links-en-CGOax2N8.js",
++      "bytes": 14147
++    },
++    {
++      "name": "legal-pages-kwqWWtI1.js",
++      "bytes": 14096
++    },
++    {
++      "name": "route-v3-calculators-js-BBaAv_dK.js",
++      "bytes": 13685
++    },
++    {
++      "name": "CrawlPriorityLinks-CybtkQI7.js",
++      "bytes": 13608
++    },
++    {
++      "name": "route-funding-matrix-js-Df0qHG1w.js",
++      "bytes": 12817
++    },
++    {
++      "name": "shared-route-30-CRfyAIY6.js",
++      "bytes": 11849
++    },
++    {
++      "name": "route-market-js-DtHxGzZg.js",
++      "bytes": 11588
++    },
++    {
++      "name": "home-globe-CZwZX7Dc.js",
++      "bytes": 11258
++    },
++    {
++      "name": "route-collection-hubs-js--_aXVMlH.js",
++      "bytes": 10473
++    },
++    {
++      "name": "route-partners-js-ArS6WxeL.js",
++      "bytes": 10209
++    },
++    {
++      "name": "CommandFinder-AmlGsPoF.js",
++      "bytes": 10197
++    },
++    {
++      "name": "liquidation-history-XxZBY4UI.js",
++      "bytes": 9516
++    },
++    {
++      "name": "route-beginner-js-BtBjR2ix.js",
++      "bytes": 9230
++    },
++    {
++      "name": "news-list-copy-DrpD4AD4.js",
++      "bytes": 8942
++    },
++    {
++      "name": "HyperliquidFeeScenario-48AZXURF.js",
++      "bytes": 8892
++    },
++    {
++      "name": "ToolArticleLinks-VZ-G9BTm.js",
++      "bytes": 7995
++    },
++    {
++      "name": "CrossroadsCompare-BX5FsInL.js",
++      "bytes": 7987
++    },
++    {
++      "name": "announcement-archive-B525Xt87.js",
++      "bytes": 7877
++    },
++    {
++      "name": "HomeTokenizedStrip-9YMZDMh3.js",
++      "bytes": 7748
++    },
++    {
++      "name": "route-converter-js-CIJhSseR.js",
++      "bytes": 7038
++    },
++    {
++      "name": "route-data-funding-dscpRgpR.js",
++      "bytes": 6965
++    },
++    {
++      "name": "perp-cost-field-dictionary-Dgyk_WY4.js",
++      "bytes": 6358
++    },
++    {
++      "name": "useCampaignBriefs-Bz80hbZI.js",
++      "bytes": 5842
++    },
++    {
++      "name": "route-kol-js-C88NFYTp.js",
++      "bytes": 5827
++    },
++    {
++      "name": "onchain-guide-BVmsIRg3.js",
++      "bytes": 4785
++    },
++    {
++      "name": "shared-home-calculator-9AXyQCik.js",
++      "bytes": 4613
++    },
++    {
++      "name": "route-apps-js-CgFnogJu.js",
++      "bytes": 4604
++    },
++    {
++      "name": "DecisionPathRail-Djbm4D9H.js",
++      "bytes": 4417
++    },
++    {
++      "name": "route-embed-js-CIeMRbzc.js",
++      "bytes": 4414
++    },
++    {
++      "name": "home7-board-motion-jBatWqiw.js",
++      "bytes": 3981
++    },
++    {
++      "name": "exchange-apk-CiIIpdxv.js",
++      "bytes": 3607
++    },
++    {
++      "name": "ticker-live-CGiYk8Io.js",
++      "bytes": 3468
++    },
++    {
++      "name": "shared-route-18-BiKN6jAv.js",
++      "bytes": 2830
++    },
++    {
++      "name": "route-news-shared-js-B01uGKYK.js",
++      "bytes": 2497
++    },
++    {
++      "name": "factbook-dates-B7Ylof-z.js",
++      "bytes": 2445
++    },
++    {
++      "name": "_virtual_nexualpha-locale-copy-CUlvtmuT.js",
++      "bytes": 2260
++    },
++    {
++      "name": "ReaderTime-rL-8LKa2.js",
++      "bytes": 1919
++    },
++    {
++      "name": "route-v3-pages-state-DcLJvpGM.js",
++      "bytes": 1790
++    },
++    {
++      "name": "home7-board-motion-Cand4VzY.js",
++      "bytes": 1488
++    },
++    {
++      "name": "SearchDialog-DlcGEDHI.js",
++      "bytes": 1402
++    },
++    {
++      "name": "route-v3-decision-articles-js-BgljcS72.js",
++      "bytes": 1301
++    },
++    {
++      "name": "home-copy-D7jpqVhG.js",
++      "bytes": 1190
++    },
++    {
++      "name": "core-ui-ckwbz45p.js",
++      "bytes": 1142
++    },
++    {
++      "name": "sgt-time-nEFIF5RE.js",
++      "bytes": 1023
++    },
++    {
++      "name": "format-date-CERtHFmT.js",
++      "bytes": 842
++    },
++    {
++      "name": "shared-route-26-eazDMrzf.js",
++      "bytes": 824
++    },
++    {
++      "name": "shared-research-CC2YZ6FN.js",
++      "bytes": 478
++    },
++    {
++      "name": "shared-answer-first-WDzgulVf.js",
++      "bytes": 355
++    },
++    {
++      "name": "bybit-stocks-signup-Bpio-QVU.js",
++      "bytes": 347
++    },
++    {
++      "name": "home-cta-label-CsvPxSm-.js",
++      "bytes": 159
++    },
++    {
++      "name": "_commonjsHelpers-CqkleIqs.js",
++      "bytes": 116
++    }
++  ],
++  "checks": [
++    {
++      "label": "app shell",
++      "asset": "index-BsOJMsjz.js",
++      "candidates": [
++        "index-BsOJMsjz.js"
++      ],
++      "bytes": 65617,
++      "maxBytes": 400000,
++      "pass": true
++    },
++    {
++      "label": "V3 route",
++      "asset": "route-v3-pages-main-CyajsUzw.js",
++      "candidates": [
++        "route-v3-pages-main-CyajsUzw.js"
++      ],
++      "bytes": 157970,
++      "maxBytes": 320000,
++      "pass": true
++    },
++    {
++      "label": "shared decision navigation CSS",
++      "asset": "shared-decision-rail-DE-Xm3Ow.css",
++      "pass": true
++    },
++    {
++      "label": "shared scenario copy CSS",
++      "asset": "shared-decision-return-DP_5KV8G.css",
++      "pass": true
++    },
++    {
++      "label": "home initial JS (static closure of the entry, gzip)",
++      "asset": "core-shared-CleeBGzK.js vendor-react-BmyfW8Fe.js index-BsOJMsjz.js core-ui-ckwbz45p.js _commonjsHelpers-CqkleIqs.js",
++      "bytes": 316855,
++      "maxBytes": 350000,
++      "chunks": [
++        {
++          "name": "core-shared-CleeBGzK.js",
++          "bytes": 679817,
++          "gzipBytes": 237192
++        },
++        {
++          "name": "vendor-react-BmyfW8Fe.js",
++          "bytes": 194187,
++          "gzipBytes": 60671
++        },
++        {
++          "name": "index-BsOJMsjz.js",
++          "bytes": 65617,
++          "gzipBytes": 18201
++        },
++        {
++          "name": "core-ui-ckwbz45p.js",
++          "bytes": 1142,
++          "gzipBytes": 665
++        },
++        {
++          "name": "_commonjsHelpers-CqkleIqs.js",
++          "bytes": 116,
++          "gzipBytes": 126
++        }
++      ],
++      "pass": true
++    }
++  ]
++}
+diff --git a/pilot-01-prototype/docs/evidence/market-feed-diet/budget-before.json b/pilot-01-prototype/docs/evidence/market-feed-diet/budget-before.json
+new file mode 100644
+index 00000000..e47a63cf
+--- /dev/null
++++ b/pilot-01-prototype/docs/evidence/market-feed-diet/budget-before.json
+@@ -0,0 +1,1504 @@
++{
++  "status": "PASS",
++  "strict": true,
++  "assets": [
++    {
++      "name": "core-shared-BznxZy8q.js",
++      "bytes": 679817
++    },
++    {
++      "name": "shared-route-4-ByK2QZd2.js",
++      "bytes": 553903
++    },
++    {
++      "name": "shared-route-6-BYEm3T11.js",
++      "bytes": 436658
++    },
++    {
++      "name": "route-topic-guide-js-DcyvyMDM.js",
++      "bytes": 303673
++    },
++    {
++      "name": "route-international-js-Ci_OKSKr.js",
++      "bytes": 265580
++    },
++    {
++      "name": "shared-route-2-OVJYYKrH.js",
++      "bytes": 221998
++    },
++    {
++      "name": "route-deposit-js-BBqt3kEI.js",
++      "bytes": 194656
++    },
++    {
++      "name": "vendor-react-BmyfW8Fe.js",
++      "bytes": 194187
++    },
++    {
++      "name": "uk-Cpl89kAG.js",
++      "bytes": 173367
++    },
++    {
++      "name": "shared-route-8-DVuoA4TP.js",
++      "bytes": 160362
++    },
++    {
++      "name": "route-v3-pages-main-DbLTAx03.js",
++      "bytes": 157970
++    },
++    {
++      "name": "ru-BB6SlL9k.js",
++      "bytes": 153170
++    },
++    {
++      "name": "ur-DCwRXGly.js",
++      "bytes": 149690
++    },
++    {
++      "name": "en-CxjBGvHd.js",
++      "bytes": 139898
++    },
++    {
++      "name": "route-brand-pages-js-CzTuzTVH.js",
++      "bytes": 136904
++    },
++    {
++      "name": "route-campaign-bybit-js-9eHnz9Uf.js",
++      "bytes": 134617
++    },
++    {
++      "name": "ja-ehjM-msh.js",
++      "bytes": 132959
++    },
++    {
++      "name": "pt-BR-B_rDzHYY.js",
++      "bytes": 131785
++    },
++    {
++      "name": "shared-route-14-axzFqzJt.js",
++      "bytes": 131351
++    },
++    {
++      "name": "ar-BdsRWEN5.js",
++      "bytes": 129242
++    },
++    {
++      "name": "tr-BvQzVu7D.js",
++      "bytes": 127787
++    },
++    {
++      "name": "route-factbook-js-DaKWdEwG.js",
++      "bytes": 126050
++    },
++    {
++      "name": "vi-B9xYkLie.js",
++      "bytes": 125383
++    },
++    {
++      "name": "venue-alternatives-CApLFh4g.js",
++      "bytes": 123576
++    },
++    {
++      "name": "shared-route-12-BFM167D3.js",
++      "bytes": 122813
++    },
++    {
++      "name": "fr-Dd31x4xV.js",
++      "bytes": 122692
++    },
++    {
++      "name": "route-activity-js-tJsO2F0B.js",
++      "bytes": 122585
++    },
++    {
++      "name": "ko-rqiTnqsv.js",
++      "bytes": 121583
++    },
++    {
++      "name": "zh-Hans-D-kpkrmN.js",
++      "bytes": 120003
++    },
++    {
++      "name": "zh-Hant-5SsJkZvO.js",
++      "bytes": 117208
++    },
++    {
++      "name": "es-DVfWDZjW.js",
++      "bytes": 116497
++    },
++    {
++      "name": "de-3NopdhZ4.js",
++      "bytes": 107624
++    },
++    {
++      "name": "id-Pdc7S_8n.js",
++      "bytes": 102847
++    },
++    {
++      "name": "route-methodology-js-CUAcjpHz.js",
++      "bytes": 102821
++    },
++    {
++      "name": "it-C_aJ-q3h.js",
++      "bytes": 99467
++    },
++    {
++      "name": "data-topic-guides-DAk7chBm.js",
++      "bytes": 97711
++    },
++    {
++      "name": "route-campaign-kraken-js-CH87DG0u.js",
++      "bytes": 95750
++    },
++    {
++      "name": "coin-content-ja-BQkgg0DR.js",
++      "bytes": 94472
++    },
++    {
++      "name": "route-campaign-bitget-js-7fXRQ0YL.js",
++      "bytes": 93169
++    },
++    {
++      "name": "coin-content-vi-r6Cec0V0.js",
++      "bytes": 91636
++    },
++    {
++      "name": "academy-content-ru-DLuzHRe0.js",
++      "bytes": 91046
++    },
++    {
++      "name": "data-factbook-B1MeL-6B.js",
++      "bytes": 90666
++    },
++    {
++      "name": "route-campaign-landing-js--ZF5qq3Z.js",
++      "bytes": 88133
++    },
++    {
++      "name": "route-intel-tools-js-YthY0eCI.js",
++      "bytes": 87130
++    },
++    {
++      "name": "coin-content-ko-Dep9YuoX.js",
++      "bytes": 85287
++    },
++    {
++      "name": "coin-content-fr-CSREDNVE.js",
++      "bytes": 85191
++    },
++    {
++      "name": "route-telegram-js-wUM0A2Az.js",
++      "bytes": 83218
++    },
++    {
++      "name": "route-v3-venue-research-Dgg8AA7z.js",
++      "bytes": 82718
++    },
++    {
++      "name": "coin-content-tr-BVTrraMk.js",
++      "bytes": 81905
++    },
++    {
++      "name": "coin-content-de-XO3OxGBe.js",
++      "bytes": 81099
++    },
++    {
++      "name": "data-aeo-questions-CMuuzn5_.js",
++      "bytes": 81099
++    },
++    {
++      "name": "coin-content-es-yju-aI_f.js",
++      "bytes": 80059
++    },
++    {
++      "name": "coin-content-id-Cr3CkQk6.js",
++      "bytes": 79730
++    },
++    {
++      "name": "coin-content-pt-br-B5Zf6i5L.js",
++      "bytes": 79365
++    },
++    {
++      "name": "academy-content-ar-Bt8OaWEN.js",
++      "bytes": 78822
++    },
++    {
++      "name": "glossary-shard-ja-14-D0tMG9pa.js",
++      "bytes": 75097
++    },
++    {
++      "name": "coin-content-en-DQAYxyIt.js",
++      "bytes": 73303
++    },
++    {
++      "name": "glossary-shard-ja-6-Cx7ddzGp.js",
++      "bytes": 71811
++    },
++    {
++      "name": "academy-content-ja-JRCWsURB.js",
++      "bytes": 71710
++    },
++    {
++      "name": "academy-content-vi-Cr0F93i2.js",
++      "bytes": 70429
++    },
++    {
++      "name": "glossary-shard-vi-14-s79BvxXc.js",
++      "bytes": 70002
++    },
++    {
++      "name": "glossary-shard-ko-14-B85jGReD.js",
++      "bytes": 69164
++    },
++    {
++      "name": "academy-content-ko-Cp7tAtRj.js",
++      "bytes": 68360
++    },
++    {
++      "name": "bitget-guide-CHGJIGCn.js",
++      "bytes": 67191
++    },
++    {
++      "name": "glossary-shard-tr-14-C3mZVXPO.js",
++      "bytes": 66552
++    },
++    {
++      "name": "PlatformMatcher-DWDTBW3H.js",
++      "bytes": 66027
++    },
++    {
++      "name": "coin-content-zh-hans-Ctm9mIht.js",
++      "bytes": 65751
++    },
++    {
++      "name": "index-DcT75l1n.js",
++      "bytes": 65595
++    },
++    {
++      "name": "route-glossary-js-nXX32Nsh.js",
++      "bytes": 65283
++    },
++    {
++      "name": "glossary-shard-pt-br-14-Akhg0TQ8.js",
++      "bytes": 65251
++    },
++    {
++      "name": "route-academy-js-CkvNVkxk.js",
++      "bytes": 64982
++    },
++    {
++      "name": "glossary-shard-ko-6-BL0do7G4.js",
++      "bytes": 64500
++    },
++    {
++      "name": "route-v3-directory-BRd1Wg1l.js",
++      "bytes": 63528
++    },
++    {
++      "name": "glossary-shard-id-14-Dn8sN8jg.js",
++      "bytes": 63359
++    },
++    {
++      "name": "glossary-shard-vi-6-K95EUtOM.js",
++      "bytes": 63218
++    },
++    {
++      "name": "glossary-shard-es-14-DWcxA2XN.js",
++      "bytes": 63107
++    },
++    {
++      "name": "money-topic-hubs-BwsqvjGO.js",
++      "bytes": 62735
++    },
++    {
++      "name": "glossary-shard-ja-2-DFqhCEWF.js",
++      "bytes": 62559
++    },
++    {
++      "name": "glossary-shard-ja-13-CsXXqxkX.js",
++      "bytes": 62452
++    },
++    {
++      "name": "route-news-detail-main-zoELwTwH.js",
++      "bytes": 62061
++    },
++    {
++      "name": "route-onchain-js-BZNj2ahN.js",
++      "bytes": 61888
++    },
++    {
++      "name": "glossary-shard-ja-1-BTPSiKQn.js",
++      "bytes": 61803
++    },
++    {
++      "name": "academy-content-fr-BeTLqvHx.js",
++      "bytes": 61691
++    },
++    {
++      "name": "glossary-shard-zh-hans-14-BwsWWeJU.js",
++      "bytes": 61500
++    },
++    {
++      "name": "glossary-shard-en-14-CBxmuSlO.js",
++      "bytes": 61118
++    },
++    {
++      "name": "academy-content-de-ByeAc33K.js",
++      "bytes": 60595
++    },
++    {
++      "name": "glossary-shard-tr-6-DpiJV5q4.js",
++      "bytes": 60530
++    },
++    {
++      "name": "academy-content-tr-2NZOFZG3.js",
++      "bytes": 59692
++    },
++    {
++      "name": "partner-program-copy-Cb_DwNLq.js",
++      "bytes": 59575
++    },
++    {
++      "name": "academy-content-es-Djof_tEd.js",
++      "bytes": 59229
++    },
++    {
++      "name": "uk-market-decision-DhwK1fz9.js",
++      "bytes": 58959
++    },
++    {
++      "name": "glossary-shard-id-6-BG2o7rxt.js",
++      "bytes": 58860
++    },
++    {
++      "name": "glossary-shard-ja-3-DLlgJoZM.js",
++      "bytes": 58585
++    },
++    {
++      "name": "glossary-shard-pt-br-6-DbPkRo3_.js",
++      "bytes": 58539
++    },
++    {
++      "name": "academy-content-id-Dhfaq7-T.js",
++      "bytes": 57903
++    },
++    {
++      "name": "glossary-shard-es-6-B9YW41PF.js",
++      "bytes": 57861
++    },
++    {
++      "name": "glossary-shard-vi-13-B0mowN51.js",
++      "bytes": 57830
++    },
++    {
++      "name": "route-v3-home-js--Q7UCHnZ.js",
++      "bytes": 57810
++    },
++    {
++      "name": "glossary-shard-vi-1-DgIFot40.js",
++      "bytes": 57681
++    },
++    {
++      "name": "academy-content-pt-br-BqEbRyo_.js",
++      "bytes": 57636
++    },
++    {
++      "name": "glossary-shard-ko-1-BSb3d3DE.js",
++      "bytes": 57419
++    },
++    {
++      "name": "glossary-shard-vi-2-3w8F6oCl.js",
++      "bytes": 57279
++    },
++    {
++      "name": "glossary-shard-ko-2-BDQtU7Os.js",
++      "bytes": 57163
++    },
++    {
++      "name": "glossary-shard-zh-hans-6-BbrLzp8b.js",
++      "bytes": 56874
++    },
++    {
++      "name": "glossary-shard-ko-13-DZx2XqwA.js",
++      "bytes": 55987
++    },
++    {
++      "name": "glossary-shard-en-6-Dfu3ooqm.js",
++      "bytes": 55737
++    },
++    {
++      "name": "glossary-shard-ja-4-Bi1SdlMU.js",
++      "bytes": 55438
++    },
++    {
++      "name": "glossary-shard-tr-1-CBmknTT5.js",
++      "bytes": 55293
++    },
++    {
++      "name": "academy-content-en-B89dpN0P.js",
++      "bytes": 54448
++    },
++    {
++      "name": "glossary-shard-tr-13-AweuBII4.js",
++      "bytes": 54403
++    },
++    {
++      "name": "glossary-shard-tr-2-B0px8yKi.js",
++      "bytes": 54156
++    },
++    {
++      "name": "glossary-shard-id-2-lZ0vY2Du.js",
++      "bytes": 53040
++    },
++    {
++      "name": "glossary-shard-ko-3-D10ktGN_.js",
++      "bytes": 52897
++    },
++    {
++      "name": "route-radar-js-DfrARjV7.js",
++      "bytes": 52826
++    },
++    {
++      "name": "glossary-shard-vi-3-CzBOKAki.js",
++      "bytes": 52814
++    },
++    {
++      "name": "glossary-shard-pt-br-13-BA25yYsP.js",
++      "bytes": 52754
++    },
++    {
++      "name": "glossary-shard-pt-br-2-yuSbbgxw.js",
++      "bytes": 52564
++    },
++    {
++      "name": "glossary-shard-es-1-BGuMq_XT.js",
++      "bytes": 52512
++    },
++    {
++      "name": "glossary-shard-es-13-34QGXrWB.js",
++      "bytes": 52219
++    },
++    {
++      "name": "glossary-shard-id-13-BSAZjSq7.js",
++      "bytes": 51831
++    },
++    {
++      "name": "glossary-shard-pt-br-1-HgVMsMhA.js",
++      "bytes": 51571
++    },
++    {
++      "name": "glossary-shard-id-1-_0S5wJR1.js",
++      "bytes": 51495
++    },
++    {
++      "name": "glossary-shard-es-2-Cd-Qn7Qx.js",
++      "bytes": 51490
++    },
++    {
++      "name": "glossary-index-ja-D2Gg4kVK.js",
++      "bytes": 51421
++    },
++    {
++      "name": "route-data-assets-js-BVHzr4Fb.js",
++      "bytes": 51318
++    },
++    {
++      "name": "glossary-index-vi-Cwa7b_WN.js",
++      "bytes": 50934
++    },
++    {
++      "name": "glossary-shard-zh-hans-2-B175OFlA.js",
++      "bytes": 50883
++    },
++    {
++      "name": "glossary-shard-en-1-BS5qVW0v.js",
++      "bytes": 50824
++    },
++    {
++      "name": "glossary-shard-en-13-kZflV4kp.js",
++      "bytes": 50758
++    },
++    {
++      "name": "route-v3-wizard-js-CoRE-WOx.js",
++      "bytes": 50746
++    },
++    {
++      "name": "glossary-shard-tr-3-B52OsRjv.js",
++      "bytes": 50657
++    },
++    {
++      "name": "glossary-shard-en-2-BWgweuHc.js",
++      "bytes": 50561
++    },
++    {
++      "name": "glossary-shard-zh-hans-13-CmZ5rw9K.js",
++      "bytes": 50059
++    },
++    {
++      "name": "glossary-shard-zh-hans-1-DbfIOAmK.js",
++      "bytes": 49847
++    },
++    {
++      "name": "glossary-shard-ko-4-Dqqp-Vux.js",
++      "bytes": 49589
++    },
++    {
++      "name": "academy-content-zh-hans-P_07lbN-.js",
++      "bytes": 49108
++    },
++    {
++      "name": "glossary-shard-ja-11-CkJbRXLB.js",
++      "bytes": 48752
++    },
++    {
++      "name": "academy-content-zh-hant-Mi_BascL.js",
++      "bytes": 48739
++    },
++    {
++      "name": "glossary-shard-ja-7-DAzmV5Wc.js",
++      "bytes": 48494
++    },
++    {
++      "name": "glossary-shard-vi-4-BMyVmK3r.js",
++      "bytes": 48444
++    },
++    {
++      "name": "glossary-shard-es-3-BirAFkrH.js",
++      "bytes": 48310
++    },
++    {
++      "name": "glossary-shard-pt-br-3-DRB9UPxN.js",
++      "bytes": 48261
++    },
++    {
++      "name": "glossary-shard-id-3-b6U0ILi5.js",
++      "bytes": 48113
++    },
++    {
++      "name": "home-below-fold-js-CenwXmLP.js",
++      "bytes": 47776
++    },
++    {
++      "name": "glossary-shard-en-3-D-bfZifu.js",
++      "bytes": 47324
++    },
++    {
++      "name": "glossary-shard-zh-hans-3-B431ivQE.js",
++      "bytes": 47107
++    },
++    {
++      "name": "glossary-shard-tr-4-cHGReB0T.js",
++      "bytes": 47041
++    },
++    {
++      "name": "glossary-index-tr-C69FvYdA.js",
++      "bytes": 47007
++    },
++    {
++      "name": "glossary-index-ko-BMSIFwlY.js",
++      "bytes": 46470
++    },
++    {
++      "name": "glossary-index-pt-br-D5qZq6Z_.js",
++      "bytes": 45926
++    },
++    {
++      "name": "glossary-shard-vi-11-VTKHtka2.js",
++      "bytes": 45926
++    },
++    {
++      "name": "glossary-shard-id-4-BMpBGFg8.js",
++      "bytes": 45779
++    },
++    {
++      "name": "glossary-index-es-Cg8zdQPF.js",
++      "bytes": 45371
++    },
++    {
++      "name": "glossary-shard-ko-11-Biexs4VN.js",
++      "bytes": 45349
++    },
++    {
++      "name": "glossary-shard-vi-7-US68Ycf6.js",
++      "bytes": 45026
++    },
++    {
++      "name": "glossary-shard-ja-9-CO6cIuJI.js",
++      "bytes": 44948
++    },
++    {
++      "name": "glossary-shard-pt-br-4-C6XzP7g2.js",
++      "bytes": 44772
++    },
++    {
++      "name": "route-tokenized-stocks-js-BJPrJxlf.js",
++      "bytes": 44757
++    },
++    {
++      "name": "glossary-shard-es-4-DLPQQt-O.js",
++      "bytes": 44708
++    },
++    {
++      "name": "glossary-shard-ko-7-CKCpAdcU.js",
++      "bytes": 44649
++    },
++    {
++      "name": "glossary-shard-ja-0-HP0hf6Qa.js",
++      "bytes": 44505
++    },
++    {
++      "name": "glossary-shard-ja-10-IcfPFDCK.js",
++      "bytes": 44358
++    },
++    {
++      "name": "glossary-index-id-DveyzPCb.js",
++      "bytes": 43909
++    },
++    {
++      "name": "glossary-index-zh-hans-BFg4kMnn.js",
++      "bytes": 43855
++    },
++    {
++      "name": "glossary-shard-tr-11-DixWjecD.js",
++      "bytes": 43826
++    },
++    {
++      "name": "glossary-shard-en-4-FNyfZkRh.js",
++      "bytes": 43816
++    },
++    {
++      "name": "glossary-shard-zh-hans-4-CaVSKlTq.js",
++      "bytes": 43760
++    },
++    {
++      "name": "route-rates-js-BbaRIm28.js",
++      "bytes": 42847
++    },
++    {
++      "name": "glossary-shard-tr-7-30JR0vSQ.js",
++      "bytes": 42505
++    },
++    {
++      "name": "route-flash-js-JBWR4fBz.js",
++      "bytes": 42443
++    },
++    {
++      "name": "glossary-shard-vi-10-lYDdWUtT.js",
++      "bytes": 42193
++    },
++    {
++      "name": "glossary-shard-es-11-BdycxfJX.js",
++      "bytes": 41494
++    },
++    {
++      "name": "glossary-shard-pt-br-11-DfwGFdVS.js",
++      "bytes": 41472
++    },
++    {
++      "name": "glossary-shard-vi-0-Dc-5yxQ6.js",
++      "bytes": 41458
++    },
++    {
++      "name": "glossary-shard-ja-12-CuLAHtLG.js",
++      "bytes": 41214
++    },
++    {
++      "name": "glossary-shard-en-11-Mhwm3TMH.js",
++      "bytes": 41040
++    },
++    {
++      "name": "glossary-shard-vi-9-CYbXk6BO.js",
++      "bytes": 40962
++    },
++    {
++      "name": "shared-app-downloads-C-JaLmbK.js",
++      "bytes": 40934
++    },
++    {
++      "name": "glossary-shard-id-11-Pe42kOwF.js",
++      "bytes": 40932
++    },
++    {
++      "name": "glossary-shard-ko-9-iP7B08Sq.js",
++      "bytes": 40869
++    },
++    {
++      "name": "glossary-shard-ko-10-BBz6qMek.js",
++      "bytes": 40817
++    },
++    {
++      "name": "glossary-shard-pt-br-7-CcIgiUgY.js",
++      "bytes": 40808
++    },
++    {
++      "name": "glossary-index-en-lGKKEBKm.js",
++      "bytes": 40614
++    },
++    {
++      "name": "glossary-shard-ko-0-DCZcU_bg.js",
++      "bytes": 40395
++    },
++    {
++      "name": "glossary-shard-id-7-BYKhzXDV.js",
++      "bytes": 40127
++    },
++    {
++      "name": "data-brazil-market-BRxbxNLh.js",
++      "bytes": 40098
++    },
++    {
++      "name": "glossary-shard-es-7-Cg5fQrIm.js",
++      "bytes": 39959
++    },
++    {
++      "name": "glossary-shard-zh-hans-11-CIIHxeRQ.js",
++      "bytes": 39549
++    },
++    {
++      "name": "glossary-shard-tr-10-i2NaAliC.js",
++      "bytes": 39471
++    },
++    {
++      "name": "glossary-shard-zh-hans-7-Z4aZq4s-.js",
++      "bytes": 39374
++    },
++    {
++      "name": "glossary-shard-tr-9-ClKjmdTM.js",
++      "bytes": 39189
++    },
++    {
++      "name": "glossary-shard-tr-0-ibS0TxIz.js",
++      "bytes": 38880
++    },
++    {
++      "name": "glossary-shard-en-7-DKH2vulO.js",
++      "bytes": 38795
++    },
++    {
++      "name": "TelegramAlertsHero-C9j5LiqL.js",
++      "bytes": 38776
++    },
++    {
++      "name": "CostDecision-wxW_N5CT.js",
++      "bytes": 38698
++    },
++    {
++      "name": "glossary-shard-es-9-ByVcNFYH.js",
++      "bytes": 37908
++    },
++    {
++      "name": "glossary-shard-pt-br-9-CeWM0UCa.js",
++      "bytes": 37516
++    },
++    {
++      "name": "glossary-shard-es-10-Cq-qIrzi.js",
++      "bytes": 37356
++    },
++    {
++      "name": "glossary-shard-es-0-BywDogew.js",
++      "bytes": 37290
++    },
++    {
++      "name": "glossary-shard-id-9-Dzzx45rl.js",
++      "bytes": 37290
++    },
++    {
++      "name": "glossary-shard-pt-br-10-BU7u0LwW.js",
++      "bytes": 37224
++    },
++    {
++      "name": "glossary-shard-ko-12-CfQJFTK5.js",
++      "bytes": 37061
++    },
++    {
++      "name": "glossary-shard-en-0-Cc82efJf.js",
++      "bytes": 36704
++    },
++    {
++      "name": "glossary-shard-id-10-DllGNcBa.js",
++      "bytes": 36650
++    },
++    {
++      "name": "glossary-shard-en-9-BkdiqP0s.js",
++      "bytes": 36496
++    },
++    {
++      "name": "glossary-shard-pt-br-0-xQelUEB8.js",
++      "bytes": 36312
++    },
++    {
++      "name": "glossary-shard-en-10-DrVjTi2b.js",
++      "bytes": 36126
++    },
++    {
++      "name": "glossary-shard-zh-hans-10-bMD1KImB.js",
++      "bytes": 35955
++    },
++    {
++      "name": "whale-sentences-DrejsFql.js",
++      "bytes": 35950
++    },
++    {
++      "name": "glossary-shard-vi-12-BGFrq3gx.js",
++      "bytes": 35787
++    },
++    {
++      "name": "glossary-shard-zh-hans-9-B4UeuVKj.js",
++      "bytes": 35681
++    },
++    {
++      "name": "glossary-shard-id-0-DW7bTv7s.js",
++      "bytes": 35514
++    },
++    {
++      "name": "shared-route-10-ChEMT-Ty.js",
++      "bytes": 35396
++    },
++    {
++      "name": "uk-CalxTbI4.js",
++      "bytes": 35300
++    },
++    {
++      "name": "glossary-shard-zh-hans-0-BK8O3XLq.js",
++      "bytes": 35149
++    },
++    {
++      "name": "ru-DbX6Qh17.js",
++      "bytes": 35058
++    },
++    {
++      "name": "route-v3-venue-main-D98gPCrp.js",
++      "bytes": 34961
++    },
++    {
++      "name": "glossary-shard-tr-12-BfSjhvVc.js",
++      "bytes": 34896
++    },
++    {
++      "name": "glossary-shard-id-12-CB6-kknw.js",
++      "bytes": 34080
++    },
++    {
++      "name": "glossary-shard-es-12-JSKyP9u9.js",
++      "bytes": 33641
++    },
++    {
++      "name": "glossary-shard-pt-br-12-DPrxEj6e.js",
++      "bytes": 33439
++    },
++    {
++      "name": "glossary-shard-ja-15-DuI8s9kL.js",
++      "bytes": 33368
++    },
++    {
++      "name": "route-v3-social-proof-js-i0KqN7YD.js",
++      "bytes": 33231
++    },
++    {
++      "name": "ts-copy-ru-DdBY6xK0.js",
++      "bytes": 33104
++    },
++    {
++      "name": "route-news-list-Cyee1Q3U.js",
++      "bytes": 32810
++    },
++    {
++      "name": "ts-copy-uk-CSWvSEVp.js",
++      "bytes": 32580
++    },
++    {
++      "name": "glossary-shard-zh-hans-12-DdPmQ4QD.js",
++      "bytes": 32498
++    },
++    {
++      "name": "glossary-shard-en-12-DpnCMTQB.js",
++      "bytes": 31810
++    },
++    {
++      "name": "ts-copy-ur-B7XPJ3B-.js",
++      "bytes": 31707
++    },
++    {
++      "name": "glossary-shard-ja-5-DsYSMXfn.js",
++      "bytes": 31664
++    },
++    {
++      "name": "glossary-shard-vi-15-DLpY46rL.js",
++      "bytes": 30353
++    },
++    {
++      "name": "trading-bleed-copy-DEBCKYbj.js",
++      "bytes": 30005
++    },
++    {
++      "name": "ts-copy-ar-CIkhBbod.js",
++      "bytes": 29917
++    },
++    {
++      "name": "glossary-shard-ko-15-DeED7qPn.js",
++      "bytes": 29700
++    },
++    {
++      "name": "shared-tokenized-stocks-live-CKZuMf-L.js",
++      "bytes": 29448
++    },
++    {
++      "name": "glossary-shard-tr-15-fvKTwNfx.js",
++      "bytes": 28638
++    },
++    {
++      "name": "glossary-shard-ko-5-nyLJFso8.js",
++      "bytes": 28422
++    },
++    {
++      "name": "ar-DfnKRM4c.js",
++      "bytes": 28406
++    },
++    {
++      "name": "ur-CJ67qXvf.js",
++      "bytes": 28368
++    },
++    {
++      "name": "glossary-shard-vi-5-Do4mC3lB.js",
++      "bytes": 27966
++    },
++    {
++      "name": "glossary-shard-pt-br-15-CDefFNch.js",
++      "bytes": 27714
++    },
++    {
++      "name": "glossary-shard-es-15-UxcY-Ikg.js",
++      "bytes": 27641
++    },
++    {
++      "name": "glossary-shard-id-15-VM-Imv-Y.js",
++      "bytes": 27270
++    },
++    {
++      "name": "glossary-shard-tr-5-DuX1tNFe.js",
++      "bytes": 27150
++    },
++    {
++      "name": "glossary-shard-zh-hans-15-C3NyZ0Io.js",
++      "bytes": 26578
++    },
++    {
++      "name": "glossary-shard-ja-8-CMpQEWod.js",
++      "bytes": 26473
++    },
++    {
++      "name": "glossary-shard-en-15-wmGX0S4w.js",
++      "bytes": 26383
++    },
++    {
++      "name": "ts-copy-vi-pmTiYP4e.js",
++      "bytes": 26094
++    },
++    {
++      "name": "glossary-shard-id-5-jnK6aIiT.js",
++      "bytes": 25972
++    },
++    {
++      "name": "ts-copy-ja-CdhSw6kY.js",
++      "bytes": 25866
++    },
++    {
++      "name": "glossary-shard-pt-br-5-BzAsAXBG.js",
++      "bytes": 25516
++    },
++    {
++      "name": "glossary-shard-es-5-C5wttk_p.js",
++      "bytes": 25288
++    },
++    {
++      "name": "glossary-shard-zh-hans-5-qq7DlPCL.js",
++      "bytes": 25062
++    },
++    {
++      "name": "shared-route-16-BtqTWNax.js",
++      "bytes": 25033
++    },
++    {
++      "name": "glossary-shard-en-5-BM5hrmPU.js",
++      "bytes": 24879
++    },
++    {
++      "name": "ja-BDg57chl.js",
++      "bytes": 24653
++    },
++    {
++      "name": "glossary-shard-vi-8-CvHW1QdC.js",
++      "bytes": 24341
++    },
++    {
++      "name": "glossary-shard-ko-8-BMMu9NOM.js",
++      "bytes": 24266
++    },
++    {
++      "name": "ts-copy-ko-CKhbmM3o.js",
++      "bytes": 24170
++    },
++    {
++      "name": "ko-DgG2llxq.js",
++      "bytes": 24018
++    },
++    {
++      "name": "glossary-links-ja-Ck07mUjc.js",
++      "bytes": 23932
++    },
++    {
++      "name": "route-v3-pages-copy-jJUOIF6W.js",
++      "bytes": 23870
++    },
++    {
++      "name": "ts-copy-fr-CGAr0FeC.js",
++      "bytes": 23829
++    },
++    {
++      "name": "de-C4OgUBg-.js",
++      "bytes": 23535
++    },
++    {
++      "name": "glossary-shard-tr-8-DGbIBbnY.js",
++      "bytes": 23256
++    },
++    {
++      "name": "ts-copy-es-D6stBVB8.js",
++      "bytes": 22964
++    },
++    {
++      "name": "ts-copy-pt-br-BS8bBhBZ.js",
++      "bytes": 22910
++    },
++    {
++      "name": "ts-copy-tr-BW430Wht.js",
++      "bytes": 22831
++    },
++    {
++      "name": "en-qi6rJxuA.js",
++      "bytes": 22432
++    },
++    {
++      "name": "ts-copy-de-CTDp8Ksj.js",
++      "bytes": 22245
++    },
++    {
++      "name": "id-B18BoU7n.js",
++      "bytes": 22098
++    },
++    {
++      "name": "glossary-shard-es-8-tR35Qdlt.js",
++      "bytes": 22022
++    },
++    {
++      "name": "glossary-shard-pt-br-8-CDEwI_YA.js",
++      "bytes": 21984
++    },
++    {
++      "name": "pt-BR--V5KDQXq.js",
++      "bytes": 21967
++    },
++    {
++      "name": "ts-copy-it-CsQ3gTe2.js",
++      "bytes": 21923
++    },
++    {
++      "name": "shared-whales-DTXWfxa_.js",
++      "bytes": 21700
++    },
++    {
++      "name": "CampaignRadar-D08r99Bs.js",
++      "bytes": 21680
++    },
++    {
++      "name": "glossary-links-vi-DhcuT1aT.js",
++      "bytes": 21600
++    },
++    {
++      "name": "glossary-shard-en-8-CZ48cdAg.js",
++      "bytes": 21546
++    },
++    {
++      "name": "ts-copy-id-CeofQfDu.js",
++      "bytes": 21457
++    },
++    {
++      "name": "glossary-shard-id-8-DTGmh30V.js",
++      "bytes": 21450
++    },
++    {
++      "name": "zh-Hans-BRk6_H8D.js",
++      "bytes": 21281
++    },
++    {
++      "name": "glossary-shard-zh-hans-8-0ZrKnSOY.js",
++      "bytes": 21094
++    },
++    {
++      "name": "shared-route-22-CGPe5EAW.js",
++      "bytes": 20864
++    },
++    {
++      "name": "ts-copy-zh-hans-C9QUF7F4.js",
++      "bytes": 20725
++    },
++    {
++      "name": "glossary-links-tr-DGmzXJUd.js",
++      "bytes": 20680
++    },
++    {
++      "name": "ts-copy-zh-hant-BoDosdCW.js",
++      "bytes": 20662
++    },
++    {
++      "name": "ts-copy-en-JB9o36dn.js",
++      "bytes": 20601
++    },
++    {
++      "name": "fr-NDrTdT0H.js",
++      "bytes": 20538
++    },
++    {
++      "name": "route-coins-js-COFJECVQ.js",
++      "bytes": 20424
++    },
++    {
++      "name": "es-DFPjBmK6.js",
++      "bytes": 20414
++    },
++    {
++      "name": "glossary-links-ko-CJddU3jM.js",
++      "bytes": 20246
++    },
++    {
++      "name": "vi-BBxU1KpV.js",
++      "bytes": 19921
++    },
++    {
++      "name": "glossary-links-es-B1QjkOuN.js",
++      "bytes": 19227
++    },
++    {
++      "name": "tr-BKXtn8LP.js",
++      "bytes": 19072
++    },
++    {
++      "name": "glossary-links-zh-hans-C_kL9342.js",
++      "bytes": 18752
++    },
++    {
++      "name": "route-tokenized-assets-js-Ir2HpXG4.js",
++      "bytes": 18692
++    },
++    {
++      "name": "glossary-links-pt-br-QIpAUPys.js",
++      "bytes": 18537
++    },
++    {
++      "name": "home7-movers-B_7Vlxn2.js",
++      "bytes": 18462
++    },
++    {
++      "name": "ExchangeMatrix-Dn5-kHJf.js",
++      "bytes": 18242
++    },
++    {
++      "name": "it-dfqk3Ah1.js",
++      "bytes": 18095
++    },
++    {
++      "name": "route-data-js-BIDQIXEQ.js",
++      "bytes": 17799
++    },
++    {
++      "name": "glossary-links-id-Dl-MoJLs.js",
++      "bytes": 17769
++    },
++    {
++      "name": "radar-ui-copy-L2vsg1pr.js",
++      "bytes": 16689
++    },
++    {
++      "name": "zh-Hant-UETjuVne.js",
++      "bytes": 15386
++    },
++    {
++      "name": "glossary-content-loader-QgVD9-2-.js",
++      "bytes": 14323
++    },
++    {
++      "name": "tokenized-prices-copy-CL0xFAZ2.js",
++      "bytes": 14316
++    },
++    {
++      "name": "glossary-links-en-CGOax2N8.js",
++      "bytes": 14147
++    },
++    {
++      "name": "legal-pages--yEgLVj1.js",
++      "bytes": 14096
++    },
++    {
++      "name": "route-v3-calculators-js-C-CiIUVF.js",
++      "bytes": 13685
++    },
++    {
++      "name": "CrawlPriorityLinks-n4VL3Q5b.js",
++      "bytes": 13608
++    },
++    {
++      "name": "route-funding-matrix-js-77AgtfTi.js",
++      "bytes": 12817
++    },
++    {
++      "name": "shared-route-30-BMFJsrGu.js",
++      "bytes": 11849
++    },
++    {
++      "name": "route-market-js-DtHxGzZg.js",
++      "bytes": 11588
++    },
++    {
++      "name": "home-globe-CZwZX7Dc.js",
++      "bytes": 11258
++    },
++    {
++      "name": "route-collection-hubs-js-ZxW43I2k.js",
++      "bytes": 10473
++    },
++    {
++      "name": "route-partners-js-CLPZ_zOp.js",
++      "bytes": 10209
++    },
++    {
++      "name": "CommandFinder-bYJ6R6TU.js",
++      "bytes": 10197
++    },
++    {
++      "name": "liquidation-history-DnO_VqJH.js",
++      "bytes": 9516
++    },
++    {
++      "name": "route-beginner-js-DvTc7plV.js",
++      "bytes": 9230
++    },
++    {
++      "name": "news-list-copy-CfWzUUWd.js",
++      "bytes": 8942
++    },
++    {
++      "name": "HyperliquidFeeScenario-Cx_wNeR9.js",
++      "bytes": 8892
++    },
++    {
++      "name": "ToolArticleLinks-XmThC4Yd.js",
++      "bytes": 7995
++    },
++    {
++      "name": "CrossroadsCompare-CCmxR8sW.js",
++      "bytes": 7987
++    },
++    {
++      "name": "announcement-archive-CBZk5dBQ.js",
++      "bytes": 7877
++    },
++    {
++      "name": "HomeTokenizedStrip-DqLK5Fc2.js",
++      "bytes": 7748
++    },
++    {
++      "name": "route-converter-js-DXEl5NiX.js",
++      "bytes": 7038
++    },
++    {
++      "name": "route-data-funding-DHQ4Pt33.js",
++      "bytes": 6965
++    },
++    {
++      "name": "perp-cost-field-dictionary-CyBXYa92.js",
++      "bytes": 6358
++    },
++    {
++      "name": "useCampaignBriefs-K7U6Rnjz.js",
++      "bytes": 5842
++    },
++    {
++      "name": "route-kol-js-CefHtLGz.js",
++      "bytes": 5827
++    },
++    {
++      "name": "onchain-guide-DIhdROPs.js",
++      "bytes": 4785
++    },
++    {
++      "name": "shared-home-calculator-B9nUsOEn.js",
++      "bytes": 4613
++    },
++    {
++      "name": "route-apps-js-BtXTb6Bx.js",
++      "bytes": 4604
++    },
++    {
++      "name": "DecisionPathRail-BpOkPTyy.js",
++      "bytes": 4417
++    },
++    {
++      "name": "route-embed-js-8At80TnC.js",
++      "bytes": 4414
++    },
++    {
++      "name": "home7-board-motion-jreyuVHU.js",
++      "bytes": 3981
++    },
++    {
++      "name": "exchange-apk-CiIIpdxv.js",
++      "bytes": 3607
++    },
++    {
++      "name": "ticker-live-BjmTHHUu.js",
++      "bytes": 3468
++    },
++    {
++      "name": "shared-route-18-BoeU1bf0.js",
++      "bytes": 2830
++    },
++    {
++      "name": "route-news-shared-js-BMAqjri0.js",
++      "bytes": 2497
++    },
++    {
++      "name": "factbook-dates-Bomh4eLK.js",
++      "bytes": 2445
++    },
++    {
++      "name": "_virtual_nexualpha-locale-copy-BRjX-G4k.js",
++      "bytes": 2260
++    },
++    {
++      "name": "ReaderTime-tO3HQh9v.js",
++      "bytes": 1919
++    },
++    {
++      "name": "route-v3-pages-state-DcLJvpGM.js",
++      "bytes": 1790
++    },
++    {
++      "name": "home7-board-motion-BKevQHFq.js",
++      "bytes": 1488
++    },
++    {
++      "name": "SearchDialog-DlcGEDHI.js",
++      "bytes": 1402
++    },
++    {
++      "name": "route-v3-decision-articles-js-DA2MFmWd.js",
++      "bytes": 1301
++    },
++    {
++      "name": "home-copy-D7jpqVhG.js",
++      "bytes": 1190
++    },
++    {
++      "name": "core-ui-ckwbz45p.js",
++      "bytes": 1142
++    },
++    {
++      "name": "sgt-time-CF2itGO2.js",
++      "bytes": 1023
++    },
++    {
++      "name": "format-date-Dzh3nWF5.js",
++      "bytes": 842
++    },
++    {
++      "name": "shared-route-26-BGuVKAoZ.js",
++      "bytes": 824
++    },
++    {
++      "name": "shared-research-BiFbs5ZS.js",
++      "bytes": 478
++    },
++    {
++      "name": "shared-answer-first-x9xurxMa.js",
++      "bytes": 355
++    },
++    {
++      "name": "bybit-stocks-signup-DCtHb_Ds.js",
++      "bytes": 347
++    },
++    {
++      "name": "home-cta-label-CsvPxSm-.js",
++      "bytes": 159
++    },
++    {
++      "name": "_commonjsHelpers-CqkleIqs.js",
++      "bytes": 116
++    }
++  ],
++  "checks": [
++    {
++      "label": "app shell",
++      "asset": "index-DcT75l1n.js",
++      "candidates": [
++        "index-DcT75l1n.js"
++      ],
++      "bytes": 65595,
++      "maxBytes": 400000,
++      "pass": true
++    },
++    {
++      "label": "V3 route",
++      "asset": "route-v3-pages-main-DbLTAx03.js",
++      "candidates": [
++        "route-v3-pages-main-DbLTAx03.js"
++      ],
++      "bytes": 157970,
++      "maxBytes": 320000,
++      "pass": true
++    },
++    {
++      "label": "shared decision navigation CSS",
++      "asset": "shared-decision-rail-DE-Xm3Ow.css",
++      "pass": true
++    },
++    {
++      "label": "shared scenario copy CSS",
++      "asset": "shared-decision-return-DP_5KV8G.css",
++      "pass": true
++    },
++    {
++      "label": "home initial JS (static closure of the entry, gzip)",
++      "asset": "core-shared-BznxZy8q.js vendor-react-BmyfW8Fe.js index-DcT75l1n.js core-ui-ckwbz45p.js _commonjsHelpers-CqkleIqs.js",
++      "bytes": 316871,
++      "maxBytes": 350000,
++      "chunks": [
++        {
++          "name": "core-shared-BznxZy8q.js",
++          "bytes": 679817,
++          "gzipBytes": 237190
++        },
++        {
++          "name": "vendor-react-BmyfW8Fe.js",
++          "bytes": 194187,
++          "gzipBytes": 60671
++        },
++        {
++          "name": "index-DcT75l1n.js",
++          "bytes": 65595,
++          "gzipBytes": 18219
++        },
++        {
++          "name": "core-ui-ckwbz45p.js",
++          "bytes": 1142,
++          "gzipBytes": 665
++        },
++        {
++          "name": "_commonjsHelpers-CqkleIqs.js",
++          "bytes": 116,
++          "gzipBytes": 126
++        }
++      ],
++      "pass": true
++    }
++  ]
++}
+diff --git a/pilot-01-prototype/docs/evidence/market-feed-diet/build-summary.log b/pilot-01-prototype/docs/evidence/market-feed-diet/build-summary.log
+new file mode 100644
+index 00000000..a8c17a6d
+--- /dev/null
++++ b/pilot-01-prototype/docs/evidence/market-feed-diet/build-summary.log
+@@ -0,0 +1,27 @@
++# build-before-cached.log: filtered npm run build output (exit 0)
++> pilot-01-prototype@3.0.0 build
++vite v6.4.2 building for production...
++✓ built in 5.41s
++Route CSS: 7 v6 segments -> one full inner asset / one shared home asset
++vite v6.4.2 building SSR bundle for production...
++✓ built in 3.30s
++vite v6.4.2 building SSR bundle for production...
++✓ built in 4.10s
++Prepared prerender manifest: 2590 routes, HTML split into route assets
++Route styles: 559 rendered routes, 82 manifest assets, 0 safe adjacent merges
++Critical CSS (home): 11 stylesheets, 829/6520 rules kept, 879 KB -> 117 KB (0 selectors kept unevaluated)
++Prepared Sites build: dist/server/index.js and dist/.openai/hosting.json
++
++# build-final.log: filtered npm run build output (exit 0)
++> pilot-01-prototype@3.0.0 build
++vite v6.4.2 building for production...
++✓ built in 5.48s
++Route CSS: 7 v6 segments -> one full inner asset / one shared home asset
++vite v6.4.2 building SSR bundle for production...
++✓ built in 3.31s
++vite v6.4.2 building SSR bundle for production...
++✓ built in 4.13s
++Prepared prerender manifest: 2590 routes, HTML split into route assets
++Route styles: 559 rendered routes, 82 manifest assets, 0 safe adjacent merges
++Critical CSS (home): 11 stylesheets, 829/6520 rules kept, 879 KB -> 117 KB (0 selectors kept unevaluated)
++Prepared Sites build: dist/server/index.js and dist/.openai/hosting.json
+diff --git a/pilot-01-prototype/docs/evidence/market-feed-diet/commit-message.txt b/pilot-01-prototype/docs/evidence/market-feed-diet/commit-message.txt
+new file mode 100644
+index 00000000..3af498bd
+--- /dev/null
++++ b/pilot-01-prototype/docs/evidence/market-feed-diet/commit-message.txt
+@@ -0,0 +1,9 @@
++Keep article market context off the bulk collector feed
++
++Constraint: Collector figures must remain source-bound and SSR must seed the same rail snapshot as hydration.
++Rejected: Full-feed article polling | Transfers unrelated timelines and event data.
++Confidence: high
++Scope-risk: narrow
++Tested: Full build, strict budget, typecheck, 56 related tests and five built-route offline measurements.
++Not-tested: Real-browser CLS and the absent production-sized feed.
++Co-Authored-By: Codex <noreply@openai.com>
+diff --git a/pilot-01-prototype/docs/evidence/market-feed-diet/measure-after.log b/pilot-01-prototype/docs/evidence/market-feed-diet/measure-after.log
+new file mode 100644
+index 00000000..94ecfc4a
+--- /dev/null
++++ b/pilot-01-prototype/docs/evidence/market-feed-diet/measure-after.log
+@@ -0,0 +1,59 @@
++ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
++{
++  "phase": "after",
++  "fullFeed": {
++    "rawBytes": 28245,
++    "gzipBytes": 6221
++  },
++  "summary": {
++    "status": 200,
++    "rawBytes": 12880,
++    "gzipBytes": 3159
++  },
++  "assetResponses": [
++    {
++      "query": "symbol=BTC",
++      "status": 200,
++      "rawBytes": 208,
++      "gzipBytes": 184
++    },
++    {
++      "query": "symbols=BTC,ETH",
++      "status": 200,
++      "rawBytes": 354,
++      "gzipBytes": 234
++    }
++  ],
++  "pages": [
++    {
++      "path": "/news/coinbase-wallet-supported-network-transition-checklist",
++      "rawBytes": 124490,
++      "gzipBytes": 25851,
++      "hydrationErrors": 0
++    },
++    {
++      "path": "/zh-hans/news/coinbase-wallet-supported-network-transition-checklist",
++      "rawBytes": 146970,
++      "gzipBytes": 31853,
++      "hydrationErrors": 0
++    },
++    {
++      "path": "/exchanges/okx",
++      "rawBytes": 226435,
++      "gzipBytes": 43419,
++      "hydrationErrors": 0
++    },
++    {
++      "path": "/compare/binance-vs-okx",
++      "rawBytes": 219787,
++      "gzipBytes": 37180,
++      "hydrationErrors": 0
++    },
++    {
++      "path": "/coins/bitcoin",
++      "rawBytes": 87280,
++      "gzipBytes": 17470,
++      "hydrationErrors": 0
++    }
++  ]
++}
+diff --git a/pilot-01-prototype/docs/evidence/market-feed-diet/measure-before.log b/pilot-01-prototype/docs/evidence/market-feed-diet/measure-before.log
+new file mode 100644
+index 00000000..12ea4ba9
+--- /dev/null
++++ b/pilot-01-prototype/docs/evidence/market-feed-diet/measure-before.log
+@@ -0,0 +1,59 @@
++✔ [paraglide-js] Compilation complete (locale-modules)
++{
++  "phase": "before",
++  "fullFeed": {
++    "rawBytes": 28245,
++    "gzipBytes": 6221
++  },
++  "summary": {
++    "status": 200,
++    "rawBytes": 12880,
++    "gzipBytes": 3159
++  },
++  "assetResponses": [
++    {
++      "query": "symbol=BTC",
++      "status": 404,
++      "rawBytes": 0,
++      "gzipBytes": 20
++    },
++    {
++      "query": "symbols=BTC,ETH",
++      "status": 404,
++      "rawBytes": 0,
++      "gzipBytes": 20
++    }
++  ],
++  "pages": [
++    {
++      "path": "/news/coinbase-wallet-supported-network-transition-checklist",
++      "rawBytes": 150629,
++      "gzipBytes": 31474,
++      "hydrationErrors": 0
++    },
++    {
++      "path": "/zh-hans/news/coinbase-wallet-supported-network-transition-checklist",
++      "rawBytes": 173101,
++      "gzipBytes": 37508,
++      "hydrationErrors": 0
++    },
++    {
++      "path": "/exchanges/okx",
++      "rawBytes": 226435,
++      "gzipBytes": 43420,
++      "hydrationErrors": 0
++    },
++    {
++      "path": "/compare/binance-vs-okx",
++      "rawBytes": 219787,
++      "gzipBytes": 37180,
++      "hydrationErrors": 0
++    },
++    {
++      "path": "/coins/bitcoin",
++      "rawBytes": 87280,
++      "gzipBytes": 17470,
++      "hydrationErrors": 0
++    }
++  ]
++}
+diff --git a/pilot-01-prototype/docs/evidence/market-feed-diet/tests-built-regression.log b/pilot-01-prototype/docs/evidence/market-feed-diet/tests-built-regression.log
+new file mode 100644
+index 00000000..cab3587f
+--- /dev/null
++++ b/pilot-01-prototype/docs/evidence/market-feed-diet/tests-built-regression.log
+@@ -0,0 +1,33 @@
++✔ F13 first-screen projection preserves observed aggregates without coin or seven-day series (2.036375ms)
++✔ F13 summary polling endpoint remains fresh and fails closed (22.801959ms)
++✔ F14 paginated SSR does not preload the entire news fallback archive (1.423542ms)
++ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
++✔ F13 hydration keeps aggregate chart readable and fetches details only after chart interaction (6387.183ms)
++✔ both data pages have route metadata in all 17 locales: review-gated, self-canonical, length-bounded, full hreflang (14.498375ms)
++✔ locale prefixes apply to the data pages (0.198375ms)
++✔ structured data: Dataset points at the JSON feed, FAQPage carries every visible question, breadcrumb is two steps (2.441875ms)
++✔ worker head carries the data-page schema, canonical and hreflang for a localized request (24.892834ms)
++✔ locale sitemap lists both data pages in 15 reviewed locales and excludes the two drafts (219.773459ms)
++✔ feed readers normalize the collector document and refuse to invent numbers (1.777208ms)
++✔ SSR renders the fixture numbers, the sign-up card (no in-card disclosure) and the Telegram line; no feed renders the unavailable state (581.17875ms)
++✔ worker SSRs the data pages through the renderer with the 60-second feed and embeds the compact feed for hydration (7.832833ms)
++✔ navigation and footer link to the data pages and the build ships the shared data module (0.912084ms)
++✔ server feed reader caches for 60 seconds and keeps the last good feed through a failed read (2.005542ms)
++✔ every src/data module the worker imports (transitively) is shipped with the server build (186.225417ms)
++✔ every server module the worker imports is shipped with the server build (4.630583ms)
++✔ venue and activities preload their own modules; compare and 404 keep the V3 pages module (4.782959ms)
++✔ vite config pins the venue graph: shared helpers, CSS-only route-v3-pages-* chunks and the preload helper (2.91ms)
++✔ the Worker keeps linking the venue page's stylesheets (all route-v3-pages-* chunks on /exchanges/<slug>) (1.97225ms)
++✔ route preload inspection accepts locale preparation and stays within its glob property (0.440584ms)
++✔ built entry: the venue route's preload list excludes the compare, activity and topic-guide graphs (0.975208ms)
++ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
++✔ DeferUntilVisible interactionOnly renders the server HTML and opens only on interaction or an open <details> (5712.447958ms)
++✔ SSR venue and home pages hydrate without mismatches in en, it and ar (4581.603333ms)
++ℹ tests 23
++ℹ suites 0
++ℹ pass 23
++ℹ fail 0
++ℹ cancelled 0
++ℹ skipped 0
++ℹ todo 0
++ℹ duration_ms 11062.121583
+diff --git a/pilot-01-prototype/docs/evidence/market-feed-diet/tests-final-targeted.log b/pilot-01-prototype/docs/evidence/market-feed-diet/tests-final-targeted.log
+new file mode 100644
+index 00000000..0457c3b0
+--- /dev/null
++++ b/pilot-01-prototype/docs/evidence/market-feed-diet/tests-final-targeted.log
+@@ -0,0 +1,44 @@
++✔ poll deadline releases hung fetch, aborts and ignores its late result after recovery (5.314ms)
++✔ poll deadline releases hung body, aborts and ignores its late result after recovery (0.465083ms)
++✔ hidden deadline preserves backoff until foreground and 5xx recovery resets interval (1.62225ms)
++✔ unmount aborts active fetch, clears deadline and rejects late delivery (0.439792ms)
++✔ unmount aborts active body, clears deadline and rejects late delivery (0.616333ms)
++✔ json polling backs off exponentially up to two minutes and resets after a good payload (22.701916ms)
++✔ json polling pauses hidden tabs, resumes visible tabs, and keeps one fetch in flight (0.851458ms)
++✔ json polling can keep hidden flash-page polling only after notification opt-in (0.23675ms)
++✔ json polling preserves the due time and backoff while paused (0.245084ms)
++ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
++✔ copy for the new blocks exists in all 17 locales (7273.67375ms)
++✔ day groups are SGT days in feed order; Today / Yesterday only with a reader clock (2.16775ms)
++✔ market context: assets come from the article text, figures only from the feed (2.640208ms)
++✔ article SSR: lead answer block, section index (rail + mobile disclosure), footnotes, figures, empty market slot (333.7545ms)
++✔ article route hydrates without mismatch (worker request-time SSR + jsdom hydrateRoot) (1109.3345ms)
++✔ news index SSR: a lead story, then day groups with every other row (19.493959ms)
++✔ topics hub: editorial index, localized headings (en, ar), one card link per record, hydration parity (546.394ms)
++✔ factbook hub: editorial index, localized headings (en, ar), one card link per record, hydration parity (540.074458ms)
++ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
++✔ English and Chinese rails render in SSR with identical hydration and no initial market fetch (8331.247666ms)
++✔ cold SSR failure keeps the rail empty and recovery requests only the asset route (175.811666ms)
++✔ unrelated articles skip the market reader and cold reads cannot hold article SSR (247.853458ms)
++✔ a current build-time article prerender cannot bypass the live market SSR seed (39.237375ms)
++✔ asset projection preserves rail numbers and exposes only rendered fields (22.122834ms)
++✔ single and multiple symbols, five-item limit, deduplication and malformed queries (2.229625ms)
++✔ unknown and mixed unknown symbols are 404; cold outages and invalid clocks are 503 (1.40125ms)
++✔ Node reader shares 60s cache, retains original data clock on outage and recovers (1.72975ms)
++✔ assets-only Worker caches across symbols and retains stale data on outage (1.245417ms)
++✔ partial article coverage still refreshes available assets after a mixed-request 404 (3.399ms)
++✔ bounded SSR reads retain the last good frame while a slow refresh continues (6.770625ms)
++ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
++✔ Turkish article sitemap URLs retain native SSR body and self canonical for informational venues (9206.942542ms)
++✔ an edition added after publication replaces the warmed feed and stale prerender snapshot (2.308167ms)
++✔ informational editions retain the promotional and unlisted-venue boundaries (0.604417ms)
++✔ dynamic article and Google News sitemaps exclude projected and non-self-canonical editions (1.904333ms)
++✔ runtime article sitemap retains eligible arrivals beyond the former 5000 article cap (95.683792ms)
++ℹ tests 33
++ℹ suites 0
++ℹ pass 33
++ℹ fail 0
++ℹ cancelled 0
++ℹ skipped 0
++ℹ todo 0
++ℹ duration_ms 10640.591708
+diff --git a/pilot-01-prototype/docs/evidence/market-feed-diet/typecheck.log b/pilot-01-prototype/docs/evidence/market-feed-diet/typecheck.log
+new file mode 100644
+index 00000000..134d33f6
+--- /dev/null
++++ b/pilot-01-prototype/docs/evidence/market-feed-diet/typecheck.log
+@@ -0,0 +1,4 @@
++
++> pilot-01-prototype@3.0.0 typecheck
++> tsc -p tsconfig.json
++
+diff --git a/pilot-01-prototype/scripts/measure-market-feed-diet.mjs b/pilot-01-prototype/scripts/measure-market-feed-diet.mjs
+new file mode 100644
+index 00000000..7fda7582
+--- /dev/null
++++ b/pilot-01-prototype/scripts/measure-market-feed-diet.mjs
+@@ -0,0 +1,108 @@
++#!/usr/bin/env node
++// Offline response-body measurements, not a browser network trace. Run once per built revision.
++import assert from 'node:assert/strict';
++import { readFile, writeFile } from 'node:fs/promises';
++import path from 'node:path';
++import { createHash } from 'node:crypto';
++import { pathToFileURL, fileURLToPath } from 'node:url';
++import { gzipSync } from 'node:zlib';
++import { createNewsSsrRenderer } from '../server/news-ssr.mjs';
++import { createMarketEventsReader } from '../server/market-events-feed.mjs';
++import { detectArticleAssets } from '../src/components/v3/news/article-market-context.js';
++import { compactMarketEvents } from '../src/data/market-data-pages.js';
++import { createSsrHarness, hydrateInJsdom, hydrationErrors, prerenderState } from '../tests/helpers/ssr-hydration-harness.mjs';
++const phase = process.argv[2];
++assert.ok(['before', 'after'].includes(phase), 'usage: node scripts/measure-market-feed-diet.mjs before|after');
++const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
++const fixture = 'tests/fixtures/market-data/market-events.live-v2-2026-10-13.json';
++const feedText = await readFile(path.join(root, fixture), 'utf8');
++const feed = JSON.parse(feedText);
++const sizes = text => ({ rawBytes: Buffer.byteLength(text), gzipBytes: gzipSync(text).length });
++const sha256 = text => createHash('sha256').update(text).digest('hex');
++const { default: worker } = await import(pathToFileURL(path.join(root, 'dist/server/index.js')));
++const render = createNewsSsrRenderer(path.join(root, 'dist'));
++const market = createMarketEventsReader({ file: path.join(root, fixture) });
++const localAssets = { fetch: async request => {
++  const pathname = new URL(request.url).pathname;
++  if (pathname === '/intel/market-events.json') return new Response(feedText, { headers: { 'content-type': 'application/json' } });
++  try {
++    const body = await readFile(path.join(root, 'dist/client', pathname));
++    return new Response(body, { headers: { 'content-type': pathname.endsWith('.html') ? 'text/html' : pathname.endsWith('.json') ? 'application/json' : 'text/plain' } });
++  } catch { return new Response('', { status: 404 }); }
++} };
++const env = { ASSETS: localAssets, NEWS_SSR_RENDER: render, MARKET_EVENTS_READ: market.read,
++  TICKER_READ: async () => null, MOVERS_READ: async () => null, FX_SNAPSHOT_READ: async () => null,
++};
++const fetchLocal = async href => {
++  const request = new Request(new URL(href, 'https://nexualpha.com'), { headers: { accept: href.startsWith('/api/') ? 'application/json' : 'text/html' } });
++  if (new URL(request.url).pathname === '/intel/market-events.json') return localAssets.fetch(request);
++  return worker.fetch(request, env);
++};
++const articles = JSON.parse(await readFile(path.join(root, 'public/content/news-feed.json'))).articles;
++const sample = articles.find(article => typeof article.content?.en === 'string' && typeof article.content?.['zh-Hans'] === 'string'
++  && detectArticleAssets({ title: `${article.title?.en}\n${article.title?.['zh-Hans']}`, summary: article.summary?.en, body: article.content.en }).length);
++assert.ok(sample, 'need a checked-in English + Chinese article mentioning supported assets');
++const coins = JSON.parse(await readFile(path.join(root, 'public/intel/coins.json')));
++const coin = (coins.coins || coins.rows || []).find(row => String(row.symbol).toUpperCase() === 'BTC');
++const coinPath = '/coins/' + (coin?.slug || 'bitcoin');
++const pages = [`/news/${sample.slug}`, `/zh-hans/news/${sample.slug}`, '/exchanges/okx', '/compare/binance-vs-okx', coinPath];
++const harness = await createSsrHarness();
++const measurements = [];
++try {
++  for (const pathname of pages) {
++    const response = await fetchLocal(pathname), html = await response.text();
++    assert.equal(response.status, 200, pathname);
++    const requests = [];
++    const hydrated = await hydrateInJsdom(harness.vite, html, `https://nexualpha.com${pathname}`, {
++      timeoutMs: 700, settleMs: 20,
++      fetchImpl: async input => {
++        const href = String(input?.url || input);
++        const response = await fetchLocal(href), body = await response.text();
++        requests.push({ path: href, status: response.status, ...sizes(body) });
++        return new Response(body, { status: response.status, headers: response.headers });
++      },
++      inspect: window => ({ rail: window.document.querySelector('[data-market-context]')?.outerHTML || null }),
++    });
++    const marketRequests = requests.filter(row => /market-events/.test(row.path));
++    assert.deepEqual(hydrationErrors(hydrated.errors), [], pathname);
++    if (phase === 'after' && pathname.includes('/news/')) {
++      assert.ok(prerenderState(html)?.marketEvents, 'built article must carry its SSR market seed');
++      assert.equal(marketRequests.length, 0, 'hydration must not insert the market rail from a client fetch');
++    }
++    measurements.push({ path: pathname, status: response.status, html: { ...sizes(html), sha256: sha256(html) },
++      marketRequests, allObservedJsonRequests: requests,
++      initialHtmlPlusMarketJson: {
++        rawBytes: sizes(html).rawBytes + marketRequests.reduce((sum, row) => sum + row.rawBytes, 0),
++        gzipBytes: sizes(html).gzipBytes + marketRequests.reduce((sum, row) => sum + row.gzipBytes, 0),
++      },
++      hydrationErrors: hydrationErrors(hydrated.errors), hasRailAfterHydration: Boolean(hydrated.inspected?.rail),
++    });
++  }
++} finally { await harness.close(); }
++const assetResponses = [];
++for (const query of ['symbol=BTC', 'symbols=BTC,ETH']) {
++  const response = await fetchLocal(`/api/market-events/asset?${query}`), body = await response.text();
++  assetResponses.push({ query, status: response.status, ...sizes(body), body: response.status === 200 ? JSON.parse(body) : undefined });
++}
++const summaryResponse = await fetchLocal('/api/market-events/summary'), summaryText = await summaryResponse.text();
++const summary = JSON.parse(summaryText);
++const dataPages = {};
++for (const pathname of ['/liquidations', '/liquidations/heatmap', '/funding-rates']) {
++  const fullHtml = await render(pathname, { marketEvents: feed });
++  const summaryHtml = await render(pathname, { marketEvents: summary });
++  const trimmed = pathname === '/funding-rates' ? { generatedAt: feed.generatedAt, funding: feed.funding }
++    : { generatedAt: feed.generatedAt, liquidations: feed.liquidations, history: feed.history };
++  const trimmedHtml = await render(pathname, { marketEvents: trimmed });
++  dataPages[pathname] = { fullVsSummaryRenderedHtmlByteIdentical: fullHtml === summaryHtml,
++    fullHtmlSha256: sha256(fullHtml), summaryHtmlSha256: sha256(summaryHtml),
++    trimmedCandidate: { ...sizes(JSON.stringify(trimmed)), renderedHtmlByteIdentical: fullHtml === trimmedHtml, htmlSha256: sha256(trimmedHtml) },
++    currentSsrProjection: sizes(JSON.stringify(compactMarketEvents(feed, { timeline: pathname !== '/funding-rates', firstScreen: true }))),
++  };
++}
++const output = { phase, node: process.version, fixture, fixtureGeneratedAt: feed.generatedAt, fixtureSha256: sha256(feedText),
++  methodology: 'In-process built Worker + bundled runtime SSR; jsdom hydration observes local JSON requests for 700 ms. Body bytes only; gzipSync estimate excludes headers, TLS, caches, JS, CSS and images. Historical checked-in feed, not the reported 2.4 MB production feed. No external requests.',
++  fullFeed: sizes(feedText), summary: { status: summaryResponse.status, ...sizes(summaryText) }, assetResponses, pages: measurements, dataPages,
++};
++await writeFile(path.join(root, 'docs/evidence/market-feed-diet', `${phase}.json`), JSON.stringify(output, null, 2) + '\n');
++console.log(JSON.stringify({ phase, fullFeed: output.fullFeed, summary: output.summary, assetResponses: assetResponses.map(({ body, ...row }) => row),
++  pages: measurements.map(({ path, initialHtmlPlusMarketJson, hydrationErrors }) => ({ path, ...initialHtmlPlusMarketJson, hydrationErrors: hydrationErrors.length })) }, null, 2));
+diff --git a/pilot-01-prototype/src/components/v3/news/article-market-context-fetch.js b/pilot-01-prototype/src/components/v3/news/article-market-context-fetch.js
+new file mode 100644
+index 00000000..d883bc47
+--- /dev/null
++++ b/pilot-01-prototype/src/components/v3/news/article-market-context-fetch.js
+@@ -0,0 +1,22 @@
++import { MARKET_ASSET_PATH } from '../../../data/market-events-assets.js';
++
++// A multi-asset API request fails closed if any symbol is missing. Keep refreshing available rail rows
++// during partial collector coverage by retrying each detected symbol only after that explicit 404.
++export async function fetchArticleMarketContext(request, init, symbols, fetchImpl = fetch) {
++  const response = await fetchImpl(request, init);
++  if (response.status !== 404 || symbols.length < 2) return response;
++  const parts = await Promise.all(symbols.map(async symbol => {
++    const part = await fetchImpl(`${MARKET_ASSET_PATH}?symbol=${encodeURIComponent(symbol)}`, init);
++    if (part.status === 404) return null;
++    if (!part.ok) throw new Error(`market asset HTTP ${part.status}`);
++    return part.json();
++  }));
++  const frames = parts.filter(Boolean);
++  if (!frames.length) return response;
++  // Never combine figures carrying different collector clocks. Keep the previous frame and retry later.
++  const generatedAt = frames[0].generatedAt;
++  if (!generatedAt || frames.some(frame => frame.generatedAt !== generatedAt || !Array.isArray(frame.rows))) {
++    throw new Error('market asset snapshots disagree');
++  }
++  return Response.json({ generatedAt, stale: frames.some(frame => frame.stale === true), rows: frames.flatMap(frame => frame.rows) });
++}
+diff --git a/pilot-01-prototype/src/data/market-events-assets.js b/pilot-01-prototype/src/data/market-events-assets.js
+new file mode 100644
+index 00000000..5ce9b1b4
+--- /dev/null
++++ b/pilot-01-prototype/src/data/market-events-assets.js
+@@ -0,0 +1,101 @@
++import { localizedNewsTitle, localizedNewsSummary, localizedValue, resolveNewsContentLocale } from "./news-feed-client.js";
++import { neutralArticleMarkdown } from "./neutral-article.js";
++import { stripArticleEmbedDirectives } from "./article-embeds.js";
++import { serpCtrNewsOverride } from "./serp-ctr-news-overrides.js";
++
++// Small, shared projection for article rails and /api/market-events/asset.
++// Keep this out of the home entry; the collector remains the only source of figures.
++export const MARKET_ASSET_PATH = "/api/market-events/asset";
++
++export const MARKET_CONTEXT_ASSETS = Object.freeze([
++  { symbol: "BTC", pattern: /\bBTC\b|\bbitcoin\b|比特币|比特幣|ビットコイン|비트코인|биткоин|بيتكوين/i },
++  { symbol: "ETH", pattern: /\bETH\b|\bethereum\b|\bether\b|以太坊|イーサリアム|이더리움|эфириум|إيثريوم/i },
++  { symbol: "SOL", pattern: /\bSOL\b|\bsolana\b|ソラナ|솔라나|солана|سولانا/i },
++]);
++
++const countMatches = (text, pattern) => (String(text || "").match(new RegExp(pattern.source, "gi")) || []).length;
++
++/** Up to `limit` assets: those named in the title or summary first, then those mentioned at least twice in the body. */
++export function detectArticleAssets({ title = "", summary = "", body = "" } = {}, limit = 2) {
++  const head = `${title}\n${summary}`;
++  const scored = MARKET_CONTEXT_ASSETS.map(({ symbol, pattern }, order) => {
++    const inHead = countMatches(head, pattern);
++    const inBody = countMatches(body, pattern);
++    return { symbol, order, inHead, inBody };
++  }).filter((a) => a.inHead > 0 || a.inBody >= 2);
++  scored.sort((a, b) => (b.inHead > 0) - (a.inHead > 0) || b.inBody - a.inBody || a.order - b.order);
++  return scored.slice(0, limit).map((a) => a.symbol);
++}
++
++/** Use the exact same article text on the server and client when selecting assets. */
++export function articleMarketAssets(article, locale) {
++  const contentLocale = resolveNewsContentLocale(locale, article);
++  const override = contentLocale === locale ? serpCtrNewsOverride(article.slug, locale) : null;
++  const title = override?.h1 || localizedNewsTitle(article, locale);
++  const summary = neutralArticleMarkdown(localizedNewsSummary(article, locale), locale);
++  const content = neutralArticleMarkdown(localizedValue(article.content, contentLocale), locale);
++  return detectArticleAssets({
++    title: `${title}\n${localizedNewsTitle(article, "en")}`,
++    summary: `${summary}\n${localizedNewsSummary(article, "en")}`,
++    body: stripArticleEmbedDirectives(content),
++  });
++}
++
++const num = (v) => { const n = typeof v === "number" ? v : Number.parseFloat(v); return Number.isFinite(n) ? n : null; };
++const baseOf = (symbol) => String(symbol || "").replace(/^[A-Z]+:/i, "").replace(/(USDT|USDC|USD|BUSD)$/i, "").toUpperCase();
++
++/** One row per detected asset with the figures the feed actually has; null when the feed has none of them. */
++export function marketAssetSnapshot(feed, assets) {
++  if (!feed || typeof feed !== "object" || !Array.isArray(assets) || !assets.length) return null;
++  const generatedAt = Number.isFinite(Date.parse(feed.generatedAt)) ? new Date(Date.parse(feed.generatedAt)).toISOString() : null;
++  if (!generatedAt) return null;
++  // SSR and the asset API already carry the exact rendered rows. Never re-derive numbers on hydration.
++  if (Array.isArray(feed.rows)) {
++    const rows = assets.map(symbol => feed.rows.find(row => row.symbol === symbol)).filter(Boolean);
++    return rows.length ? { generatedAt, rows } : null;
++  }
++  const majors = Array.isArray(feed.market?.majors) ? feed.market.majors : [];
++  const fundingRows = Array.isArray(feed.funding?.rows) ? feed.funding.rows : [];
++  const top24 = Array.isArray(feed.liquidations?.h24?.topSymbols) ? feed.liquidations.h24.topSymbols : [];
++  const rows = assets.map((symbol) => {
++    const major = majors.find((m) => baseOf(m?.symbol) === symbol);
++    const funding = fundingRows.find((r) => baseOf(r?.symbol) === symbol);
++    const liqHits = top24.filter((t) => baseOf(t?.symbol) === symbol && num(t?.usd) > 0);
++    const row = {
++      symbol,
++      price: num(major?.price),
++      change24hPct: num(major?.change24hPct),
++      fundingBinance: num(funding?.binanceRate),
++      fundingOkx: num(funding?.okxRate),
++      liquidations24hUsd: liqHits.length ? liqHits.reduce((sum, t) => sum + num(t.usd), 0) : null,
++    };
++    const has = row.price != null || row.fundingBinance != null || row.fundingOkx != null || row.liquidations24hUsd != null;
++    return has ? row : null;
++  }).filter(Boolean);
++  return rows.length ? { generatedAt, rows } : null;
++}
++
++
++/** Reject ambiguous, empty or oversized requests before reading the collector. */
++export function parseMarketAssetSymbols(params) {
++  const single = params.getAll("symbol"), multiple = params.getAll("symbols");
++  if (single.length + multiple.length !== 1) return null;
++  const values = (single[0] ?? multiple[0]).split(",").map(value => value.trim().toUpperCase());
++  if (!values.length || values.length > 5 || (single.length && values.length !== 1)
++    || values.some(value => !/^[A-Z0-9]{1,20}$/.test(value))) return null;
++  return [...new Set(values)];
++}
++
++export async function marketAssetResponse(url, readFeed) {
++  const symbols = parseMarketAssetSymbols(url.searchParams);
++  const error = (status, code) => Response.json({ error: code }, { status, headers: { "cache-control": "no-store" } });
++  if (!symbols) return error(400, "INVALID_SYMBOLS");
++  let feed;
++  try { feed = await readFeed(); } catch { /* cold outage fails closed */ }
++  if (!feed || !Number.isFinite(Date.parse(feed.generatedAt))) return error(503, "MARKET_FEED_UNAVAILABLE");
++  const snapshot = marketAssetSnapshot(feed, symbols);
++  if (!snapshot || snapshot.rows.length !== symbols.length) return error(404, "UNKNOWN_SYMBOL");
++  return Response.json({ ...snapshot, stale: feed.stale === true }, {
++    headers: { "cache-control": "public, max-age=30" },
++  });
++}
+diff --git a/pilot-01-prototype/tests/market-events-assets-ssr.test.mjs b/pilot-01-prototype/tests/market-events-assets-ssr.test.mjs
+new file mode 100644
+index 00000000..86324626
+--- /dev/null
++++ b/pilot-01-prototype/tests/market-events-assets-ssr.test.mjs
+@@ -0,0 +1,125 @@
++import test from 'node:test';
++import { createHash } from 'node:crypto';
++import { JSDOM } from 'jsdom';
++import assert from 'node:assert/strict';
++import { readFile } from 'node:fs/promises';
++import worker from '../worker/index.js';
++import { marketAssetSnapshot } from '../src/data/market-events-assets.js';
++import { createSsrHarness, SHELL_HTML, prerenderState, rootInnerHtml, hydrateInJsdom, hydrationErrors } from './helpers/ssr-hydration-harness.mjs';
++const feed = JSON.parse(await readFile(new URL('./fixtures/market-data/market-events.live-v2-2026-10-13.json', import.meta.url)));
++const article = {
++  slug: 'fixture-market-asset-context', status: 'PUBLISHED', category: 'research',
++  categoryName: { en: 'Research', 'zh-Hans': '研究' },
++  publishedAt: '2026-10-13T15:00:00.000Z', updatedAt: '2026-10-13T15:00:00.000Z', author: 'NexuAlpha Research Desk',
++  title: { en: 'Bitcoin market context', 'zh-Hans': '比特币市场背景' },
++  summary: { en: 'BTC source data and its limits.', 'zh-Hans': 'BTC 数据来源与局限。' },
++  content: { en: '## Sources\n\nBitcoin market context uses observed collector data.', 'zh-Hans': '## 数据来源\n\n比特币市场背景使用采集器数据。' },
++  sources: [{ url: 'https://example.com/fixture', publisher: 'Fixture', title: 'Test source' }],
++  availableLocales: ['en', 'zh-Hans'], relatedVenues: [], seo: { noindex: false },
++};
++let harness;
++test.before(async () => { harness = await createSsrHarness(); });
++test.after(async () => { await harness?.close(); });
++const env = (current = article) => ({
++  MARKET_EVENTS_READ: async () => ({ ...feed, stale: true }),
++  NEWS_SSR_RENDER: (href, options) => harness.render(href, options),
++  ASSETS: { fetch: async request => {
++    const path = new URL(request.url).pathname;
++    if (path === '/index.html') return new Response(SHELL_HTML, { headers: { 'content-type': 'text/html' } });
++    if (path === '/content/news-feed.json') return Response.json({ articles: [current] });
++    return new Response('', { status: 404 });
++  } },
++});
++
++test('English and Chinese rails render in SSR with identical hydration and no initial market fetch', async () => {
++  for (const prefix of ['', '/zh-hans']) {
++    const href = `https://nexualpha.com${prefix}/news/${article.slug}`;
++    const response = await worker.fetch(new Request(href, { headers: { accept: 'text/html' } }), env());
++    assert.equal(response.status, 200);
++    const html = await response.text();
++    const state = prerenderState(html);
++    assert.ok(state?.marketEvents);
++    assert.deepEqual(state.marketEvents, { ...marketAssetSnapshot(feed, ['BTC']), stale: true });
++    assert.match(html, /data-market-context="BTC"/);
++    assert.ok(!JSON.stringify(state.marketEvents).includes('timeline'));
++    const replay = await harness.render(href, { newsArticles: state.newsArticles, marketEvents: state.marketEvents, seoAlternates: state.seoAlternates });
++    assert.equal(replay, rootInnerHtml(html), 'SSR and hydration props render byte-identical markup');
++    const requests = [];
++    const hydrated = await hydrateInJsdom(harness.vite, html, href, {
++      timeoutMs: 100, settleMs: 10,
++      fetchImpl: async input => { requests.push(String(input?.url || input)); return new Response('{}', { status: 404 }); },
++      inspect: window => window.document.querySelector('[data-market-context]')?.outerHTML,
++    });
++    assert.deepEqual(hydrationErrors(hydrated.errors), []);
++    const parsed = new JSDOM(html);
++    assert.equal(hydrated.inspected, parsed.window.document.querySelector('[data-market-context]')?.outerHTML);
++    parsed.window.close();
++    assert.ok(!requests.some(path => /market-events/.test(path)), requests.join('\n'));
++  }
++});
++
++test('cold SSR failure keeps the rail empty and recovery requests only the asset route', async () => {
++  const options = env();
++  options.MARKET_EVENTS_READ = async () => null;
++  const href = `https://nexualpha.com/news/${article.slug}`;
++  const html = await (await worker.fetch(new Request(href), options)).text();
++  assert.doesNotMatch(html, /data-market-context=/);
++  const requests = [];
++  const hydrated = await hydrateInJsdom(harness.vite, html, href, {
++    timeoutMs: 500, settleMs: 10,
++    fetchImpl: async input => {
++      const path = String(input?.url || input); requests.push(path);
++      return path.startsWith('/api/market-events/asset?') ? Response.json({ ...marketAssetSnapshot(feed, ['BTC']), stale: true }) : new Response('{}', { status: 404 });
++    },
++    until: window => Boolean(window.document.querySelector('[data-market-context]')),
++    inspect: window => window.document.querySelector('[data-market-context]')?.textContent,
++  });
++  assert.deepEqual(hydrationErrors(hydrated.errors), []);
++  assert.ok(hydrated.inspected);
++  assert.ok(requests.includes('/api/market-events/asset?symbols=BTC'));
++  assert.ok(!requests.includes('/intel/market-events.json'));
++});
++
++
++test('unrelated articles skip the market reader and cold reads cannot hold article SSR', async () => {
++  const unrelated = { ...article,
++    title: { en: 'Exchange source policy' }, summary: { en: 'Source policy and review limits.' },
++    content: { en: '## Sources\n\nReview the original exchange disclosures.' },
++    availableLocales: ['en'],
++  };
++  const options = env(unrelated);
++  let reads = 0;
++  options.MARKET_EVENTS_READ = async () => { reads++; return feed; };
++  const href = `https://nexualpha.com/news/${article.slug}`;
++  const html = await (await worker.fetch(new Request(href), options)).text();
++  assert.match(html, /Exchange source policy/);
++  assert.equal(reads, 0);
++  assert.equal(prerenderState(html).marketEvents, undefined);
++  let release;
++  const slow = env();
++  slow.MARKET_EVENTS_READ = () => new Promise(resolve => { release = resolve; });
++  const started = performance.now();
++  const pending = worker.fetch(new Request(href), slow);
++  const timeout = setTimeout(() => release?.(feed), 2000);
++  try {
++    const response = await pending;
++    assert.equal(response.status, 200);
++    assert.ok(performance.now() - started < 1500, 'cold market reads have a bounded SSR wait');
++    assert.equal(prerenderState(await response.text()).marketEvents, undefined);
++  } finally { clearTimeout(timeout); release?.(feed); }
++});
++
++
++test('a current build-time article prerender cannot bypass the live market SSR seed', async () => {
++  const options = env();
++  const pathname = `/news/${article.slug}`, href = `https://nexualpha.com${pathname}`;
++  const snapshotHtml = await harness.render(href, { newsArticles: [article] });
++  const newsFeedFingerprint = createHash('sha256').update(JSON.stringify({ articles: [article] })).digest('hex');
++  const originalFetch = options.ASSETS.fetch;
++  options.ASSETS.fetch = async request => new URL(request.url).pathname === '/prerender-manifest.json'
++    ? Response.json({ routes: { [`${pathname}|en`]: { html: snapshotHtml, newsArticles: [article], newsFeedFingerprint, searchPublished: true } } })
++    : originalFetch(request);
++  const html = await (await worker.fetch(new Request(href), options)).text();
++  assert.match(html, /data-market-context="BTC"/);
++  assert.deepEqual(prerenderState(html).marketEvents, { ...marketAssetSnapshot(feed, ['BTC']), stale: true });
++});
+diff --git a/pilot-01-prototype/tests/market-events-assets.test.mjs b/pilot-01-prototype/tests/market-events-assets.test.mjs
+new file mode 100644
+index 00000000..03a37485
+--- /dev/null
++++ b/pilot-01-prototype/tests/market-events-assets.test.mjs
+@@ -0,0 +1,134 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { readFile } from 'node:fs/promises';
++import worker from '../worker/index.js';
++import { marketAssetSnapshot, marketAssetResponse, parseMarketAssetSymbols } from '../src/data/market-events-assets.js';
++import { marketContextSnapshot } from '../src/components/v3/news/article-market-context.js';
++import { createMarketEventsReader } from '../server/market-events-feed.mjs';
++const feed = JSON.parse(await readFile(new URL('./fixtures/market-data/market-events.live-v2-2026-10-13.json', import.meta.url)));
++const url = query => new URL(`https://nexualpha.com/api/market-events/asset?${query}`);
++const request = (query, env) => worker.fetch(new Request(url(query)), env);
++
++test('asset projection preserves rail numbers and exposes only rendered fields', async () => {
++  const original = marketContextSnapshot(feed, ['BTC', 'ETH']);
++  const response = await request('symbols=btc,ETH', { MARKET_EVENTS_READ: async () => feed });
++  assert.equal(response.status, 200);
++  assert.equal(response.headers.get('cache-control'), 'public, max-age=30');
++  const payload = await response.json();
++  assert.deepEqual(payload, { ...original, stale: false });
++  assert.deepEqual(Object.keys(payload).sort(), ['generatedAt', 'rows', 'stale']);
++  assert.deepEqual(marketAssetSnapshot(payload, ['ETH', 'BTC']), { generatedAt: original.generatedAt, rows: [...original.rows].reverse() });
++  for (const row of payload.rows) assert.deepEqual(Object.keys(row).sort(), ['symbol', 'price', 'change24hPct', 'fundingBinance', 'fundingOkx', 'liquidations24hUsd'].sort());
++  assert.ok(JSON.stringify(payload).length < JSON.stringify(feed).length / 10);
++  assert.equal(marketAssetSnapshot(feed, ['UNOBSERVED']), null);
++});
++
++test('single and multiple symbols, five-item limit, deduplication and malformed queries', async () => {
++  assert.deepEqual(parseMarketAssetSymbols(url('symbol=btc').searchParams), ['BTC']);
++  assert.deepEqual(parseMarketAssetSymbols(url('symbols=BTC,BTC,ETH').searchParams), ['BTC', 'ETH']);
++  assert.deepEqual(parseMarketAssetSymbols(url('symbols=A,B,C,D,E').searchParams), ['A', 'B', 'C', 'D', 'E']);
++  for (const query of ['', 'symbol=', 'symbols=BTC,', 'symbol=BTC,ETH', 'symbols=A,B,C,D,E,F', 'symbols=BTC&symbol=ETH', 'symbol=BTC&symbol=ETH', 'symbols=BTC&symbols=ETH', 'symbol=BTC%2FUSDT', 'symbol=%3Cscript%3E']) {
++    let reads = 0;
++    const response = await request(query, { MARKET_EVENTS_READ: async () => { reads++; return feed; } });
++    assert.equal(response.status, 400, query);
++    assert.deepEqual(await response.json(), { error: 'INVALID_SYMBOLS' });
++    assert.equal(reads, 0);
++  }
++  const five = { generatedAt: feed.generatedAt, market: { majors: ['A', 'B', 'C', 'D', 'E'].map(symbol => ({ symbol, price: 1 })) } };
++  assert.equal((await request('symbols=A,B,C,D,E', { MARKET_EVENTS_READ: async () => five })).status, 200);
++  assert.equal((await request('symbol=btc', { MARKET_EVENTS_READ: async () => feed })).status, 200);
++});
++
++test('unknown and mixed unknown symbols are 404; cold outages and invalid clocks are 503', async () => {
++  for (const query of ['symbol=UNOBSERVED', 'symbols=BTC,UNOBSERVED']) {
++    const response = await request(query, { MARKET_EVENTS_READ: async () => feed });
++    assert.equal(response.status, 404);
++    assert.deepEqual(await response.json(), { error: 'UNKNOWN_SYMBOL' });
++    assert.equal(response.headers.get('cache-control'), 'no-store');
++  }
++  for (const read of [async () => null, async () => { throw new Error('offline'); }, async () => ({ generatedAt: 'invalid' })]) {
++    const response = await marketAssetResponse(url('symbol=BTC'), read);
++    assert.equal(response.status, 503);
++    assert.deepEqual(await response.json(), { error: 'MARKET_FEED_UNAVAILABLE' });
++  }
++});
++
++test('Node reader shares 60s cache, retains original data clock on outage and recovers', async () => {
++  let clock = Date.parse(feed.generatedAt), calls = 0, offline = false;
++  const reader = createMarketEventsReader({ now: () => clock, fetchImpl: async () => {
++    calls++;
++    if (offline) throw new Error('offline');
++    return Response.json(feed);
++  } });
++  const env = { MARKET_EVENTS_READ: reader.read };
++  const first = await (await request('symbol=BTC', env)).json();
++  await request('symbol=ETH', env);
++  assert.equal(calls, 1);
++  clock += 59_999;
++  await request('symbol=BTC', env);
++  assert.equal(calls, 1);
++  clock++;
++  offline = true;
++  const staleResponse = await request('symbol=BTC', env);
++  assert.equal(staleResponse.status, 200);
++  assert.deepEqual(await staleResponse.json(), { ...first, stale: true });
++  assert.equal(calls, 2);
++  clock += 60_000;
++  offline = false;
++  assert.equal((await (await request('symbol=BTC', env)).json()).stale, false);
++  assert.equal(calls, 3);
++  const cold = createMarketEventsReader({ fetchImpl: async () => { throw new Error('offline'); } });
++  assert.equal((await request('symbol=BTC', { MARKET_EVENTS_READ: cold.read })).status, 503);
++});
++
++test('assets-only Worker caches across symbols and retains stale data on outage', async () => {
++  const originalNow = Date.now;
++  let clock = Date.parse(feed.generatedAt), reads = 0, offline = false;
++  Date.now = () => clock;
++  try {
++    const env = { ASSETS: { fetch: async () => { reads++; return offline ? new Response('', { status: 503 }) : Response.json(feed); } } };
++    const first = await (await request('symbol=BTC', env)).json();
++    await request('symbol=ETH', env);
++    assert.equal(reads, 1);
++    clock += 60_000;
++    offline = true;
++    assert.deepEqual(await (await request('symbol=BTC', env)).json(), { ...first, stale: true });
++    assert.equal(reads, 2);
++    clock += 60_000;
++    offline = false;
++    assert.equal((await (await request('symbol=BTC', env)).json()).stale, false);
++    assert.equal((await request('symbol=BTC', { ASSETS: { fetch: async () => new Response('', { status: 503 }) } })).status, 503);
++  } finally { Date.now = originalNow; }
++});
++
++test('partial article coverage still refreshes available assets after a mixed-request 404', async () => {
++  const { fetchArticleMarketContext } = await import('../src/components/v3/news/article-market-context-fetch.js');
++  const partialFeed = { generatedAt: feed.generatedAt, market: { majors: feed.market.majors.filter(row => row.symbol.startsWith('BTC')) } };
++  const env = { MARKET_EVENTS_READ: async () => partialFeed };
++  const requests = [], controller = new AbortController();
++  const result = await fetchArticleMarketContext(url('symbols=BTC,SOL').href, { signal: controller.signal }, ['BTC', 'SOL'], async (href, init) => {
++    assert.equal(init.signal, controller.signal);
++    requests.push(href);
++    return worker.fetch(new Request(new URL(href, 'https://nexualpha.com')), env);
++  });
++  assert.equal(result.status, 200);
++  assert.deepEqual(await result.json(), { ...marketAssetSnapshot(partialFeed, ['BTC']), stale: false });
++  assert.equal(requests.length, 3);
++  assert.ok(requests.every(href => !href.includes('/intel/')));
++});
++
++
++test('bounded SSR reads retain the last good frame while a slow refresh continues', async () => {
++  let clock = Date.parse(feed.generatedAt), resolveSlow, calls = 0;
++  const reader = createMarketEventsReader({ now: () => clock, timeoutMs: 1000, fetchImpl: async () => {
++    if (++calls === 1) return Response.json(feed);
++    return new Promise(resolve => { resolveSlow = resolve; });
++  } });
++  const original = await reader.read();
++  clock += 60_000;
++  const stale = await reader.read({ waitMs: 5 });
++  assert.deepEqual(stale, { ...original, stale: true });
++  resolveSlow(Response.json(feed));
++  await reader.refresh();
++  assert.deepEqual(await reader.read(), original);
++});

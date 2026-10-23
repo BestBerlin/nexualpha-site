@@ -177,7 +177,8 @@ test("SSR venue and home pages hydrate without mismatches in en, it and ar", asy
     if (path.includes("/exchanges/")) {
       assert.match(html, /class="v3-profile-sources-group"/, `${path}: sources hub rendered on the server`);
       assert.match(html, /v3-venue-metrics-grid/, `${path}: hub body (metrics) is complete in SSR HTML`);
-      assert.match(html, /class="v3-mobile-sticky-bar/, `${path}: sticky bar`);
+      if (locale === "ar") assert.doesNotMatch(html, /data-conversion-sticky/, `${path}: neutral locale has no sticky promotion`);
+      else assert.match(html, /data-conversion-sticky/, `${path}: sticky bar`);
     } else {
       // ar is a neutral locale: information-only home without the rebate card (lead 2026-10-13).
       if (locale === "ar") assert.doesNotMatch(html, /class="h7-lg"/, `${path}: neutral home has no rebate card`);

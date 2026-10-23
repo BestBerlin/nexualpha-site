@@ -1,0 +1,33 @@
+✔ F13 first-screen projection preserves observed aggregates without coin or seven-day series (2.036375ms)
+✔ F13 summary polling endpoint remains fresh and fails closed (22.801959ms)
+✔ F14 paginated SSR does not preload the entire news fallback archive (1.423542ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ F13 hydration keeps aggregate chart readable and fetches details only after chart interaction (6387.183ms)
+✔ both data pages have route metadata in all 17 locales: review-gated, self-canonical, length-bounded, full hreflang (14.498375ms)
+✔ locale prefixes apply to the data pages (0.198375ms)
+✔ structured data: Dataset points at the JSON feed, FAQPage carries every visible question, breadcrumb is two steps (2.441875ms)
+✔ worker head carries the data-page schema, canonical and hreflang for a localized request (24.892834ms)
+✔ locale sitemap lists both data pages in 15 reviewed locales and excludes the two drafts (219.773459ms)
+✔ feed readers normalize the collector document and refuse to invent numbers (1.777208ms)
+✔ SSR renders the fixture numbers, the sign-up card (no in-card disclosure) and the Telegram line; no feed renders the unavailable state (581.17875ms)
+✔ worker SSRs the data pages through the renderer with the 60-second feed and embeds the compact feed for hydration (7.832833ms)
+✔ navigation and footer link to the data pages and the build ships the shared data module (0.912084ms)
+✔ server feed reader caches for 60 seconds and keeps the last good feed through a failed read (2.005542ms)
+✔ every src/data module the worker imports (transitively) is shipped with the server build (186.225417ms)
+✔ every server module the worker imports is shipped with the server build (4.630583ms)
+✔ venue and activities preload their own modules; compare and 404 keep the V3 pages module (4.782959ms)
+✔ vite config pins the venue graph: shared helpers, CSS-only route-v3-pages-* chunks and the preload helper (2.91ms)
+✔ the Worker keeps linking the venue page's stylesheets (all route-v3-pages-* chunks on /exchanges/<slug>) (1.97225ms)
+✔ route preload inspection accepts locale preparation and stays within its glob property (0.440584ms)
+✔ built entry: the venue route's preload list excludes the compare, activity and topic-guide graphs (0.975208ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ DeferUntilVisible interactionOnly renders the server HTML and opens only on interaction or an open <details> (5712.447958ms)
+✔ SSR venue and home pages hydrate without mismatches in en, it and ar (4581.603333ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11062.121583
