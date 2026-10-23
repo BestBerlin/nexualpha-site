@@ -103,7 +103,7 @@ export const QA_MANIFEST = Object.freeze({
       brandSlugAttr: "data-brand-slug",
     }),
     finePrint: FINE_PRINT_STRINGS,
-    finePrintExcludeSelector: "footer",
+    finePrintExcludeSelector: "footer, .h7-dock",
   }),
   exchanges: Object.freeze({
     path: "/zh-hans/exchanges",
