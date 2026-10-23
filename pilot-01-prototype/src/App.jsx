@@ -1111,7 +1111,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     <Header initialUrl={initialUrl} pageAlternates={pageAlternates} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <TickerBar locale={locale} initial={initialTicker} />
     <HomeV7 homeLatest={initialHomeLatest} locale={locale} market={route.market} whales={initialWhales} fundingFeed={initialFundingFeed} initialOfficialAnnouncements={initialOfficialAnnouncements} initialFlash={initialFlash} initialTicker={initialTicker} />
-    <ClosingBand locale={locale} />
+    <ClosingBand locale={locale} market={footerMarket} />
     <CrawlPriorityLinks locale={locale} scope="home" />
     {footer}
     {searchDialog}

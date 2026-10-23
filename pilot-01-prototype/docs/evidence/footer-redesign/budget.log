@@ -1,0 +1,1451 @@
+{
+  "status": "PASS",
+  "strict": true,
+  "assets": [
+    {
+      "name": "route-activity-7LKdWzPY.js",
+      "bytes": 886537
+    },
+    {
+      "name": "core-shared-BcE2-xGm.js",
+      "bytes": 574577
+    },
+    {
+      "name": "route-international-DcBy03dj.js",
+      "bytes": 324320
+    },
+    {
+      "name": "route-topic-guide-YhydhEz9.js",
+      "bytes": 311007
+    },
+    {
+      "name": "route-v3-venue-zPVvvpEH.js",
+      "bytes": 274840
+    },
+    {
+      "name": "data-compare-generated-BP7f3cks.js",
+      "bytes": 252257
+    },
+    {
+      "name": "route-data-BYvTeuzm.js",
+      "bytes": 205918
+    },
+    {
+      "name": "vendor-react-CUZ3TzEi.js",
+      "bytes": 194236
+    },
+    {
+      "name": "route-deposit-D3awCr1G.js",
+      "bytes": 193752
+    },
+    {
+      "name": "route-v3-pages-DV2Rgzfr.js",
+      "bytes": 187150
+    },
+    {
+      "name": "data-compare-direct-answers-DXwDVYEJ.js",
+      "bytes": 183236
+    },
+    {
+      "name": "route-coins-CZXHZ1df.js",
+      "bytes": 172894
+    },
+    {
+      "name": "route-brand-pages-D-1J4Q_V.js",
+      "bytes": 150825
+    },
+    {
+      "name": "data-v3-product-8JhxalgM.js",
+      "bytes": 143275
+    },
+    {
+      "name": "route-tokenized-assets-DBLbspx2.js",
+      "bytes": 141794
+    },
+    {
+      "name": "route-factbook-DXsrOn10.js",
+      "bytes": 134304
+    },
+    {
+      "name": "route-campaign-bybit-BtONEk8K.js",
+      "bytes": 133951
+    },
+    {
+      "name": "route-licenses-Vdsj6jWI.js",
+      "bytes": 127781
+    },
+    {
+      "name": "route-telegram-DjPu4VB7.js",
+      "bytes": 120709
+    },
+    {
+      "name": "route-v3-venue-faq-BIrTzC1f.js",
+      "bytes": 120611
+    },
+    {
+      "name": "index-CF341GPf.js",
+      "bytes": 107891
+    },
+    {
+      "name": "route-methodology-BuwLL8zp.js",
+      "bytes": 102196
+    },
+    {
+      "name": "data-topic-guides-DAk7chBm.js",
+      "bytes": 97711
+    },
+    {
+      "name": "route-news-detail-hL0V225s.js",
+      "bytes": 97472
+    },
+    {
+      "name": "route-campaign-kraken-BIekO5YI.js",
+      "bytes": 94891
+    },
+    {
+      "name": "coin-content-ja-BQkgg0DR.js",
+      "bytes": 94472
+    },
+    {
+      "name": "data-research-D5PwuMHx.js",
+      "bytes": 93811
+    },
+    {
+      "name": "data-factbook-DbBj6Svt.js",
+      "bytes": 93008
+    },
+    {
+      "name": "route-campaign-bitget-CT_eh66I.js",
+      "bytes": 92312
+    },
+    {
+      "name": "coin-content-vi-r6Cec0V0.js",
+      "bytes": 91636
+    },
+    {
+      "name": "academy-content-ru-DLuzHRe0.js",
+      "bytes": 91046
+    },
+    {
+      "name": "data-telegram-Cu1-cJp8.js",
+      "bytes": 89654
+    },
+    {
+      "name": "route-intel-tools-ChAFVo7w.js",
+      "bytes": 88348
+    },
+    {
+      "name": "route-campaign-landing-KYGf69Gd.js",
+      "bytes": 88090
+    },
+    {
+      "name": "coin-content-ko-Dep9YuoX.js",
+      "bytes": 85287
+    },
+    {
+      "name": "coin-content-fr-CSREDNVE.js",
+      "bytes": 85191
+    },
+    {
+      "name": "data-priority-venue-answers-3z8qXdnz.js",
+      "bytes": 84946
+    },
+    {
+      "name": "route-v3-venue-research-qvEjUv3I.js",
+      "bytes": 83984
+    },
+    {
+      "name": "coin-content-tr-BVTrraMk.js",
+      "bytes": 81905
+    },
+    {
+      "name": "route-rates-D-4j5V_J.js",
+      "bytes": 81157
+    },
+    {
+      "name": "coin-content-de-XO3OxGBe.js",
+      "bytes": 81099
+    },
+    {
+      "name": "data-aeo-questions-Dc67vdW8.js",
+      "bytes": 81097
+    },
+    {
+      "name": "route-v3-directory-DaRoHRO5.js",
+      "bytes": 80616
+    },
+    {
+      "name": "coin-content-es-yju-aI_f.js",
+      "bytes": 80059
+    },
+    {
+      "name": "coin-content-id-Cr3CkQk6.js",
+      "bytes": 79730
+    },
+    {
+      "name": "shared-venue-copy-CNxLMCin.js",
+      "bytes": 79646
+    },
+    {
+      "name": "coin-content-pt-br-B5Zf6i5L.js",
+      "bytes": 79365
+    },
+    {
+      "name": "academy-content-ar-Bt8OaWEN.js",
+      "bytes": 78822
+    },
+    {
+      "name": "route-beginner-DMkY43Qi.js",
+      "bytes": 76262
+    },
+    {
+      "name": "glossary-shard-ja-14-D0tMG9pa.js",
+      "bytes": 75097
+    },
+    {
+      "name": "home-below-fold-DKbJgkQi.js",
+      "bytes": 74208
+    },
+    {
+      "name": "coin-content-en-DQAYxyIt.js",
+      "bytes": 73303
+    },
+    {
+      "name": "route-collection-hubs-Bzo6cnK_.js",
+      "bytes": 72270
+    },
+    {
+      "name": "glossary-shard-ja-6-Cx7ddzGp.js",
+      "bytes": 71811
+    },
+    {
+      "name": "academy-content-ja-JRCWsURB.js",
+      "bytes": 71710
+    },
+    {
+      "name": "route-v3-registration-B7Q_uvbM.js",
+      "bytes": 70814
+    },
+    {
+      "name": "academy-content-vi-Cr0F93i2.js",
+      "bytes": 70429
+    },
+    {
+      "name": "glossary-shard-vi-14-s79BvxXc.js",
+      "bytes": 70002
+    },
+    {
+      "name": "route-radar-Ctl9yjxL.js",
+      "bytes": 69504
+    },
+    {
+      "name": "route-partners-ZuKfhFm3.js",
+      "bytes": 69402
+    },
+    {
+      "name": "glossary-shard-ko-14-B85jGReD.js",
+      "bytes": 69164
+    },
+    {
+      "name": "academy-content-ko-Cp7tAtRj.js",
+      "bytes": 68360
+    },
+    {
+      "name": "data-decision-content-Cu02VCt8.js",
+      "bytes": 66668
+    },
+    {
+      "name": "glossary-shard-tr-14-C3mZVXPO.js",
+      "bytes": 66552
+    },
+    {
+      "name": "route-onchain-Cz6Rfw6X.js",
+      "bytes": 66275
+    },
+    {
+      "name": "route-news-shared-DK_ktkrf.js",
+      "bytes": 66056
+    },
+    {
+      "name": "coin-content-zh-hans-Ctm9mIht.js",
+      "bytes": 65751
+    },
+    {
+      "name": "PlatformMatcher-CyKTqedH.js",
+      "bytes": 65647
+    },
+    {
+      "name": "glossary-shard-pt-br-14-Akhg0TQ8.js",
+      "bytes": 65251
+    },
+    {
+      "name": "route-glossary-DBI1cEpm.js",
+      "bytes": 65081
+    },
+    {
+      "name": "route-academy-Csh1xzHh.js",
+      "bytes": 65050
+    },
+    {
+      "name": "glossary-shard-ko-6-BL0do7G4.js",
+      "bytes": 64500
+    },
+    {
+      "name": "glossary-shard-id-14-Dn8sN8jg.js",
+      "bytes": 63359
+    },
+    {
+      "name": "glossary-shard-vi-6-K95EUtOM.js",
+      "bytes": 63218
+    },
+    {
+      "name": "glossary-shard-es-14-DWcxA2XN.js",
+      "bytes": 63107
+    },
+    {
+      "name": "data-official-research-lI6bynmd.js",
+      "bytes": 62715
+    },
+    {
+      "name": "glossary-shard-ja-2-DFqhCEWF.js",
+      "bytes": 62559
+    },
+    {
+      "name": "glossary-shard-ja-13-CsXXqxkX.js",
+      "bytes": 62452
+    },
+    {
+      "name": "glossary-shard-ja-1-BTPSiKQn.js",
+      "bytes": 61803
+    },
+    {
+      "name": "academy-content-fr-BeTLqvHx.js",
+      "bytes": 61691
+    },
+    {
+      "name": "glossary-shard-zh-hans-14-BwsWWeJU.js",
+      "bytes": 61500
+    },
+    {
+      "name": "glossary-shard-en-14-CBxmuSlO.js",
+      "bytes": 61118
+    },
+    {
+      "name": "academy-content-de-ByeAc33K.js",
+      "bytes": 60595
+    },
+    {
+      "name": "glossary-shard-tr-6-DpiJV5q4.js",
+      "bytes": 60530
+    },
+    {
+      "name": "route-data-assets-CbJ1ALmJ.js",
+      "bytes": 59957
+    },
+    {
+      "name": "academy-content-tr-2NZOFZG3.js",
+      "bytes": 59692
+    },
+    {
+      "name": "academy-content-es-Djof_tEd.js",
+      "bytes": 59229
+    },
+    {
+      "name": "glossary-shard-id-6-BG2o7rxt.js",
+      "bytes": 58860
+    },
+    {
+      "name": "glossary-shard-ja-3-DLlgJoZM.js",
+      "bytes": 58585
+    },
+    {
+      "name": "glossary-shard-pt-br-6-DbPkRo3_.js",
+      "bytes": 58539
+    },
+    {
+      "name": "route-v3-home-CCS8ca3Q.js",
+      "bytes": 58437
+    },
+    {
+      "name": "data-directory-context-Byxrm1gP.js",
+      "bytes": 58390
+    },
+    {
+      "name": "shared-tokenized-stocks-Ccih2jQZ.js",
+      "bytes": 57961
+    },
+    {
+      "name": "academy-content-id-Dhfaq7-T.js",
+      "bytes": 57903
+    },
+    {
+      "name": "glossary-shard-es-6-B9YW41PF.js",
+      "bytes": 57861
+    },
+    {
+      "name": "glossary-shard-vi-13-B0mowN51.js",
+      "bytes": 57830
+    },
+    {
+      "name": "route-tokenized-stocks-Bp_CkmLR.js",
+      "bytes": 57809
+    },
+    {
+      "name": "glossary-shard-vi-1-DgIFot40.js",
+      "bytes": 57681
+    },
+    {
+      "name": "academy-content-pt-br-BqEbRyo_.js",
+      "bytes": 57636
+    },
+    {
+      "name": "shared-whales-BtiWr8_l.js",
+      "bytes": 57623
+    },
+    {
+      "name": "glossary-shard-ko-1-BSb3d3DE.js",
+      "bytes": 57419
+    },
+    {
+      "name": "glossary-shard-vi-2-3w8F6oCl.js",
+      "bytes": 57279
+    },
+    {
+      "name": "glossary-shard-ko-2-BDQtU7Os.js",
+      "bytes": 57163
+    },
+    {
+      "name": "glossary-shard-zh-hans-6-BbrLzp8b.js",
+      "bytes": 56874
+    },
+    {
+      "name": "glossary-shard-ko-13-DZx2XqwA.js",
+      "bytes": 55987
+    },
+    {
+      "name": "glossary-shard-en-6-Dfu3ooqm.js",
+      "bytes": 55737
+    },
+    {
+      "name": "glossary-shard-ja-4-Bi1SdlMU.js",
+      "bytes": 55438
+    },
+    {
+      "name": "glossary-shard-tr-1-CBmknTT5.js",
+      "bytes": 55293
+    },
+    {
+      "name": "academy-content-en-B89dpN0P.js",
+      "bytes": 54448
+    },
+    {
+      "name": "glossary-shard-tr-13-AweuBII4.js",
+      "bytes": 54403
+    },
+    {
+      "name": "glossary-shard-tr-2-B0px8yKi.js",
+      "bytes": 54156
+    },
+    {
+      "name": "data-v3-interface-copy-DEHtVExU.js",
+      "bytes": 53997
+    },
+    {
+      "name": "data-news-library-DGVW6uV2.js",
+      "bytes": 53424
+    },
+    {
+      "name": "glossary-shard-id-2-lZ0vY2Du.js",
+      "bytes": 53040
+    },
+    {
+      "name": "glossary-shard-ko-3-D10ktGN_.js",
+      "bytes": 52897
+    },
+    {
+      "name": "glossary-shard-vi-3-CzBOKAki.js",
+      "bytes": 52814
+    },
+    {
+      "name": "glossary-shard-pt-br-13-BA25yYsP.js",
+      "bytes": 52754
+    },
+    {
+      "name": "glossary-shard-pt-br-2-yuSbbgxw.js",
+      "bytes": 52564
+    },
+    {
+      "name": "glossary-shard-es-1-BGuMq_XT.js",
+      "bytes": 52512
+    },
+    {
+      "name": "glossary-shard-es-13-34QGXrWB.js",
+      "bytes": 52219
+    },
+    {
+      "name": "glossary-shard-id-13-BSAZjSq7.js",
+      "bytes": 51831
+    },
+    {
+      "name": "glossary-shard-pt-br-1-HgVMsMhA.js",
+      "bytes": 51571
+    },
+    {
+      "name": "glossary-shard-id-1-_0S5wJR1.js",
+      "bytes": 51495
+    },
+    {
+      "name": "glossary-shard-es-2-Cd-Qn7Qx.js",
+      "bytes": 51490
+    },
+    {
+      "name": "glossary-index-ja-D2Gg4kVK.js",
+      "bytes": 51421
+    },
+    {
+      "name": "glossary-index-vi-Cwa7b_WN.js",
+      "bytes": 50934
+    },
+    {
+      "name": "route-apps-BbT-Hdgm.js",
+      "bytes": 50910
+    },
+    {
+      "name": "glossary-shard-zh-hans-2-B175OFlA.js",
+      "bytes": 50883
+    },
+    {
+      "name": "glossary-shard-en-1-BS5qVW0v.js",
+      "bytes": 50824
+    },
+    {
+      "name": "glossary-shard-en-13-kZflV4kp.js",
+      "bytes": 50758
+    },
+    {
+      "name": "route-v3-wizard-BG_mz3iB.js",
+      "bytes": 50744
+    },
+    {
+      "name": "glossary-shard-tr-3-B52OsRjv.js",
+      "bytes": 50657
+    },
+    {
+      "name": "glossary-shard-en-2-BWgweuHc.js",
+      "bytes": 50561
+    },
+    {
+      "name": "glossary-shard-zh-hans-13-CmZ5rw9K.js",
+      "bytes": 50059
+    },
+    {
+      "name": "glossary-shard-zh-hans-1-DbfIOAmK.js",
+      "bytes": 49847
+    },
+    {
+      "name": "glossary-shard-ko-4-Dqqp-Vux.js",
+      "bytes": 49589
+    },
+    {
+      "name": "academy-content-zh-hans-P_07lbN-.js",
+      "bytes": 49108
+    },
+    {
+      "name": "glossary-shard-ja-11-CkJbRXLB.js",
+      "bytes": 48752
+    },
+    {
+      "name": "academy-content-zh-hant-Mi_BascL.js",
+      "bytes": 48739
+    },
+    {
+      "name": "glossary-shard-ja-7-DAzmV5Wc.js",
+      "bytes": 48494
+    },
+    {
+      "name": "glossary-shard-vi-4-BMyVmK3r.js",
+      "bytes": 48444
+    },
+    {
+      "name": "glossary-shard-es-3-BirAFkrH.js",
+      "bytes": 48310
+    },
+    {
+      "name": "glossary-shard-pt-br-3-DRB9UPxN.js",
+      "bytes": 48261
+    },
+    {
+      "name": "glossary-shard-id-3-b6U0ILi5.js",
+      "bytes": 48113
+    },
+    {
+      "name": "glossary-shard-en-3-D-bfZifu.js",
+      "bytes": 47324
+    },
+    {
+      "name": "glossary-shard-zh-hans-3-B431ivQE.js",
+      "bytes": 47107
+    },
+    {
+      "name": "glossary-shard-tr-4-cHGReB0T.js",
+      "bytes": 47041
+    },
+    {
+      "name": "glossary-index-tr-C69FvYdA.js",
+      "bytes": 47007
+    },
+    {
+      "name": "glossary-index-ko-BMSIFwlY.js",
+      "bytes": 46470
+    },
+    {
+      "name": "glossary-index-pt-br-D5qZq6Z_.js",
+      "bytes": 45926
+    },
+    {
+      "name": "glossary-shard-vi-11-VTKHtka2.js",
+      "bytes": 45926
+    },
+    {
+      "name": "glossary-shard-id-4-BMpBGFg8.js",
+      "bytes": 45779
+    },
+    {
+      "name": "core-ui-CIoqOd1m.js",
+      "bytes": 45410
+    },
+    {
+      "name": "glossary-index-es-Cg8zdQPF.js",
+      "bytes": 45371
+    },
+    {
+      "name": "glossary-shard-ko-11-Biexs4VN.js",
+      "bytes": 45349
+    },
+    {
+      "name": "glossary-shard-vi-7-US68Ycf6.js",
+      "bytes": 45026
+    },
+    {
+      "name": "glossary-shard-ja-9-CO6cIuJI.js",
+      "bytes": 44948
+    },
+    {
+      "name": "glossary-shard-pt-br-4-C6XzP7g2.js",
+      "bytes": 44772
+    },
+    {
+      "name": "glossary-shard-es-4-DLPQQt-O.js",
+      "bytes": 44708
+    },
+    {
+      "name": "glossary-shard-ko-7-CKCpAdcU.js",
+      "bytes": 44649
+    },
+    {
+      "name": "glossary-shard-ja-0-HP0hf6Qa.js",
+      "bytes": 44505
+    },
+    {
+      "name": "glossary-shard-ja-10-IcfPFDCK.js",
+      "bytes": 44358
+    },
+    {
+      "name": "glossary-index-id-DveyzPCb.js",
+      "bytes": 43909
+    },
+    {
+      "name": "glossary-index-zh-hans-BFg4kMnn.js",
+      "bytes": 43855
+    },
+    {
+      "name": "route-flash-C8bb1MOo.js",
+      "bytes": 43828
+    },
+    {
+      "name": "glossary-shard-tr-11-DixWjecD.js",
+      "bytes": 43826
+    },
+    {
+      "name": "glossary-shard-en-4-FNyfZkRh.js",
+      "bytes": 43816
+    },
+    {
+      "name": "glossary-shard-zh-hans-4-CaVSKlTq.js",
+      "bytes": 43760
+    },
+    {
+      "name": "route-v3-calculators-BINHU8S0.js",
+      "bytes": 43377
+    },
+    {
+      "name": "glossary-shard-tr-7-30JR0vSQ.js",
+      "bytes": 42505
+    },
+    {
+      "name": "glossary-shard-vi-10-lYDdWUtT.js",
+      "bytes": 42193
+    },
+    {
+      "name": "route-news-list-xwcSCkgO.js",
+      "bytes": 42186
+    },
+    {
+      "name": "glossary-shard-es-11-BdycxfJX.js",
+      "bytes": 41494
+    },
+    {
+      "name": "glossary-shard-pt-br-11-DfwGFdVS.js",
+      "bytes": 41472
+    },
+    {
+      "name": "glossary-shard-vi-0-Dc-5yxQ6.js",
+      "bytes": 41458
+    },
+    {
+      "name": "data-referral-seo-DofxHDS1.js",
+      "bytes": 41407
+    },
+    {
+      "name": "glossary-shard-ja-12-CuLAHtLG.js",
+      "bytes": 41214
+    },
+    {
+      "name": "glossary-shard-en-11-Mhwm3TMH.js",
+      "bytes": 41040
+    },
+    {
+      "name": "glossary-shard-vi-9-CYbXk6BO.js",
+      "bytes": 40962
+    },
+    {
+      "name": "glossary-shard-id-11-Pe42kOwF.js",
+      "bytes": 40932
+    },
+    {
+      "name": "glossary-shard-ko-9-iP7B08Sq.js",
+      "bytes": 40869
+    },
+    {
+      "name": "glossary-shard-ko-10-BBz6qMek.js",
+      "bytes": 40817
+    },
+    {
+      "name": "glossary-shard-pt-br-7-CcIgiUgY.js",
+      "bytes": 40808
+    },
+    {
+      "name": "glossary-index-en-lGKKEBKm.js",
+      "bytes": 40614
+    },
+    {
+      "name": "data-promotions-DOOJ9g67.js",
+      "bytes": 40439
+    },
+    {
+      "name": "glossary-shard-ko-0-DCZcU_bg.js",
+      "bytes": 40395
+    },
+    {
+      "name": "glossary-shard-id-7-BYKhzXDV.js",
+      "bytes": 40127
+    },
+    {
+      "name": "data-brazil-market-BRxbxNLh.js",
+      "bytes": 40098
+    },
+    {
+      "name": "glossary-shard-es-7-Cg5fQrIm.js",
+      "bytes": 39959
+    },
+    {
+      "name": "glossary-shard-zh-hans-11-CIIHxeRQ.js",
+      "bytes": 39549
+    },
+    {
+      "name": "glossary-shard-tr-10-i2NaAliC.js",
+      "bytes": 39471
+    },
+    {
+      "name": "glossary-shard-zh-hans-7-Z4aZq4s-.js",
+      "bytes": 39374
+    },
+    {
+      "name": "glossary-shard-tr-9-ClKjmdTM.js",
+      "bytes": 39189
+    },
+    {
+      "name": "glossary-shard-tr-0-ibS0TxIz.js",
+      "bytes": 38880
+    },
+    {
+      "name": "glossary-shard-en-7-DKH2vulO.js",
+      "bytes": 38795
+    },
+    {
+      "name": "route-converter-DFAFztC_.js",
+      "bytes": 37968
+    },
+    {
+      "name": "glossary-shard-es-9-ByVcNFYH.js",
+      "bytes": 37908
+    },
+    {
+      "name": "glossary-shard-pt-br-9-CeWM0UCa.js",
+      "bytes": 37516
+    },
+    {
+      "name": "glossary-shard-es-10-Cq-qIrzi.js",
+      "bytes": 37356
+    },
+    {
+      "name": "glossary-shard-es-0-BywDogew.js",
+      "bytes": 37290
+    },
+    {
+      "name": "glossary-shard-id-9-Dzzx45rl.js",
+      "bytes": 37290
+    },
+    {
+      "name": "glossary-shard-pt-br-10-BU7u0LwW.js",
+      "bytes": 37224
+    },
+    {
+      "name": "glossary-shard-ko-12-CfQJFTK5.js",
+      "bytes": 37061
+    },
+    {
+      "name": "glossary-shard-en-0-Cc82efJf.js",
+      "bytes": 36704
+    },
+    {
+      "name": "glossary-shard-id-10-DllGNcBa.js",
+      "bytes": 36650
+    },
+    {
+      "name": "glossary-shard-en-9-BkdiqP0s.js",
+      "bytes": 36496
+    },
+    {
+      "name": "glossary-shard-pt-br-0-xQelUEB8.js",
+      "bytes": 36312
+    },
+    {
+      "name": "glossary-shard-en-10-DrVjTi2b.js",
+      "bytes": 36126
+    },
+    {
+      "name": "glossary-shard-zh-hans-10-bMD1KImB.js",
+      "bytes": 35955
+    },
+    {
+      "name": "glossary-shard-vi-12-BGFrq3gx.js",
+      "bytes": 35787
+    },
+    {
+      "name": "glossary-shard-zh-hans-9-B4UeuVKj.js",
+      "bytes": 35681
+    },
+    {
+      "name": "glossary-shard-id-0-DW7bTv7s.js",
+      "bytes": 35514
+    },
+    {
+      "name": "uk-CalxTbI4.js",
+      "bytes": 35300
+    },
+    {
+      "name": "glossary-shard-zh-hans-0-BK8O3XLq.js",
+      "bytes": 35149
+    },
+    {
+      "name": "ru-DbX6Qh17.js",
+      "bytes": 35058
+    },
+    {
+      "name": "glossary-shard-tr-12-BfSjhvVc.js",
+      "bytes": 34896
+    },
+    {
+      "name": "route-funding-matrix-BocJWn8B.js",
+      "bytes": 34856
+    },
+    {
+      "name": "glossary-shard-id-12-CB6-kknw.js",
+      "bytes": 34080
+    },
+    {
+      "name": "shared-answer-first-Dcfc6ewa.js",
+      "bytes": 33755
+    },
+    {
+      "name": "glossary-shard-es-12-JSKyP9u9.js",
+      "bytes": 33641
+    },
+    {
+      "name": "glossary-shard-pt-br-12-DPrxEj6e.js",
+      "bytes": 33439
+    },
+    {
+      "name": "glossary-shard-ja-15-DuI8s9kL.js",
+      "bytes": 33368
+    },
+    {
+      "name": "route-v3-social-proof-CxkPVPOg.js",
+      "bytes": 33187
+    },
+    {
+      "name": "ts-copy-ru-DdBY6xK0.js",
+      "bytes": 33104
+    },
+    {
+      "name": "ts-copy-uk-CSWvSEVp.js",
+      "bytes": 32580
+    },
+    {
+      "name": "glossary-shard-zh-hans-12-DdPmQ4QD.js",
+      "bytes": 32498
+    },
+    {
+      "name": "glossary-shard-en-12-DpnCMTQB.js",
+      "bytes": 31810
+    },
+    {
+      "name": "ts-copy-ur-B7XPJ3B-.js",
+      "bytes": 31707
+    },
+    {
+      "name": "glossary-shard-ja-5-DsYSMXfn.js",
+      "bytes": 31664
+    },
+    {
+      "name": "glossary-shard-vi-15-DLpY46rL.js",
+      "bytes": 30353
+    },
+    {
+      "name": "ts-copy-ar-CIkhBbod.js",
+      "bytes": 29917
+    },
+    {
+      "name": "glossary-shard-ko-15-DeED7qPn.js",
+      "bytes": 29700
+    },
+    {
+      "name": "shared-tokenized-stocks-live-N-2vlnvh.js",
+      "bytes": 29448
+    },
+    {
+      "name": "shared-exchange-facts-sQiXDdqU.js",
+      "bytes": 28744
+    },
+    {
+      "name": "glossary-shard-tr-15-fvKTwNfx.js",
+      "bytes": 28638
+    },
+    {
+      "name": "glossary-shard-ko-5-nyLJFso8.js",
+      "bytes": 28422
+    },
+    {
+      "name": "ar-DfnKRM4c.js",
+      "bytes": 28406
+    },
+    {
+      "name": "ur-CJ67qXvf.js",
+      "bytes": 28368
+    },
+    {
+      "name": "glossary-shard-vi-5-Do4mC3lB.js",
+      "bytes": 27966
+    },
+    {
+      "name": "data-campaign-copy-CLgf9Kxa.js",
+      "bytes": 27949
+    },
+    {
+      "name": "glossary-shard-pt-br-15-CDefFNch.js",
+      "bytes": 27714
+    },
+    {
+      "name": "glossary-shard-es-15-UxcY-Ikg.js",
+      "bytes": 27641
+    },
+    {
+      "name": "glossary-shard-id-15-VM-Imv-Y.js",
+      "bytes": 27270
+    },
+    {
+      "name": "glossary-shard-tr-5-DuX1tNFe.js",
+      "bytes": 27150
+    },
+    {
+      "name": "glossary-shard-zh-hans-15-C3NyZ0Io.js",
+      "bytes": 26578
+    },
+    {
+      "name": "glossary-shard-ja-8-CMpQEWod.js",
+      "bytes": 26473
+    },
+    {
+      "name": "glossary-shard-en-15-wmGX0S4w.js",
+      "bytes": 26383
+    },
+    {
+      "name": "ts-copy-vi-pmTiYP4e.js",
+      "bytes": 26094
+    },
+    {
+      "name": "glossary-shard-id-5-jnK6aIiT.js",
+      "bytes": 25972
+    },
+    {
+      "name": "ts-copy-ja-CdhSw6kY.js",
+      "bytes": 25866
+    },
+    {
+      "name": "glossary-shard-pt-br-5-BzAsAXBG.js",
+      "bytes": 25516
+    },
+    {
+      "name": "glossary-shard-es-5-C5wttk_p.js",
+      "bytes": 25288
+    },
+    {
+      "name": "glossary-shard-zh-hans-5-qq7DlPCL.js",
+      "bytes": 25062
+    },
+    {
+      "name": "glossary-shard-en-5-BM5hrmPU.js",
+      "bytes": 24879
+    },
+    {
+      "name": "ja-BDg57chl.js",
+      "bytes": 24653
+    },
+    {
+      "name": "glossary-shard-vi-8-CvHW1QdC.js",
+      "bytes": 24341
+    },
+    {
+      "name": "glossary-shard-ko-8-BMMu9NOM.js",
+      "bytes": 24266
+    },
+    {
+      "name": "ts-copy-ko-CKhbmM3o.js",
+      "bytes": 24170
+    },
+    {
+      "name": "ko-DgG2llxq.js",
+      "bytes": 24018
+    },
+    {
+      "name": "glossary-links-ja-Ck07mUjc.js",
+      "bytes": 23932
+    },
+    {
+      "name": "route-v3-pages-copy-jJUOIF6W.js",
+      "bytes": 23870
+    },
+    {
+      "name": "ts-copy-fr-CGAr0FeC.js",
+      "bytes": 23829
+    },
+    {
+      "name": "de-C4OgUBg-.js",
+      "bytes": 23535
+    },
+    {
+      "name": "data-compare-faq-locales-D_is2dGN.js",
+      "bytes": 23318
+    },
+    {
+      "name": "glossary-shard-tr-8-DGbIBbnY.js",
+      "bytes": 23256
+    },
+    {
+      "name": "ts-copy-es-D6stBVB8.js",
+      "bytes": 22964
+    },
+    {
+      "name": "ts-copy-pt-br-BS8bBhBZ.js",
+      "bytes": 22910
+    },
+    {
+      "name": "ts-copy-tr-BW430Wht.js",
+      "bytes": 22831
+    },
+    {
+      "name": "en-qi6rJxuA.js",
+      "bytes": 22432
+    },
+    {
+      "name": "CampaignRadar-vdFyv3Ec.js",
+      "bytes": 22269
+    },
+    {
+      "name": "ts-copy-de-CTDp8Ksj.js",
+      "bytes": 22245
+    },
+    {
+      "name": "id-B18BoU7n.js",
+      "bytes": 22098
+    },
+    {
+      "name": "glossary-shard-es-8-tR35Qdlt.js",
+      "bytes": 22022
+    },
+    {
+      "name": "glossary-shard-pt-br-8-CDEwI_YA.js",
+      "bytes": 21984
+    },
+    {
+      "name": "pt-BR--V5KDQXq.js",
+      "bytes": 21967
+    },
+    {
+      "name": "ts-copy-it-CsQ3gTe2.js",
+      "bytes": 21923
+    },
+    {
+      "name": "route-v3-pages-return-banner-EWVm1pYa.js",
+      "bytes": 21837
+    },
+    {
+      "name": "glossary-links-vi-DhcuT1aT.js",
+      "bytes": 21600
+    },
+    {
+      "name": "glossary-shard-en-8-CZ48cdAg.js",
+      "bytes": 21546
+    },
+    {
+      "name": "ts-copy-id-CeofQfDu.js",
+      "bytes": 21457
+    },
+    {
+      "name": "glossary-shard-id-8-DTGmh30V.js",
+      "bytes": 21450
+    },
+    {
+      "name": "zh-Hans-BRk6_H8D.js",
+      "bytes": 21281
+    },
+    {
+      "name": "glossary-shard-zh-hans-8-0ZrKnSOY.js",
+      "bytes": 21094
+    },
+    {
+      "name": "shared-campaign-feature-MFJZiFfb.js",
+      "bytes": 21075
+    },
+    {
+      "name": "shared-glossary-tooltip-87-u4W4I.js",
+      "bytes": 20818
+    },
+    {
+      "name": "ts-copy-zh-hans-C9QUF7F4.js",
+      "bytes": 20725
+    },
+    {
+      "name": "glossary-links-tr-DGmzXJUd.js",
+      "bytes": 20680
+    },
+    {
+      "name": "ts-copy-zh-hant-BoDosdCW.js",
+      "bytes": 20662
+    },
+    {
+      "name": "ts-copy-en-JB9o36dn.js",
+      "bytes": 20601
+    },
+    {
+      "name": "fr-NDrTdT0H.js",
+      "bytes": 20538
+    },
+    {
+      "name": "es-DFPjBmK6.js",
+      "bytes": 20414
+    },
+    {
+      "name": "glossary-links-ko-CJddU3jM.js",
+      "bytes": 20246
+    },
+    {
+      "name": "vi-BBxU1KpV.js",
+      "bytes": 19921
+    },
+    {
+      "name": "route-v3-readiness-DvMQ0U3k.js",
+      "bytes": 19838
+    },
+    {
+      "name": "glossary-links-es-B1QjkOuN.js",
+      "bytes": 19227
+    },
+    {
+      "name": "tr-BKXtn8LP.js",
+      "bytes": 19072
+    },
+    {
+      "name": "glossary-links-zh-hans-C_kL9342.js",
+      "bytes": 18752
+    },
+    {
+      "name": "glossary-links-pt-br-QIpAUPys.js",
+      "bytes": 18537
+    },
+    {
+      "name": "it-dfqk3Ah1.js",
+      "bytes": 18095
+    },
+    {
+      "name": "glossary-links-id-Dl-MoJLs.js",
+      "bytes": 17769
+    },
+    {
+      "name": "route-v3-compare-final-choice-lqoI5Qjj.js",
+      "bytes": 16722
+    },
+    {
+      "name": "shared-hero-verify-copy-DWCdgWKr.js",
+      "bytes": 16083
+    },
+    {
+      "name": "zh-Hant-UETjuVne.js",
+      "bytes": 15386
+    },
+    {
+      "name": "home-globe-Cqh31b82.js",
+      "bytes": 14536
+    },
+    {
+      "name": "glossary-content-loader-BZg9OHUM.js",
+      "bytes": 14431
+    },
+    {
+      "name": "glossary-links-en-CGOax2N8.js",
+      "bytes": 14147
+    },
+    {
+      "name": "CrawlPriorityLinks-CIL7isXr.js",
+      "bytes": 13344
+    },
+    {
+      "name": "shared-fiat-_nuEJ9Fb.js",
+      "bytes": 13260
+    },
+    {
+      "name": "shared-hero-lab-copy-C25vDuSG.js",
+      "bytes": 12316
+    },
+    {
+      "name": "shared-home-calculator-CvCKz-UR.js",
+      "bytes": 11663
+    },
+    {
+      "name": "route-market-B1lGVbsC.js",
+      "bytes": 11514
+    },
+    {
+      "name": "shared-onsite-telegram-handoff-_IdADuO7.js",
+      "bytes": 10323
+    },
+    {
+      "name": "CrossroadsCompare-LExMcK_c.js",
+      "bytes": 10261
+    },
+    {
+      "name": "CommandFinder-DIitLFl8.js",
+      "bytes": 9746
+    },
+    {
+      "name": "shared-research-DFFvSOCq.js",
+      "bytes": 9711
+    },
+    {
+      "name": "route-v3-research-panels-DPiLW1uX.js",
+      "bytes": 9638
+    },
+    {
+      "name": "route-topic-guide-bridge-rm2wBOvZ.js",
+      "bytes": 8364
+    },
+    {
+      "name": "shared-registration-helpers-CoE9lxaq.js",
+      "bytes": 7882
+    },
+    {
+      "name": "ToolArticleLinks-CEzksH74.js",
+      "bytes": 7772
+    },
+    {
+      "name": "HomeTokenizedStrip-C6W93QaQ.js",
+      "bytes": 7553
+    },
+    {
+      "name": "route-v3-pages-strip-BlmxMovc.js",
+      "bytes": 6127
+    },
+    {
+      "name": "shared-hero-copy-VgGoPtle.js",
+      "bytes": 5882
+    },
+    {
+      "name": "route-kol-Cs66yfSk.js",
+      "bytes": 5647
+    },
+    {
+      "name": "route-v3-pages-shared-CCafBTfB.js",
+      "bytes": 4431
+    },
+    {
+      "name": "shared-telegram-cta-BY5DH3sw.js",
+      "bytes": 4324
+    },
+    {
+      "name": "shared-copy-feedback-ByooC0gS.js",
+      "bytes": 4076
+    },
+    {
+      "name": "route-embed-CuwX7RQn.js",
+      "bytes": 3720
+    },
+    {
+      "name": "home7-board-motion-BzNI2vYu.js",
+      "bytes": 3661
+    },
+    {
+      "name": "ticker-live-X7-Ok6Gy.js",
+      "bytes": 3446
+    },
+    {
+      "name": "route-v3-pages-detail-stocks-BxDM-0UJ.js",
+      "bytes": 2295
+    },
+    {
+      "name": "shared-json-polling-CU55rQSN.js",
+      "bytes": 2232
+    },
+    {
+      "name": "shared-compare-picker-Bpo6JG3L.js",
+      "bytes": 2050
+    },
+    {
+      "name": "route-v3-pages-state-DcLJvpGM.js",
+      "bytes": 1790
+    },
+    {
+      "name": "shared-glossary-link-4aV6HaBo.js",
+      "bytes": 1529
+    },
+    {
+      "name": "SearchDialog-CqihLjQV.js",
+      "bytes": 1363
+    },
+    {
+      "name": "route-v3-decision-articles-BClXWlig.js",
+      "bytes": 1300
+    },
+    {
+      "name": "shared-market-events-client-Bt5EBizC.js",
+      "bytes": 1169
+    },
+    {
+      "name": "shared-compare-routes-DNIoFSC7.js",
+      "bytes": 1104
+    },
+    {
+      "name": "shared-intel-tool-links-BMvXnQPv.js",
+      "bytes": 722
+    },
+    {
+      "name": "shared-telegram-return-91zPkc3s.js",
+      "bytes": 340
+    },
+    {
+      "name": "shared-brazil-paths-BWwlqz0u.js",
+      "bytes": 271
+    }
+  ],
+  "checks": [
+    {
+      "label": "app shell",
+      "asset": "index-CF341GPf.js",
+      "candidates": [
+        "index-CF341GPf.js"
+      ],
+      "bytes": 107891,
+      "maxBytes": 400000,
+      "pass": true
+    },
+    {
+      "label": "V3 route",
+      "asset": "route-v3-pages-DV2Rgzfr.js",
+      "candidates": [
+        "route-v3-pages-DV2Rgzfr.js"
+      ],
+      "bytes": 187150,
+      "maxBytes": 320000,
+      "pass": true
+    },
+    {
+      "label": "shared decision navigation CSS",
+      "asset": "shared-decision-rail-DE-Xm3Ow.css",
+      "pass": true
+    },
+    {
+      "label": "shared scenario copy CSS",
+      "asset": "shared-decision-return-DP_5KV8G.css",
+      "pass": true
+    },
+    {
+      "label": "home initial JS (static closure of the entry, gzip)",
+      "asset": "core-shared-BcE2-xGm.js vendor-react-CUZ3TzEi.js index-CF341GPf.js core-ui-CIoqOd1m.js shared-hero-copy-VgGoPtle.js route-v3-pages-strip-BlmxMovc.js shared-json-polling-CU55rQSN.js shared-brazil-paths-BWwlqz0u.js",
+      "bytes": 317517,
+      "maxBytes": 350000,
+      "chunks": [
+        {
+          "name": "core-shared-BcE2-xGm.js",
+          "bytes": 574577,
+          "gzipBytes": 197049
+        },
+        {
+          "name": "vendor-react-CUZ3TzEi.js",
+          "bytes": 194236,
+          "gzipBytes": 60670
+        },
+        {
+          "name": "index-CF341GPf.js",
+          "bytes": 107891,
+          "gzipBytes": 34378
+        },
+        {
+          "name": "core-ui-CIoqOd1m.js",
+          "bytes": 45410,
+          "gzipBytes": 18312
+        },
+        {
+          "name": "shared-hero-copy-VgGoPtle.js",
+          "bytes": 5882,
+          "gzipBytes": 3082
+        },
+        {
+          "name": "route-v3-pages-strip-BlmxMovc.js",
+          "bytes": 6127,
+          "gzipBytes": 2747
+        },
+        {
+          "name": "shared-json-polling-CU55rQSN.js",
+          "bytes": 2232,
+          "gzipBytes": 1069
+        },
+        {
+          "name": "shared-brazil-paths-BWwlqz0u.js",
+          "bytes": 271,
+          "gzipBytes": 210
+        }
+      ],
+      "pass": true
+    }
+  ]
+}

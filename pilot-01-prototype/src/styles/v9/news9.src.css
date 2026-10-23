@@ -1,4 +1,5 @@
 /* scope: #top.news-detail-page */
+@import "../../components/shared/card-art.css";
 /* Article template (/news/<slug>), inner-page pass 2026-10-23: the home canvas and panels around the existing
    editorial grammar (measure, 17/1.7 body, CJK 1.8 and the data rule stay as designed in v9). Adds the in-article
    exchange card (SponsoredSlot sign-up variant), Telegram cards that read as one family, related-article tiles with a
@@ -62,3 +63,59 @@ html body:has(main#top.news-detail-page){background-color:#08090C;background-ima
 }
 @ :is(a,button,summary):focus-visible{outline:2px solid var(--x-ac);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){@ :is(.news-detail__related-card,.news-tg-join a,.news-tg-alerts a,.sponsored-slot__card a){transition:none}}
+
+/* ---------- Article visual anchors: fixed banner, source-bound figure cards, evidence panels ---------- */
+@ .news-detail__category-art{margin-block-end:24px;border:1px solid var(--x-line);border-radius:12px;overflow:hidden}
+@ .news-detail__category-art .h7-lt-img{block-size:160px;aspect-ratio:auto;border:0}
+@ .news-detail__category-art .h7-lt-logos :is(img,[data-brand-fallback]){inline-size:64px;block-size:64px}
+@ .news-detail__category-art .h7-lt-glyph{inline-size:64px;block-size:64px}
+@ .news-detail__category-art .h7-lt-tag{font-family:var(--x-mono)}
+@ .news-detail__figures{margin-block:24px 32px;padding:20px;border:1px solid var(--x-line);border-radius:12px;background:var(--x-sf);max-inline-size:100%;box-sizing:border-box}
+@ .news-detail__figures > .nx-rule{margin:0 0 16px}
+@ .news-detail__figures ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px;padding:0;margin:0;list-style:none}
+@ .news-detail__figures li{display:grid;grid-template-columns:32px minmax(0,1fr);align-content:start;align-items:center;gap:12px 8px;min-inline-size:0;padding:16px;border:1px solid var(--x-line);border-radius:8px;background:var(--x-sf)}
+@ .news-detail__figure-icon{display:grid;place-items:center;inline-size:32px;block-size:32px;border:1px solid var(--x-line2);border-radius:8px;color:var(--x-ink2)}
+@ .news-detail__figure-icon svg{inline-size:20px;block-size:20px}
+@ .news-detail__figure-value{font:500 28px/1.15 var(--x-mono);font-variant-numeric:tabular-nums;letter-spacing:-.04em;color:var(--x-ink);overflow-wrap:anywhere}
+@ .news-detail__figures li p{grid-column:1/-1;margin:0;font-size:14px;line-height:1.65;color:var(--x-ink2);overflow-wrap:anywhere}
+@ .news-detail__prose--deep{counter-reset:article-section}
+@ .news-detail__prose--deep > h2{display:flex;align-items:baseline;gap:12px;padding-block-start:24px;border-block-start:1px solid var(--x-line)}
+@ .news-detail__prose--deep > h2::before{counter-increment:article-section;content:counter(article-section,decimal-leading-zero);flex:none;font:500 14px/1.5 var(--x-mono);font-variant-numeric:tabular-nums;color:var(--x-ink3)}
+@ .news-detail__prose blockquote{position:relative;padding-block:24px;padding-inline:56px 24px;border:1px solid var(--x-line);border-inline-start:2px solid var(--x-line2);border-radius:12px;background:var(--x-sf);color:var(--x-ink)}
+@ .news-detail__prose blockquote::before{content:'“';position:absolute;inset-block-start:16px;inset-inline-start:16px;font:500 44px/1 Georgia,serif;color:var(--x-ink3)}
+@ .news-detail__prose blockquote p{font-size:20px;line-height:1.55;color:var(--x-ink);text-wrap:pretty}
+@ .news-detail__table-block{overflow:hidden;border:1px solid var(--x-line2);border-radius:12px;background:var(--x-sf)}
+@ .news-detail__table-block::before{content:"";display:block;block-size:8px;background:repeating-linear-gradient(90deg,var(--x-line2) 0 1px,transparent 1px 24px);border-block-end:1px solid var(--x-line)}
+@ .news-detail__table-scroll{margin:0;border:0;border-radius:0}
+@ .news-detail__table-scroll th{padding:14px 16px}
+@ .news-detail__table-scroll td{padding:14px 16px;border-block-end:1px solid var(--x-line)}
+@ .news-detail__table-scroll tbody tr:last-child td{border-block-end:0}
+@ .news-detail__related-articles{gap:16px}
+@ .news-detail__related-articles > li{min-inline-size:0}
+@ .news-detail__related-card{padding:0;gap:0;overflow:hidden;grid-template-rows:auto auto 1fr}
+@ .news-detail__related-card .h7-lt-img{inline-size:100%;aspect-ratio:2.4/1;border-block-end:1px solid var(--x-line)}
+@ .news-detail__related-card .h7-lt-tag{font-family:var(--x-mono)}
+@ .news-detail__related-card .news-detail__related-meta{padding:16px 16px 8px}
+@ .news-detail__related-card .news-detail__related-title{padding:0 16px 20px;font-size:16px}
+@ .sponsored-slot__card--signup{box-shadow:none;background:var(--x-sf);border-color:var(--x-line2);padding:24px;gap:16px}
+@ .sponsored-slot__brand img{inline-size:48px;block-size:48px}
+@ .sponsored-slot__share b{background:none;-webkit-text-fill-color:var(--x-ink);color:var(--x-ink)}
+@ .sponsored-slot__card--signup > a{box-shadow:none;border-radius:8px}
+@ .sponsored-slot__card--signup .commission-disclosure{grid-column:1/-1}
+@media(max-width:640px){
+  @ .news-detail__category-art{margin-block-end:20px}
+  @ .news-detail__category-art .h7-lt-img{block-size:120px}
+  @ .news-detail__figures{padding:16px}
+  @ .news-detail__figures ul{grid-template-columns:minmax(0,1fr)}
+  @ .news-detail__figures li{grid-template-columns:32px minmax(0,1fr)}
+  @ .news-detail__figures li p{font-size:14px}
+  @ .news-detail__related-articles{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  @ .news-detail__related-card .news-detail__related-meta{padding:12px 12px 8px;font-size:12px}
+  @ .news-detail__related-card .news-detail__related-title{padding:0 12px 16px;font-size:14px}
+  @ .news-detail__related-card .h7-lt-img{aspect-ratio:1.8/1}
+  @ .news-detail__related-card .h7-lt-logos :is(img,[data-brand-fallback]){inline-size:40px;block-size:40px}
+  @ .news-detail__related-card .h7-lt-tag{display:none}
+  @ .news-detail__prose blockquote{padding-block:20px;padding-inline:48px 16px}
+  @ .news-detail__prose blockquote p{font-size:18px}
+}
+@media(max-width:359px){@ .news-detail__related-articles{grid-template-columns:minmax(0,1fr)}}

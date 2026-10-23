@@ -1,0 +1,12 @@
+✔ shared art is deterministic and decorative, and priority logos reserve their size (7.602459ms)
+✔ ambiguous everyday words do not invent related exchanges (0.524166ms)
+✔ home consumes art from shared module with no reverse home dependency (0.353958ms)
+✔ built home entry excludes the extracted art and venue icon helpers (7.121333ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 223.549

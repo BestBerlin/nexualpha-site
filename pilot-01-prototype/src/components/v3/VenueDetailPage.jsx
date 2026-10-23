@@ -77,6 +77,8 @@ import { updatePath } from "../../data/activity-update-path.js";
 import "./venue-popular-coins.css";
 import { VenueTokenizedStocks } from "../tokenized-stocks/VenueTokenizedStocks.jsx";
 import { withoutTurkeyUnlisted } from "../../data/partner-geo-policy.js";
+import CardArt from "../shared/CardArt.jsx";
+import { VenueVisualIcon, venueFactIcon } from "./VenueDetailPageVisuals.jsx";
 
 const VENUE_COINS_COPY = {
   en: { title: "Popular coins on {venue}", all: "All coins" },
@@ -434,6 +436,7 @@ function VenueDecisionStrip({ text, profile, decision, locale }) {
   return <div className="v3-venue-decision-strip" role="group" aria-label={text.profileSignal}>
     {items.slice(skipFit ? 1 : 0).filter((item) => item.value).map((item, index) => (
       <article key={item.label}>
+        <VenueVisualIcon kind={index === 0 ? "identity" : "shield"} />
         <span>{item.label}</span>
         <strong lang={item.locale ?? undefined} dir={item.locale ? textDirectionForLocale(item.locale) : undefined}>{sanitizePublicText(item.value)}</strong>
       </article>
@@ -443,7 +446,7 @@ function VenueDecisionStrip({ text, profile, decision, locale }) {
 
 function SourceList({ text, profile, locale }) {
   return <div className="v3-source-list">
-    <h3>{text.sourceIntake}</h3>
+    <h3><VenueVisualIcon kind="source" />{text.sourceIntake}</h3>
     <div className="v3-source-list__meta">
       {profile.officialDomain && <p><span>{text.officialDomain}</span><strong translate="no" lang="en" dir="ltr">{profile.officialDomain}</strong></p>}
       {profile.sourceHost && <p><span>{text.sourceHost}</span><strong translate="no" lang="en" dir="ltr">{profile.sourceHost}</strong></p>}
@@ -822,7 +825,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         <LocalLink locale={locale} href={`/exchanges?${contextSearch}`} className="v3-back-link">
           ← {isZhLocale ? zhText(locale, "返回交易所目录", "返回交易所目錄") : text.backToDirectory}
         </LocalLink>
-        {APP_DOWNLOAD_SLUGS.includes(profile.slug) && <LocalLink locale={locale} href={`${appDownloadPath(profile.slug)}?${contextSearch}`} className="v3-back-link">{profile.name} · {appDownloadLabel(locale)}</LocalLink>}
+        {APP_DOWNLOAD_SLUGS.includes(profile.slug) && <LocalLink locale={locale} href={`${appDownloadPath(profile.slug)}?${contextSearch}`} className="v3-back-link vx-app-link"><VenueVisualIcon kind="app" /><span>{profile.name} · {appDownloadLabel(locale)}</span><span aria-hidden="true">↗</span></LocalLink>}
       </div>
 
       {!nativeReferral && venueCampaignBanners}
@@ -897,7 +900,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
             {venueDirectAnswer.reviewedAt && (
               <time className="v3-venue-direct-answer__reviewed" dateTime={isoDay(venueDirectAnswer.reviewedAt)}>{isoDates(venueDirectAnswer.reviewedLabel)}</time>
             )}
-            <p>{venueDirectAnswer.body}</p>
+            <div className="vx-answer-body"><VenueVisualIcon kind="source" /><p>{venueDirectAnswer.body}</p></div>
             {priorityAnswer && <details className="v3-venue-direct-answer__sources">
               <summary>{locale === "zh-Hant" ? "費用、使用條件與官方資料" : isZhLocale ? "费用、使用条件与官方资料" : ({"es": "Costes, condiciones y fuentes oficiales", "pt-BR": "Custos, condições e fontes oficiais", "fr": "Frais, conditions et sources officielles", "de": "Kosten, Bedingungen und offizielle Quellen", "ja": "費用・条件・公式ソース", "ko": "비용, 조건, 공식 출처", "tr": "Maliyetler, koşullar ve resmî kaynaklar", "ru": "Расходы, условия и официальные источники", "ar": "التكاليف والشروط والمصادر الرسمية", "id": "Biaya, ketentuan, dan sumber resmi", "vi": "Chi phí, điều kiện và nguồn chính thức", "it": "Costi, condizioni e fonti ufficiali",
               // l10n: needs native review
@@ -988,18 +991,18 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     <ExchangeFiatSection slug={profile.slug} locale={locale} market={effectiveMarket} />
     <VenueSectionDisclosure label={slimmingUi.facts}>
     <ExchangeLicenseSection slug={profile.slug} locale={locale} market={effectiveMarket} />
-    <ExchangeKeyFacts slug={profile.slug} locale={locale} market={effectiveMarket} />
-    <ExchangeFactsV5 slug={profile.slug} locale={locale} profile={profile} />
+    <ExchangeKeyFacts slug={profile.slug} locale={locale} market={effectiveMarket} renderIcon={(id) => <VenueVisualIcon kind={venueFactIcon(id)} />} />
+    <ExchangeFactsV5 slug={profile.slug} locale={locale} profile={profile} visual={{ products: <VenueVisualIcon kind="products" />, eligibility: <VenueVisualIcon kind="globe" /> }} />
     </VenueSectionDisclosure>
     {(latestNews.length > 0 || hubTools.length > 0) && <>
-    <HubNewsLinks locale={locale} name={profile.name || venue.name} items={latestNews} tools={hubTools} id={`latest-${profile.slug}`} />
+    <HubNewsLinks locale={locale} name={profile.name || venue.name} items={latestNews} tools={hubTools} id={`latest-${profile.slug}`} renderArt={(item) => <CardArt item={{ ...item, categoryKey: item.category, venues: [profile.slug] }} />} />
     </>}
 
     {/* One "Sources" disclosure: account and costs, sources and security, and follow-up were three stacked disclosures. */}
     <section className="v2-section v3-profile-research-hub" id="source-review">
       <details className="v3-profile-sources-group" id="sources">
         <summary className="v3-profile-sources-group__summary">
-          <strong>{profileChapters[1]}</strong>
+          <VenueVisualIcon kind="shield" /><strong>{profileChapters[1]}</strong>
           <span>{profileChapters[0]} · {profileChapters[2]}</span>
           <b aria-hidden="true">＋</b>
         </summary>
@@ -1024,7 +1027,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
       <SectionRule stamp={related.length || null} />
       <div className="section-lead"><h2>{relatedAreReviewed ? text.reviewedActivity : text.activityState}</h2>{relatedAreReviewed && <span>{text.verifiedOnly}</span>}</div>
       {/* empty state: one line and one link (no disclosure dressed as a button) */}
-      {related.length ? <ActivityCards locale={locale} updates={related} /> : <p className="v3-activity-empty v3-activity-empty--line" role="status">{relatedEmptyLabel} <LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink></p>}
+      {related.length ? <ActivityCards locale={locale} updates={related} /> : <p className="v3-activity-empty v3-activity-empty--line" role="status"><VenueVisualIcon kind="source" /><span>{relatedEmptyLabel} <LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink></span></p>}
       {related.length > 0 && <div className="v3-activity-panel__actions"><LocalLink locale={locale} href="/activities">{slimmingUi.all}</LocalLink><LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink><details className="research-references"><summary>{text.openOfficialSource}</summary><SourceList text={text} profile={profile} locale={locale} /></details></div>}
     </section>
 

@@ -1,0 +1,78 @@
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ directive parsing: known widgets and aliases, symbols for funding, unknown = nothing, prose untouched (4346.689875ms)
+✔ model: widget heights, tool links and copy in all 17 locales (1.82075ms)
+✔ isolate + strip: a directive glued to prose becomes its own paragraph; plain-text surfaces drop it (0.11725ms)
+✔ article SSR renders the embeds (en) and hydrates without mismatch (763.05175ms)
+✔ article SSR renders the embeds (ar) and hydrates without mismatch (539.163959ms)
+✔ worker fallback article HTML (no SSR renderer) emits the same embed blocks (5.746459ms)
+✔ funding widget ?symbol= lists that row first and highlights it (1.019083ms)
+✔ content importer passes the directive through unchanged (5.206209ms)
+✔ bounded entity network links actual exchange, compare, coin and relevant tools in every locale (141.581709ms)
+✔ entity-free articles have informational hub links; comparisons are never invented (4.801375ms)
+✔ recent shared-entity research excludes self, unrelated and unpublished articles (1.625125ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ article SSR emits the bounded network and two recent related articles as plain anchors (4551.624833ms)
+✔ chronological category neighbors give older indexable research three referring peers (0.661375ms)
+✔ compact hydration pool retains exactly the recent cards and chronological reading links (1.932708ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ request-time article SSR carries only rendered news links and hydrates without mismatch (4474.932458ms)
+✔ matching comparisons use the shared complete curated route inventory (0.7405ms)
+✔ five same-locale indexable related editions include the two newest (0.875958ms)
+✔ neutral entity-free articles reserve an informational exchange destination before optional tools (1.115042ms)
+✔ related research excludes malformed dates as well as noindex and missing editions (0.34775ms)
+✔ venue-free multi-topic articles reserve a permitted exchange profile before optional tools (0.437083ms)
+✔ article converter links preserve the complete served universe and fall back for unsupported coins (4.714708ms)
+▲ [WARNING] Duplicate key "zh-Hant" in object literal [duplicate-object-key]
+
+    <stdin>:3283:4:
+      3283 │     "zh-Hant": ["香港加密平台帳戶核對：SFC、HKD、eD...
+           ╵     ~~~~~~~~~
+
+  The original key "zh-Hant" is here:
+
+    <stdin>:3281:4:
+      3281 │     "zh-Hant": ["香港加密平台帳戶核對：SFC、HKD、eD...
+           ╵     ~~~~~~~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+✔ the stylesheets of lazily loaded compare components keep their chunk names (2.245042ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ every lazily styled component in the SSR markup has its stylesheet linked on that route (4052.644583ms)
+✔ compare hero actions: SSR markup and hydrated markup are identical (no layout change at hydration) (1897.917042ms)
+✔ built HTML for compare and directory routes keeps the picker stylesheet and ships no disclosure-line chunk (2.658625ms)
+✔ comparison matrix omits all-pending rows but keeps sourced and CTA rows visible (232.615208ms)
+✔ comparison matrix preserves hero partner CTAs while routing matrix actions onsite for Bybit vs Bitget (253.207625ms)
+✔ comparison helper labels avoid English fallback and omit pending rows in all 17 locales (432.702791ms)
+✔ Bybit vs Bitget compare renders reviewed editorial differences and no legacy fee bullet (234.0445ms)
+✔ Binance vs OKX compare renders reviewed editorial differences without commercial unlock (220.029708ms)
+✔ article endpoint returns one full article plus summaries of linked articles only (394.329792ms)
+✔ client loader uses the article endpoint and falls back to the full feed (1648.833667ms)
+✔ feed schema: editions may use any of the 15 locale keys and stay compatible with en + zh-Hans articles (4.850167ms)
+✔ article links use the locale path only for articles that carry that edition (1.069208ms)
+✔ worker route metadata indexes /tr/news/<slug> for an article with a tr body and keeps noindex without it (38.227916ms)
+✔ worker HTML for a localized edition carries the native body, lang attribute and metadata (153.375417ms)
+✔ locale news index is indexable once it has 5 native articles and lists native articles first (14.283167ms)
+✔ live news sitemap and news-library sitemap include localized URLs with xhtml alternates (1.313208ms)
+✔ published news sitemap generator emits localized article URLs with the right news:language (879.606958ms)
+✔ /api/news/article/<slug> accepts ?locale= and ships the requested edition plus English (2.206666ms)
+✔ client SEO mirror indexes a localized edition and keeps the English-only rule for the others (1.432084ms)
+✔ importer accepts an optional article.tr.md edition and rejects a thin one (13.374708ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 42
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27640.024042

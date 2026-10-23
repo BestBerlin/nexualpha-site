@@ -92,7 +92,6 @@ export function VenueRoute({ domain, code, locale }) {
 // Ties are said in words ("identical") and carry no accent, so no side reads as the winner.
 export function CompareFeeLedger({ a, b, nameA, nameB, locale }) {
   const fa = EXCHANGE_FACTS[a], fb = EXCHANGE_FACTS[b];
-  if (!fa && !fb) return null;
   const t = labText(locale);
   const r = r9Text(locale);
   const val = (f, g, i) => (f?.status === "verified" ? f[g]?.[i] ?? null : null);
@@ -100,7 +99,6 @@ export function CompareFeeLedger({ a, b, nameA, nameB, locale }) {
   const rows = [["spot", 0], ["spot", 1], ["perp", 0], ["perp", 1]].map(([g, i], n) => ({ g, i, n, va: val(fa, g, i), vb: val(fb, g, i) })).filter((row) => full(row.g));
   const half = ["spot", "perp"].map((g, gi) => ({ g, gi, pa: [val(fa, g, 0), val(fa, g, 1)], pb: [val(fb, g, 0), val(fb, g, 1)] }))
     .filter((p) => !full(p.g) && [...p.pa, ...p.pb].some((x) => x != null));
-  if (!rows.length && !half.length) return null;
   const pendingBits = ["spot", "perp"].filter((g) => [0, 1].every((i) => val(fa, g, i) == null && val(fb, g, i) == null)).map((g) => t.prod[g === "spot" ? 0 : 1]);
   const pairText = (p) => (p.every((x) => x == null) ? t.nc : p.map((x) => (x == null ? "–" : feePct(x, locale))).join(" / "));
   const spot = [0, 1].map((i) => [val(fa, "spot", i), val(fb, "spot", i)]);
@@ -117,14 +115,14 @@ export function CompareFeeLedger({ a, b, nameA, nameB, locale }) {
   return (
     <section className="r9-cmp" aria-label={`${nameA} / ${nameB}: ${t.gap}`}>
       <div className="r9-cmp__head">
-        <p className="r9-cmp__id r9-cmp__id--a" translate="no"><BrandMark slug={a} compact /><b>{nameA}</b></p>
+        <p className="r9-cmp__id r9-cmp__id--a" translate="no"><BrandMark slug={a} priority /><b>{nameA}</b></p>
         <div className="r9-cmp__gap" data-tie={gap && !gap.low ? "" : undefined} data-none={gap ? undefined : ""}>
           <p className="r9-cmp__num v6-num" aria-hidden="true">{gap ? formatFeeNumber(gap.v, locale) : "–"}{gap && <small>pp</small>}</p>
           <p className="r9-cmp__cap">{t.gap}</p>
           <p className="r9-cmp__low">{gapText}</p>
           <span className="cl-sr">{gap ? `${t.gap}: ${formatFeeNumber(gap.v, locale)} pp. ${gapText}` : `${t.gap}: ${t.nc}`}</span>
         </div>
-        <p className="r9-cmp__id r9-cmp__id--b" translate="no"><BrandMark slug={b} compact /><b>{nameB}</b></p>
+        <p className="r9-cmp__id r9-cmp__id--b" translate="no"><BrandMark slug={b} priority /><b>{nameB}</b></p>
       </div>
       <div className="r9-cmp__rows">
         {rows.map((row) => (

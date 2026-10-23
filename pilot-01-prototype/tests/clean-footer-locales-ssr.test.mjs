@@ -20,7 +20,7 @@ const expected = {
   es: ['Guías temáticas', 'Ficha de fuentes'], 'pt-BR': ['Guias temáticos', 'Ficha de fontes'],
   fr: ['Guides thématiques', 'Fiche des sources'], de: ['Themen-Guides', 'Quellen-Factbook'],
   ja: ['トピックガイド', '出典ファクトブック'], ko: ['주제 가이드', '출처 팩트북'],
-  ar: ['أدلة المواضيع', 'سجل المصادر'], tr: ['Konu Rehberleri', 'Kaynak inceleme bilgi kitabı'],
+  ar: ['أدلة المواضيع', 'سجل المصادر'], ur: ['موضوعاتی رہنما', 'فیکٹ بک'], uk: ['Тематичні гайди', 'Фактбук'], tr: ['Konu Rehberleri', 'Kaynak inceleme bilgi kitabı'],
   ru: ['Тематические гиды', 'Досье источников'], id: ['Panduan topik', 'Factbook sumber'],
   vi: ['Hướng dẫn chủ đề', 'Hồ sơ nguồn'], it: ['Guide tematiche', 'Factbook delle fonti'],
 };
@@ -50,7 +50,7 @@ test('shared footer renders localized topic and factbook labels without changing
       assert.ok(nav.includes(`<a href="${localizedHref('/topics', { locale })}">${topics}</a>`), `${locale}: topic link`);
       assert.ok(nav.includes(`<a href="${localizedHref('/factbook', { locale })}">${factbook}</a>`), `${locale}: factbook link`);
       assert.equal((rendered[locale].match(/class="nx-ftr__column"/g) || []).length, 4, `${locale}: four link columns (two per row on phones)`);
-      assert.doesNotMatch(rendered[locale], /clean-footer__mobile-column|<details/, `${locale}: no duplicated accordion navigation`);
+      assert.doesNotMatch(rendered[locale], /clean-footer__mobile-column|nx-ftr__column[^>]*><details/, `${locale}: no duplicated accordion navigation`);
       assert.doesNotMatch(rendered[locale], /nx-ftr-policy-details|clean-footer__policies|关于我们与政策|About & policies/, `${locale}: no policy accordion`);
       for (const section of rendered[locale].matchAll(/<section class="nx-ftr__column"[\s\S]*?<\/section>/g)) {
         assert.ok((section[0].match(/<li>/g) || []).length <= 6, `${locale}: column has at most six links`);

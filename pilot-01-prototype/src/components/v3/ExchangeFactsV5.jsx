@@ -102,7 +102,7 @@ export function FactsStrip({ slug, locale }) {
   );
 }
 
-export function ExchangeFactsV5({ slug, locale, profile }) {
+export function ExchangeFactsV5({ slug, locale, profile, visual = false }) {
   const l = labels(locale);
   const hasList = (a) => Array.isArray(a) && a.length > 0;
   // "Products" lists actual product lines (spot, perps, fiat rails, on-chain), not editorial claims.
@@ -126,13 +126,13 @@ export function ExchangeFactsV5({ slug, locale, profile }) {
           <SectionRule />
           {strengths.length > 0 && (
             <Reveal as="div" className="d5-scope__col">
-              <h2>{l.products}</h2>
+              <h2>{visual?.products}{l.products}</h2>
               <ul className="d5-list">{strengths.slice(0, 5).map((s) => <li key={s}>{s}</li>)}</ul>
             </Reveal>
           )}
           {eligibility.length > 0 && (
             <Reveal as="div" index={1} className="d5-scope__col">
-              <h2>{l.eligibility}</h2>
+              <h2>{visual?.eligibility}{l.eligibility}</h2>
               <ul className="d5-list d5-list--caution">{eligibility.map((s) => <li key={s}>{s}</li>)}</ul>
             </Reveal>
           )}

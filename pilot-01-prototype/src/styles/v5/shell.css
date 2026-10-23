@@ -433,59 +433,101 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
 /* The dialog input showed the browser focus ring (off-palette) under the accent focus line. */
 .search-dialog .command-input input:focus-visible:not(#_):not(#_):not(#_) { outline: none; box-shadow: none; }
 
-/* Footer v11 (de-AI pass 2026-10-18): calm editorial footer. Brand block (mark, slogan A, socials, official entry
-   ledger) beside four link columns; a hairline bottom bar with the copyright and the three legal links only.
-   No boxed chips, no centred text, one type scale (12 / 14 / 16), hairlines instead of cards. */
-.nx-ftr:not(#_):not(#_) { margin-block-start: 0; border-block-start: 1px solid var(--hx-line, rgb(255 255 255 / .08)); background: var(--hx-bg, #08090C); color: var(--hx-ink-2, #B0B4BA); }
-.nx-ftr .nx-ftr__inner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(32px, 6vw, 96px); inline-size: min(1200px, calc(100% - 2 * var(--page-pad, 24px))); margin-inline: auto; padding-block: clamp(48px, 6vw, 72px) 0; box-sizing: border-box; text-align: start; }
-.nx-ftr .nx-ftr__brand { display: grid; align-content: start; justify-items: start; gap: 0; min-inline-size: 0; }
-.nx-ftr .nx-ftr__slogan { margin: 16px 0 0; max-inline-size: 26em; color: var(--hx-ink, #EDEEF0); font-size: 16px; font-weight: 500; line-height: 1.5; letter-spacing: 0.01em; text-align: start; text-wrap: balance; }
-/* Social matrix (2026-10-23): labelled X / YouTube / Telegram channel / group links, two per row, brand colour on hover. */
-.nx-ftr .nx-ftr__follow { inline-size: 100%; margin-block-start: 24px; }
-.nx-ftr .nx-ftr__socials { display: grid; grid-template-columns: repeat(2, minmax(0, max-content)); gap: 0 24px; list-style: none; margin: 0; padding: 0; }
-.nx-ftr .nx-ftr__social { display: inline-flex; align-items: center; gap: 10px; min-block-size: 44px; min-inline-size: 44px; color: var(--hx-ink-2, #B0B4BA); font-size: 14px; text-decoration: none; transition: color 160ms ease; }
-.nx-ftr .nx-ftr__social svg { flex: none; color: var(--hx-ink-3, #8A909E); transition: color 160ms ease; }
-.nx-ftr .nx-ftr__social:hover, .nx-ftr .nx-ftr__social:focus-visible { color: var(--hx-ink, #EDEEF0); }
-.nx-ftr .nx-ftr__social--x:hover svg, .nx-ftr .nx-ftr__social--x:focus-visible svg { color: #fff; }
-.nx-ftr .nx-ftr__social--youtube:hover svg, .nx-ftr .nx-ftr__social--youtube:focus-visible svg { color: #FF0033; }
-.nx-ftr :is(.nx-ftr__social--tg-channel, .nx-ftr__social--tg-group) svg { color: #2AABEE; }
-@media (max-width: 359px) { .nx-ftr .nx-ftr__socials { grid-template-columns: minmax(0, 1fr); } }
-@media (prefers-reduced-motion: reduce) { .nx-ftr .nx-ftr__social, .nx-ftr .nx-ftr__social svg { transition: none; } }
-.nx-ftr .nx-ftr__heading { margin: 0 0 8px; color: var(--hx-ink-3, #8A909E); font-size: 12px; font-weight: 500; line-height: 16px; letter-spacing: 0.06em; }
-.nx-ftr :lang(zh) .nx-ftr__heading, .nx-ftr:lang(zh) .nx-ftr__heading, .nx-ftr:lang(ja) .nx-ftr__heading, .nx-ftr:lang(ko) .nx-ftr__heading { letter-spacing: 0.12em; }
-.nx-ftr .nx-ftr__entry { inline-size: 100%; margin-block-start: 32px; }
-.nx-ftr .nx-ftr__entry ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; margin: 0; padding: 0; list-style: none; }
-.nx-ftr .nx-ftr__entry a { display: flex; align-items: center; gap: 10px; min-block-size: 44px; border-block-end: 1px solid var(--hx-line, rgb(255 255 255 / .08)); color: var(--hx-ink, #EDEEF0); font-size: 14px; font-weight: 500; line-height: 20px; text-decoration: none; white-space: nowrap; }
-.nx-ftr .nx-ftr__entry a > span { min-inline-size: 0; }
-.nx-ftr .nx-ftr__entry a::after { content: "↗"; margin-inline-start: auto; color: var(--hx-ink-3, #8A909E); font-size: 12px; transition: color 160ms ease, transform 160ms ease; }
-.nx-ftr .nx-ftr__entry a:hover::after { color: var(--hx-ink, #EDEEF0); transform: translate(1px, -1px); }
-[dir="rtl"] .nx-ftr .nx-ftr__entry a::after { content: "↖"; }
-.nx-ftr .nx-ftr__entry .v2-brand, .nx-ftr .nx-ftr__entry .v2-brand-fallback { inline-size: 24px; block-size: 24px; }
-.nx-ftr .nx-ftr__columns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px 24px; align-content: start; min-inline-size: 0; }
+/* Footer redesign: global shell CSS is linked on home, news and venue routes alike.
+   Static markup, fixed-size logo tiles and native details keep this independent of hydration. */
+.nx-ftr:not(#_):not(#_) { margin-block-start: 0; border-block-start: 1px solid rgb(255 255 255 / .12); background: #08090C; color: #B0B4BA; font-family: "Geist V5", "Geist V5 Fallback", sans-serif; }
+.nx-ftr .nx-ftr__inner { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px 48px; inline-size: min(1200px, calc(100% - 48px)); margin-inline: auto; padding-block: 48px 24px; box-sizing: border-box; text-align: start; }
+.nx-ftr .nx-ftr__brand { min-inline-size: 0; }
+.nx-ftr .nx-ftr__slogan { margin-block: 12px 24px; max-inline-size: 32ch; color: #EDEEF0; font-size: 16px; line-height: 1.5; text-wrap: balance; }
+.nx-ftr .nx-ftr__heading { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; color: #EDEEF0; font-size: 14px; font-weight: 600; line-height: 20px; }
+.nx-ftr .nx-ftr__heading svg { flex: none; color: #9097A0; }
+.nx-ftr .nx-ftr__follow { margin-block-end: 24px; }
+.nx-ftr .nx-ftr__socials { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; list-style: none; margin: 0; padding: 0; }
+.nx-ftr .nx-ftr__social { display: flex; align-items: center; gap: 8px; min-block-size: 44px; padding: 8px 12px; box-sizing: border-box; border: 1px solid rgb(255 255 255 / .12); border-radius: 8px; background: rgb(255 255 255 / .025); color: #B0B4BA; font-size: 12px; line-height: 1.4; text-decoration: none; overflow-wrap: anywhere; }
+.nx-ftr .nx-ftr__social svg { flex: none; }
+.nx-ftr .nx-ftr__social:hover { color: #EDEEF0; border-color: rgb(31 224 192 / .5); background: rgb(31 224 192 / .04); }
+.nx-ftr .nx-ftr__entry ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+.nx-ftr .nx-ftr__entry a { display: grid; justify-items: center; align-content: center; gap: 8px; min-block-size: 88px; padding: 12px 4px; border: 1px solid rgb(255 255 255 / .12); border-radius: 12px; background: rgb(255 255 255 / .025); color: #EDEEF0; font-size: 12px; line-height: 16px; text-decoration: none; }
+.nx-ftr .nx-ftr__entry a:hover { border-color: rgb(31 224 192 / .5); background: rgb(31 224 192 / .04); }
+.nx-ftr .nx-ftr__entry :is(.v2-brand, .v2-brand-fallback) { inline-size: 32px; block-size: 32px; border-radius: 8px; }
+.nx-ftr .nx-ftr__definition { margin-block-start: 12px; color: #9097A0; font-size: 12px; line-height: 1.55; overflow-wrap: anywhere; }
+.nx-ftr .nx-ftr__columns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px 16px; align-content: start; min-inline-size: 0; }
 .nx-ftr .nx-ftr__column { min-inline-size: 0; }
 .nx-ftr .nx-ftr__column ul { display: grid; margin: 0; padding: 0; list-style: none; }
-.nx-ftr .nx-ftr__column a { display: flex; align-items: center; min-block-size: 36px; color: var(--hx-ink-2, #B0B4BA); font-size: 14px; line-height: 20px; text-decoration: none; text-align: start; transition: color 160ms ease; }
-.nx-ftr .nx-ftr__column a:hover, .nx-ftr .nx-ftr__entry a:hover > span { color: var(--hx-ink, #EDEEF0); }
-.nx-ftr .nx-ftr__legal-row { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 24px; margin-block-start: clamp(40px, 5vw, 64px); padding-block: 12px 20px; border-block-start: 1px solid var(--hx-line, rgb(255 255 255 / .08)); color: var(--hx-ink-3, #8A909E); font-size: 12px; line-height: 16px; }
-.nx-ftr .nx-ftr__legal-row p { margin: 0; }
-.nx-ftr .nx-ftr__legal-row ul { display: flex; flex-wrap: wrap; gap: 0 20px; margin: 0; padding: 0; list-style: none; }
-.nx-ftr .nx-ftr__legal-row a { display: inline-flex; align-items: center; min-block-size: 44px; color: var(--hx-ink-3, #8A909E); font-size: 12px; text-decoration: none; }
-.nx-ftr .nx-ftr__legal-row a:hover { color: var(--hx-ink, #EDEEF0); }
-@media (max-width: 1023px) {
-  .nx-ftr .nx-ftr__inner { grid-template-columns: minmax(0, 1fr); row-gap: 40px; }
-  .nx-ftr .nx-ftr__entry { max-inline-size: 560px; }
+.nx-ftr .nx-ftr__column a { display: flex; align-items: center; min-block-size: 36px; padding-block: 4px; box-sizing: border-box; color: #B0B4BA; font-size: 14px; line-height: 20px; text-decoration: none; text-align: start; overflow-wrap: anywhere; }
+.nx-ftr .nx-ftr__column a:hover { color: #1FE0C0; }
+.nx-ftr .nx-ftr__discovery { grid-column: 1 / -1; display: grid; gap: 16px; padding-block-start: 24px; border-block-start: 1px solid rgb(255 255 255 / .08); min-inline-size: 0; }
+.nx-ftr .nx-ftr__logo-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.nx-ftr .nx-ftr__logo-strip a { display: grid; place-items: center; inline-size: 48px; block-size: 48px; border: 1px solid rgb(255 255 255 / .12); border-radius: 12px; }
+.nx-ftr .nx-ftr__logo-strip :is(.v2-brand, .v2-brand-fallback) { inline-size: 28px; block-size: 28px; border-radius: 8px; }
+.nx-ftr :is(.nx-ftr__pairs, .nx-ftr__languages) summary { display: flex; align-items: center; justify-content: center; gap: 12px; min-block-size: 44px; color: #B0B4BA; font-size: 14px; cursor: pointer; list-style: none; }
+.nx-ftr summary::-webkit-details-marker { display: none; }
+.nx-ftr .nx-ftr__pairs ul { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+.nx-ftr .nx-ftr__pairs a { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; min-block-size: 44px; padding: 8px; border: 1px solid rgb(255 255 255 / .12); border-radius: 8px; color: #B0B4BA; font-size: 12px; text-decoration: none; }
+.nx-ftr .nx-ftr__pairs a > span { display: flex; align-items: center; gap: 8px; }
+.nx-ftr .nx-ftr__pairs :is(.v2-brand, .v2-brand-fallback) { inline-size: 20px; block-size: 20px; border-radius: 4px; }
+.nx-ftr .nx-ftr__languages { grid-column: 1 / -1; }
+.nx-ftr .nx-ftr__languages nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding-block-start: 12px; }
+.nx-ftr .nx-ftr__languages a { display: inline-flex; align-items: center; min-block-size: 44px; padding-inline: 12px; border: 1px solid rgb(255 255 255 / .12); border-radius: 8px; color: #B0B4BA; font-size: 14px; text-decoration: none; }
+.nx-ftr .nx-ftr__languages a[aria-current] { border-color: #1FE0C0; color: #1FE0C0; }
+.nx-ftr .nx-ftr__legal-row { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0 24px; padding-block-start: 12px; border-block-start: 1px solid rgb(255 255 255 / .08); color: #9097A0; font-size: 12px; line-height: 16px; text-align: center; }
+.nx-ftr .nx-ftr__legal-row ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 20px; margin: 0; padding: 0; list-style: none; }
+.nx-ftr .nx-ftr__legal-row a { display: inline-flex; align-items: center; min-block-size: 44px; color: #9097A0; font-size: 12px; text-decoration: none; }
+.nx-ftr :is(a, summary):focus-visible { outline: 2px solid #1FE0C0; outline-offset: 4px; }
+@media (max-width: 1000px) {
+  .nx-ftr .nx-ftr__inner { grid-template-columns: minmax(0, 1fr); }
+  .nx-ftr .nx-ftr__brand { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; align-content: start; }
+  .nx-ftr .nx-ftr__brand > :is(.nx-brand, .nx-ftr__slogan, .nx-ftr__follow) { grid-column: 1; }
+  .nx-ftr .nx-ftr__entry { grid-column: 2; grid-row: 1 / span 3; }
 }
-@media (max-width: 767px) {
-  .nx-ftr .nx-ftr__inner { inline-size: calc(100% - 32px); padding-block-start: 40px; row-gap: 32px; }
-  .nx-ftr .nx-ftr__columns { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
-  .nx-ftr .nx-ftr__entry ul { column-gap: 16px; }
+@media (max-width: 640px) {
+  .nx-ftr .nx-ftr__inner { inline-size: calc(100% - 32px); padding-block: 32px 24px; gap: 24px; }
+  .nx-ftr .nx-ftr__brand { display: block; }
+  .nx-ftr .nx-ftr__slogan { max-inline-size: none; }
+  .nx-ftr .nx-ftr__columns, .nx-ftr .nx-ftr__pairs ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
   .nx-ftr .nx-ftr__column a { min-block-size: 44px; }
-  .nx-ftr .nx-ftr__legal-row { flex-direction: column-reverse; align-items: flex-start; margin-block-start: 8px; padding-block-end: 24px; }
-  /* Home phones: the fixed sign-up dock must not cover the legal row at the end of the page. */
+  .nx-ftr .nx-ftr__legal-row { flex-direction: column-reverse; }
   body:has(.h7-dock) .nx-ftr .nx-ftr__legal-row { padding-block-end: calc(84px + env(safe-area-inset-bottom, 0px)); }
 }
 
-/* Telegram entry (owner 2026-10-10): a visible pill beside search; an icon button next to the menu below 1100px. */
+/* Closing CTA shares the global shell stylesheet, avoiding a route chunk dependency. The new namespace keeps
+   old v6 word-rise/grid selectors out of this static panel; no content is hidden before hydration. */
+#top .nx-close { padding: 32px 24px 64px; background: #08090C; }
+#top .nx-close__panel { position: relative; isolation: isolate; max-inline-size: 1200px; margin-inline: auto; padding: 48px 32px 32px; border: 1px solid rgb(255 255 255 / .14); border-radius: 12px; background: radial-gradient(ellipse at 50% 0, rgb(31 224 192 / .09), transparent 60%), radial-gradient(ellipse at 100% 100%, rgb(49 92 255 / .1), transparent 60%), #0C0D10; text-align: center; }
+#top .nx-close__panel::before { content: ""; position: absolute; z-index: -1; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(rgb(255 255 255 / .07) 1px, transparent 1.5px) 0 0 / 28px 28px; }
+#top .nx-close__node { display: flex; justify-content: center; margin-block-end: 20px; }
+#top .nx-close__node i { inline-size: 8px; block-size: 8px; border-radius: 50%; background: #1FE0C0; box-shadow: 0 0 16px rgb(31 224 192 / .5); }
+#top .nx-close h2 { margin: 0; color: #EDEEF0; font: 500 clamp(28px, 4vw, 44px)/1.15 "Geist V5", "Geist V5 Fallback", sans-serif; letter-spacing: -.03em; text-wrap: balance; }
+#top .nx-close__lead { margin: 16px auto 0; color: #B0B4BA; font: 400 16px/1.55 "Geist V5", "Geist V5 Fallback", sans-serif; text-wrap: balance; }
+#top .nx-close__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-block: 24px 32px; }
+#top .nx-close__form { margin: 0; min-inline-size: 0; }
+#top .nx-close__actions button { display: flex; align-items: center; justify-content: center; gap: 16px; min-block-size: 52px; padding: 12px 24px; border: 1px solid rgb(255 255 255 / .22); border-radius: 8px; font: 500 16px/1.5 "Geist V5", "Geist V5 Fallback", sans-serif; cursor: pointer; white-space: normal; text-align: center; max-inline-size: 100%; }
+#top .nx-close__primary { color: #04130F; background: #1FE0C0; box-shadow: 0 8px 40px -12px rgb(31 224 192 / .35); }
+#top .nx-close__secondary { color: #EDEEF0; background: rgb(255 255 255 / .035); }
+#top .nx-close__partners { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; max-inline-size: 900px; margin: 0 auto; padding: 0; list-style: none; }
+#top .nx-close__partners li { min-inline-size: 0; }
+#top .nx-close__partners a { display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 8px; align-items: center; min-block-size: 60px; padding: 8px 12px; box-sizing: border-box; border: 1px solid rgb(255 255 255 / .12); border-radius: 12px; background: #101216; color: #EDEEF0; text-decoration: none; text-align: start; font: 500 14px/1.4 "Geist V5", "Geist V5 Fallback", sans-serif; }
+#top .nx-close__partners :is(.v2-brand, .v2-brand-fallback) { grid-row: 1 / span 2; inline-size: 28px; block-size: 28px; border-radius: 8px; }
+#top .nx-close__partners small { grid-column: 2; color: #1FE0C0; font: 500 12px/1.4 "Geist Mono V5", "Geist Mono V5 Fallback", monospace; }
+#top .nx-close__note { margin: 20px auto 0; max-inline-size: 72ch; color: #9097A0; font-size: 12px; line-height: 1.55; }
+#top .nx-close :is(a, button):focus-visible { outline: 2px solid #1FE0C0; outline-offset: 4px; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  #top .nx-close__node i { animation: nx-close-glow 3s ease-in-out infinite; }
+  #top .nx-close :is(a, button) { transition: transform 160ms ease, border-color 160ms ease; }
+  #top .nx-close :is(a, button):hover { transform: translateY(-2px); border-color: #1FE0C0; }
+}
+@keyframes nx-close-glow { 50% { opacity: .55; } }
+@media (prefers-reduced-motion: reduce) { #top .nx-close *, #top .nx-close *::before { animation: none; transition: none; } }
+@media (max-width: 640px) {
+  #top .nx-close { padding: 24px 16px 40px; }
+  #top .nx-close__panel { padding: 32px 16px 24px; }
+  #top .nx-close h2 { font-size: 28px; letter-spacing: -.02em; }
+  #top .nx-close__actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  #top .nx-close__actions button { inline-size: 100%; }
+  #top .nx-close__partners { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #top .nx-close__partners a { inline-size: 100%; padding-inline: 8px; }
+}
+
 /* Telegram entry: quiet outline control in the same family as search / language (owner 2026-10-10:
    a filled bright-blue pill was jarring on the dark header). Accent appears only on hover / focus. */
 .nx-tg { display: inline-flex; align-items: center; gap: 6px; block-size: 36px; padding-inline: 12px; border-radius: 8px; font: 500 14px/var(--lh-tight, 1.05) var(--nx-font); color: var(--nx-n11); text-decoration: none; background: transparent; border: 1px solid var(--nx-n6); transition: border-color .18s var(--nx-ease), color .18s var(--nx-ease), background-color .18s var(--nx-ease), transform .12s var(--nx-ease); white-space: nowrap; }
@@ -628,10 +670,7 @@ body:has(> #root > main.v5 > .container) .nx-hdr__inner {
 }
 
 /* Editorial discovery links share the footer grid without expanding its compact columns. */
-.nx-ftr .nx-ftr__discovery { grid-column: 1 / -1; min-inline-size: 0; margin-block-start: 32px; }
-.nx-ftr .nx-ftr__discovery ul { display: flex; flex-wrap: wrap; gap: 0 24px; list-style: none; margin: 0; padding: 0; }
-.nx-ftr .nx-ftr__discovery a { display: inline-flex; align-items: center; min-block-size: 44px; color: var(--hx-ink-2, #B0B4BA); font-size: 14px; text-decoration: none; }
-.nx-ftr .nx-ftr__discovery a:hover { color: var(--hx-ink, #EDEEF0); }
+
 
 /* ---------- social matrix (owner 2026-10-23) ----------
    Desktop: X + YouTube icon buttons (44px targets) beside the Telegram entry; the Telegram glyph wears its brand blue so

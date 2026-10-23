@@ -162,6 +162,10 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.endsWith("/src/styles/v9/news9.css")) return "page-news-signature-mid1";
           if (id.endsWith("/src/styles/v9/compare9.css")) return "page-compare-mid1";
           if (id.endsWith("/src/styles/v9/directory9.css")) return "page-compare-mid1";
+          // Shared art must never be absorbed by the deferred home or a route graph.
+          // Reuse an existing deferred helper chunk: no new home preload-map filename.
+          if (id.endsWith("/src/components/shared/CardArt.jsx")) return "shared-registration-helpers";
+          if (id.endsWith("/src/components/v3/VenueDetailPageVisuals.jsx")) return "shared-registration-helpers";
           // Read by the venue, compare and news route chunks, which all load the registration helpers already (no new
           // chunk, so the entry's preload map does not grow).
           if (!isSsrBuild && id.endsWith("/src/components/v3/inner9-copy.js")) return "shared-registration-helpers";

@@ -1,0 +1,507 @@
+[compare-any] indexable generated pairs: 0 of 217
+[compare-any] generated pair URLs in locale sitemap: 0
+✔ canonical slug: curated order wins, otherwise alphabetical; three-venue selections untouched (0.747458ms)
+✔ a generated pair resolves in all 17 locales with templated copy and the shared index policy (15.674291ms)
+✔ the reverse slug 301s to the canonical pair and keeps attribution params (34.185625ms)
+✔ index policy requires pair-specific evidence beyond reused reviewed venue rows (3.326208ms)
+✔ noindex pairs still render (200) and never carry hreflang alternates (3.403ms)
+✔ the locale sitemap lists only indexable generated pairs, en plus the locales with localized facts (191.421125ms)
+✔ GET /compare?a=&b= normalizes to the canonical pair (302) and invalid picks return to the hub (1.008208ms)
+✔ generated pairs and the hub are server-rendered at request time when the renderer is available (5.962791ms)
+✔ every user-visible template exists in all 17 locales without placeholders left behind (0.313459ms)
+✔ SSR: generated pair renders one H1, both partner CTAs without in-section disclosure, the provenance note and related links; non-partner pair has no sign-up CTA (375.359958ms)
+✔ worker ships every data module compare-generated.js pulls in (1.096042ms)
+✔ deployed comparison metadata matches the visible answer source without creating a venue route (12.737417ms)
+✔ compare direct answer is independent from venue priority answers and supports exact content locales (0.824625ms)
+✔ R36 priority comparison direct answers have deep localized AEO coverage (0.394917ms)
+✔ compare SEO override uses the same direct-answer data as the visible page source (4.51425ms)
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+✔ CompareDeepPage SSR renders the Bybit vs Bitget direct answer in supported locales (2096.771ms)
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+✔ CompareDeepPage SSR renders all priority FAQ entries and hides items after the first two (981.048667ms)
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+✔ CompareDeepPage SSR localizes matrix lead and accessibility labels (1299.953208ms)
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+✔ compare FAQ, sticky aria and badge stay aligned for support-owner and generic compare locales (4584.923375ms)
+✔ generic compare FAQ answers stay specific enough for public FAQ schema (0.315791ms)
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+✔ Bybit vs Bitget priority FAQ is visible and matches schema for en and Chinese locales (823.316708ms)
+▲ [WARNING] Duplicate key "faq" in object literal [duplicate-object-key]
+
+    src/data/compare-direct-answers.js:1456:4:
+      1456 │     faq: [...(existing?.faq || []), ...queryFaq],
+           ╵     ~~~
+
+  The original key "faq" is here:
+
+    src/data/compare-direct-answers.js:1447:31:
+      1447 │     checks: [], nextSteps: [], faq: [], productTypes: [],
+           ╵                                ~~~
+
+﹣ bounded source inverse and immutable partner registry (0.614625ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ en priority context relocates losslessly and other routes exact (0.042417ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ zh-Hans priority context relocates losslessly and other routes exact (0.030083ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ zh-Hant priority context relocates losslessly and other routes exact (0.032709ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ ja priority context relocates losslessly and other routes exact (0.0335ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ ko priority context relocates losslessly and other routes exact (0.038417ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ tr priority context relocates losslessly and other routes exact (0.030292ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ ar priority context relocates losslessly and other routes exact (0.038333ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ es priority context relocates losslessly and other routes exact (0.037917ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ pt-BR priority context relocates losslessly and other routes exact (0.061125ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ fr priority context relocates losslessly and other routes exact (0.047666ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ de priority context relocates losslessly and other routes exact (0.022666ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ ru priority context relocates losslessly and other routes exact (0.019917ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ id priority context relocates losslessly and other routes exact (0.020958ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ vi priority context relocates losslessly and other routes exact (0.026ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ it priority context relocates losslessly and other routes exact (0.024834ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ ur priority context relocates losslessly and other routes exact (0.015833ms) # Historical directory-action-batch candidate is absent from this checkout
+﹣ uk priority context relocates losslessly and other routes exact (0.038917ms) # Historical directory-action-batch candidate is absent from this checkout
+✔ actual EN priority takes relocation path (46.686625ms)
+✔ available comparison actions use tracked internal redirects (1.669292ms)
+✔ Türkiye and restricted markets cannot acquire a tracked signup action (1.277958ms)
+✔ compare hero presents eager official logos and an honest fee gap before the answer and actions (0.976042ms)
+✔ matrix mirrors checked maker/taker bars on the global fee scale and uses no reserve-score bars (1.222708ms)
+✔ unknown pair fees remain empty, while localized FAQ keeps native accordion controls (17.212542ms)
+✔ compare visuals stay in the route stylesheet with reduced-motion and constrained mobile logo dimensions (0.264209ms)
+✔ sheets reuse checked fees and regulator records and omit unknown fields (4.03925ms)
+✔ neutral contexts contain no codes; Türkiye excludes Bitget (0.204417ms)
+✔ page-level last verified date is derived from the newest dated source row (0.504083ms)
+✔ worker serves cacheable CORS-safe JSON, rejects unknown slugs and mutations (23.946208ms)
+✔ robots keeps AI crawlers open while preserving /go and /insights blocks (3.304625ms)
+✔ llms generator exposes GEO discovery routes and exchange facts JSON endpoints (732.049625ms)
+
+  tests/.tmp-key-facts-pAeBVw/bundle.cjs  1.7mb ⚠️
+
+⚡ Done in 17ms
+✔ SSR table includes citations and dated values, respects locale attribution and Türkiye (143.507084ms)
+✔ key-fact interface labels cover all site locales without leaking English fallbacks (1.2565ms)
+✔ article figures preserve authored context and omit dates, tables, links and unsupported prose (2.034667ms)
+✔ ordered and star lists preserve complete statements and the existing figure gates (0.147791ms)
+✔ actual onboarding and passkey feed articles expose their ordered-list cooldown figures (48.588458ms)
+✔ en: SSR includes stable category art, complete figure context, quote/table panels and related art (167.022667ms)
+✔ zh-Hans: SSR includes stable category art, complete figure context, quote/table panels and related art (330.167291ms)
+✔ ar: SSR includes stable category art, complete figure context, quote/table panels and related art (9.259417ms)
+✔ figure-free articles do not invent a facts panel (5.849084ms)
+✔ article art and panels remain route-owned with reserved sizes and logical layout (1.142667ms)
+✔ shared art is deterministic and decorative, and priority logos reserve their size (5.362125ms)
+✔ ambiguous everyday words do not invent related exchanges (0.446083ms)
+✔ home consumes art from shared module with no reverse home dependency (0.305542ms)
+✔ fr, de, it, ru, id and vi carry every article UI string, none of them in English (0.769542ms)
+✔ locales that only missed the not-found / loading strings get them (0.129166ms)
+✔ merge fills only the strings a locale still inherits from English (0.13ms)
+✔ uncertain translations are marked for native review (0.233667ms)
+✔ placeholder codes (NEXU_*) are not offered as invite codes (1.32125ms)
+✔ owner invite routes are untouched (0.211625ms)
+✔ news offer picks the first mentioned venue with a real invite route (0.312834ms)
+✔ 1 platform contexts preserve every research route and text in 15 locales (255.792167ms)
+✔ 2 platform contexts preserve every research route and text in 15 locales (87.174375ms)
+✔ 6 platform contexts preserve every research route and text in 15 locales (109.749333ms)
+✔ article lead appears before the Telegram follow-up in every locale (52.453791ms)
+﹣ historical peer fixture is available (0.8905ms) # Missing historical review fixture: /Volumes/%E8%87%B4%E6%80%812TB/r299-news-reading-priority/candidate
+✔ core venue detail first screen renders reviewed decisions across all UI locales (860.299041ms)
+✔ profile licence labels and statuses cover all 17 locales (0.816583ms)
+✔ authorisation remains distinct from licensing without dropping other statuses (0.1255ms)
+✔ missing source fields render nothing while meaningful source wording survives (0.279875ms)
+✔ SSR CJK labels do not fall back to English and placeholders are omitted (139.808083ms)
+✔ Japanese Bitget venue FAQ renders actual venue questions instead of comparison placeholders (195.364375ms)
+✔ English OKX venue FAQ uses public facts without Chinese punctuation or generic boilerplate (209.304833ms)
+✔ Chinese OKX fallback FAQ uses recorded facts instead of generic verify boilerplate (194.506166ms)
+✔ an unchecked base rate never becomes an invented VIP schedule (1.161666ms)
+✔ ad hoc venue-database rates stay rejected while reviewed fixtures keep exact base rows (0.2535ms)
+✔ missing numbers do not become zero and invalid source/date cannot verify numbers (0.060375ms)
+✔ only explicit fee research sources appear and duplicate source URLs are combined (0.133209ms)
+✔ reviewed official spot base rates are keyed by venue slug and include display scope fields (0.299ms)
+✔ conditional or unreadable venues remain unknown unless a separate sourced rate is provided (0.07225ms)
+✔ compact fee guidance has native copy in every supported locale (0.138875ms)
+✔ announcement preview bounds the server-rendered collection to five localized titles (1.527167ms)
+✔ secondary disclosures preserve server content and protected component calls (4.186917ms)
+✔ [paraglide-js] Compilation complete (locale-modules)
+✔ real venue SSR includes five localized notices, visible research links and closed secondary section bodies (6526.775292ms)
+✔ real feed previews identify distinct assets and never leak English listing suffixes (2.076584ms)
+ℹ tests 96
+ℹ suites 0
+ℹ pass 77
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 19
+ℹ todo 0
+ℹ duration_ms 23761.971667

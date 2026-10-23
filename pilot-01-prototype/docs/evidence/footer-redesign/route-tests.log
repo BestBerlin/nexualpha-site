@@ -1,0 +1,52 @@
+✔ [paraglide-js] Compilation complete (locale-modules)
+✔ English and Simplified Chinese homes expose eight native indexable articles and replay identical hydration (8241.551666ms)
+✔ home latest updates from the request-time feed without rebuilding HTML (253.436583ms)
+✔ RSS aliases and Chinese feed are valid XML, capped at 50 native reviewed articles with valid dates (227.051625ms)
+✔ article SSR links at least five native peers, including the two newest, without self or noindex links (395.978375ms)
+✔ a prerendered home snapshot receives the fresh block and matching hydration state (1468.389333ms)
+✔ the news hub exposes topic research and every archive page as real anchors (87.100917ms)
+✔ home balances six fresh articles with the strongest reviewed GSC snapshot articles (107.433375ms)
+✔ root home SSR and hydration preserve direct native-language news archive bridges (655.935541ms)
+✔ [paraglide-js] Compilation complete (locale-modules)
+✔ SSR homepage renders one visible localized H1 per supported locale (8880.196375ms)
+✔ SSR homepage preserves the registry-backed Binance signup route after the hero redesign (110.532625ms)
+✔ feed schema: editions may use any of the 15 locale keys and stay compatible with en + zh-Hans articles (5.42375ms)
+✔ article links use the locale path only for articles that carry that edition (1.444708ms)
+✔ worker route metadata indexes /tr/news/<slug> for an article with a tr body and keeps noindex without it (42.252583ms)
+✔ worker HTML for a localized edition carries the native body, lang attribute and metadata (172.087083ms)
+✔ locale news index is indexable once it has 5 native articles and lists native articles first (8.871833ms)
+✔ live news sitemap and news-library sitemap include localized URLs with xhtml alternates (1.6975ms)
+✔ published news sitemap generator emits localized article URLs with the right news:language (1012.189834ms)
+✔ /api/news/article/<slug> accepts ?locale= and ships the requested edition plus English (2.048958ms)
+✔ client SEO mirror indexes a localized edition and keeps the English-only rule for the others (1.598791ms)
+✔ importer accepts an optional article.tr.md edition and rejects a thin one (14.087083ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+WebSocket server error:
+Error: listen EPERM: operation not permitted 0.0.0.0:24678
+    at Server.setupListenHandle [as _listen2] (node:net:1986:21)
+    at listenInCluster (node:net:2065:12)
+    at Server.listen (node:net:2170:7)
+    at Object.listen (file:///Volumes/%E8%87%B4%E6%80%812TB/nexualpha-site-git/pilot-01-prototype/node_modules/vite/dist/node/chunks/dep-Dq2t6Dq0.js:32481:23)
+    at Object.listen (file:///Volumes/%E8%87%B4%E6%80%812TB/nexualpha-site-git/pilot-01-prototype/node_modules/vite/dist/node/chunks/dep-Dq2t6Dq0.js:39124:30)
+    at DevEnvironment.listen (file:///Volumes/%E8%87%B4%E6%80%812TB/nexualpha-site-git/pilot-01-prototype/node_modules/vite/dist/node/chunks/dep-Dq2t6Dq0.js:47961:14)
+    at file:///Volumes/%E8%87%B4%E6%80%812TB/nexualpha-site-git/pilot-01-prototype/node_modules/vite/dist/node/chunks/dep-Dq2t6Dq0.js:38765:52
+    at Array.map (<anonymous>)
+    at file:///Volumes/%E8%87%B4%E6%80%812TB/nexualpha-site-git/pilot-01-prototype/node_modules/vite/dist/node/chunks/dep-Dq2t6Dq0.js:38765:39
+    at async _createServer (file:///Volumes/%E8%87%B4%E6%80%812TB/nexualpha-site-git/pilot-01-prototype/node_modules/vite/dist/node/chunks/dep-Dq2t6Dq0.js:38785:5)
+✔ home SSR exposes crawl paths through the fee comparison and current navigation (4693.981208ms)
+✔ Week2 related priority pages keep compact SSR links to adjacent crawl targets (371.1905ms)
+✔ the venue route preloads its own module; compare, activities and 404 keep the V3 pages module (3.096875ms)
+✔ vite config pins the venue graph: shared helpers, CSS-only route-v3-pages-* chunks and the preload helper (2.579792ms)
+✔ the Worker keeps linking the venue page's stylesheets (all route-v3-pages-* chunks on /exchanges/<slug>) (1.824208ms)
+✔ built entry: the venue route's preload list excludes the compare, activity and topic-guide graphs (2.387ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ DeferUntilVisible interactionOnly renders the server HTML and opens only on interaction or an open <details> (4450.59425ms)
+✔ SSR venue and home pages hydrate without mismatches in en, it and ar (4829.893583ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 39355.075958

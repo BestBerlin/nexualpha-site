@@ -1,0 +1,41 @@
+{
+  "renderer": "built Worker + dist/news-ssr/entry-server.js",
+  "article": "how-to-onboard-gate-with-kyc-fund-password-whitelist-and-cooldown-checks",
+  "routes": [
+    {
+      "route": "/zh-hans/exchanges/bitget",
+      "file": "venue-bitget-zh.html",
+      "status": 200,
+      "bytes": 200969,
+      "render": null
+    },
+    {
+      "route": "/exchanges/okx",
+      "file": "venue-okx-en.html",
+      "status": 200,
+      "bytes": 215221,
+      "render": null
+    },
+    {
+      "route": "/news/how-to-onboard-gate-with-kyc-fund-password-whitelist-and-cooldown-checks",
+      "file": "article-en.html",
+      "status": 200,
+      "bytes": 105392,
+      "render": null
+    },
+    {
+      "route": "/zh-hans/news/how-to-onboard-gate-with-kyc-fund-password-whitelist-and-cooldown-checks",
+      "file": "article-zh.html",
+      "status": 200,
+      "bytes": 127170,
+      "render": null
+    },
+    {
+      "route": "/compare/binance-vs-okx",
+      "file": "compare-binance-okx-en.html",
+      "status": 200,
+      "bytes": 200041,
+      "render": null
+    }
+  ]
+}

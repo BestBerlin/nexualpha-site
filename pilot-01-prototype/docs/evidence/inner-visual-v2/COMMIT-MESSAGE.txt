@@ -1,0 +1,10 @@
+Make exchange decisions scannable without expanding the home payload
+
+Constraint: Existing facts, CTA hrefs/codes and route CSS boundaries must remain intact.
+Rejected: Importing deferred home art through the home module | Would couple inner routes to the home graph.
+Confidence: medium
+Scope-risk: moderate
+Directive: Complete rendered 390/768/1440, RTL, accessibility and CLS review before promotion.
+Tested: Normal build, strict budget, venue graph/hydration, targeted venue/news/compare suites, five Worker SSR exports.
+Not-tested: Real browser layout and measured CLS; Chromium launch is sandbox-blocked.
+Co-Authored-By: Codex <noreply@openai.com>

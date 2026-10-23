@@ -1,0 +1,27 @@
+✔ en: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (67.776875ms)
+✔ zh-Hans: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (28.3365ms)
+✔ zh-Hant: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (21.716375ms)
+✔ es: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (21.3205ms)
+✔ pt-BR: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (25.773125ms)
+✔ fr: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (19.502875ms)
+✔ de: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (21.190875ms)
+✔ ja: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (17.121292ms)
+✔ ko: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (23.194833ms)
+✔ ar: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (15.708ms)
+✔ tr: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (18.076958ms)
+✔ ru: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (27.899042ms)
+✔ id: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (17.635625ms)
+✔ vi: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (16.2495ms)
+✔ it: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (19.46475ms)
+✔ ur: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (14.891458ms)
+✔ uk: static closing buttons preserve destinations, tiles match the home data, disclosure is unchanged (20.689417ms)
+✔ closing market gates suppress rebate claims and Turkish unlisted venues (6.693625ms)
+✔ closing component has no hooks, observers or scripts; shell CSS reserves logos and reduced motion (0.824334ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 845.554167

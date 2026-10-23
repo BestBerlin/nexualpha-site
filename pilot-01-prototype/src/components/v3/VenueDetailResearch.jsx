@@ -22,6 +22,7 @@ import { formatPercent } from "../../data/format-percent.js";
 import { localeKey, zhText, localePending, LocalLink } from "./v3-pages-shared.jsx";
 import { detailUi, dexFeeCompactUi, copyFeedbackLabel, useCopyFeedback, CopyFeedbackStatus, telegramLocaleUi } from "./venue-detail-shared.jsx";
 import { hydratedTelegramReturnHref, telegramReturnClockOption, useHydratedTelegramReturnNow } from "./telegram-return-hydration.js";
+import { VenueVisualIcon } from "./VenueDetailPageVisuals.jsx";
 
 const porUi = (locale, venueName) => ({
   ja: {
@@ -431,7 +432,7 @@ function EditorialList({ title, items, fallback }) {
   const visible = items?.length ? items : fallback;
   return <article>
     <span>{title}</span>
-    <ul className="v3-detail-list">{visible.map((item) => <li key={item}>{item}</li>)}</ul>
+    <ul className="v3-detail-list vx-check-tiles">{visible.map((item) => <li key={item}><VenueVisualIcon kind="identity" /><span>{item}</span></li>)}</ul>
   </article>;
 }
 
@@ -843,17 +844,17 @@ function VenueAntiPhishingSecurity({ venue, locale, db, partner, officialDomain,
         </div>
 
         <div className="v3-rules-row">
-          <div className="v3-rule-card">
+          <div className="v3-rule-card"><VenueVisualIcon kind="shield" />
             <span className="v3-rule-badge">{isZh ? "防骗规则 1" : "Rule 01"}</span>
             <strong>{isZh ? "绝不点击 Google 搜索首条赞助广告" : (securityUi.copyRule || "Never Click Sponsored Ads")}</strong>
             <p>{isZh ? "黑客常伪造仿冒顶级域名并在搜索广告中买量，请直接输入官方域名或通过书签访问。" : (securityUi.copyRuleBody || "Search ads frequently direct to counterfeit typo-squatted domains.")}</p>
           </div>
-          <div className="v3-rule-card">
+          <div className="v3-rule-card"><VenueVisualIcon kind="shield" />
             <span className="v3-rule-badge">{isZh ? "防骗规则 2" : "Rule 02"}</span>
             <strong>{isZh ? "官方人员绝不会在 Telegram 主动私聊" : (securityUi.dmRule || "Official Support Never DMs First")}</strong>
             <p>{isZh ? "任何在 Telegram/Discord 私聊要求输入助记词、充值解冻或私下 OTC 的 100% 为诈骗分子。" : (securityUi.dmRuleBody || "Never disclose seed phrases or transfer margin funds to private Telegram DMs.")}</p>
           </div>
-          <div className="v3-rule-card">
+          <div className="v3-rule-card"><VenueVisualIcon kind="shield" />
             <span className="v3-rule-badge">{isZh ? "防骗规则 3" : "Rule 03"}</span>
             <strong>{isZh ? "必须开启账户安全防钓鱼码" : (securityUi.codeRule || "Enable Anti-Phishing Code")}</strong>
             <p>{isZh ? "在个人安全中心设置防钓鱼码 (Anti-Phishing Code)，官方发送的每一封邮件都会印有您的专属安全暗号。" : (securityUi.codeRuleBody || "Configure an anti-phishing code in security settings to validate all incoming emails.")}</p>
@@ -943,7 +944,7 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
   {/* Chapter = h3, its sub-sections = h4, so the chapter heading is never an empty h3 in the outline (SEO audit
       2026-10-11 #6). */}
   <section className="v3-profile-research-chapter" data-research-task="account">
-    <h3 className="v3-profile-sources-group__heading">{profileChapters[0]}</h3>
+      <h3 className="v3-profile-sources-group__heading"><VenueVisualIcon kind="identity" />{profileChapters[0]}</h3>
     <div className="v3-profile-research-chapter__body">
     <div className="v3-profile-account-block v3-venue-invitation-disclosure">
       <div className="v3-registration-notes__body">
@@ -980,26 +981,26 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
       </header>
       <div className="v3-profile-cost-conditions__body">
         <div className="v3-venue-metrics-grid">
-          {reviewedSpotRate && <div className="v3-metric-tile">
+          {reviewedSpotRate && <div className="v3-metric-tile"><VenueVisualIcon kind="fees" />
             <span className="v3-metric-tile__label">{isZhLocale ? zhText(locale, "现货基准费率", "現貨基準費率") : (metricText?.[0] || "Spot Base Fee")}</span>
             <strong className="v3-metric-tile__val text-blue" translate="no">{spotFeeDisplay}</strong>
             <span className="v3-metric-tile__sub">{reviewedSpotRate ? reviewedSpotRate.conditions : matrixCopy(locale).maker}</span>
           </div>}
           {/* Tiles with no verified value render nothing (SEO audit 2026-10-11 #6: "Pending official-source verification"). */}
           {porVerified && (
-          <div className="v3-metric-tile">
+          <div className="v3-metric-tile"><VenueVisualIcon kind="shield" />
               <span className="v3-metric-tile__label">{isZhLocale ? zhText(locale, "资产储备证明 (PoR)", "資產儲備證明 (PoR)") : (metricText?.[1] || "Proof of Reserves")}</span>
               <strong className={`v3-metric-tile__val${porVerified ? " text-green" : ""}`} translate="no">{porVerified ? porRatio : (isZhLocale ? zhText(locale, "待官方核验", "待官方核驗") : runtimeUi.pendingVerification)}</strong>
               <span className="v3-metric-tile__sub">{porVerified ? (db.auditFirm || (isZhLocale ? zhText(locale, "公开链上默克尔树", "公開鏈上默克爾樹") : metricText?.[4] || "Public Merkle Tree")) : (isZhLocale ? zhText(locale, "未记录可复核来源", "未記錄可複核來源") : runtimeUi.noSource)}</span>
             </div>
           )}
-          {db.kycCheckedAt && <div className="v3-metric-tile">
+          {db.kycCheckedAt && <div className="v3-metric-tile"><VenueVisualIcon kind="identity" />
             <span className="v3-metric-tile__label">{isZhLocale ? zhText(locale, "身份验证要求", "身分驗證要求") : (metricText?.[2] || "KYC Requirement")}</span>
             <strong className="v3-metric-tile__val text-purple">{kycSummary}</strong>
             <span className="v3-metric-tile__sub">{isZhLocale ? zhText(locale, "支持多国认证", "支援多國認證") : runtimeUi.globalVerification}</span>
           </div>}
           {db.maxLeverage && db.leverageCheckedAt && (
-          <div className="v3-metric-tile">
+          <div className="v3-metric-tile"><VenueVisualIcon kind="fees" />
               <span className="v3-metric-tile__label"><GlossaryTooltip term="leverage" locale={locale}>{isZhLocale ? "最大合约杠杆" : (metricText?.[3] || "Max Leverage")}</GlossaryTooltip></span>
               <strong className="v3-metric-tile__val text-gold" translate="no">{maxLev}</strong>
               <span className="v3-metric-tile__sub">{isZhLocale ? "以官方产品条款为准" : runtimeUi.productTerms}</span>
@@ -1065,7 +1066,7 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
     </div>
   </section>
   <section className="v3-profile-research-chapter" data-research-task="sources">
-    <h3 className="v3-profile-sources-group__heading">{profileChapters[1]}</h3>
+    <h3 className="v3-profile-sources-group__heading"><VenueVisualIcon kind="shield" />{profileChapters[1]}</h3>
     <div className="v3-profile-research-chapter__body">
     <div className="v3-profile-evidence-block">
   <div className="v3-profile-evidence-block__body">
@@ -1092,7 +1093,7 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
     </div>
   </section>
   <section className="v3-profile-research-chapter" data-research-task="follow-up">
-    <h3 className="v3-profile-sources-group__heading">{profileChapters[2]}</h3>
+    <h3 className="v3-profile-sources-group__heading"><VenueVisualIcon kind="arrow" />{profileChapters[2]}</h3>
     <div className="v3-profile-research-chapter__body">
     <div className="v3-profile-secondary-research" data-profile-task="telegram">
       <div className="v3-profile-secondary-research__body">

@@ -1,0 +1,20 @@
+✔ article figures preserve authored context and omit dates, tables, links and unsupported prose (2.435ms)
+✔ ordered and star lists preserve complete statements and the existing figure gates (0.286708ms)
+✔ actual onboarding and passkey feed articles expose their ordered-list cooldown figures (60.285292ms)
+✔ en: SSR includes stable category art, complete figure context, quote/table panels and related art (280.69425ms)
+✔ zh-Hans: SSR includes stable category art, complete figure context, quote/table panels and related art (453.25475ms)
+✔ ar: SSR includes stable category art, complete figure context, quote/table panels and related art (10.536167ms)
+✔ figure-free articles do not invent a facts panel (12.280584ms)
+✔ article art and panels remain route-owned with reserved sizes and logical layout (0.717541ms)
+✔ shared art is deterministic and decorative, and priority logos reserve their size (5.928ms)
+✔ ambiguous everyday words do not invent related exchanges (1.435125ms)
+✔ home consumes art from shared module with no reverse home dependency (0.708042ms)
+✔ built home entry excludes the extracted art and venue icon helpers (6.908875ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1110.140584

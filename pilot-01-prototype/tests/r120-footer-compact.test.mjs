@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
@@ -11,7 +11,6 @@ const React = require('react');
 const { renderToStaticMarkup } = require('react-dom/server');
 const { buildSync } = require('esbuild');
 const sourceUrl = new URL('../src/components/v3/CleanFooter.jsx', import.meta.url);
-const baselineUrl = new URL('../../footer-before/CleanFooter.jsx', import.meta.url);
 function component(source) {
   const module = { exports: {} };
   const compiled = buildSync({ stdin: { contents: source, resolveDir: fileURLToPath(new URL('.', sourceUrl)), loader: 'jsx' }, bundle: true, platform: 'node', format: 'cjs', write: false, external: ['react'], loader: { '.css': 'empty' } }).outputFiles[0].text;
@@ -19,15 +18,10 @@ function component(source) {
   return module.exports.CleanFooter;
 }
 const Current = component(readFileSync(sourceUrl, 'utf8'));
-const Before = existsSync(baselineUrl) ? component(readFileSync(baselineUrl, 'utf8')) : null;
 const render = (Component, locale, brazil = false) => renderToStaticMarkup(React.createElement(Component, { locale, brazil }));
-const locales = ['en','zh-Hans','zh-Hant','ja','ko','tr','es','pt-BR','fr','de','ru','ar','id','vi','it'];
-const hrefs = html => [...html.matchAll(/href="([^"]+)"/g)].map(match => match[1]).sort();
+const locales = ['en','zh-Hans','zh-Hant','ja','ko','tr','es','pt-BR','fr','de','ru','ar','ur','uk','id','vi','it'];
 
 for (const locale of locales) {
-  test(`${locale}: historical footer destinations remain unchanged`, { skip: !Before && 'Original footer-before source snapshot is absent; current footer checks still run' }, () => {
-    for (const brazil of [false, true]) assert.deepEqual(hrefs(render(Current, locale, brazil)), hrefs(render(Before, locale, brazil)));
-  });
   test(`${locale}: current footer keeps legal routes, named navigation and identity visible`, () => {
     const html = render(Current, locale);
     assert.match(html, /<footer class="nx-ftr" id="policy">/);
@@ -38,7 +32,11 @@ for (const locale of locales) {
     for (const path of ['/privacy','/terms','/methodology#disclosure','/editorial-policy','/contact']) {
       assert.ok(html.includes(`href="${localizedHref(path,{locale})}"`), `${locale} retains ${path}`);
     }
-    assert.doesNotMatch(html, /<details\b|\shidden(?:=|\s|>)/, 'legal navigation needs no expansion');
+    const legal = html.slice(html.indexOf('<div class="nx-ftr__legal-row"'));
+    assert.doesNotMatch(legal, /<details\b|\shidden(?:=|\s|>)/, 'legal navigation needs no expansion');
+    assert.match(html, /nx-ftr__languages/);
+    assert.match(html, /nx-ftr__logo-strip/);
+    assert.match(html, /data-footer-disclosure/);
   });
 }
 

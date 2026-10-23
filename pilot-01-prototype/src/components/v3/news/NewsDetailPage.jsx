@@ -37,6 +37,7 @@ import { articleClusterLineLabel, articleClusterLinks } from "../../../data/topi
 import { newsQueryOwnerLink, newsSignupBridge } from "../../../data/news-lead-links.js";
 import { serpCtrNewsOverride } from "../../../data/serp-ctr-news-overrides.js";
 import { tokenizeInlineMarkdown } from "../../../data/article-inline-markdown.js";
+import CardArt from "../../shared/CardArt.jsx";
 import { DataRule, utcStamp } from "../../shared/DataRule.jsx";
 import { formatSgt } from "../../../data/local-time.js";
 import { ArticleMarketContext } from "./ArticleMarketContext.jsx";
@@ -467,6 +468,7 @@ function RelatedResearch({ links, relatedArticles = [], locale, t, withContext, 
                 data-growth-decision={item.slug}
                 data-growth-placement="news-detail-related-article"
               >
+                <CardArt item={{ href: newsArticleUrl(item.slug, locale, item), categoryKey: item.category, venues: item.relatedVenues }} />
                 <span className="news-detail__related-meta">{relatedArticleCategory(item, locale)} · <time dateTime={item.publishedAt}>{String(item.publishedAt || "").slice(0, 10)}</time></span>
                 <span className="news-detail__related-title">{localizedNewsTitle(item, locale)}</span>
               </a>
@@ -551,6 +553,45 @@ const NUMERIC_CELL = /^[~≈<>≤≥±+\-−]?\s?[$€£¥]?\s?\d[\d,.\s]*(?:%|b
 export function isNumericCell(cell) {
   const text = String(cell || "").replace(/\*\*|`/g, "").trim();
   return text.length > 0 && text.length <= 32 && NUMERIC_CELL.test(text);
+}
+
+// Keep the entire authored statement beside its figure. Dates, headings, tables, links and long
+// paragraphs are deliberately excluded: this is an index into the article, not an inferred fact.
+const ARTICLE_FIGURE = /(?:[$€£¥]\s?\d[\d,.]*(?:\s?(?:quadrillion|trillion|billion|million|thousand|bn\b|mn\b|万亿|萬億|亿|億|万|萬|千|兆|[KMBT]\b))?|\d[\d,.]*(?:\s|-)?(?:%|bps\b|hours?\b|days?\b|minutes?\b|小时|小時|天|分钟|分鐘|(?:USDT|USDC|USD)\b|BTC\b|ETH\b))/i;
+const ARTICLE_FACT_LIST_MARKER = /^(?:[-*]|\d+[.)])\s+/;
+export function articleNumericFacts(content) {
+  const seen = new Set();
+  return String(content || "").split(/\n\s*\n/).flatMap((block) => {
+    const text = block.trim();
+    if (!text || /^(?:#|\||>|::)/.test(text) || /https?:|\]\(|`/.test(text)) return [];
+    const lines = text.split("\n");
+    if (lines.length > 1 && !lines.every(line => ARTICLE_FACT_LIST_MARKER.test(line.trim()))) return [];
+    return lines.map(line => line.trim().replace(ARTICLE_FACT_LIST_MARKER, "").replace(/\*\*/g, ""));
+  }).flatMap(text => {
+    if (text.length > 240 || seen.has(text)) return [];
+    const match = text.match(ARTICLE_FIGURE);
+    if (!match) return [];
+    // Do not promote one endpoint of a range into a standalone headline figure.
+    const before = text.slice(0, match.index);
+    const after = text.slice(match.index + match[0].length);
+    if (/\d[\d,.]*\s*(?:%|bps)?\s*(?:[-–—]|to|至)\s*$/i.test(before)
+      || /^\s*(?:[-–—]|to|至)\s*[$€£¥]?\s*\d/i.test(after)) return [];
+    seen.add(text);
+    return [{ text, figure: match[0], kind: /%|bps/i.test(match[0]) ? "rate" : /hour|day|minute|小时|小時|天|分钟|分鐘/i.test(match[0]) ? "time" : "amount" }];
+  }).slice(0, 3);
+}
+const articleFigureLabels = {
+  en: "Figures in this article", "zh-Hans": "文中数字", "zh-Hant": "文中數字", ja: "記事中の数値", ko: "본문의 수치",
+  es: "Cifras del artículo", "pt-BR": "Números do artigo", fr: "Chiffres de l’article", de: "Zahlen im Artikel",
+  it: "Cifre nell’articolo", tr: "Makaledeki rakamlar", ru: "Цифры в статье", ar: "أرقام في المقال",
+  ur: "مضمون کے اعداد", uk: "Цифри у статті", id: "Angka dalam artikel", vi: "Số liệu trong bài viết",
+};
+function ArticleFactIcon({ kind }) {
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {kind === "rate" ? <><path d="m6 18 12-12" /><circle cx="7" cy="7" r="3" /><circle cx="17" cy="17" r="3" /></>
+      : kind === "time" ? <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>
+        : <><path d="M4 20h16M7 16v-5m5 5V7m5 9v-6" /><path d="m5 7 6-4 7 3" /></>}
+  </svg>;
 }
 
 // Lead answer (editorial templates 2026-10-11): the article's first H2 section is the direct answer. Its heading text is
@@ -809,6 +850,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   // Neutral locales (locale-policy.js): sign-up sentences, codes and the partner-feed source are removed at render time.
   const localizedSummary = neutralArticleMarkdown(localizedNewsSummary(article, locale), locale);
   const content = neutralArticleMarkdown(localizedValue(article.content, contentLocale), locale);
+  const numericFacts = articleNumericFacts(content);
   const articleSources = neutralArticleSources(article.sources, locale) || [];
   const showsOriginalLanguage = contentLocale !== locale;
   const { leadBlocks, deepBlocks } = splitArticleReadingSections(dropEmptyArticleHeadings(isolateArticleEmbedDirectives(content)));
@@ -879,6 +921,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
         </nav>
 
         <header className="news-detail__header">
+          <div className="news-detail__category-art"><CardArt item={{ href: newsArticleUrl(article.slug, locale, article), categoryKey: article.category, venues: article.relatedVenues }} priority /></div>
           <p className="news-detail__category">
             {categoryHref
               ? <a className="news-detail__tag" href={categoryHref} data-cta-kind="research" data-cta-placement="news-detail-category">{categoryLabel}</a>
@@ -946,6 +989,14 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             />}
             {leadNodes}
           </div>
+          {numericFacts.length > 0 && <aside className="news-detail__figures" aria-labelledby="article-figures-title">
+            <DataRule as="h2" label={articleFigureLabels[contentLocale] || articleFigureLabels.en} labelId="article-figures-title" stamp={String(numericFacts.length).padStart(2, "0")} />
+            <ul>{numericFacts.map(fact => <li key={fact.text}>
+              <span className="news-detail__figure-icon"><ArticleFactIcon kind={fact.kind} /></span>
+              <bdi className="news-detail__figure-value" dir="ltr">{fact.figure}</bdi>
+              <p>{fact.text}</p>
+            </li>)}</ul>
+          </aside>}
           {deepBlocks.length > 0 && <details
             ref={articleDisclosureRef}
             className="news-detail__article-disclosure"

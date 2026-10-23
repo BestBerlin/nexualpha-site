@@ -1,0 +1,117 @@
+{
+  "renderer": "dist/ssr/entry-server.js",
+  "browserOpened": false,
+  "routeCssVerified": true,
+  "routes": [
+    {
+      "file": "home-en.html",
+      "url": "/",
+      "locale": "en",
+      "h1": "Trade $10M on Bitget, get back automatically",
+      "bytes": 144700,
+      "sha256": "52b2837f11aa52f2f66c428e29d6a54268f3e715062757a27a9524fa4d6639c3",
+      "stylesheets": [
+        "/assets/route-v3-pages-strip-B9dGq9Xu.css",
+        "/assets/CrawlPriorityLinks-mTvFlrPl.css",
+        "/assets/home-below-fold-DI1V7PAM.css",
+        "/assets/page-home-calculator-DiAv_Gv6.css",
+        "/assets/page-home-movers-Cji9oHxZ.css",
+        "/assets/index-BBY1ydFA.css",
+        "/assets/page-home-mid1-Blfh1Lnq.css",
+        "/assets/core-b-CZelQrzY.css",
+        "/assets/page-home-mid2-C4afzbTA.css",
+        "/assets/page-home-v6-06f8f1d8.css",
+        "/assets/page-home-late-XbNTUmvn.css"
+      ]
+    },
+    {
+      "file": "home-zh-hans.html",
+      "url": "/zh-hans",
+      "locale": "zh-Hans",
+      "h1": "在 Bitget 交易 1000 万 U 自动返还你",
+      "bytes": 136649,
+      "sha256": "ad77fdcabf4f06b4c0ee010775a36f22527224c73f3b15b200d14197b37f1a3f",
+      "stylesheets": [
+        "/assets/route-v3-pages-strip-B9dGq9Xu.css",
+        "/assets/CrawlPriorityLinks-mTvFlrPl.css",
+        "/assets/home-below-fold-DI1V7PAM.css",
+        "/assets/page-home-calculator-DiAv_Gv6.css",
+        "/assets/page-home-movers-Cji9oHxZ.css",
+        "/assets/index-BBY1ydFA.css",
+        "/assets/page-home-mid1-Blfh1Lnq.css",
+        "/assets/core-b-CZelQrzY.css",
+        "/assets/page-home-mid2-C4afzbTA.css",
+        "/assets/page-home-v6-06f8f1d8.css",
+        "/assets/page-home-late-XbNTUmvn.css"
+      ]
+    },
+    {
+      "file": "home-ar.html",
+      "url": "/ar",
+      "locale": "ar",
+      "h1": "رسوم المنصات جنبًا إلى جنب.قارن قبل أن تتداول.",
+      "bytes": 117361,
+      "sha256": "259b03b2408271901436c41e4ff284f642185e7d15e5c9eb9e8feb57b19c437c",
+      "stylesheets": [
+        "/assets/route-v3-pages-strip-B9dGq9Xu.css",
+        "/assets/CrawlPriorityLinks-mTvFlrPl.css",
+        "/assets/home-below-fold-DI1V7PAM.css",
+        "/assets/page-home-calculator-DiAv_Gv6.css",
+        "/assets/page-home-movers-Cji9oHxZ.css",
+        "/assets/index-BBY1ydFA.css",
+        "/assets/page-home-mid1-Blfh1Lnq.css",
+        "/assets/core-b-CZelQrzY.css",
+        "/assets/page-home-mid2-C4afzbTA.css",
+        "/assets/page-home-v6-06f8f1d8.css",
+        "/assets/page-home-late-XbNTUmvn.css"
+      ]
+    },
+    {
+      "file": "venue-bitget.html",
+      "url": "/exchanges/bitget",
+      "locale": "en",
+      "h1": "Bitget referral code: nexu888",
+      "bytes": 108237,
+      "sha256": "55d23a69a6b913bcba0b790f2640ee15a4411580eae17fb2b43c1cd5e8ffe096",
+      "stylesheets": [
+        "/assets/route-v3-registration-Bp-zVp8O.css",
+        "/assets/route-v3-pages-growth-B_QoPQRY.css",
+        "/assets/route-v3-decision-articles-CWMRbu4U.css",
+        "/assets/route-activity-SVed9Fro.css",
+        "/assets/route-v3-research-panels-D37EyhLa.css",
+        "/assets/route-v3-readiness-DMJR0oHn.css",
+        "/assets/route-v3-pages-strip-B9dGq9Xu.css",
+        "/assets/route-v3-pages-1pNHMFIg.css",
+        "/assets/route-v3-pages-detail-fOBGrGuD.css",
+        "/assets/page-profile-fiat-CkasW-b-.css",
+        "/assets/route-licenses-IUXgdDJo.css",
+        "/assets/route-v3-pages-detail-stocks-Cogh_Agp.css",
+        "/assets/route-v3-venue-DpdKAyV0.css",
+        "/assets/index-BBY1ydFA.css",
+        "/assets/page-profile-signature-mid1-B3_HNw6V.css",
+        "/assets/page-profile-mid1-BDdoIGjF.css",
+        "/assets/core-b-CZelQrzY.css",
+        "/assets/page-detail-mid2-VzrK0foD.css",
+        "/assets/core-c-d20b7ec5.css"
+      ]
+    },
+    {
+      "file": "article-en.html",
+      "url": "/news/cftc-sec-tokenized-collateral-vs-tokenized-securities-boundary-map",
+      "locale": "en",
+      "h1": "CFTC Crypto FAQ and SEC Tokenized Securities Boundary Map",
+      "bytes": 62536,
+      "sha256": "fb99dbce94029ce76a894d2dfebcb0027586b535ef5c7969ffc55f19c2119422",
+      "stylesheets": [
+        "/assets/route-topic-guide-CBpqS7c3.css",
+        "/assets/route-news-shared-CR8fQg_I.css",
+        "/assets/route-data-D2UVfZAz.css",
+        "/assets/route-news-detail-CDScZxma.css",
+        "/assets/index-BBY1ydFA.css",
+        "/assets/page-news-signature-mid1-D6YOvw-I.css",
+        "/assets/core-b-CZelQrzY.css",
+        "/assets/core-c-d20b7ec5.css"
+      ]
+    }
+  ]
+}

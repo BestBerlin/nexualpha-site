@@ -1,8 +1,10 @@
+import { CLOSE_COPY } from "./LeanHeroCopyV6.js";
 import { organizationDescription } from "../../data/brand-definition.js";
 import { beginnerPath } from "../../data/beginner-routes.js";
 import { BEGINNER_DOORS } from "../../data/beginner-home-copy.js";
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { BrandMark } from "../brand/BrandMark";
+import { localeManifest } from "../../content/locale-manifest";
 import { localizedHref } from "../../data/locale-routing.js";
 import { dataPageCopy } from "../../data/market-data-pages-nav.js";
 import { academyShellCopy } from "../../data/academy.js";
@@ -384,8 +386,21 @@ export function footerDisclosureLabel(locale) {
   return getFooterLabels(locale).disclosure;
 }
 
+// Decorative section symbols reuse a single static SVG; no client state or icon dependency.
+function FooterSectionIcon({ kind }) {
+  const paths = {
+    product: "M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z",
+    exchanges: "M3 7h18M17 3l4 4-4 4M21 17H3M7 13l-4 4 4 4",
+    learn: "M3 4h6l3 2 3-2h6v15h-6l-3 2-3-2H3zM12 6v15",
+    about: "M12 11v6M12 7v1M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0",
+  };
+  return <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[kind]} /></svg>;
+}
+
 export function CleanFooter({ locale = "en", market, brazil = false }) {
+  const selectedLocale = locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale;
   const labels = getFooterLabels(locale);
+  const comparisonLabel = (CLOSE_COPY[selectedLocale] || CLOSE_COPY.en).cmp;
   const dataNav = dataPageCopy(locale).nav;
   const href = (target) => localizedHref(target, { locale });
   const partnerProgramLabel = { en: "Partner program", "zh-Hans": "合作伙伴计划", es: "Programa de socios", "pt-BR": "Programa de parceiros", fr: "Programme partenaires", de: "Partnerprogramm", ja: "パートナープログラム", ko: "파트너 프로그램", tr: "İş ortağı programı", id: "Program partner", it: "Programma partner" }[locale] || "Partner program";
@@ -425,14 +440,14 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
       links: turkeyRoute
         ? [
           { href: href("/exchanges"), label: labels.directory },
-          { href: href("/compare"), label: { en: "Exchange comparison", "zh-Hans": "交易所对比", "zh-Hant": "交易所比較", tr: "Borsa karşılaştırması" }[locale] || "Exchange comparison" },
+          { href: href("/compare"), label: comparisonLabel },
           { href: href("/activities"), label: activityCenterLabel[locale] || activityCenterLabel.en },
           { href: href(DEPOSIT_ROOTS[0]), label: depositNavLabel(locale) },
           { href: href(TS_PATH), label: tokenizedStocksNavLabel(locale) },
         ]
         : [
           { href: href("/exchanges"), label: labels.directory },
-          { href: href("/compare"), label: { en: "Exchange comparison", "zh-Hans": "交易所对比", "zh-Hant": "交易所比較", tr: "Borsa karşılaştırması" }[locale] || "Exchange comparison" },
+          { href: href("/compare"), label: comparisonLabel },
           { href: href("/activities"), label: activityCenterLabel[locale] || activityCenterLabel.en },
           { href: href(DEPOSIT_ROOTS[0]), label: depositNavLabel(locale) },
           { href: href(TS_PATH), label: tokenizedStocksNavLabel(locale) },
@@ -484,25 +499,25 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
           <NexuAlphaWordmark variant="footer" href={href("/#top")} />
           {/* Brand slogan A (owner 2026-10-11, src/data/brand-slogan.js): one quiet line under the mark on every page. */}
           <p className="nx-ftr__slogan">{brandSlogan(locale)}</p>
-          <p className="nx-ftr__definition">{organizationDescription(locale)}</p>
           {/* Owner 2026-10-23: the full social matrix with labels (official accounts, locale-appropriate YouTube and channel). */}
           <nav className="nx-ftr__follow" aria-labelledby="nx-ftr-follow" data-footer-social>
             <h2 className="nx-ftr__heading" id="nx-ftr-follow">{social.follow}</h2>
             <ul className="nx-ftr__socials">
-              {socialItems.map(([key, href, label, Glyph]) => <li key={key}><a className={`nx-ftr__social nx-ftr__social--${key}`} href={href} target="_blank" rel="noopener" data-cta-kind={key.startsWith("tg") ? "telegram" : "social"} data-cta-placement={`footer-follow-${key}`}><Glyph size={16} /><span>{label}</span></a></li>)}
+              {socialItems.map(([key, href, label, Glyph]) => <li key={key}><a className={`nx-ftr__social nx-ftr__social--${key}`} href={href} target="_blank" rel="noopener" data-cta-kind={key.startsWith("tg") ? "telegram" : "social"} data-cta-placement={`footer-follow-${key}`}><Glyph size={20} /><span>{label}</span></a></li>)}
             </ul>
           </nav>
           {partnerLinks.length ? <nav className="nx-ftr__entry" aria-labelledby="nx-ftr-entry" data-footer-partner-links>
             <h2 className="nx-ftr__heading" id="nx-ftr-entry">{partnerGroupLabel}</h2>
             <ul>
-              {partnerLinks.map((link) => <li key={link.key}><a href={link.href} target="_blank" rel="sponsored noopener noreferrer" data-footer-partner-link={link.slug} data-cta-kind="registration" data-cta-platform={link.slug} data-cta-placement="footer"><BrandMark slug={link.slug} compact /><span>{link.name}</span></a></li>)}
+              {partnerLinks.map((link) => <li key={link.key}><a href={link.href} target="_blank" rel="sponsored noopener noreferrer" data-footer-partner-link={link.slug} data-cta-kind="registration" data-cta-platform={link.slug} data-cta-placement="footer"><BrandMark slug={link.slug} /><span>{link.name}</span></a></li>)}
             </ul>
-          </nav> : null}
+            <p className="nx-ftr__definition" data-footer-disclosure>{organizationDescription(locale)}</p>
+          </nav> : <p className="nx-ftr__definition" data-footer-disclosure>{organizationDescription(locale)}</p>}
         </div>
 
         <nav className="nx-ftr__columns" aria-label={labels.navAria}>
           {primaryColumns.map((column) => <section className="nx-ftr__column" aria-labelledby={`nx-ftr-${column.key}`} key={column.key}>
-            <h2 className="nx-ftr__heading" id={`nx-ftr-${column.key}`}>{column.title}</h2>
+            <h2 className="nx-ftr__heading" id={`nx-ftr-${column.key}`}><FooterSectionIcon kind={column.key} />{column.title}</h2>
             <ul>
               {column.links.map((link) => <li key={`${column.key}-${link.href}`}><a href={link.href}>{link.label}</a></li>)}
             </ul>
@@ -510,12 +525,23 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
         </nav>
 
         <nav className="nx-ftr__discovery" aria-label={columnLabels.exchanges} data-footer-fee-links>
-          <h2 className="nx-ftr__heading">{columnLabels.exchanges}</h2>
-          <ul>
-            {feeVenues.map((slug) => <li key={slug}><a href={href(`/exchanges/${slug}`)}>{venueDatabase[slug]?.name || slug}</a></li>)}
-            {feeComparisons.map((pair) => <li key={pair}><a href={href(`/compare/${pair}`)}>{pair.split("-vs-").map((slug) => venueDatabase[slug]?.name || slug).join(" vs ")}</a></li>)}
+          <ul className="nx-ftr__logo-strip">
+            {feeVenues.map((slug) => <li key={slug}><a href={href(`/exchanges/${slug}`)} aria-label={venueDatabase[slug]?.name || slug} title={venueDatabase[slug]?.name || slug}><BrandMark slug={slug} compact /></a></li>)}
           </ul>
+          <details className="nx-ftr__pairs">
+            <summary>{comparisonLabel}<span aria-hidden="true">＋</span></summary>
+            <ul>
+              {feeComparisons.map((pair) => <li key={pair}><a href={href(`/compare/${pair}`)}>{pair.split("-vs-").map((slug, i) => <span key={slug}>{i ? <small aria-hidden="true">/</small> : null}<BrandMark slug={slug} compact /><bdi>{venueDatabase[slug]?.name || slug}</bdi></span>)}</a></li>)}
+            </ul>
+          </details>
         </nav>
+
+        <details className="nx-ftr__languages">
+          <summary><span aria-hidden="true">◎</span><span lang={locale}>{localeManifest[selectedLocale]?.language || localeManifest.en.language}</span><span aria-hidden="true">＋</span></summary>
+          <nav aria-label={labels.navAria}>
+            {Object.entries(localeManifest).map(([code, language]) => <a key={code} href={localizedHref("/", { locale: code })} lang={code} hrefLang={code} dir={language.direction} aria-current={code === selectedLocale ? "true" : undefined}>{language.language}</a>)}
+          </nav>
+        </details>
 
         <div className="nx-ftr__legal-row">
           <p className="nx-ftr__copyright"><bdi dir="ltr">© 2026 NexuAlpha</bdi></p>

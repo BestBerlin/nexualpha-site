@@ -25,7 +25,7 @@ const dirOf = (locale) => (["ar", "ur"].includes(locale) ? "rtl" : "ltr");
 const textFor = (locale) => COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
 const fill = (text, vars) => String(text || "").replace(/\{(\w+)\}/g, (_m, key) => vars[key] || "");
 
-export function HubNewsLinks({ locale = "en", name, items: allItems = [], tools = [], className = "v2-section", id }) {
+export function HubNewsLinks({ locale = "en", name, items: allItems = [], tools = [], className = "v2-section", id, renderArt }) {
   // Türkiye pages list no article that features an SPK-listed venue (tr-bitget-sweep).
   const items = withoutTurkeyUnlisted(allItems, { locale }, (item) => [item.slug, item.title, item.summary, item.href]);
   if (!items.length && !tools.length) return null;
@@ -37,6 +37,7 @@ export function HubNewsLinks({ locale = "en", name, items: allItems = [], tools 
       <ol className="v3-alternative-list">
         {items.map((item) => <li key={item.slug}>
           <a href={item.href} data-hub-news-link={item.slug} data-cta-kind="research" data-cta-placement="hub-latest-article">
+            {renderArt?.(item)}
             <small><time dateTime={item.publishedAt}>{String(item.publishedAt || "").slice(0, 10)}</time></small>
             <b>{item.title}</b>
             {item.summary ? <span>{item.summary}</span> : null}

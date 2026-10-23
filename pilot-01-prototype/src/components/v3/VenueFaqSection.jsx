@@ -12,6 +12,7 @@ import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { priorityVenueAnswerFor } from "../../data/priority-venue-answers.js";
 import { partnerVenueFaqFor } from "../../data/partner-venue-faq.js";
 import { venueFallbackFaqEntries } from "../../data/venue-faq-fallback.js";
+import { VenueVisualIcon } from "./VenueDetailPageVisuals.jsx";
 
 const localeKey = (locale) => {
   const value = String(locale || "");
@@ -383,6 +384,7 @@ export function VenueFaqSection({ venue, profile, locale, market, db = {}, partn
             <details key={faq.q} className="v3-faq-item" hidden={idx >= 2 && !showAllFaqs}>
               <summary className="v3-faq-summary">
                 <div className="v3-faq-summary-left">
+                  <VenueVisualIcon kind="question" />
                   <span className="v3-faq-q-text">{faq.q}</span>
                 </div>
                 <span className="v3-faq-arrow" aria-hidden="true">＋</span>

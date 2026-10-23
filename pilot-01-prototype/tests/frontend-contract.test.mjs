@@ -244,14 +244,14 @@ test("regional research previews expose bounded AEO questions and source freshne
   assert.match(venueYellowPagesCss, /\.yellow-pages__decision-card--mobile-collapsed \{ display: none; \}/);
 });
 
-// Owner overhaul: home keeps the decision desk and a compact closing band, without a research wall.
+// Footer redesign: home keeps the decision desk above the closing CTA and visual research cards.
 test("homepage keeps decisions above the compact closing band", () => {
   const activeHome = app.slice(app.lastIndexOf('return <main key={`locale-${locale}`}'));
   assert.match(activeHome, /<HomeV7[^>]*initialFlash=\{initialFlash\}/);
-  assert.match(activeHome, /<ClosingBand locale=\{locale\} \/>/);
+  assert.match(activeHome, /<ClosingBand locale=\{locale\} market=\{footerMarket\} \/>/);
   assert.ok(activeHome.indexOf("<HomeV7") < activeHome.indexOf("<ClosingBand"));
   assert.doesNotMatch(activeHome, /HomeResearchDrawer|legacy=/);
-  assert.match(activeHome, /<CrawlPriorityLinks locale=\{locale\} scope="home" \/>/);
+  assert.match(activeHome, /<CrawlPriorityLinks locale=\{locale\} scope="home"/);
   assert.ok(activeHome.indexOf("<ClosingBand") < activeHome.indexOf("<CrawlPriorityLinks"), "crawl discovery follows the decision and closing band");
   assert.ok(activeHome.indexOf("<CrawlPriorityLinks") < activeHome.indexOf("{footer}"), "discovery remains before the footer");
   const homeSections = ['className="h7-strip"', "<MoversBoard", "<TokenizedStrip", "<StableHomeBelowFold"];

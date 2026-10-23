@@ -8,6 +8,7 @@ import { labels as factLabels } from "./ExchangeFactsV5.jsx";
 import { matrixCopy } from "./exchange-matrix-copy.js";
 import { r9Text } from "../v6/inner-r9-copy.js";
 import { inner9Copy } from "./inner9-copy.js";
+import { VenueVisualIcon } from "./VenueDetailPageVisuals.jsx";
 
 const share = (v) => Math.max(0, Math.min(1, v / FEE_SCALE));
 const median = (list) => {
@@ -43,7 +44,7 @@ export function VenueFeeLedger({ slug, locale }) {
         const none = f.maker == null && f.taker == null;
         return (
           <div className={`r9-led__group${none ? " r9-led__group--nc" : ""}`} key={key} role="group" aria-label={name}>
-            <p className="r9-led__prod"><b>{name}</b><small>{sub}</small></p>
+            <p className="r9-led__prod"><VenueVisualIcon kind="fees" /><b>{name}</b><small>{sub}</small></p>
             {none ? (
               <p className="r9-led__nc"><span>{f.state === "none" ? matrixCopy(locale).notOffered : nc}</span><span className="r9-track" aria-hidden="true" /></p>
             ) : (
@@ -55,7 +56,10 @@ export function VenueFeeLedger({ slug, locale }) {
                     {v == null
                       ? <span className="r9-led__fig r9-led__fig--nc">{nc}</span>
                       : <span className="r9-led__fig v6-num" translate="no">{feePct(v, locale)}</span>}
-                    <span className="r9-track" aria-hidden="true">{v != null && <i style={{ "--w": share(v) }} />}{med != null && <b className="r9-track__median" style={{ "--m": share(med) }} />}</span>
+                    <span className="vx-fee-comparison">
+                      <span className="r9-track" aria-hidden="true">{v != null && <i style={{ "--w": share(v) }} />}{med != null && <b className="r9-track__median" style={{ "--m": share(med) }} />}</span>
+                      {med != null && <small className="vx-fee-median"><span>{inner9Copy(locale).median.replace("{n}", String(FEE_MEDIANS[key].n))}</span><b translate="no">{feePct(med, locale)}</b></small>}
+                    </span>
                   </p>
                 );
               })
@@ -65,7 +69,6 @@ export function VenueFeeLedger({ slug, locale }) {
       })}
       <figcaption className="r9-led__foot">
         <span>{t.scale.replace("{max}", feePct(FEE_SCALE, locale))}</span>
-        {FEE_MEDIANS.spot.n > 2 && <span className="r9-led__median-key"><i aria-hidden="true" />{inner9Copy(locale).median.replace("{n}", String(FEE_MEDIANS.spot.n))}</span>}
         {discounts.length > 0 && (
           <span className="r9-led__disc">
             {l.discount}{" "}

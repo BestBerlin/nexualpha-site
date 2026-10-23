@@ -111,31 +111,77 @@ export function CrawlPriorityLinks({ locale = "en", scope = "home" }) {
   const groups = (groupsByScope[scope] || groupsByScope.home)
     .filter((group) => group !== "brazil" || locale === "pt-BR" || locale === "en")
     .filter((group) => group !== "editions" || locale === "en");
-  return <nav className="crawl-priority-links v2-shell" data-crawl-priority-links={scope} aria-label={copy.label}>
-    <details className="crawl-priority-links__details" open>
-      <summary className="crawl-priority-links__intro">
-        <strong>{copy.label}</strong>
-        <span>{copy.note}</span>
-        <b aria-hidden="true">＋</b>
-      </summary>
-      <div className="crawl-priority-links__groups">
-        {groups.map((group) => (
-          <div className="crawl-priority-links__group" key={group} data-news-editions={group === "editions" ? "" : undefined}>
-            <span>{group === "editions" ? "News by language" : copy[group]}</span>
-            {withoutTurkeyUnlisted([...crawlPriorityLinks[group], ...(group === "tools" && scope === "home" && locale === "en" ? [
-              ["/coins", "Coin research"], ["/licenses", "Exchange licenses"], ["/convert/btc-to-usd", "Crypto converter"],
-            ] : []), ...(group === "compare" && locale === "en" ? [
-              ["/us", "US exchange research"], ["/id", "Indonesia exchange research"], ["/tw", "Taiwan exchange research"],
-              ["/topics/bybit-alternatives", "Bybit alternatives"],
-              ["/topics/brazil-crypto-exchange-deadline-2026", "Brazil exchange authorization deadline"],
-            ] : [])], { locale }, ([href]) => href).map(([href, label, edition]) => (
-              <a key={href} lang={edition} hrefLang={edition} href={edition || href.startsWith("/br") ? href : localizedHref(href, { locale })}>{labelOverrides.get(href) || label}</a>
-            ))}
-          </div>
-        ))}
-      </div>
-    </details>
+  const navigationCopy = ({
+    en: ["All comparisons", "More research"],
+    "zh-Hans": ["全部比较", "更多研究"], "zh-Hant": ["全部比較", "更多研究"],
+    "pt-BR": ["Todas as comparações", "Mais pesquisas"], es: ["Todas las comparaciones", "Más investigación"],
+    fr: ["Toutes les comparaisons", "Plus de recherches"], de: ["Alle Vergleiche", "Weitere Analysen"],
+    it: ["Tutti i confronti", "Altre ricerche"], ja: ["すべての比較", "その他のリサーチ"], ko: ["모든 비교", "더 많은 리서치"],
+    tr: ["Tüm karşılaştırmalar", "Daha fazla araştırma"], ru: ["Все сравнения", "Другие исследования"],
+    id: ["Semua perbandingan", "Riset lainnya"], vi: ["Tất cả so sánh", "Nghiên cứu khác"],
+    ar: ["جميع المقارنات", "المزيد من الأبحاث"], ur: ["تمام موازنے", "مزید تحقیق"], uk: ["Усі порівняння", "Інші дослідження"],
+  })[locale] || ["All comparisons", "More research"];
+  const groupLinks = (group) => withoutTurkeyUnlisted([...crawlPriorityLinks[group], ...(group === "tools" && scope === "home" && locale === "en" ? [
+    ["/coins", "Coin research"], ["/licenses", "Exchange licenses"], ["/convert/btc-to-usd", "Crypto converter"],
+  ] : []), ...(group === "compare" && locale === "en" ? [
+    ["/us", "US exchange research"], ["/id", "Indonesia exchange research"], ["/tw", "Taiwan exchange research"],
+    ["/topics/bybit-alternatives", "Bybit alternatives"],
+    ["/topics/brazil-crypto-exchange-deadline-2026", "Brazil exchange authorization deadline"],
+  ] : [])], { locale }, ([href]) => href);
+  const destination = (href, edition) => edition || href.startsWith("/br") ? href : localizedHref(href, { locale });
+  const renderCard = ([href, label, edition], group) => {
+    const pair = href.match(/^\/compare\/([a-z-]+)-vs-([a-z-]+)$/);
+    return <a className={`research-library__card${pair ? " research-library__card--compare" : ""}${edition ? " research-library__chip" : ""}`}
+      key={href} lang={edition} hrefLang={edition} href={destination(href, edition)}>
+      {pair ? <span className="research-library__pair" aria-hidden="true" dir="ltr">
+        <img src={`/brands/tile/${pair[1]}-64.webp`} width="40" height="40" loading="lazy" alt="" />
+        <b>vs</b>
+        <img src={`/brands/tile/${pair[2]}-64.webp`} width="40" height="40" loading="lazy" alt="" />
+      </span> : !edition ? <ResearchIcon kind={group} /> : null}
+      <span className="research-library__card-label">{labelOverrides.get(href) || label}</span>
+      {!edition && <span className="research-library__arrow" aria-hidden="true">↗</span>}
+    </a>;
+  };
+  return <nav className="crawl-priority-links research-library v2-shell" data-crawl-priority-links={scope} aria-label={copy.label}>
+    <header className="research-library__intro">
+      <h2>{copy.label}</h2>
+      <p>{copy.note}</p>
+    </header>
+    <div className="research-library__sections">
+      {groups.map((group) => {
+        const links = groupLinks(group);
+        const comparisons = group === "compare" ? links.filter(([href]) => href.startsWith("/compare/")) : [];
+        const featured = comparisons.slice(0, 6);
+        const extra = links.filter((link) => !featured.includes(link));
+        return <section className={`research-library__section research-library__section--${group}`} key={group}
+          data-news-editions={group === "editions" ? "" : undefined}>
+          <header className="research-library__heading">
+            <h3><ResearchIcon kind={group} />{group === "editions" ? "News by language" : copy[group]}</h3>
+            {group === "compare" && <a className="research-library__all" href={localizedHref("/compare", { locale })}>{navigationCopy[0]} <span aria-hidden="true">↗</span></a>}
+          </header>
+          {group === "compare" ? <>
+            <div className="research-library__cards research-library__cards--compare">{featured.map((link) => renderCard(link, group))}</div>
+            {extra.length > 0 && <details className="research-library__more">
+              <summary>{navigationCopy[1]}<span aria-hidden="true">＋</span></summary>
+              <div className="research-library__cards">{extra.map((link) => renderCard(link, group))}</div>
+            </details>}
+          </> : <div className={group === "editions" ? "research-library__languages" : "research-library__cards"}>{links.map((link) => renderCard(link, group))}</div>}
+        </section>;
+      })}
+    </div>
   </nav>;
+}
+
+// Static SVGs stay in this existing lazy route module; no icon library or home-entry imports.
+function ResearchIcon({ kind }) {
+  const paths = {
+    compare: "M4 7h14m-4-4 4 4-4 4M20 17H6m4-4-4 4 4 4",
+    tools: "M4 19V9m8 10V5m8 14V12M2 9h4m4-4h4m4 7h4",
+    tokenized: "m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5",
+    brazil: "M3 7h18v12H3V7Zm0 4h18M7 15h4M8 3h8",
+    editions: "M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Zm0 0h18M12 3c4 4 4 14 0 18-4-4-4-14 0-18Z",
+  };
+  return <svg className="research-library__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[kind] || paths.tools} /></svg>;
 }
 
 export default CrawlPriorityLinks;

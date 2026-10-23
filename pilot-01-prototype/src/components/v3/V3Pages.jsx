@@ -13,8 +13,8 @@ import { sectionEyebrowAttrs } from "../../data/section-eyebrow.js";
 import { BrandMark } from "../brand/BrandMark";
 import { venueDatabase } from "../../data/venue-database.js";
 import { compareSlug, v3Copy, venueProfile } from "../../data/v3-product";
-import { feesStatusLabel } from "./ExchangeFactsV5.jsx";
-import { CompareFeeLedger } from "../v6/InnerLedger.jsx";
+import { feesStatusLabel, labels as exchangeFactLabels } from "./ExchangeFactsV5.jsx";
+import { CompareFeeLedger, FEE_SCALE } from "../v6/InnerLedger.jsx";
 import { feePctOfRate } from "../../data/exchange-facts.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
 import { ResearchComparison } from "./ResearchPanels";
@@ -1463,6 +1463,7 @@ export function CompareFaqSection({ profiles, locale = "en" }) {
               <details key={idx} className="v3-faq-item" hidden={hiddenByDefault}>
                 <summary className="v3-faq-summary">
                   <div className="v3-faq-summary-left">
+                    <span className="v3-compare-faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M9 8a3 3 0 1 1 5 2.2c-1.2.8-2 1.2-2 2.8M12 17h.01M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z" /></svg></span>
                     <span className="v3-faq-q-text">{question}</span>
                   </div>
                   <span className="v3-faq-arrow" aria-hidden="true">＋</span>
@@ -1500,6 +1501,36 @@ function DecisionComparisonValue({ slug, locale, field, fallback }) {
   const reviewedLocale = decision?.contentLocale ?? locale;
   const reviewedDir = ["ar", "ur"].includes(reviewedLocale) ? "rtl" : "ltr";
   return <>{field === "avoid" && reviewed && decision?.suitabilityUnresolved && <small>{ui[3]}: </small>}<span lang={reviewed ? reviewedLocale : locale} dir={reviewed ? reviewedDir : undefined}>{value ?? sanitizePublicText(fallback)}</span></>;
+}
+
+// A chart is shown only for publishable quantities. Source links and categorical account fields
+// use an outlined document marker rather than a bar that could imply a score or a reserve ratio.
+function CompareMetricVisual({ metric, venue, peers, locale }) {
+  const labels = exchangeFactLabels(locale);
+  const feeValues = (entry) => {
+    const rate = entry[metric];
+    return rate?.publishable ? [rate.makerRate, rate.takerRate] : [];
+  };
+  const numericValues = (entry) => {
+    if (metric === "spot" || metric === "futures") return feeValues(entry);
+    if (metric === "net" && entry.netCostPublishable) return [entry.effectiveSpotTaker, entry.effectiveFuturesTaker];
+    if (metric === "benefit") return Number.isFinite(entry.rebate) && entry.rebate > 0 ? [entry.rebate] : [];
+    if (metric === "leverage") return [entry.leverageNumeric];
+    if (metric === "bonus") return [entry.welcomeBonusUsdt];
+    return [];
+  };
+  const values = numericValues(venue);
+  const hasNumbers = values.some(Number.isFinite);
+  if (!hasNumbers) return <span className="v3-compare-category-mark" data-compare-category={metric} aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H6V3h1Zm7 0v5h4M9 12h6M9 16h6" /></svg></span>;
+  const isFee = ["spot", "futures", "net"].includes(metric);
+  const max = isFee ? FEE_SCALE / 100 : Math.max(0, ...peers.flatMap(numericValues).filter(Number.isFinite));
+  const rowLabels = metric === "net" ? [labels.spot, labels.perp] : [labels.maker, labels.taker];
+  return <div className="v3-compare-metric-bars" data-compare-bars={metric} data-compare-side={venue.slug === peers[0].slug ? "a" : "b"} aria-hidden="true">
+    {values.map((value, index) => Number.isFinite(value) && <span className="v3-compare-metric-bars__row" key={index}>
+      {values.length > 1 && <small>{rowLabels[index]}</small>}
+      <span className="v3-compare-metric-bars__track"><i style={{ "--compare-w": max > 0 ? Math.max(0, Math.min(1, value / max)) : 0 }} /></span>
+    </span>)}
+  </div>;
 }
 
 function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage, funding }) {
@@ -1684,7 +1715,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
 
       <p className="v3-matrix-scroll-hint">{matrixAux.scrollHint}</p>
       <div className="v3-matrix-table-wrap is-expanded" role="region" tabIndex={0} aria-label={matrixTitleCopy || matrix.matrix || "Platform quantitative comparison matrix"}>
-        <table role="table" className="v3-matrix-table" aria-label={matrixTitleCopy || matrix.matrix || "Platform quantitative comparison matrix"}>
+        <table role="table" className="v3-matrix-table" data-compare-count={venueData.length} aria-label={matrixTitleCopy || matrix.matrix || "Platform quantitative comparison matrix"}>
           <colgroup>
             <col style={{ width: colWidths.dim }} />
             {venueData.map((d) => (
@@ -1730,6 +1761,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                 return (
                   <td role="cell" headers={`matrix-row-spot matrix-column-${d.slug}`} key={d.slug} className="v3-matrix-td--data">
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
+                    <CompareMetricVisual metric="spot" venue={d} peers={venueData} locale={locale} />
                     <div className="v3-matrix-cell-stack">
                       <span className={`v3-matrix-main-val${d.spot?.publishable ? "" : " is-pending"}`}>
                         {d.spot?.publishable ? <><span className="v3-fee-pair" translate="no">{d.spot.pair}</span><small className="v3-fee-pair__tier">{d.spot.tier}</small></> : matrixCopy(locale).unchecked}
@@ -1755,6 +1787,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                 return (
                   <td role="cell" headers={`matrix-row-futures matrix-column-${d.slug}`} key={d.slug} className="v3-matrix-td--data">
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
+                    <CompareMetricVisual metric="futures" venue={d} peers={venueData} locale={locale} />
                     <div className="v3-matrix-cell-stack">
                       <span className={`v3-matrix-main-val${d.futures?.publishable ? "" : " is-pending"}`}>
                         {d.futures?.publishable ? <><span className="v3-fee-pair" translate="no">{d.futures.pair}</span><small className="v3-fee-pair__tier">{d.futures.tier}</small></> : matrixCopy(locale).unchecked}
@@ -1781,6 +1814,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                 return (
                   <td role="cell" headers={`matrix-row-benefit matrix-column-${d.slug}`} key={d.slug} className="v3-matrix-td--data">
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
+                    <CompareMetricVisual metric="benefit" venue={d} peers={venueData} locale={locale} />
                     <div className="v3-matrix-cell-stack">
                       <span className={`v3-matrix-rebate-num${rebateKnown ? "" : " is-pending"}`}>
                         {rebateKnown ? <>{d.rebate}<span className="v3-matrix-rebate-unit">%</span></> : null}
@@ -1811,6 +1845,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                 return (
                   <td role="cell" headers={`matrix-row-net matrix-column-${d.slug}`} key={d.slug} className="v3-matrix-td--data">
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
+                    <CompareMetricVisual metric="net" venue={d} peers={venueData} locale={locale} />
                     <div className="v3-matrix-cell-stack">
                       <div className="v3-matrix-net-box">
                         <div className="v3-matrix-net-row">
@@ -1850,6 +1885,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                 return (
                   <td role="cell" headers={`matrix-row-por matrix-column-${d.slug}`} key={d.slug} className="v3-matrix-td--data">
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
+                    <CompareMetricVisual metric="por" venue={d} peers={venueData} locale={locale} />
                     <div className="v3-matrix-cell-stack">
                       <span className={`v3-por-pill${d.porCoverageRatio || d.proofOfReserves ? "" : " is-pending"}`}>
                         {(d.porCoverageRatio || d.proofOfReserves) && <span className="v3-shield-icon" aria-hidden="true"></span>}
@@ -1882,6 +1918,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                 return (
                   <td role="cell" headers={`matrix-row-kyc matrix-column-${d.slug}`} key={d.slug} className="v3-matrix-td--data">
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
+                    <CompareMetricVisual metric="kyc" venue={d} peers={venueData} locale={locale} />
                     <div className="v3-matrix-cell-stack">
                       <div>
                         {d.kycCategory === "none" && (
@@ -1927,6 +1964,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                 return (
                   <td role="cell" headers={`matrix-row-leverage matrix-column-${d.slug}`} key={d.slug} className="v3-matrix-td--data">
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
+                    <CompareMetricVisual metric="leverage" venue={d} peers={venueData} locale={locale} />
                     <div className="v3-matrix-cell-stack">
                       <span className="v3-matrix-main-val">
                         <span className={`v3-matrix-leverage${Number.isFinite(d.leverageNumeric) ? "" : " is-pending"}`}>{d.maxLeverage}</span>
@@ -1949,6 +1987,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                 return (
                 <td role="cell" headers={`matrix-row-bonus matrix-column-${d.slug}`} key={d.slug} className="v3-matrix-td--data">
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
+                    <CompareMetricVisual metric="bonus" venue={d} peers={venueData} locale={locale} />
                   <div className="v3-matrix-cell-stack">
                     <span className={`v3-bonus-badge${hasKnownWelcomeReward ? "" : " is-pending"}`}>
                       {d.welcomeReward || null}
@@ -2325,12 +2364,12 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
               : part)}
           </span>)}
         </h1>
+        {profiles.length === 2 && <CompareFeeLedger a={profiles[0].slug} b={profiles[1].slug} nameA={getLocalizedVenueName(profiles[0], locale)} nameB={getLocalizedVenueName(profiles[1], locale)} locale={locale} />}
         {profiles.length === 2 && <ShortAnswer answer={directAnswer?.shortAnswer
           ? { locale, label: 'The short answer:', text: directAnswer.shortAnswer }
           : compareShortAnswer(profiles[0].slug, profiles[1].slug, locale, market)} placement="compare-hero" />}
         {generatedCopy && <p className="v3-compare-generated-note" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : undefined} data-compare-generated-note>{generatedCopy.note}</p>}
         {profiles.length === 2 && <CompareHeroActions directAnswer={directAnswer} profiles={profiles} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />}
-        {profiles.length === 2 && <CompareFeeLedger a={profiles[0].slug} b={profiles[1].slug} nameA={getLocalizedVenueName(profiles[0], locale)} nameB={getLocalizedVenueName(profiles[1], locale)} locale={locale} />}
         <DecisionReturnLink locale={locale} href={buildDecisionReturnHref({kind:"compare",slugs:selected,locale,market,product})} />
         {!isPriorityTwoVenueDirectAnswer && comparisonBanner}
         {!isPriorityTwoVenueDirectAnswer && comparisonIntro}

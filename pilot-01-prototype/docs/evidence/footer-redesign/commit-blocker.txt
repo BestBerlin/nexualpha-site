@@ -1,0 +1,6 @@
+Branch: codex/footer-redesign
+Local staging command: git add -- [the scoped source, test, script and evidence paths]
+Exit code: 128
+fatal: Unable to create '/Volumes/致态2TB/nexualpha-site-git/.git/worktrees/nx-wt-codex-footer-redesign/index.lock': Operation not permitted
+
+No commit was created. Per queue/_common.md, changes remain in the worktree for lead extraction. Prepared commit text: COMMIT_MESSAGE.txt.

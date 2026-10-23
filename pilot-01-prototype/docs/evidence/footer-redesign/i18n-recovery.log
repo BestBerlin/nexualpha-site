@@ -1,0 +1,6 @@
+
+> pilot-01-prototype@3.0.0 i18n:compile
+> paraglide-js compile --project ./project.inlang --outdir ./src/paraglide
+
+ℹ [paraglide-js] Compiling inlang project ...
+✔ [paraglide-js] Successfully compiled inlang project.

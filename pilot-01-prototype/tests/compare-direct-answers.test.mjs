@@ -257,8 +257,8 @@ test("CompareDeepPage SSR renders all priority FAQ entries and hides items after
       assert.ok(block.includes(response), `${locale}: missing FAQ answer ${question}`);
     }
 
-    const firstHiddenIndex = block.indexOf(`hidden=""><summary class="v3-faq-summary"><div class="v3-faq-summary-left"><span class="v3-faq-q-text">${expectedEntries[2][0]}`);
-    assert.ok(firstHiddenIndex > 0, `${locale}: third FAQ should be SSR-rendered but hidden before expansion`);
+    const firstHiddenFaq = [...block.matchAll(/<details\b[^>]*\shidden=""[^>]*>[\s\S]*?<\/details>/g)][0]?.[0];
+    assert.ok(firstHiddenFaq?.includes(`<span class="v3-faq-q-text">${expectedEntries[2][0]}</span>`), `${locale}: third FAQ should be SSR-rendered but hidden before expansion`);
     assert.match(block, /aria-expanded="false"/);
     assert.match(block, locale === "en" ? /Show 4 more questions/ : /查看其余 4 个问题|查看其餘 4 個問題/);
     assert.doesNotMatch(block, /Which has lower fees, Bybit or Bitget\?/);
