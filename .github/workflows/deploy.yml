@@ -106,9 +106,13 @@ jobs:
             code=$(curl -s -o /dev/null -w "%{http_code}" "$SITE$r"); echo "$code $r"
             [ "$code" = "200" ] || { echo "::error::$r returned $code"; exit 1; }
           done
-          curl -fsS "$SITE/exchanges/binance" | grep -q "ref=11350287" || { echo "::error::Binance invite ref=11350287 missing"; exit 1; }
-          curl -fsS "$SITE/exchanges/bitget" | grep -q "C6PRAF" || { echo "::error::Bitget code C6PRAF missing"; exit 1; }
-          curl -fsS "$SITE/exchanges/okx" | grep -q "nexu888" || { echo "::error::OKX code nexu888 missing"; exit 1; }
+          # Sign-up buttons go through /go/<venue>; the code must survive the redirect a real visitor follows.
+          go() { curl -s -o /dev/null -w "%{redirect_url}" "$SITE/go/$1?src=deploy-check"; }
+          go binance | grep -q "ref=11350287" || { echo "::error::Binance redirect lost ref=11350287"; exit 1; }
+          go bitget | grep -q "C6PRAF" || { echo "::error::Bitget redirect lost C6PRAF"; exit 1; }
+          go okx | grep -q "nexu888" || { echo "::error::OKX redirect lost nexu888"; exit 1; }
+          curl -fsS "$SITE/exchanges/binance" | grep -q "11350287" || { echo "::error::Binance code 11350287 not shown"; exit 1; }
+          curl -fsS "$SITE/exchanges/okx" | grep -q "nexu888" || { echo "::error::OKX code nexu888 not shown"; exit 1; }
           echo "invite links present"
 
       - name: Roll back
