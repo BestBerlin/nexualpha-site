@@ -17,7 +17,7 @@ import { eventSourceStateLabel, sharedOfficialEventItems, visibleEventSourceItem
 import { homeSignupLabel } from "../../data/home-cta-label.js";
 import { formatSgt } from "../../data/local-time.js";
 import { applyCampaignBriefs } from "../../data/campaign-briefs.js";
-import { BrandMark } from "../brand/BrandMark.jsx";
+import { BRAND_TILE_SLUGS, BrandMark } from "../brand/BrandMark.jsx";
 import { CampaignBriefFacts } from "../shared/CampaignBriefFacts.jsx";
 import { useCampaignBriefs } from "../shared/useCampaignBriefs.js";
 import { Cta, nameOf } from "./home7-shared.jsx";
@@ -402,29 +402,79 @@ function IntelSection({ t, locale, market, venues, initialOfficialAnnouncements,
   return <IntelBlock renderedAt={renderedAt} intel={intel && typeof intel === "object" ? briefFeed : intel} t={t} locale={locale} market={market} venues={venues} />;
 }
 
-// Latest analysis (owner 2026-10-23: "a text list"): article cards with the article's own social card (/og/news/<slug>.png,
-// rendered by server/og-image.mjs; the worker puts its path on each homeLatest item) as the thumbnail. One link per
-// article (crawl tests count them). Images are lazy, decode async and sit in a fixed 1200:630 frame (no CLS); a
-// missing image leaves the frame's gradient. Desktop: one lead card + four, then three compact rows; phones scroll the
-// five cards sideways.
+// Latest analysis (owner 2026-10-23: "a text list"; lead review: OG cards repeated the title and all looked alike).
+// Article cards whose thumbnail is drawn here, with no text from the title: a per-category palette and glyph, a faint
+// grid, a seeded glow so neighbouring cards differ, and the article's main exchange as a large official tile (an
+// exchange named in the slug first, else the first related venue for exchange-led categories). No extra image
+// requests beyond the brand tiles the page already uses. One link per article (crawl tests count them); the frame
+// has a fixed 1200:630 ratio (no CLS). Desktop: one lead card + four, then three compact rows; phones scroll the five
+// cards sideways.
 const LATEST_CARDS = 5;
-const ogSized = (src, w) => `${src}${src.includes("?") ? "&" : "?"}w=${w}`;
-function LatestCard({ item, lead = false, small = false }) {
-  const img = typeof item.image === "string" && item.image.startsWith("/og/") ? item.image : null;
+const CAT_ART = {
+  "exchange-update": { hue: 168, glyph: "bell" }, comparison: { hue: 205, glyph: "scale" }, guide: { hue: 140, glyph: "path" },
+  research: { hue: 255, glyph: "chart" }, regulation: { hue: 38, glyph: "shield" }, rwa: { hue: 22, glyph: "stock" },
+};
+const EXCHANGE_LED = new Set(["exchange-update", "comparison", "guide"]);
+const CAT_GLYPHS = {
+  bell: <path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20a2 2 0 0 0 4 0" />,
+  scale: <path d="M12 4v16M5 20h14M4 9h16M7 9l-3 6a3 3 0 0 0 6 0zM17 9l-3 6a3 3 0 0 0 6 0z" />,
+  path: <path d="M5 19c3-6 11-2 14-8M17 5h2v2M5 19h.01M9 14h.01M15 10h.01" />,
+  chart: <path d="M4 20h16M6 16l4-5 3 3 5-7M15 7h3v3" />,
+  shield: <path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6zM9 12l2 2 4-4" />,
+  stock: <path d="M4 18h16M6 15V9M10 15V6M14 15v-4M18 15V8" />,
+};
+const seedOf = (text) => [...String(text)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+// Venue names that are also everyday words ("bullish", "curve", "drift"...) only count from relatedVenues, not the slug.
+const WORD_VENUES = new Set(["aster", "balancer", "bullish", "camelot", "curve", "drift", "jupiter", "raydium", "sushi", "vertex"]);
+function cardVenues(item) {
+  const words = `-${String(item.href || "").split("/").pop()}-`;
+  const at = (v) => { const i = words.indexOf(`-${v}-`); return i >= 0 ? i : v === "gate-io" ? words.indexOf("-gate-") : -1; };
+  const named = [...BRAND_TILE_SLUGS].filter((v) => !WORD_VENUES.has(v)).map((v) => [v, at(v)]).filter(([, i]) => i >= 0)
+    .sort((a, b) => a[1] - b[1]).map(([v]) => v);
+  if (named.length) return named.slice(0, 2);
+  const related = (Array.isArray(item.venues) ? item.venues : []).filter((v) => BRAND_TILE_SLUGS.has(v));
+  return EXCHANGE_LED.has(item.categoryKey) ? related.slice(0, 1) : [];
+}
+function CardArt({ item }) {
+  const art = CAT_ART[item.categoryKey] || CAT_ART.research;
+  const seed = seedOf(item.href);
+  const venues = cardVenues(item);
+  return <span className="h7-lt-img" aria-hidden="true" data-cat={item.categoryKey || "research"}
+    style={{ "--h": art.hue, "--gx": `${20 + (seed % 60)}%`, "--gy": `${10 + ((seed >> 4) % 50)}%`, "--ga": `${100 + (seed % 70)}deg` }}>
+    <span className="h7-lt-art">
+      {venues.length
+        ? <span className="h7-lt-logos" data-n={venues.length}>{venues.map((v) => <BrandMark key={v} slug={v} />)}</span>
+        : <svg className="h7-lt-glyph" viewBox="0 0 24 24">{CAT_GLYPHS[art.glyph]}</svg>}
+    </span>
+    {venues.length ? <span className="h7-lt-tag">{venues.map(nameOf).join(" × ")}</span> : null}
+  </span>;
+}
+function LatestCard({ item, lead = false }) {
   return <li data-lead={lead ? "" : undefined}>
     <a href={item.href}>
-      <span className="h7-lt-img">{img ? <img src={ogSized(img, 600)} srcSet={small ? undefined : `${ogSized(img, 600)} 600w, ${img} 1200w`}
-        sizes={small ? undefined : lead ? "(min-width: 1024px) 560px, (min-width: 641px) 90vw, 82vw" : "(min-width: 1024px) 300px, (min-width: 641px) 45vw, 82vw"}
-        width="1200" height="630" alt="" loading="lazy" decoding="async" /> : null}</span>
+      <CardArt item={item} />
       <span className="h7-lt-meta">{item.category ? <span className="h7-lt-cat">{item.category}</span> : null}<time dateTime={item.publishedAt}>{item.relativeDate}</time></span>
       <span className="h7-lt-t">{item.title}</span>
     </a>
   </li>;
 }
+// Hub links under the list, in the reader's language.
+const LATEST_LINKS = {
+  en: ["All analysis", "Compare exchanges", "Exchange fee index"], "zh-Hans": ["全部分析", "交易所对比", "交易所费率指数"],
+  "zh-Hant": ["全部分析", "交易所比較", "交易所費率指數"], es: ["Todos los análisis", "Comparar exchanges", "Índice de comisiones"],
+  "pt-BR": ["Todas as análises", "Comparar corretoras", "Índice de taxas"], fr: ["Toutes les analyses", "Comparer les plateformes", "Indice des frais"],
+  de: ["Alle Analysen", "Börsen vergleichen", "Gebührenindex"], it: ["Tutte le analisi", "Confronta exchange", "Indice delle commissioni"],
+  ja: ["すべての分析", "取引所を比較", "取引所手数料インデックス"], ko: ["전체 분석", "거래소 비교", "거래소 수수료 지수"],
+  ru: ["Вся аналитика", "Сравнить биржи", "Индекс комиссий бирж"], uk: ["Уся аналітика", "Порівняти біржі", "Індекс комісій бірж"],
+  tr: ["Tüm analizler", "Borsaları karşılaştır", "Borsa ücret endeksi"], id: ["Semua analisis", "Bandingkan bursa", "Indeks biaya bursa"],
+  vi: ["Tất cả phân tích", "So sánh sàn", "Chỉ số phí sàn"], ar: ["كل التحليلات", "قارن المنصات", "مؤشر رسوم المنصات"],
+  ur: ["تمام تجزیے", "ایکسچینجز کا موازنہ", "ایکسچینج فیس انڈیکس"],
+};
 
 // Everything under the trust row. State for the calculator lives in HomeV7 (the hero ledger reads the same volume,
 // product and maker/taker choice), so the controls arrive as props.
 export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFeed, vol, setVol, mode, setMode, product, setProduct, calc, priced, initialOfficialAnnouncements, homeLatest = [] }) {
+  const latestLinks = LATEST_LINKS[locale] || (String(locale || "").startsWith("zh") ? LATEST_LINKS["zh-Hans"] : LATEST_LINKS.en);
   return (
     <>
       {/* Owner 2026-10-14: no flash rail on home (the /flash page and its footer link stay). */}
@@ -435,11 +485,11 @@ export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFe
       <section className="h7-in h7-latest" aria-labelledby="h7-latest-h" data-home-latest="">
         <h2 id="h7-latest-h">{t.latestAnalysis || "Latest analysis"}</h2>
         <ul className="h7-lt">{homeLatest.slice(0, LATEST_CARDS).map((item, i) => <LatestCard key={item.href} item={item} lead={i === 0} />)}</ul>
-        {homeLatest.length > LATEST_CARDS ? <ul className="h7-lt h7-lt-more">{homeLatest.slice(LATEST_CARDS).map((item) => <LatestCard key={item.href} item={item} small />)}</ul> : null}
+        {homeLatest.length > LATEST_CARDS ? <ul className="h7-lt h7-lt-more">{homeLatest.slice(LATEST_CARDS).map((item) => <LatestCard key={item.href} item={item} />)}</ul> : null}
         <nav aria-label={t.latestAnalysis || "Latest analysis"}>
-          <a href={localizedHref("/news", { locale })}>{t.latestAnalysis || "Latest analysis"}</a>
-          <a href={localizedHref("/compare", { locale })}>Compare</a>
-          <a href={localizedHref("/data/exchange-fee-index", { locale })}>Exchange fee index</a>
+          <a href={localizedHref("/news", { locale })}>{latestLinks[0]}</a>
+          <a href={localizedHref("/compare", { locale })}>{latestLinks[1]}</a>
+          <a href={localizedHref("/data/exchange-fee-index", { locale })}>{latestLinks[2]}</a>
         </nav>
       </section>
       <FiatRail locale={locale} />

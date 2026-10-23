@@ -6019,11 +6019,14 @@ async function readHomeLatest(env, url, locale, now = Date.now()) {
     .sort((a, b) => newsStrengthRank(a.slug) - newsStrengthRank(b.slug));
   const selected = [...new Map([...newest.slice(0, 6), ...strongest.slice(0, 2), ...newest].map(item => [item.slug, item])).values()].slice(0, 8);
   return selected.map(item => {
-      const hours = Math.floor((now - Date.parse(item.publishedAt)) / 3600000);
-      // Card thumbnail (owner 2026-10-23): the article's own social card, served by server/og-image.mjs.
+      const minutes = Math.floor((now - Date.parse(item.publishedAt)) / 60000);
+      const hours = Math.floor(minutes / 60);
+      // Card art (owner 2026-10-23): the category key and the article's venues drive a drawn thumbnail on the home.
+      // Under an hour reads in minutes ("this hour" came out as "这一时间 / 此时" in Chinese).
       return { href: localizedPath(`/news/${item.slug}`, locale), title: localizedNewsTitle(item, locale), publishedAt: item.publishedAt,
-        relativeDate: hours < 24 ? relative.format(-hours, "hour") : relative.format(-Math.floor(hours / 24), "day"),
-        category: newsCardCategoryLabel(item, locale), image: socialImagePathForRoute(`/news/${item.slug}`, locale) };
+        relativeDate: hours < 1 ? relative.format(-minutes, "minute") : hours < 24 ? relative.format(-hours, "hour") : relative.format(-Math.floor(hours / 24), "day"),
+        category: newsCardCategoryLabel(item, locale), categoryKey: typeof item.category === "string" ? item.category : null,
+        venues: Array.isArray(item.relatedVenues) ? item.relatedVenues.filter((v) => typeof v === "string").slice(0, 4) : [] };
     });
 }
 
