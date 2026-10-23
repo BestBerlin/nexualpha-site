@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ctaUiCopy, copyText, trackCodeCopy } from '../../../data/cta-ui-copy.js';
-import { v3ShellCopy } from '../../../data/v3-shell-copy.js';
 
 // The checkout has no CommissionDisclosureLine component: reuse its existing localized disclosure wording.
-export function CommissionDisclosureLine({ locale }) {
-  return <p className="cv-disclosure">{v3ShellCopy(locale).relationship}</p>;
+export function CommissionDisclosureLine() {
+  // Owner 2026-10-23: no disclosure sentences in page bodies; the footer "合作披露" page carries it.
+  return null;
 }
 
 export function ConversionCode({ cta, slug, locale, placement }) {

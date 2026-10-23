@@ -570,7 +570,7 @@ export function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
       <label className="h7-dock-pick"><span className="h7-sr">{t.lgPick}</span>
         <select value={sel.slug} onChange={(e) => setPick(e.target.value)}>{rebated.map((r) => <option key={r.slug} value={r.slug}>{r.name} · {formatPercent(locale, Math.round(r.share * 100))}</option>)}</select>
       </label>
-      <Cta v={sel} locale={locale} className={`h7-btn h7-dock-go h7-go--${sel.slug}`} placement="home-v7-dock"><span>{t.dockGo}</span></Cta>
+      <Cta v={sel} locale={locale} className={`h7-btn h7-dock-go h7-go--${sel.slug}`} placement="home-v7-dock" evidence><span>{t.dockGo}</span></Cta>
     </div>
   );
 }
