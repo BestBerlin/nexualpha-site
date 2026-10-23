@@ -507,7 +507,6 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
               {socialItems.map(([key, href, label, Glyph]) => <li key={key}><a className={`nx-ftr__social nx-ftr__social--${key}`} href={href} target="_blank" rel="noopener" data-cta-kind={key.startsWith("tg") ? "telegram" : "social"} data-cta-placement={`footer-follow-${key}`}><Glyph size={20} /><span>{label}</span></a></li>)}
             </ul>
           </nav>
-          {partnerLinks.length ? null : <p className="nx-ftr__definition" data-footer-disclosure>{organizationDescription(locale)}</p>}
         </div>
 
         <nav className="nx-ftr__columns" aria-label={labels.navAria}>
@@ -522,10 +521,8 @@ export function CleanFooter({ locale = "en", market, brazil = false }) {
         {partnerLinks.length ? <nav className="nx-ftr__entry" aria-labelledby="nx-ftr-entry" data-footer-partner-links>
             <h2 className="nx-ftr__heading" id="nx-ftr-entry">{partnerGroupLabel}</h2>
             <ul>
-            {partnerLinks.map((link) => <li key={link.key}><span data-signup-cta={link.slug} className="signup-cta-block"><a href={link.href} target="_blank" rel="sponsored noopener noreferrer" data-footer-partner-link={link.slug} data-cta-kind="registration" data-cta-platform={link.slug} data-cta-placement="footer"><BrandMark slug={link.slug} /><span>{link.name}</span></a><SignupEvidence slug={link.slug} locale={locale} market={market} placement="footer" compact /></span></li>)}
+            {partnerLinks.map((link) => <li key={link.key}><span data-signup-cta={link.slug} className="signup-cta-block"><a href={link.href} target="_blank" rel="sponsored noopener noreferrer" data-footer-partner-link={link.slug} data-cta-kind="registration" data-cta-platform={link.slug} data-cta-placement="footer"><BrandMark slug={link.slug} /><span>{link.name}</span></a><SignupEvidence slug={link.slug} locale={locale} market={market} placement="footer" /></span></li>)}
             </ul>
-            <p className="nx-ftr__entry-note"><CommissionDisclosureLine locale={locale} /></p>
-            <p className="nx-ftr__definition" data-footer-disclosure>{organizationDescription(locale)}</p>
           </nav> : null}
 
         <nav className="nx-ftr__discovery" aria-label={columnLabels.exchanges} data-footer-fee-links>

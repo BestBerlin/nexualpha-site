@@ -13,7 +13,6 @@ import { researchRoute } from "./data/official-research-route.js";
 import { v3ShellCopy } from "./data/v3-shell-copy.js";
 import { storedLocale, validComparison, cleanSelection, installHashNavigation } from "./data/browser-state";
 import { HomeV7 } from "./components/v7/HomeV7.jsx";
-import { ClosingBand } from "./components/v6/ClosingBand";
 import { createSelectionStore } from "./components/v6/home-selection.js";
 import { CleanFooter } from "./components/v3/CleanFooter";
 import { DeferUntilVisible } from "./components/shared/DeferUntilVisible.jsx";
@@ -1126,8 +1125,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     <Header initialUrl={initialUrl} pageAlternates={pageAlternates} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <TickerBar locale={locale} initial={initialTicker} />
     <HomeV7 homeLatest={initialHomeLatest} locale={locale} market={route.market} whales={initialWhales} fundingFeed={initialFundingFeed} initialOfficialAnnouncements={initialOfficialAnnouncements} initialFlash={initialFlash} initialTicker={initialTicker} />
-    <ClosingBand locale={locale} market={footerMarket} />
-    <CrawlPriorityLinks locale={locale} scope="home" />
+    {/* Owner 2026-10-23: no closing band or link wall under the home; the footer carries those entries. */}
     {footer}
     {searchDialog}
   </main>;

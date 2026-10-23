@@ -1,22 +1,19 @@
 import React from "react";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
-import { referralHelp } from "../../data/cta-ui-copy.js";
-import { v3ShellCopy } from "../../data/v3-shell-copy.js";
 import { CodeChip } from "../v6/CodeChip.jsx";
 import "./signup-evidence.css";
 
-export function CommissionDisclosureLine({ locale = "en" }) {
-  return <span className="commission-disclosure-line" data-commission-disclosure>{v3ShellCopy(locale).relationship}</span>;
+export function CommissionDisclosureLine() {
+  // Owner 2026-10-23: no disclosure sentences in page bodies; the footer "合作披露" page carries it.
+  return null;
 }
 
 // Resolve the displayed value through the same policy gate as the signup action.
-// compact: code chip only, for rows of tiles that carry one shared disclosure line (footer).
-export function SignupEvidence({ slug, locale = "en", market, placement = "signup", compact = false }) {
+// Owner 2026-10-23: a code chip only. No disclosure sentences or referral help in page bodies (footer "合作披露" page carries it).
+export function SignupEvidence({ slug, locale = "en", market, placement = "signup" }) {
   const cta = publicCtaForVenue(slug, locale, market);
   if (!cta.hasReferral || !cta.inviteCode) return null;
   return <span className="signup-evidence" data-signup-evidence={slug}>
     <CodeChip code={cta.inviteCode} slug={slug} locale={locale} placement={placement} />
-    {!compact && (slug === "binance" || slug === "okx") && <span className="signup-code-help">{referralHelp(locale, cta.inviteCode)}</span>}
-    {compact ? null : <CommissionDisclosureLine locale={locale} />}
   </span>;
 }

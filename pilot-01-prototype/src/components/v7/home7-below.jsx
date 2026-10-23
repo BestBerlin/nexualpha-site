@@ -1,4 +1,3 @@
-import CardArt from "../shared/CardArt.jsx";
 import { HomeCalculator } from "./HomeCalculator.jsx";
 // Home v7, below the first viewport: the savings calculator, the live funding board, the announcement stream and the
 // Telegram block. HomeV7.jsx renders this module synchronously on the server (full HTML for crawlers and no-JS
@@ -6,7 +5,6 @@ import { HomeCalculator } from "./HomeCalculator.jsx";
 // first-screen bundle stays small. Markup and copy are unchanged from the previous inline version.
 import { useEffect, useRef, useState } from "react";
 import { TelegramBlock } from "./home7-telegram.jsx";
-import { FollowBand } from "./home7-follow.jsx";
 import { FundingBoard } from "./home7-funding.jsx";
 import { startJsonPolling } from "../shared/json-polling.js";
 import { feeFact } from "../../data/exchange-facts.js";
@@ -402,14 +400,13 @@ function IntelSection({ t, locale, market, venues, initialOfficialAnnouncements,
 // requests beyond the brand tiles the page already uses. One link per article (crawl tests count them); the frame
 // has a fixed 1200:630 ratio (no CLS). Desktop: one lead card + four, then three compact rows; phones scroll the five
 // cards sideways.
-const LATEST_CARDS = 5;
 
-function LatestCard({ item, lead = false }) {
-  return <li data-lead={lead ? "" : undefined}>
+// Owner 2026-10-23: a plain news list (no image cards).
+function LatestCard({ item }) {
+  return <li>
     <a href={item.href}>
-      <CardArt item={item} />
-      <span className="h7-lt-meta">{item.category ? <span className="h7-lt-cat">{item.category}</span> : null}<time dateTime={item.publishedAt}>{item.relativeDate}</time></span>
       <span className="h7-lt-t">{item.title}</span>
+      <span className="h7-lt-meta">{item.category ? <span className="h7-lt-cat">{item.category}</span> : null}<time dateTime={item.publishedAt}>{item.relativeDate}</time></span>
     </a>
   </li>;
 }
@@ -439,8 +436,7 @@ export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFe
       <FundingBoard locale={locale} initialFeed={fundingFeed} />
       <section className="h7-in h7-latest" aria-labelledby="h7-latest-h" data-home-latest="">
         <h2 id="h7-latest-h">{t.latestAnalysis || "Latest analysis"}</h2>
-        <ul className="h7-lt">{homeLatest.slice(0, LATEST_CARDS).map((item, i) => <LatestCard key={item.href} item={item} lead={i === 0} />)}</ul>
-        {homeLatest.length > LATEST_CARDS ? <ul className="h7-lt h7-lt-more">{homeLatest.slice(LATEST_CARDS).map((item) => <LatestCard key={item.href} item={item} />)}</ul> : null}
+        <ul className="h7-lt h7-lt--list">{homeLatest.slice(0, 8).map((item) => <LatestCard key={item.href} item={item} />)}</ul>
         <nav aria-label={t.latestAnalysis || "Latest analysis"}>
           <a href={localizedHref("/news", { locale })}>{latestLinks[0]}</a>
           <a href={localizedHref("/compare", { locale })}>{latestLinks[1]}</a>
@@ -451,7 +447,6 @@ export function HomeBelowFold({ renderedAt, t, locale, market, whales, fundingFe
       <HomeCalculator t={t} locale={locale} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} />
       <IntelSection renderedAt={renderedAt} t={t} locale={locale} market={market} venues={priced} initialOfficialAnnouncements={initialOfficialAnnouncements} />
       <TelegramBlock locale={locale} />
-      <FollowBand locale={locale} />
       <LocalMarketBrief locale={locale} />
     </>
   );

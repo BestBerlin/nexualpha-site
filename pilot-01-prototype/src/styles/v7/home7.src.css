@@ -1747,3 +1747,12 @@
 @ .h7-dock .signup-code-help,@ .h7-dock .commission-disclosure-line{grid-column:1 / -1;font-size:15px;line-height:1.35}
 body:has(.h7-dock){padding-block-end:calc(var(--signup-dock-height,320px) + env(safe-area-inset-bottom) + 24px)}
 }
+
+/* Latest analysis as a news list (owner 2026-10-23): two columns on desktop, one on phones, no image cards. */
+.h7:not(#_):not(#_):not(#_) .h7-latest ul.h7-lt--list{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px;border-block-start:1px solid var(--line)}
+.h7:not(#_):not(#_):not(#_) .h7-latest ul.h7-lt--list>li{border-block-end:1px solid var(--line)}
+.h7:not(#_):not(#_):not(#_) .h7-latest .h7-lt--list a{display:grid;grid-template-rows:auto auto;gap:6px;padding:14px 0;border:0;border-radius:0;background:none;block-size:auto}
+.h7:not(#_):not(#_):not(#_) .h7-latest .h7-lt--list a:hover{transform:none;color:var(--ac)}
+.h7:not(#_):not(#_):not(#_) .h7-latest .h7-lt--list .h7-lt-t{padding:0;font-size:16px;line-height:1.45;font-weight:600;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.h7:not(#_):not(#_):not(#_) .h7-latest .h7-lt--list .h7-lt-meta{padding:0;gap:10px;font-size:13px;color:var(--ink3)}
+@media (max-width:760px){.h7:not(#_):not(#_):not(#_) .h7-latest ul.h7-lt--list{grid-template-columns:minmax(0,1fr)}}

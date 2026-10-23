@@ -37,7 +37,7 @@ function homeGoHref(slug, locale, placement) {
   return `/go/${encodeURIComponent(slug)}${search ? `?${search}` : ""}`;
 }
 
-export function Cta({ v, locale, children, className, placement, evidence = true }) {
+export function Cta({ v, locale, children, className, placement, evidence = false }) {
   if (v.open) {
     return <span className="signup-cta" data-signup-cta={v.slug}><a className={className} href={homeGoHref(v.slug, locale, placement)} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-platform={v.slug} data-cta-placement={placement} data-cta-code={v.code || undefined}>{children}{v.code ? <span className="h7-sr"> {v.code}</span> : null}</a>{evidence && <SignupEvidence slug={v.slug} locale={locale} placement={placement} />}</span>;
   }
