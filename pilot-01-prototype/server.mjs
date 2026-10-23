@@ -31,6 +31,7 @@ import { beginnerAliasRedirect } from './src/data/locale-routing.js';
 import { createBitgetAlliancePool, BITGET_ALLIANCE_POOL_PATH } from './server/bitget-alliance-pool.mjs';
 import { createKrakenUsdgLive, KRAKEN_USDG_LIVE_PATH } from './server/kraken-usdg-live.mjs';
 import { marketEventsReaderFromEnv } from './server/market-events-feed.mjs';
+import { MARKET_EVENTS_PATH } from './src/data/market-data-pages.js';
 import { createLiquidationLevelsFeed, LIQUIDATION_LEVELS_PATH } from './server/liquidation-levels-feed.mjs';
 import { COINS_JSON_PATH, createCoinsSnapshotReader } from './server/coins-feed.mjs';
 import { createTokenizedStocksReader, TS_LIVE_JSON_PATH } from './server/tokenized-stocks-feed.mjs';
@@ -333,6 +334,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
         result = await fx.respond(req.method);
       } else if (requestPath === LIQUIDATION_LEVELS_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await liquidationLevels.respond(req.method);
+      } else if (requestPath === MARKET_EVENTS_PATH && env.MARKET_EVENTS_FILE && (req.method === 'GET' || req.method === 'HEAD') && (result = await marketEventsFileResponse(env.MARKET_EVENTS_FILE, req.method))) {
+        // nginx serves this file in production; serving the mounted copy here keeps staged containers identical
       } else if (requestPath === TS_PRICES_PATH) {
         result = ['GET', 'HEAD'].includes(req.method) ? await tsPrices.respond(req.method, new URL(request.url).searchParams)
           : new Response(null, { status: 405, headers: { allow: 'GET, HEAD', 'cache-control': 'no-store' } });
@@ -487,4 +490,13 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const count = webWorkerCount();
   if (cluster.isPrimary && count > 1) superviseWebWorkers({ count, handlers: createPrimaryServices() });
   else await listenWebWorker(() => createProductionServer());
+}
+
+async function marketEventsFileResponse(file, method) {
+  try {
+    const body = await readFile(file);
+    return new Response(method === 'HEAD' ? null : body, { status: 200, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=30' } });
+  } catch {
+    return null;
+  }
 }
